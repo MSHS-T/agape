@@ -15,20 +15,26 @@ class CreateProjectCallsTable extends Migration
     {
         Schema::create('project_calls', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('type');
             $table->string('name');
+            $table->unsignedSmallInteger('year');
             $table->text('description');
             $table->date('application_start_date');
             $table->date('application_end_date');
             $table->date('evaluation_start_date');
             $table->date('evaluation_end_date');
+            $table->unsignedTinyInteger('number_of_experts');
+            $table->unsignedTinyInteger('number_of_documents');
+            $table->text('privacy_clause');
+            $table->text('invite_email_fr');
+            $table->text('invite_email_en');
+            $table->text('help_fr');
+            $table->text('help_en');
             $table->boolean('closed')->default(false);
             $table->unsignedInteger('creator_id');
-            $table->unsignedInteger('project_id');
-            $tables->morphs('call');
             $table->timestamps();
 
             $table->foreign('creator_id')->references('id')->on('users');
-            $table->foreign('project_id')->references('id')->on('projects');
         });
     }
 
