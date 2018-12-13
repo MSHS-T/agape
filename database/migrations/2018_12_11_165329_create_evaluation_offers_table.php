@@ -18,6 +18,7 @@ class CreateEvaluationOffersTable extends Migration
             $table->unsignedInteger('application_id');
             $table->unsignedInteger('creator_id');
             $table->unsignedInteger('expert_id');
+            $table->unsignedInteger('evaluation_id')->nullable();
             $table->boolean('accepted')->nullable();
             $table->string('justification')->nullable();
             $table->timestamps();
@@ -25,6 +26,7 @@ class CreateEvaluationOffersTable extends Migration
             $table->foreign('application_id')->references('id')->on('applications');
             $table->foreign('creator_id')->references('id')->on('users');
             $table->foreign('expert_id')->references('id')->on('users');
+            $table->foreign('evaluation_id')->references('id')->on('evaluations');
         });
     }
 
