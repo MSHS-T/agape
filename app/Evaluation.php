@@ -19,6 +19,6 @@ class Evaluation extends Model
     ];
 
     public function offer(){
-        return $this->hasOne('App\EvaluationOffer', 'offer_id');
+        return $this->belongsTo('App\EvaluationOffer', 'offer_id');
     }
 }
