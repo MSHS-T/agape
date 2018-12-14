@@ -12,11 +12,11 @@ class SettingsTableSeeder extends Seeder
     public function run()
     {
         DB::table('settings')->insert([
-            'key' => 'default_number_of_experts',
+            'key' => 'max_number_of_experts',
             'value' => 4
         ]);
         DB::table('settings')->insert([
-            'key' => 'default_number_of_documents',
+            'key' => 'max_number_of_documents',
             'value' => 10
         ]);
         DB::table('settings')->insert([

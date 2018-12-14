@@ -30,8 +30,8 @@ class CreateProjectCallsTable extends Migration
             $table->text('privacy_clause');
             $table->text('invite_email_fr');
             $table->text('invite_email_en');
-            $table->text('help_fr');
-            $table->text('help_en');
+            $table->text('help_experts');
+            $table->text('help_candidates');
             $table->boolean('closed')->default(false);
             $table->unsignedInteger('creator_id');
             $table->timestamps();

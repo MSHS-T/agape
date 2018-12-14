@@ -10,8 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes(['register' => false]);
+Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/profile', 'HomeController@profile')->name('profile');
+
+Route::resource('projectcall', 'ProjectCallController');

@@ -20,8 +20,8 @@ class ProjectCall extends Model
         'privacy_clause',
         'invite_email_fr',
         'invite_email_en',
-        'help_fr',
-        'help_en',
+        'help_experts',
+        'help_candidates',
         'closed'
     ];
 
