@@ -18,5 +18,5 @@ return [
     'sent' => 'Un lien de réinitialisation de mot de passe vient de vous être énvoyé par mail!',
     'token' => 'Cette clé de réinitialisation est invalide.',
     'user' => "Il n'existe pas de compte utilisateur associé à cette adresse.",
-
+    'forgot' => "Mot de passe oublié ?",
 ];
