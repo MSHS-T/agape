@@ -10481,3 +10481,12 @@ html {
   max-width: 330px;
 }
 
+.icon {
+  fill: currentColor;
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+

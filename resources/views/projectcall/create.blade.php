@@ -3,17 +3,18 @@
 <form method="POST" action="{{ route('projectcall.store') }}">
     <div class="form-group row">
         <label for="type" class="col-sm-3 col-form-label">{{ __('fields.projectcall.type') }}</label>
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <div class="col-sm-9">
-                <label class="btn btn-secondary active">
-                    <input type="radio" name="type" id="type1" value="1" autocomplete="off" {{old('type', 1) == 1 ? "checked" : ''}}> {{ __('vocabulary.calltype.Region') }}
-                </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="type" id="type2" value="2" autocomplete="off" {{old('type', 1) == 2 ? "checked" : ''}}> {{ __('vocabulary.calltype.Exploratoire') }}
-                </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="type" id="type3" value="3" autocomplete="off" {{old('type', 1) == 3 ? "checked" : ''}}> {{ __('vocabulary.calltype.Workshop') }}
-                </label>
+        <div class="col-sm-9">
+            <div class="form-check">
+                <input type="radio" name="type" id="type1" value="1" autocomplete="off" {{old( 'type', 1)==1 ? "checked" : ''}}>
+                <label class="form-check-label" for="type1">{{ __('vocabulary.calltype.Region') }}</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" name="type" id="type2" value="2" autocomplete="off" {{old( 'type', 1)==2 ? "checked" : ''}}>
+                <label class="form-check-label" for="type2">{{ __('vocabulary.calltype.Exploratoire') }}</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" name="type" id="type3" value="3" autocomplete="off" {{old( 'type', 1)==3 ? "checked" : ''}}>
+                <label class="form-check-label" for="type3">{{ __('vocabulary.calltype.Workshop') }}</label>
             </div>
         </div>
     </div>
@@ -95,8 +96,8 @@
         </div>
     </div>
     <div class="form-group row">
-        <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary">{{ __('actions.create') }}</button>
+        <div class="col-sm-9 offset-sm-3">
+            <button type="submit" class="btn btn-primary">@svg('solid/check') {{ __('actions.create') }}</button>
         </div>
     </div>
 </form>
