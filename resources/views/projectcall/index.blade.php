@@ -25,10 +25,7 @@
                 <td>{{$call->creator->name}}</td>
                 <td>
                     <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-primary d-inline-block">Edit</a>
-                    <form action="{{ route('projectcall.destroy', $call->id)}}" method="post">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-danger" type="submit">Delete</button>
-                    </form>
+                    <button class="btn btn-danger delete-button" type="submit" data-targetroute="{{ route('projectcall.destroy', $call->id)}}">Delete</button>
                 </td>
             </tr>
             @endforeach
@@ -40,4 +37,40 @@
         <a href="{{ route('projectcall.create')}}" class="btn btn-primary">Create</a>
     </div>
 </div>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('actions.confirm_delete.title') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('actions.confirm_delete.body') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                <form id="confirmation-form" action="" method="post">
+                    @csrf @method('DELETE')
+                    <button class="btn btn-danger" type="submit">{{ __('actions.delete') }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+ 
+@section('scripts')
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.delete-button').click(function(){
+            var targetUrl = jQuery(this).attr('data-targetroute');
+            $("form#confirmation-form").attr('action', targetUrl);
+            $(".modal#confirm-delete").modal();
+        });
+    });
+
+</script>
 @endsection

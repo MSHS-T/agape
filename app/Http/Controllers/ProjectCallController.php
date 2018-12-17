@@ -114,11 +114,13 @@ class ProjectCallController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ProjectCall  $projectCall
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProjectCall $projectCall)
+    public function destroy($id)
     {
-        //
+        $projectCall = ProjectCall::findOrFail($id);
+        $projectCall->delete();
+        return redirect()->route('projectcall.index')->with('success', __('actions.projectcall.deleted'));
     }
 }

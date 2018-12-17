@@ -6,4 +6,4 @@ return [
         'Exploratoire' => 'AAP Exploratoire (APEX)',
         'Workshop' => 'AAP Workshop',
     ]
-    ];
+];
