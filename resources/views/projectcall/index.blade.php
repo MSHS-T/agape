@@ -24,8 +24,9 @@
                 <td>{{$call->evaluation_start_date}} - {{$call->evaluation_end_date}}</td>
                 <td>{{$call->creator->name}}</td>
                 <td>
-                    <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-primary d-inline-block">Edit</a>
-                    <button class="btn btn-danger delete-button" type="submit" data-targetroute="{{ route('projectcall.destroy', $call->id)}}">Delete</button>
+                    <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block">{{ __('actions.show') }}</a>
+                    <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-warning d-inline-block">{{ __('actions.edit') }}</a>
+                    <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-danger delete-link">{{ __('actions.delete') }}</a>
                 </td>
             </tr>
             @endforeach
@@ -38,7 +39,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -65,8 +66,9 @@
 @section('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.delete-button').click(function(){
-            var targetUrl = jQuery(this).attr('data-targetroute');
+        $('.delete-link').click(function(e){
+            e.preventDefault();
+            var targetUrl = jQuery(this).attr('href');
             $("form#confirmation-form").attr('action', targetUrl);
             $(".modal#confirm-delete").modal();
         });

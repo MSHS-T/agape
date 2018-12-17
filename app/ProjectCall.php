@@ -36,7 +36,7 @@ class ProjectCall extends Model
         parent::boot();
         static::creating(function ($call) {
             $call->creator_id = Auth::id();
-            $call->closed = $call->evaluation_end_date < \Carbon::now();
+            $call->closed = $call->evaluation_end_date < \Carbon\Carbon::now();
         });
     }
 

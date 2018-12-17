@@ -31,10 +31,26 @@ class ProjectCallController extends Controller
      */
     public function create()
     {
-        return view('projectcall.create', [
-            'max_number_of_experts' => Setting::get('max_number_of_experts'),
-            'max_number_of_documents' => Setting::get('max_number_of_documents'),
-            'types' => CallType::toArray()
+        return view('projectcall.edit', [
+            'mode' => 'create',
+            'method' => 'POST',
+            'action' => route('projectcall.store'),
+            'projectcall' => (object)[
+                'type' => 1,
+                'year' => date('Y'),
+                'description' => '',
+                'application_start_date' => '',
+                'application_end_date' => '',
+                'evaluation_start_date' => '',
+                'evaluation_end_date' => '',
+                'number_of_experts' => 1,
+                'number_of_documents' => 1,
+                'privacy_clause' => '',
+                'invite_email_fr' => '',
+                'invite_email_en' => '',
+                'help_experts' => '',
+                'help_candidates' => ''
+            ]
         ]);
     }
 
@@ -80,10 +96,10 @@ class ProjectCallController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ProjectCall  $projectCall
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ProjectCall $projectCall)
+    public function show($id)
     {
         //
     }
@@ -91,36 +107,77 @@ class ProjectCallController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ProjectCall  $projectCall
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProjectCall $projectCall)
+    public function edit($id)
     {
-        //
+        $projectcall = ProjectCall::findOrFail($id);
+
+        return view('projectcall.edit', [
+            'mode' => 'edit',
+            'method' => 'PUT',
+            'action' => route('projectcall.update', $id),
+            'projectcall' => $projectcall
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ProjectCall  $projectCall
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProjectCall $projectCall)
+    public function update(Request $request, $id)
     {
-        //
+        $projectcall = ProjectCall::findOrFail($id);
+
+        $request->validate([
+            'type' => ['required', 'integer', new EnumValue(CallType::class, false),
+                        Rule::unique('project_calls')->where(function ($query) use ($request, $projectcall) {
+                            return $query
+                                ->where('type', $request->type)
+                                ->where('year', $request->year)
+                                ->whereNotIn('id', [$projectcall->id]);
+                        })],
+            'year' => 'required|integer|min:'.date('Y'),
+            'description' => 'required',
+            'application_start_date' => 'required|date',
+            'application_end_date' => 'required|date|after:application_start_date',
+            'evaluation_start_date' => 'required|date|after:application_end_date',
+            'evaluation_end_date' => 'required|date|after:evaluation_start_date',
+            'number_of_experts' => 'required|integer|min:1|max:'.Setting::get('max_number_of_experts'),
+            'number_of_documents' => 'required|integer|min:0|max:'.Setting::get('max_number_of_documents'),
+            // Optional fields
+            // 'privacy_clause' => '',
+            // 'invite_email_fr' => '',
+            // 'invite_email_en' => '',
+            // 'help_experts' => '',
+            // 'help_candidates' => ''
+        ],[
+            'type.unique' => __('validation.custom.unique_type_year', ['type' => CallType::getKey($request->type), 'year' => $request->year])
+        ]);
+
+        $updatedData = $request->only([
+            'description', 'application_start_date', 'application_end_date', 'evaluation_start_date', 'evaluation_end_date', 'number_of_experts', 'number_of_documents', 'privacy_clause', 'invite_email_fr', 'invite_email_en', 'help_experts', 'help_candidates'
+        ]);
+
+        $projectcall->fill($updatedData);
+        $projectcall->save();
+        return redirect()->route('projectcall.index')->with('success', __('actions.projectcall.edited'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  string  $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $projectCall = ProjectCall::findOrFail($id);
-        $projectCall->delete();
+        $projectcall = ProjectCall::findOrFail($id);
+        $projectcall->delete();
         return redirect()->route('projectcall.index')->with('success', __('actions.projectcall.deleted'));
     }
 }
