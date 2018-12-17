@@ -17,6 +17,7 @@ return [
     ],
 
     "projectcall" => [
+        "create" => "Nouvel Appel à Projets",
         "created" => "L'appel à projets a bien été créé.",
         "edited" => "L'appel à projets a bien été modifié.",
         "deleted" => "L'appel à projets a bien été supprimé."

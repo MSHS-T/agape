@@ -1,35 +1,37 @@
 @extends('layouts.app') 
 @section('content')
 <div class="row justify-content-center">
-    <h2>{{ __('links.projectcalls') }}</h2>
-    <table class="table table-striped table-hover table-bordered">
+    <h2 class="mb-3">{{ __('links.projectcalls') }}</h2>
+    <table class="table table-striped table-hover table-bordered list-table">
         <thead>
             <tr>
-                <td>ID</td>
-                <td>Type</td>
-                <td>Année</td>
-                <td>État</td>
-                <td>Calendrier</td>
-                <td>Créateur</td>
-                <td>Actions</td>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Année</th>
+                <th>État</th>
+                <th>Calendrier</th>
+                <th>Créateur</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($projectcalls as $call)
             <tr>
                 <td>{{$call->id}}</td>
-                <td>{{ \App\Enums\CallType::getKey($call->type) }}</td>
+                <td>{{ __('vocabulary.calltype_short.'.\App\Enums\CallType::getKey($call->type)) }}</td>
                 <td class="text-center">{{$call->year}}</td>
-                <td class="text-center">@if ($call->closed) @svg('solid/door-closed') @else @svg('solid/door-open') @endif</td>
+                <td class="text-center">
+                    @if ($call->closed) @svg('solid/door-closed', 'icon-lg icon-fw') @else @svg('solid/door-open', 'icon-lg icon-fw') @endif
+                </td>
                 <td>
                     <u>Candidatures :</u> {{$call->application_start_date}} - {{$call->application_end_date}}<br/>
                     <u>Évaluations :</u> {{$call->evaluation_start_date}} - {{$call->evaluation_end_date}}
                 </td>
                 <td>{{$call->creator->name}}</td>
                 <td>
-                    <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block">@svg('solid/search')&nbsp;{{ __('actions.show') }}</a>
-                    <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-warning d-inline-block">@svg('solid/edit')&nbsp;{{ __('actions.edit') }}</a>
-                    <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-danger delete-link">@svg('solid/trash')&nbsp;{{ __('actions.delete') }}</a>
+                    <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block">@svg('solid/search', 'icon-fw')&nbsp;{{ __('actions.show') }}</a>
+                    <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-warning d-inline-block">@svg('solid/edit', 'icon-fw')&nbsp;{{ __('actions.edit') }}</a>
+                    <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-danger delete-link">@svg('solid/trash', 'icon-fw')&nbsp;{{ __('actions.delete') }}</a>
                 </td>
             </tr>
             @endforeach
@@ -38,7 +40,7 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <a href="{{ route('projectcall.create')}}" class="btn btn-primary">Create</a>
+        <a href="{{ route('projectcall.create')}}" class="btn btn-success">@svg('solid/plus', 'icon-fw')&nbsp;{{ __('actions.projectcall.create') }}</a>
     </div>
 </div>
 

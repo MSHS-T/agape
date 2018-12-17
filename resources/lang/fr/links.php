@@ -2,5 +2,5 @@
 
 return [
     "profile" => "Mon profil",
-    "projectcalls" => "Appels à projets",
+    "projectcalls" => "Appels à Projets",
 ];

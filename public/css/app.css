@@ -10490,3 +10490,21 @@ html {
   vertical-align: -0.125em;
 }
 
+.icon.icon-xs {
+  font-size: 0.75em;
+}
+
+.icon.icon-lg {
+  font-size: 2em;
+  vertical-align: -25%;
+}
+
+.icon.icon-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+table.list-table td {
+  vertical-align: middle;
+}
+
