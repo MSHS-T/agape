@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'Administrateur',
             'last_name' => 'AGAPE',
             'email' => 'romain@3rgo.tech',
+            'email_verified_at' => '2018-12-14 12:00:00',
             'role' => UserRole::Admin,
             'password' => bcrypt('admin'),
         ]);

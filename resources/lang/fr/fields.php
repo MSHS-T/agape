@@ -1,8 +1,11 @@
 <?php
 
 return [
+    "first_name" => "Prénom",
+    "last_name" => "Nom",
     "email" => "Adresse e-mail",
     "password" => "Mot de passe",
+    "password_confirmation" => "Confirmation du mot de passe",
     "remember_me" => "Se souvenir de moi",
 
     "projectcall" => [

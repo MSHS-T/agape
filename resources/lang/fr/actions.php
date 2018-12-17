@@ -4,6 +4,7 @@ return [
     "login" => "Connexion",
     "logout" => "Déconnexion",
     "register" => "Inscription",
+    "registered" => "Compte utilisateur créé",
     "toggle_navigation" => "Afficher le menu",
     "show" => "Visualiser",
     "create" => "Créer",
