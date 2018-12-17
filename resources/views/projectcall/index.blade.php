@@ -8,8 +8,8 @@
                 <td>ID</td>
                 <td>Type</td>
                 <td>Année</td>
-                <td>Période de candidature</td>
-                <td>Période d'évaluation</td>
+                <td>État</td>
+                <td>Calendrier</td>
                 <td>Créateur</td>
                 <td>Actions</td>
             </tr>
@@ -19,14 +19,17 @@
             <tr>
                 <td>{{$call->id}}</td>
                 <td>{{ \App\Enums\CallType::getKey($call->type) }}</td>
-                <td>{{$call->year}}</td>
-                <td>{{$call->application_start_date}} - {{$call->application_end_date}}</td>
-                <td>{{$call->evaluation_start_date}} - {{$call->evaluation_end_date}}</td>
+                <td class="text-center">{{$call->year}}</td>
+                <td class="text-center">@if ($call->closed) @svg('solid/door-closed') @else @svg('solid/door-open') @endif</td>
+                <td>
+                    <u>Candidatures :</u> {{$call->application_start_date}} - {{$call->application_end_date}}<br/>
+                    <u>Évaluations :</u> {{$call->evaluation_start_date}} - {{$call->evaluation_end_date}}
+                </td>
                 <td>{{$call->creator->name}}</td>
                 <td>
-                    <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block">{{ __('actions.show') }}</a>
-                    <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-warning d-inline-block">{{ __('actions.edit') }}</a>
-                    <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-danger delete-link">{{ __('actions.delete') }}</a>
+                    <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block">@svg('solid/search')&nbsp;{{ __('actions.show') }}</a>
+                    <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-warning d-inline-block">@svg('solid/edit')&nbsp;{{ __('actions.edit') }}</a>
+                    <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-danger delete-link">@svg('solid/trash')&nbsp;{{ __('actions.delete') }}</a>
                 </td>
             </tr>
             @endforeach

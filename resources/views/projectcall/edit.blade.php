@@ -9,7 +9,7 @@
             @foreach (\App\Enums\CallType::toArray() as $type_key => $type_value)
             <div class="form-check">
                 <input type="radio" name="type" id="type{{ $type_value }}" value="{{ $type_value }}" autocomplete="off" {{ $type_value==old(
-                    'type', $projectcall->type) ? "checked" : ''}} {{ $method != "create" ? "disabled" : "" }}>
+                    'type', $projectcall->type) ? "checked" : ''}} {{ $mode!="create" ? "disabled" : "" }}>
                 <label class="form-check-label" for="type{{ $type_value }}">{{ __('vocabulary.calltype.'.$type_key) }}</label>
             </div>
             @endforeach
@@ -19,7 +19,7 @@
         <label for="inputYear" class="col-sm-3 col-form-label">{{ __('fields.projectcall.year') }}</label>
         <div class="col-sm-9">
             <input type="number" class="form-control" id="inputYear" name="year" placeholder="{{ __('fields.projectcall.year') }}" min="{{ \Carbon\Carbon::now()->year }}"
-                value="{{ old('year', $projectcall->year) }}" {{ $method !="create" ? "disabled" : "" }}>
+                value="{{ old('year', $projectcall->year) }}" {{ $mode!="create" ? "disabled" : "" }}>
         </div>
     </div>
     <div class="form-group row">
@@ -94,7 +94,7 @@
     </div>
     <div class="form-group row">
         <div class="col-sm-9 offset-sm-3">
-            <button type="submit" class="btn btn-primary">@svg('solid/check') {{ __('actions.create') }}</button>
+            <button type="submit" class="btn btn-primary">@svg('solid/check') {{ __('actions.'.$mode) }}</button>
         </div>
     </div>
 </form>
