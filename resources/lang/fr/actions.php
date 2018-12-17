@@ -10,6 +10,13 @@ return [
     "edit" => "Modifier",
     "delete" => "Supprimer",
     "cancel" => "Annuler",
+    "archive" => "Archiver",
+    "unarchive" => "Restaurer",
+
+    "confirm_archive" => [
+        "title" => "Confirmer l'archivage",
+        "body" => "Êtes-vous sûr de vouloir archiver cet élément ?"
+    ],
 
     "confirm_delete" => [
         "title" => "Confirmer la suppression",

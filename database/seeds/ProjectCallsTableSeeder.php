@@ -26,7 +26,6 @@ class ProjectCallsTableSeeder extends Seeder
             "invite_email_en" => "Email EN",
             "help_experts" => "Aide experts",
             "help_candidates" => "Aide candidats",
-            "closed" => 0,
             "creator_id" => 1,
             "created_at" => "2018-12-17 11:22:54",
             "updated_at" => "2018-12-17 11:22:54"
@@ -46,7 +45,6 @@ class ProjectCallsTableSeeder extends Seeder
             "invite_email_en" => "Email EN",
             "help_experts" => "Aide experts",
             "help_candidates" => "Aide candidats",
-            "closed" => 0,
             "creator_id" => 1,
             "created_at" => "2018-12-17 11:22:54",
             "updated_at" => "2018-12-17 11:22:54"
@@ -66,7 +64,6 @@ class ProjectCallsTableSeeder extends Seeder
             "invite_email_en" => "Email EN",
             "help_experts" => "Aide experts",
             "help_candidates" => "Aide candidats",
-            "closed" => 0,
             "creator_id" => 1,
             "created_at" => "2018-12-17 11:22:54",
             "updated_at" => "2018-12-17 11:22:54"

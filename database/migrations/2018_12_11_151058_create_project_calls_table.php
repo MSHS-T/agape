@@ -31,9 +31,9 @@ class CreateProjectCallsTable extends Migration
             $table->text('invite_email_en');
             $table->text('help_experts');
             $table->text('help_candidates');
-            $table->boolean('closed')->default(false);
             $table->unsignedInteger('creator_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['type', 'year']);
 

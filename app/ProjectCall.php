@@ -5,10 +5,13 @@ namespace App;
 use App\Observer\ProjectCallObserver;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectCall extends Model
 {
+    use SoftDeletes;
+
     public $fillable = [
         'type',
         'year',
@@ -24,12 +27,9 @@ class ProjectCall extends Model
         'invite_email_en',
         'help_experts',
         'help_candidates',
-        'closed'
     ];
 
-    protected $attributes = [
-        'closed' => false,
-    ];
+    protected $dates = ['deleted_at'];
 
     public static function boot()
     {

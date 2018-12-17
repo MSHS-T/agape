@@ -12,8 +12,10 @@
 */
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::middleware(['auth'])->group(function(){
+    Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/profile', 'HomeController@profile')->name('profile');
+    Route::get('/profile', 'HomeController@profile')->name('profile');
 
-Route::resource('projectcall', 'ProjectCallController');
+    Route::resource('projectcall', 'ProjectCallController');
+});
