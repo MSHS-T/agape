@@ -18,7 +18,6 @@ class CreateProjectCallsTable extends Migration
         Schema::create('project_calls', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedTinyInteger('type')->default(CallType::Unknown);
-            $table->string('name');
             $table->unsignedSmallInteger('year');
             $table->text('description');
             $table->date('application_start_date');
@@ -35,6 +34,8 @@ class CreateProjectCallsTable extends Migration
             $table->boolean('closed')->default(false);
             $table->unsignedInteger('creator_id');
             $table->timestamps();
+
+            $table->unique(['type', 'year']);
 
             $table->foreign('creator_id')->references('id')->on('users');
         });

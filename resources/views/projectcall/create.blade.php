@@ -1,21 +1,18 @@
 @extends('layouts.app') 
 @section('content')
+<?php dump(old()); ?>
 <form method="POST" action="{{ route('projectcall.store') }}">
+    @csrf @method('POST')
     <div class="form-group row">
         <label for="type" class="col-sm-3 col-form-label">{{ __('fields.projectcall.type') }}</label>
         <div class="col-sm-9">
+            @foreach ($types as $type_key => $type_value)
             <div class="form-check">
-                <input type="radio" name="type" id="type1" value="1" autocomplete="off" {{old( 'type', 1)==1 ? "checked" : ''}}>
-                <label class="form-check-label" for="type1">{{ __('vocabulary.calltype.Region') }}</label>
+                <input type="radio" name="type" id="type{{ $type_value }}" value="{{ $type_value }}" autocomplete="off" {{ $type_value==old(
+                    'type', 1) ? "checked" : ''}}>
+                <label class="form-check-label" for="type1">{{ __('vocabulary.calltype.'.$type_key) }}</label>
             </div>
-            <div class="form-check">
-                <input type="radio" name="type" id="type2" value="2" autocomplete="off" {{old( 'type', 1)==2 ? "checked" : ''}}>
-                <label class="form-check-label" for="type2">{{ __('vocabulary.calltype.Exploratoire') }}</label>
-            </div>
-            <div class="form-check">
-                <input type="radio" name="type" id="type3" value="3" autocomplete="off" {{old( 'type', 1)==3 ? "checked" : ''}}>
-                <label class="form-check-label" for="type3">{{ __('vocabulary.calltype.Workshop') }}</label>
-            </div>
+            @endforeach
         </div>
     </div>
     <div class="form-group row">
@@ -38,7 +35,7 @@
         </div>
         <div class="col-sm-1 col-form-label">&nbsp;au&nbsp;</div>
         <div class="col-sm-4">
-            <input type="date" class="form-control form-datepicker" id="inputApplicationPeriod2" name="application_start_date" value="{{ old('application_start_date', '') }}">
+            <input type="date" class="form-control form-datepicker" id="inputApplicationPeriod2" name="application_end_date" value="{{ old('application_end_date', '') }}">
         </div>
     </div>
     <div class="form-group row text-left">
@@ -48,7 +45,7 @@
         </div>
         <div class="col-sm-1 col-form-label">&nbsp;au&nbsp;</div>
         <div class="col-sm-4">
-            <input type="date" class="form-control form-datepicker" id="inputEvaluationPeriod2" name="evaluation_start_date" value="{{ old('evaluation_start_date', '') }}">
+            <input type="date" class="form-control form-datepicker" id="inputEvaluationPeriod2" name="evaluation_end_date" value="{{ old('evaluation_end_date', '') }}">
         </div>
     </div>
     <div class="form-group row">

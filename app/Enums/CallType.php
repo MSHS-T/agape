@@ -11,4 +11,17 @@ final class CallType extends Enum
     const Region = 1;
     const Exploratoire = 2;
     const Workshop = 3;
+
+    /**
+     * Return the enum as an array, excluding zero value (Unknown type)
+     *
+     * @return array
+     */
+    public static function toArray(): array {
+        $parent = parent::toArray();
+
+        return array_filter($parent, function($value){
+            return $value > 0;
+        });
+    }
 }

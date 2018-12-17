@@ -2,13 +2,15 @@
 
 namespace App;
 
+use App\Observer\ProjectCallObserver;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectCall extends Model
 {
     public $fillable = [
         'type',
-        'name',
         'year',
         'description',
         'application_start_date',
@@ -24,6 +26,19 @@ class ProjectCall extends Model
         'help_candidates',
         'closed'
     ];
+
+    protected $attributes = [
+        'closed' => false,
+    ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($call) {
+            $call->creator_id = Auth::id();
+            $call->closed = $call->evaluation_end_date < \Carbon::now();
+        });
+    }
 
     public function creator(){
         return $this->belongsTo('App\User', 'creator_id');

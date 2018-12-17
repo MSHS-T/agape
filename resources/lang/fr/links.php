@@ -1,5 +1,6 @@
 <?php
 
 return [
-    "profile" => "Mon profil"
+    "profile" => "Mon profil",
+    "projectcalls" => "Appels à projets",
 ];

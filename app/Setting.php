@@ -12,4 +12,9 @@ class Setting extends Model
     public $timestamps = false;
 
     public $fillable = ["key", "value"];
+
+    public static function get(string $key) {
+        $row = self::find($key);
+        return is_null($row) ? null : $row->value;
+    }
 }

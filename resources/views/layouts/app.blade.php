@@ -36,7 +36,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <a class="nav-link" href="{{ route('projectcall.index') }}">{{ __('links.projectcalls') }}</a>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -80,6 +80,21 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-10">
+                        @if ($errors->any())
+                        <div class="alert alert-danger" role="alert">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div><br /> @endif @if (!empty($success))
+                        <div class="alert alert-success">
+                            {{ $success }}
+                        </div><br /> @endif
+                    </div>
+                </div>
+                <div class="row justify-center">
+                    <div class="col-md-12">
                         @yield('content')
                     </div>
                 </div>

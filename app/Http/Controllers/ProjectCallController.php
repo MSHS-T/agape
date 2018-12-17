@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\ProjectCall;
 use App\Setting;
 
+use App\Enums\CallType;
+
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use BenSampo\Enum\Rules\EnumValue;
 
 class ProjectCallController extends Controller
 {
@@ -16,7 +20,8 @@ class ProjectCallController extends Controller
      */
     public function index()
     {
-        //
+        $projectcalls = ProjectCall::with('creator')->get();
+        return view('projectcall.index', compact('projectcalls'));
     }
 
     /**
@@ -27,8 +32,9 @@ class ProjectCallController extends Controller
     public function create()
     {
         return view('projectcall.create', [
-            'max_number_of_experts' => Setting::find('max_number_of_documents'),
-            'max_number_of_documents' => Setting::find('max_number_of_documents'),
+            'max_number_of_experts' => Setting::get('max_number_of_experts'),
+            'max_number_of_documents' => Setting::get('max_number_of_documents'),
+            'types' => CallType::toArray()
         ]);
     }
 
@@ -40,7 +46,35 @@ class ProjectCallController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'type' => ['required', 'integer', new EnumValue(CallType::class, false),
+                        Rule::unique('project_calls')->where(function ($query) use ($request) {
+                            return $query
+                                ->where('type', $request->type)
+                                ->where('year', $request->year);
+                        })],
+            'year' => 'required|integer|min:'.date('Y'),
+            'description' => 'required',
+            'application_start_date' => 'required|date',
+            'application_end_date' => 'required|date|after:application_start_date',
+            'evaluation_start_date' => 'required|date|after:application_end_date',
+            'evaluation_end_date' => 'required|date|after:evaluation_start_date',
+            'number_of_experts' => 'required|integer|min:1|max:'.Setting::get('max_number_of_experts'),
+            'number_of_documents' => 'required|integer|min:0|max:'.Setting::get('max_number_of_documents'),
+            // Optional fields
+            // 'privacy_clause' => '',
+            // 'invite_email_fr' => '',
+            // 'invite_email_en' => '',
+            // 'help_experts' => '',
+            // 'help_candidates' => ''
+        ],[
+            'type.unique' => __('validation.custom.unique_type_year', ['type' => CallType::getKey($request->type), 'year' => $request->year])
+        ]);
+
+        $call = new ProjectCall($request->all());
+        $call->save();
+
+        return redirect()->route('projectcall.index')->with('success', __('actions.projectcall.created'));
     }
 
     /**
