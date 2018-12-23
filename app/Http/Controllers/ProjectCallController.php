@@ -37,7 +37,7 @@ class ProjectCallController extends Controller
             'action' => route('projectcall.store'),
             'projectcall' => (object)[
                 'type' => 1,
-                'year' => date('Y'),
+                'year' => intval(date('Y'))+1,
                 'description' => '',
                 'application_start_date' => '',
                 'application_end_date' => '',
