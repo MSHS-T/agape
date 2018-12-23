@@ -20,7 +20,7 @@ class ProjectCallController extends Controller
      */
     public function index()
     {
-        $projectcalls = ProjectCall::withTrashed()->with('creator')->get();
+        $projectcalls = ProjectCall::withTrashed()->with('creator')->orderBy('created_at', 'desc')->get();
         return view('projectcall.index', compact('projectcalls'));
     }
 
