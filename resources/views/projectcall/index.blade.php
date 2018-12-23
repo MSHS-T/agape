@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="row justify-content-center">
-    <h2 class="mb-3">{{ __('links.projectcalls') }}</h2>
+    <h2 class="mb-3">{{ __('actions.projectcall.list') }}</h2>
     <table class="table table-striped table-hover table-bordered list-table">
         <thead>
             <tr>

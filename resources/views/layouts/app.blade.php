@@ -35,7 +35,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @guest @else
-                        <a class="nav-link" href="{{ route('projectcall.index') }}">{{ __('links.projectcalls') }}</a>
+                        <a class="nav-link" href="{{ route('projectcall.index') }}">
+                            {{ __('actions.projectcall.list') }}
+                        </a>
                         @endguest
                     </ul>
 
@@ -58,10 +60,9 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('profile') }}">{{ __('links.profile') }}</a>
+                                <a class="dropdown-item" href="{{ route('profile') }}">{{ __('actions.profile') }}</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('actions.logout') }}
                                 </a>
 

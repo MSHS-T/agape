@@ -26,7 +26,10 @@ return [
         "body" => "Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est irréversible."
     ],
 
+    "profile" => "Mon profil",
+
     "projectcall" => [
+        "list" => "Appels à Projets",
         "create" => "Nouvel Appel à Projets",
         "created" => "L'appel à projets a bien été créé.",
         "edit" => "Modifier l'Appel à Projets",
