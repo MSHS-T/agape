@@ -15,7 +15,7 @@ return [
 
     'password' => 'Les mots de passe doivent faire au moins 6 caractères de long et correspondre.',
     'reset' => 'Votre mot de passe a été réinitialisé!',
-    'sent' => 'Un lien de réinitialisation de mot de passe vient de vous être énvoyé par mail!',
+    'sent' => 'Un lien de réinitialisation de mot de passe vient de vous être envoyé par mail!',
     'token' => 'Cette clé de réinitialisation est invalide.',
     'user' => "Il n'existe pas de compte utilisateur associé à cette adresse.",
     'forgot' => "Mot de passe oublié ?",

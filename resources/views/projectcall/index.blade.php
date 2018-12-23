@@ -1,4 +1,4 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 @section('content')
 <div class="row justify-content-center">
     <h2 class="mb-3">{{ __('links.projectcalls') }}</h2>
@@ -21,18 +21,27 @@
                 <td>{{ __('vocabulary.calltype_short.'.\App\Enums\CallType::getKey($call->type)) }}</td>
                 <td class="text-center">{{$call->year}}</td>
                 <td class="text-center">
-                    @if (!empty($call->deleted_at)) @svg('solid/door-closed', 'icon-lg icon-fw') @else @svg('solid/door-open', 'icon-lg icon-fw')
+                    @if (!empty($call->deleted_at)) @svg('solid/door-closed', 'icon-lg icon-fw')
+                    @else @svg('solid/door-open', 'icon-lg icon-fw')
                     @endif
                 </td>
                 <td>
-                    <u>Candidatures :</u> {{$call->application_start_date}} - {{$call->application_end_date}}<br/>
+                    <u>Candidatures :</u> {{$call->application_start_date}} - {{$call->application_end_date}}<br />
                     <u>Évaluations :</u> {{$call->evaluation_start_date}} - {{$call->evaluation_end_date}}
                 </td>
                 <td>{{$call->creator->name}}</td>
                 <td>
-                    <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block">@svg('solid/search', 'icon-fw')&nbsp;{{ __('actions.show') }}</a>
-                    <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-warning d-inline-block">@svg('solid/edit', 'icon-fw')&nbsp;{{ __('actions.edit') }}</a>                    @if (empty($call->deleted_at))
-                    <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-danger archive-link">@svg('solid/trash', 'icon-fw')&nbsp;{{ __('actions.archive') }}</a>                    @endif
+                    <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block">
+                        @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
+                    </a>
+                    <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-warning d-inline-block">
+                        @svg('solid/edit', 'icon-fw') {{ __('actions.edit') }}
+                    </a>
+                    @if (empty($call->deleted_at))
+                    <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-danger archive-link">
+                        @svg('solid/trash', 'icon-fw') {{ __('actions.archive') }}
+                    </a>
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -41,7 +50,9 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <a href="{{ route('projectcall.create')}}" class="btn btn-success">@svg('solid/plus', 'icon-fw')&nbsp;{{ __('actions.projectcall.create') }}</a>
+        <a href="{{ route('projectcall.create')}}" class="btn btn-success">
+            @svg('solid/plus', 'icon-fw') {{ __('actions.projectcall.create') }}
+        </a>
     </div>
 </div>
 
@@ -68,11 +79,11 @@
     </div>
 </div>
 @endsection
- 
+
 @section('scripts')
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('.archive-link').click(function(e){
+    $(document).ready(function () {
+        $('.archive-link').click(function (e) {
             e.preventDefault();
             var targetUrl = jQuery(this).attr('href');
             $("form#confirmation-form").attr('action', targetUrl);
