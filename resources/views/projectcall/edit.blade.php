@@ -111,6 +111,7 @@
     </div>
     <div class="form-group row">
         <div class="col-sm-9 offset-sm-3">
+            <a href="{{ route('projectcall.index') }}" class="btn btn-secondary">{{ __('actions.cancel') }}</a>
             <button type="submit" class="btn btn-primary">@svg('solid/check') {{ __('actions.'.$mode) }}</button>
         </div>
     </div>
