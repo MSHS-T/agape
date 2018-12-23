@@ -8,9 +8,9 @@
                 <th>ID</th>
                 <th>Type</th>
                 <th>Année</th>
+                <th>Titre</th>
                 <th>État</th>
                 <th>Calendrier</th>
-                <th>Créateur</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -20,6 +20,7 @@
                 <td>{{$call->id}}</td>
                 <td>{{ __('vocabulary.calltype_short.'.\App\Enums\CallType::getKey($call->type)) }}</td>
                 <td class="text-center">{{$call->year}}</td>
+                <td>{{$call->title}}</td>
                 <td class="text-center">
                     @if (!empty($call->deleted_at)) @svg('solid/door-closed', 'icon-lg icon-fw')
                     @else @svg('solid/door-open', 'icon-lg icon-fw')
@@ -29,7 +30,6 @@
                     <u>Candidatures :</u> {{$call->application_start_date}} - {{$call->application_end_date}}<br />
                     <u>Évaluations :</u> {{$call->evaluation_start_date}} - {{$call->evaluation_end_date}}
                 </td>
-                <td>{{$call->creator->name}}</td>
                 <td>
                     <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block">
                         @svg('solid/search', 'icon-fw') {{ __('actions.show') }}

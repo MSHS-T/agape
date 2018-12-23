@@ -11,6 +11,7 @@ return [
     "projectcall" => [
         "type" => "Type d'appel",
         "year" => "Année",
+        "title" => "Titre",
         "description" => "Présentation de l'appel à projet",
         "application_period" => "Période de candidature",
         "evaluation_period" => "Période d'évaluation",

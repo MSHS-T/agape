@@ -19,6 +19,7 @@ class CreateProjectCallsTable extends Migration
             $table->increments('id');
             $table->unsignedTinyInteger('type')->default(CallType::Unknown);
             $table->unsignedSmallInteger('year');
+            $table->string('title');
             $table->text('description');
             $table->date('application_start_date');
             $table->date('application_end_date');
@@ -34,8 +35,6 @@ class CreateProjectCallsTable extends Migration
             $table->unsignedInteger('creator_id');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->unique(['type', 'year']);
 
             $table->foreign('creator_id')->references('id')->on('users');
         });

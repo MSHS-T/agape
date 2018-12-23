@@ -128,7 +128,6 @@ return [
     */
 
     'custom' => [
-        'unique_type_year' => 'Il existe déjà un appel ":type" pour l\'année :year',
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

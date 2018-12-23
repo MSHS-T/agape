@@ -38,6 +38,7 @@ class ProjectCallController extends Controller
             'projectcall' => (object)[
                 'type' => 1,
                 'year' => intval(date('Y'))+1,
+                'title' => '',
                 'description' => '',
                 'application_start_date' => '',
                 'application_end_date' => '',
@@ -63,13 +64,9 @@ class ProjectCallController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'type' => ['required', 'integer', new EnumValue(CallType::class, false),
-                        Rule::unique('project_calls')->where(function ($query) use ($request) {
-                            return $query
-                                ->where('type', $request->type)
-                                ->where('year', $request->year);
-                        })],
+            'type' => ['required', 'integer', new EnumValue(CallType::class, false)],
             'year' => 'required|integer|min:'.date('Y'),
+            'title' => 'required',
             'description' => 'required',
             'application_start_date' => 'required|date',
             'application_end_date' => 'required|date|after:application_start_date',
@@ -83,8 +80,6 @@ class ProjectCallController extends Controller
             // 'invite_email_en' => '',
             // 'help_experts' => '',
             // 'help_candidates' => ''
-        ],[
-            'type.unique' => __('validation.custom.unique_type_year', ['type' => CallType::getKey($request->type), 'year' => $request->year])
         ]);
 
         $call = new ProjectCall($request->all());
@@ -134,13 +129,7 @@ class ProjectCallController extends Controller
         $projectcall = ProjectCall::findOrFail($id);
 
         $request->validate([
-            'type' => ['required', 'integer', new EnumValue(CallType::class, false),
-                        Rule::unique('project_calls')->where(function ($query) use ($request, $projectcall) {
-                            return $query
-                                ->where('type', $request->type)
-                                ->where('year', $request->year)
-                                ->whereNotIn('id', [$projectcall->id]);
-                        })],
+            'type' => ['required', 'integer', new EnumValue(CallType::class, false)],
             'year' => 'required|integer|min:'.date('Y'),
             'description' => 'required',
             'application_start_date' => 'required|date',
@@ -155,12 +144,10 @@ class ProjectCallController extends Controller
             // 'invite_email_en' => '',
             // 'help_experts' => '',
             // 'help_candidates' => ''
-        ],[
-            'type.unique' => __('validation.custom.unique_type_year', ['type' => CallType::getKey($request->type), 'year' => $request->year])
         ]);
 
         $updatedData = $request->only([
-            'description', 'application_start_date', 'application_end_date', 'evaluation_start_date', 'evaluation_end_date', 'number_of_experts', 'number_of_documents', 'privacy_clause', 'invite_email_fr', 'invite_email_en', 'help_experts', 'help_candidates'
+            'title', 'description', 'application_start_date', 'application_end_date', 'evaluation_start_date', 'evaluation_end_date', 'number_of_experts', 'number_of_documents', 'privacy_clause', 'invite_email_fr', 'invite_email_en', 'help_experts', 'help_candidates'
         ]);
 
         $projectcall->fill($updatedData);

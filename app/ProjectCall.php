@@ -15,6 +15,7 @@ class ProjectCall extends Model
     public $fillable = [
         'type',
         'year',
+        'title',
         'description',
         'application_start_date',
         'application_end_date',

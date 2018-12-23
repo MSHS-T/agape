@@ -14,6 +14,7 @@ class ProjectCallsTableSeeder extends Seeder
         DB::table('project_calls')->insert([
             "type" => 1,
             "year" => 2018,
+            "title" => "Test titre 1",
             "description" => "Description",
             "application_start_date" => "2018-12-01",
             "application_end_date" => "2018-12-31",
@@ -33,6 +34,7 @@ class ProjectCallsTableSeeder extends Seeder
         DB::table('project_calls')->insert([
             "type" => 2,
             "year" => 2018,
+            "title" => "Test titre 2",
             "description" => "Description",
             "application_start_date" => "2018-12-01",
             "application_end_date" => "2018-12-31",
@@ -52,6 +54,7 @@ class ProjectCallsTableSeeder extends Seeder
         DB::table('project_calls')->insert([
             "type" => 3,
             "year" => 2018,
+            "title" => "Test titre 3",
             "description" => "Description",
             "application_start_date" => "2018-12-01",
             "application_end_date" => "2018-12-31",
