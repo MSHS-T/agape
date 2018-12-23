@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
+<h2 class="mb-3 text-center">{{ __('actions.projectcall.'.$mode) }}</h2>
 <form method="<?php echo (in_array(strtoupper($method), ['GET', 'POST']) ? $method : 'POST'); ?>" action="{{ $action }}">
     @csrf @method($method)
     <div class="form-group row">
