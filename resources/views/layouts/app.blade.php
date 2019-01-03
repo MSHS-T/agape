@@ -39,9 +39,7 @@
                         @case(\App\Enums\UserRole::Admin)
                         <a class="nav-link" href="{{route('projectcall.index')}}">{{__('actions.projectcall.list')}}</a>
                         @break
-                        @case(\App\Enums\UserRole::Candidate)
-                        <a class="nav-link" href="{{route('application.index')}}">{{__('actions.application.mylist')}}</a>
-
+                        @case(\App\Enums\UserRole::Expert)
                         @endswitch
                         @endguest
                     </ul>

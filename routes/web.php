@@ -20,10 +20,11 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     Route::get('profile', 'HomeController@profile')->name('profile');
 
+    Route::get('projectcall/{id}/apply', 'ProjectCallController@apply')->name('projectcall.apply');
     Route::resource('projectcall', 'ProjectCallController');
 
-    Route::post('application/submit', 'ApplicationController@submit');
-    Route::resource('application', 'ApplicationController')->only(['index', 'show', 'create', 'edit', 'update']);
+    Route::put('application/submit/{id}', 'ApplicationController@submit')->name('application.submit');
+    Route::resource('application', 'ApplicationController')->only(['index', 'show', 'edit', 'update']);
 });
 
 Route::get('error', function(){

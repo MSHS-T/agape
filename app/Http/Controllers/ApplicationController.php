@@ -18,16 +18,6 @@ class ApplicationController extends Controller
     }
 
     /**
-     * Creates a new resource and redirects to the update route.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Application  $application

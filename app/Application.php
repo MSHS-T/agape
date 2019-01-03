@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Application extends Model
 {
     public $fillable = [
+        'applicant_id',
         'duration',
         'target_date',
         'theme',

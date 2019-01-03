@@ -45,6 +45,6 @@ class ProjectCall extends Model
     }
 
     public function applications(){
-        return $this->hasMany('App\Application');
+        return $this->hasMany('App\Application', 'projectcall_id');
     }
 }

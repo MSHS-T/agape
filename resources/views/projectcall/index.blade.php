@@ -55,7 +55,7 @@
 <div class="row">
     <div class="col-12">
         <a href="{{ route('projectcall.create')}}" class="btn btn-success">
-            @svg('solid/plus', 'icon-fw') {{ __('actions.projectcall.create') }}
+            @svg('solid/plus-square', 'icon-fw') {{ __('actions.projectcall.create') }}
         </a>
     </div>
 </div>

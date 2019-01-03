@@ -8,6 +8,7 @@ use App\Setting;
 use App\Enums\CallType;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use BenSampo\Enum\Rules\EnumValue;
 
@@ -166,5 +167,19 @@ class ProjectCallController extends Controller
         $projectcall = ProjectCall::findOrFail($id);
         $projectcall->delete();
         return redirect()->route('projectcall.index')->with('success', __('actions.projectcall.deleted'));
+    }
+
+    /**
+     * Creates an application for the given project call
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function apply($id)
+    {
+        $projectcall = ProjectCall::findOrFail($id);
+        $application = $projectcall->applications()->firstOrNew(['applicant_id' => Auth::id()]);
+        $application->save();
+        return redirect()->route('application.edit', $application->id);
     }
 }
