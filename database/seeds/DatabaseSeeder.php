@@ -22,14 +22,14 @@ class DatabaseSeeder extends Seeder
             'role' => UserRole::Admin,
             'password' => bcrypt('admin'),
         ]);
-        // Insert test user
+        // Insert candidate user
         DB::table('users')->insert([
-            'first_name' => 'Test',
-            'last_name' => 'TEST',
-            'email' => 'test@3rgo.tech',
+            'first_name' => 'Candidat',
+            'last_name' => 'AGAPE',
+            'email' => 'candidat@3rgo.tech',
             'email_verified_at' => '2018-12-14 12:00:00',
             'role' => UserRole::Candidate,
-            'password' => bcrypt('password'),
+            'password' => bcrypt('candidat'),
         ]);
 
         $this->call(SettingsTableSeeder::class);

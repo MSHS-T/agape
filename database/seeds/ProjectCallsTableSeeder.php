@@ -14,6 +14,27 @@ class ProjectCallsTableSeeder extends Seeder
         DB::table('project_calls')->insert([
             "type" => 1,
             "year" => 2018,
+            "title" => "Test titre archivé",
+            "description" => "Description",
+            "application_start_date" => "2018-11-01",
+            "application_end_date" => "2018-11-30",
+            "evaluation_start_date" => "2018-12-01",
+            "evaluation_end_date" => "2018-12-31",
+            "number_of_experts" => 2,
+            "number_of_documents" => 4,
+            "privacy_clause" => "Clause",
+            "invite_email_fr" => "Email FR",
+            "invite_email_en" => "Email EN",
+            "help_experts" => "Aide experts",
+            "help_candidates" => "Aide candidats",
+            "creator_id" => 1,
+            "created_at" => "2018-12-01 12:00:00",
+            "updated_at" => "2018-12-01 12:00:00",
+            "deleted_at" => "2019-01-01 12:00:00"
+        ]);
+        DB::table('project_calls')->insert([
+            "type" => 1,
+            "year" => 2019,
             "title" => "Test titre 1",
             "description" => "Description",
             "application_start_date" => "2018-12-01",
@@ -28,18 +49,18 @@ class ProjectCallsTableSeeder extends Seeder
             "help_experts" => "Aide experts",
             "help_candidates" => "Aide candidats",
             "creator_id" => 1,
-            "created_at" => "2018-12-17 11:22:54",
-            "updated_at" => "2018-12-17 11:22:54"
+            "created_at" => "2018-12-01 12:00:00",
+            "updated_at" => "2018-12-01 12:00:00"
         ]);
         DB::table('project_calls')->insert([
             "type" => 2,
-            "year" => 2018,
+            "year" => 2019,
             "title" => "Test titre 2",
             "description" => "Description",
-            "application_start_date" => "2018-12-01",
-            "application_end_date" => "2018-12-31",
-            "evaluation_start_date" => "2019-01-01",
-            "evaluation_end_date" => "2019-01-31",
+            "application_start_date" => "2019-01-01",
+            "application_end_date" => "2019-01-31",
+            "evaluation_start_date" => "2019-02-01",
+            "evaluation_end_date" => "2019-02-28",
             "number_of_experts" => 2,
             "number_of_documents" => 4,
             "privacy_clause" => "Clause",
@@ -48,18 +69,18 @@ class ProjectCallsTableSeeder extends Seeder
             "help_experts" => "Aide experts",
             "help_candidates" => "Aide candidats",
             "creator_id" => 1,
-            "created_at" => "2018-12-17 11:22:54",
-            "updated_at" => "2018-12-17 11:22:54"
+            "created_at" => "2018-12-01 12:00:00",
+            "updated_at" => "2018-12-01 12:00:00"
         ]);
         DB::table('project_calls')->insert([
             "type" => 3,
-            "year" => 2018,
+            "year" => 2019,
             "title" => "Test titre 3",
             "description" => "Description",
-            "application_start_date" => "2018-12-01",
-            "application_end_date" => "2018-12-31",
-            "evaluation_start_date" => "2019-01-01",
-            "evaluation_end_date" => "2019-01-31",
+            "application_start_date" => "2019-02-01",
+            "application_end_date" => "2019-02-28",
+            "evaluation_start_date" => "2019-03-01",
+            "evaluation_end_date" => "2019-03-31",
             "number_of_experts" => 2,
             "number_of_documents" => 4,
             "privacy_clause" => "Clause",
@@ -68,8 +89,8 @@ class ProjectCallsTableSeeder extends Seeder
             "help_experts" => "Aide experts",
             "help_candidates" => "Aide candidats",
             "creator_id" => 1,
-            "created_at" => "2018-12-17 11:22:54",
-            "updated_at" => "2018-12-17 11:22:54"
+            "created_at" => "2018-12-01 12:00:00",
+            "updated_at" => "2018-12-01 12:00:00"
         ]);
     }
 }
