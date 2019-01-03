@@ -38,10 +38,10 @@
                     <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block">
                         @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
                     </a>
+                    @if (empty($call->deleted_at))
                     <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-warning d-inline-block">
                         @svg('solid/edit', 'icon-fw') {{ __('actions.edit') }}
                     </a>
-                    @if (empty($call->deleted_at))
                     <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-danger archive-link">
                         @svg('solid/trash', 'icon-fw') {{ __('actions.archive') }}
                     </a>
