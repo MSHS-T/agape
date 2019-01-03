@@ -35,5 +35,10 @@ return [
         "edit" => "Modifier l'Appel à Projets",
         "edited" => "L'appel à projets a bien été modifié.",
         "deleted" => "L'appel à projets a bien été supprimé."
+    ],
+
+    "application" => [
+        "list" => "Candidatures",
+        "mylist" => "Mes Candidatures"
     ]
 ];

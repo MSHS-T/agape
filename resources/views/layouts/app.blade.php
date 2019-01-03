@@ -35,9 +35,14 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @guest @else
-                        <a class="nav-link" href="{{ route('projectcall.index') }}">
-                            {{ __('actions.projectcall.list') }}
-                        </a>
+                        @switch(Auth::user()->role)
+                        @case(\App\Enums\UserRole::Admin)
+                        <a class="nav-link" href="{{route('projectcall.index')}}">{{__('actions.projectcall.list')}}</a>
+                        @break
+                        @case(\App\Enums\UserRole::Candidate)
+                        <a class="nav-link" href="{{route('application.index')}}">{{__('actions.application.mylist')}}</a>
+
+                        @endswitch
                         @endguest
                     </ul>
 

@@ -16,9 +16,16 @@ Route::redirect('/', '/home');
 
 
 Route::middleware(['auth', 'verified'])->group(function(){
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('home', 'HomeController@index')->name('home');
 
-    Route::get('/profile', 'HomeController@profile')->name('profile');
+    Route::get('profile', 'HomeController@profile')->name('profile');
 
     Route::resource('projectcall', 'ProjectCallController');
+
+    Route::post('application/submit', 'ApplicationController@submit');
+    Route::resource('application', 'ApplicationController')->only(['index', 'show', 'create', 'edit', 'update']);
+});
+
+Route::get('error', function(){
+    abort(500);
 });
