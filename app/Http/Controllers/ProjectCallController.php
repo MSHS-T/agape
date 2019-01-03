@@ -65,7 +65,7 @@ class ProjectCallController extends Controller
     {
         $request->validate([
             'type' => ['required', 'integer', new EnumValue(CallType::class, false)],
-            'year' => 'required|integer|min:'.date('Y'),
+            'year' => 'required|integer|min:'.(intval(date('Y')) - 1),
             'title' => 'required',
             'description' => 'required',
             'application_start_date' => 'required|date',
@@ -130,7 +130,7 @@ class ProjectCallController extends Controller
 
         $request->validate([
             'type' => ['required', 'integer', new EnumValue(CallType::class, false)],
-            'year' => 'required|integer|min:'.date('Y'),
+            'year' => 'required|integer|min:'.(intval(date('Y')) - 1),
             'description' => 'required',
             'application_start_date' => 'required|date',
             'application_end_date' => 'required|date|after:application_start_date',
