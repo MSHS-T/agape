@@ -9,9 +9,7 @@
             @foreach (\App\Enums\CallType::toArray() as $type_key => $type_value)
             <div class="form-check">
                 <input type="radio" name="type" id="type{{ $type_value }}" value="{{ $type_value }}" autocomplete="off"
-                    {{ $type_value==old(
-                    'type', $projectcall->type) ? "checked" : ''}}
-                    {{ $mode!="create" ? "disabled" : "" }}>
+                    {{ $type_value == old('type', $projectcall->type) ? "checked" : "disabled"}}>
                 <label class="form-check-label" for="type{{ $type_value }}">{{ __('vocabulary.calltype.'.$type_key) }}</label>
             </div>
             @endforeach
@@ -22,7 +20,7 @@
         <div class="col-sm-9">
             <input type="number" class="form-control" id="inputYear" name="year" placeholder="{{ __('fields.projectcall.year') }}"
                 min="{{ \Carbon\Carbon::now()->year }}" value="{{ old('year', $projectcall->year) }}"
-                {{ $mode!="create" ? "disabled" : "" }}>
+                {{ $mode!="create" ? "readonly" : "" }}>
         </div>
     </div>
     <div class="form-group row">
