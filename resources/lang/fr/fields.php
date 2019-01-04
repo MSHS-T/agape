@@ -28,5 +28,9 @@ return [
         "invite_email_en" => "Email d'invitation (EN)",
         "help_experts" => "Aide en ligne pour les experts",
         "help_candidates" => "Aide en ligne pour les candidats",
+        "states" => [
+            "open" => "En cours",
+            "archived" => "Archivé"
+        ]
     ]
 ];

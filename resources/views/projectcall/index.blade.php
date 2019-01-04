@@ -11,17 +11,19 @@
                 <th>{{ __('fields.projectcall.title') }}</th>
                 <th>{{ __('fields.projectcall.state') }}</th>
                 <th>{{ __('fields.projectcall.calendar') }}</th>
-                <th>{{ __('fields.actions') }}</th>
+                <th data-orderable="false">{{ __('fields.actions') }}</th>
             </tr>
         </thead>
         <tbody>
             @foreach($projectcalls as $call)
+            @php($statestring = 'fields.projectcall.states.'.(empty($call->deleted_at) ? 'open' : 'archived'))
             <tr>
                 <td>{{$call->id}}</td>
                 <td>{{ __('vocabulary.calltype_short.'.\App\Enums\CallType::getKey($call->type)) }}</td>
                 <td class="text-center">{{$call->year}}</td>
                 <td>{{$call->title}}</td>
-                <td class="text-center">
+                <td class="text-center" data-search="{{ __($statestring) }}" data-toggle="tooltip" data-placement="right"
+                    title="{{ __($statestring) }}">
                     @if (!empty($call->deleted_at)) @svg('solid/door-closed', 'icon-lg icon-fw')
                     @else @svg('solid/door-open', 'icon-lg icon-fw')
                     @endif
@@ -35,7 +37,8 @@
                     {{ \Carbon\Carbon::parse($call->evaluation_end_date)->format(__('locale.date_format')) }}
                 </td>
                 <td>
-                    <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block">
+                    <a href="
+                    {{ route('projectcall.show',$call->id)}}" class=" btn btn-primary d-inline-block">
                         @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
                     </a>
                     @if (empty($call->deleted_at))
@@ -87,11 +90,22 @@
 @section('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
         $('.archive-link').click(function (e) {
             e.preventDefault();
             var targetUrl = jQuery(this).attr('href');
             $("form#confirmation-form").attr('action', targetUrl);
             $(".modal#confirm-archive").modal();
+        });
+        $('.list-table').DataTable({
+            autoWidth: true,
+            lengthChange: false,
+            searching: true,
+            ordering: true,
+            order: [
+                [0, 'desc']
+            ],
+            language: @json(__('datatable'))
         });
     });
 

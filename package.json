@@ -16,5 +16,10 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.5",
         "popper.js": "^1.12"
+    },
+    "dependencies": {
+        "axios": "^0.18.0",
+        "datatables.net-bs4": "^1.10.19",
+        "datatables.net-fixedheader-bs4": "^3.1.5"
     }
 }
