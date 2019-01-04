@@ -2,7 +2,7 @@
 @section('content')
 <div class="row justify-content-center">
     <h2 class="mb-3">{{ __('actions.projectcall.list') }}</h2>
-    <table class="table table-striped table-hover table-bordered list-table">
+    <table class="table table-striped table-hover table-bordered w-100" id="projectcall_list">
         <thead>
             <tr>
                 <th>{{ __('fields.id') }}</th>
@@ -61,12 +61,10 @@
         </tbody>
     </table>
 </div>
-<div class="row">
-    <div class="col-12">
-        <a href="{{ route('projectcall.create')}}" class="btn btn-success">
-            @svg('solid/plus-square', 'icon-fw') {{ __('actions.projectcall.create') }}
-        </a>
-    </div>
+<div class="row mt-1">
+    <a href="{{ route('projectcall.create')}}" class="btn btn-success">
+        @svg('solid/plus-square', 'icon-fw') {{ __('actions.projectcall.create') }}
+    </a>
 </div>
 
 <div class="modal fade" id="confirm-archive" tabindex="-1" role="dialog" aria-hidden="true">
@@ -103,8 +101,8 @@
             $("form#confirmation-form").attr('action', targetUrl);
             $(".modal#confirm-archive").modal();
         });
-        $('.list-table').DataTable({
-            autoWidth: true,
+        $('#projectcall_list').DataTable({
+            autoWidth: false,
             lengthChange: true,
             searching: true,
             ordering: true,

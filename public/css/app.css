@@ -10505,7 +10505,11 @@ html {
   width: 1.25em;
 }
 
-table.list-table td {
+#projectcall_list_wrapper {
+  width: 100%;
+}
+
+#projectcall_list_wrapper table#projectcall_list td {
   vertical-align: middle;
 }
 

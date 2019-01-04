@@ -9,8 +9,8 @@ return [
     "remember_me" => "Se souvenir de moi",
     "id" => "ID",
     "actions" => "Actions",
-    "creation_date" => "Date de création",
-    "modification_date" => "Date de dernière modification",
+    "creation_date" => "Création",
+    "modification_date" => "Dernière modification",
 
     "projectcall" => [
         "type" => "Type d'appel",

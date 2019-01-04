@@ -46,8 +46,12 @@ html {
     }
 }
 
-table.list-table {
-    td {
-        vertical-align: middle;
+#projectcall_list_wrapper {
+    width: 100%;
+
+    table#projectcall_list {
+        td {
+            vertical-align: middle;
+        }
     }
 }
