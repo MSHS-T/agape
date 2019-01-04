@@ -33,10 +33,10 @@
                 @break(!$loop->first)
                 @if(!empty($application->submitted_at))
                 <a href="{{ route('application.show',$call->applications[0]->id)}}" class="btn btn-secondary d-inline-block my-1">
-                    @svg('solid/edit', 'icon-fw') {{ __('actions.application.show') }}
+                    @svg('solid/search', 'icon-fw') {{ __('actions.application.show') }}
                 </a>
                 @elseif($can_apply)
-                <a href="{{ route('application.update',$call->applications[0]->id)}}" class="btn btn-warning d-inline-block my-1">
+                <a href="{{ route('application.edit',$call->applications[0]->id)}}" class="btn btn-warning d-inline-block my-1">
                     @svg('solid/edit', 'icon-fw') {{ __('actions.application.edit') }}
                 </a>
                 @endif

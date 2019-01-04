@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Application extends Model
 {
+    protected $with = ['projectcall', 'carrier', 'laboratories', 'studyFields', 'files'];
+
     public $fillable = [
         'applicant_id',
         'duration',
