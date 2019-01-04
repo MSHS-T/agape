@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "all" => "Tous",
     "emptyTable" => "Aucun enregistrement disponible",
     "info" => "Page _PAGE_ sur _PAGES_",
     "infoEmpty" => "Aucun enregistrement disponible",

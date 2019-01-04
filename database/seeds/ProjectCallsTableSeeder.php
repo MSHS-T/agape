@@ -28,8 +28,8 @@ class ProjectCallsTableSeeder extends Seeder
             "help_experts" => "Aide experts",
             "help_candidates" => "Aide candidats",
             "creator_id" => 1,
-            "created_at" => "2018-12-01 12:00:00",
-            "updated_at" => "2018-12-01 12:00:00",
+            "created_at" => \Carbon\Carbon::now(),
+            "updated_at" => \Carbon\Carbon::now(),
             "deleted_at" => "2019-01-01 12:00:00"
         ]);
         DB::table('project_calls')->insert([
@@ -49,8 +49,8 @@ class ProjectCallsTableSeeder extends Seeder
             "help_experts" => "Aide experts",
             "help_candidates" => "Aide candidats",
             "creator_id" => 1,
-            "created_at" => "2018-12-01 12:00:00",
-            "updated_at" => "2018-12-01 12:00:00"
+            "created_at" => \Carbon\Carbon::now(),
+            "updated_at" => \Carbon\Carbon::now()
         ]);
         DB::table('project_calls')->insert([
             "type" => 2,
@@ -69,8 +69,8 @@ class ProjectCallsTableSeeder extends Seeder
             "help_experts" => "Aide experts",
             "help_candidates" => "Aide candidats",
             "creator_id" => 1,
-            "created_at" => "2018-12-01 12:00:00",
-            "updated_at" => "2018-12-01 12:00:00"
+            "created_at" => \Carbon\Carbon::now(),
+            "updated_at" => \Carbon\Carbon::now()
         ]);
         DB::table('project_calls')->insert([
             "type" => 3,
@@ -89,8 +89,8 @@ class ProjectCallsTableSeeder extends Seeder
             "help_experts" => "Aide experts",
             "help_candidates" => "Aide candidats",
             "creator_id" => 1,
-            "created_at" => "2018-12-01 12:00:00",
-            "updated_at" => "2018-12-01 12:00:00"
+            "created_at" => \Carbon\Carbon::now(),
+            "updated_at" => \Carbon\Carbon::now()
         ]);
     }
 }

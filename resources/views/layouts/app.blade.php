@@ -81,7 +81,7 @@
         </nav>
 
         <main class="py-4">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-md-10">
                         @if ($errors->any())
@@ -97,8 +97,8 @@
                         </div><br /> @endif
                     </div>
                 </div>
-                <div class="row justify-center">
-                    <div class="col-md-12">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
                         @yield('content')
                     </div>
                 </div>

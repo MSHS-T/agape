@@ -17,7 +17,6 @@ try {
 
 // Load Bootstrap DataTable
 require("datatables.net-bs4");
-require("datatables.net-fixedheader-bs4");
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

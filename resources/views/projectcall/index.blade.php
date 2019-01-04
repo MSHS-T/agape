@@ -11,6 +11,8 @@
                 <th>{{ __('fields.projectcall.title') }}</th>
                 <th>{{ __('fields.projectcall.state') }}</th>
                 <th>{{ __('fields.projectcall.calendar') }}</th>
+                <th>{{ __('fields.creation_date') }}</th>
+                <th>{{ __('fields.modification_date') }}</th>
                 <th data-orderable="false">{{ __('fields.actions') }}</th>
             </tr>
         </thead>
@@ -29,23 +31,27 @@
                     @endif
                 </td>
                 <td>
-                    <u>{{ str_plural(__('fields.projectcall.application')) }} :</u> {{
-                    \Carbon\Carbon::parse($call->application_start_date)->format(__('locale.date_format')) }} -
-                    {{ \Carbon\Carbon::parse($call->application_end_date)->format(__('locale.date_format')) }}<br />
-                    <u>{{ str_plural(__('fields.projectcall.evaluation')) }} :</u> {{
-                    \Carbon\Carbon::parse($call->evaluation_start_date)->format(__('locale.date_format')) }} -
-                    {{ \Carbon\Carbon::parse($call->evaluation_end_date)->format(__('locale.date_format')) }}
+                    <u>{{ str_plural(__('fields.projectcall.application')) }} :</u><br />{{
+                    \Carbon\Carbon::parse($call->application_start_date)->format(__('locale.date_format'))
+                    }}&nbsp;-&nbsp;{{
+                    \Carbon\Carbon::parse($call->application_end_date)->format(__('locale.date_format')) }}<br />
+                    <u>{{ str_plural(__('fields.projectcall.evaluation')) }} :</u><br />{{
+                    \Carbon\Carbon::parse($call->evaluation_start_date)->format(__('locale.date_format'))
+                    }}&nbsp;-&nbsp;{{
+                    \Carbon\Carbon::parse($call->evaluation_end_date)->format(__('locale.date_format')) }}
                 </td>
+                <td>{{ \Carbon\Carbon::parse($call->created_at)->format(__('locale.datetime_format'))}}</td>
+                <td>{{ \Carbon\Carbon::parse($call->updated_at)->format(__('locale.datetime_format'))}}</td>
                 <td>
                     <a href="
-                    {{ route('projectcall.show',$call->id)}}" class=" btn btn-primary d-inline-block">
+                    {{ route('projectcall.show',$call->id)}}" class="btn btn-sm btn-primary d-block">
                         @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
                     </a>
                     @if (empty($call->deleted_at))
-                    <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-warning d-inline-block">
+                    <a href="{{ route('projectcall.edit',$call->id)}}" class="btn btn-sm btn-warning d-block">
                         @svg('solid/edit', 'icon-fw') {{ __('actions.edit') }}
                     </a>
-                    <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-danger archive-link">
+                    <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-sm btn-danger d-block archive-link">
                         @svg('solid/trash', 'icon-fw') {{ __('actions.archive') }}
                     </a>
                     @endif
@@ -99,13 +105,21 @@
         });
         $('.list-table').DataTable({
             autoWidth: true,
-            lengthChange: false,
+            lengthChange: true,
             searching: true,
             ordering: true,
             order: [
-                [0, 'desc']
+                [6, 'desc']
             ],
-            language: @json(__('datatable'))
+            columns: [null, null, null, null, null, null, null, null, {
+                searchable: false
+            }],
+            language: @json(__('datatable')),
+            pageLength: 5,
+            lengthMenu: [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "@lang('datatable.all')"]
+            ]
         });
     });
 
