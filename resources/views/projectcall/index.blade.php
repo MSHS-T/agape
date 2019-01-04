@@ -5,13 +5,13 @@
     <table class="table table-striped table-hover table-bordered list-table">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Type</th>
-                <th>Année</th>
-                <th>Titre</th>
-                <th>État</th>
-                <th>Calendrier</th>
-                <th>Actions</th>
+                <th>{{ __('fields.id') }}</th>
+                <th>{{ __('fields.projectcall.type') }}</th>
+                <th>{{ __('fields.projectcall.year') }}</th>
+                <th>{{ __('fields.projectcall.title') }}</th>
+                <th>{{ __('fields.projectcall.state') }}</th>
+                <th>{{ __('fields.projectcall.calendar') }}</th>
+                <th>{{ __('fields.actions') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -27,10 +27,10 @@
                     @endif
                 </td>
                 <td>
-                    <u>Candidatures :</u> {{
+                    <u>{{ str_plural(__('fields.projectcall.application')) }} :</u> {{
                     \Carbon\Carbon::parse($call->application_start_date)->format(__('locale.date_format')) }} -
                     {{ \Carbon\Carbon::parse($call->application_end_date)->format(__('locale.date_format')) }}<br />
-                    <u>Évaluations :</u> {{
+                    <u>{{ str_plural(__('fields.projectcall.evaluation')) }} :</u> {{
                     \Carbon\Carbon::parse($call->evaluation_start_date)->format(__('locale.date_format')) }} -
                     {{ \Carbon\Carbon::parse($call->evaluation_end_date)->format(__('locale.date_format')) }}
                 </td>
@@ -65,7 +65,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">{{ __('actions.confirm_archive.title') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

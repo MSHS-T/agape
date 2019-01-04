@@ -15,7 +15,9 @@
 
 </script>
 @endswitch
+@if (!empty($projectcalls))
 <div class="jumbotron mt-4">
     {{ dump($projectcalls) }}
 </div>
+@endif
 @endsection

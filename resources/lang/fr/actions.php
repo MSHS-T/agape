@@ -15,6 +15,7 @@ return [
     "cancel" => "Annuler",
     "archive" => "Archiver",
     "unarchive" => "Restaurer",
+    "close" => "Fermer",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",
