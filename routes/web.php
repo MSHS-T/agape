@@ -17,8 +17,17 @@ Route::redirect('/', '/home');
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('home', 'HomeController@index')->name('home');
-
     Route::get('profile', 'HomeController@profile')->name('profile');
+
+    Route::get('download/template/{form}/{type}/{year}', 'DownloadController@template')
+         ->where([
+            'form' => '(Candidature|Financier)',
+            'type' => '(Region|Exploratoire|Workshop)',
+            'year' => '[\d]{4}'
+         ])
+         ->name('download.template');
+    Route::get('download/attachment/{application_id}/{index}', 'DownloadController@attachment')
+         ->name('download.attachment');
 
     Route::get('projectcall/{id}/apply', 'ProjectCallController@apply')->name('projectcall.apply');
     Route::resource('projectcall', 'ProjectCallController');

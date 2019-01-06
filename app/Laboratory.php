@@ -11,7 +11,8 @@ class Laboratory extends Model
         'name',
         'unit_code',
         'director_email',
-        'regency'
+        'regency',
+        'creator_id'
     ];
 
     public function applications(){

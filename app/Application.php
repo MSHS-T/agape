@@ -9,6 +9,8 @@ class Application extends Model
     protected $with = ['projectcall', 'carrier', 'laboratories', 'studyFields', 'files'];
 
     public $fillable = [
+        'title',
+        'acronym',
         'applicant_id',
         'duration',
         'target_date',
@@ -22,6 +24,10 @@ class Application extends Model
         'total_expected_income',
         'total_expected_outcome',
         'submitted_at'
+    ];
+
+    protected $casts = [
+        'keywords' => 'array',
     ];
 
     public function projectcall(){

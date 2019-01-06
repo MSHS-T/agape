@@ -68,6 +68,17 @@ class SettingsTableSeeder extends Seeder
             'key' => 'notation_3_description',
             'value' => '<ul><li>Impact scientifique, social, &eacute;conomique ou culturel</li><li>Capacit&eacute; du projet &agrave; r&eacute;pondre aux enjeux de recherche, acquisitions de nouvelles connaissances et de savoir-faire</li><li>Strat&eacute;gie de diffusion et de valorisation des r&eacute;sultats</li></ul>'
         ]);
-
+        DB::table('settings')->insert([
+            'key' => 'max_number_of_laboratories',
+            'value' => 4
+        ]);
+        DB::table('settings')->insert([
+            'key' => 'max_number_of_study_fields',
+            'value' => 3
+        ]);
+        DB::table('settings')->insert([
+            'key' => 'max_number_of_keywords',
+            'value' => 5
+        ]);
     }
 }

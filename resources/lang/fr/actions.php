@@ -10,6 +10,7 @@ return [
     "toggle_navigation" => "Afficher le menu",
     "show" => "Visualiser",
     "create" => "Créer",
+    "save" => "Enregistrer",
     "edit" => "Modifier",
     "delete" => "Supprimer",
     "cancel" => "Annuler",
@@ -38,7 +39,7 @@ return [
         "edit" => "Modifier l'Appel à Projets",
         "edited" => "L'appel à projets a bien été modifié.",
         "deleted" => "L'appel à projets a bien été supprimé.",
-        "apply" => "Déposer une candidature"
+        "apply" => "Déposer une candidature",
     ],
 
     "application" => [

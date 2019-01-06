@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\Laboratory;
+use App\Person;
+use App\StudyField;
+use App\Enums\CallType;
 use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
@@ -36,7 +40,10 @@ class ApplicationController extends Controller
      */
     public function edit(Application $application)
     {
-        //
+        $carriers = Person::where('is_workshop', $application->projectcall->type == CallType::Workshop)->get();
+        $laboratories = Laboratory::all();
+        $study_fields = StudyField::all();
+        return view('application.edit', compact('application', 'carriers', 'laboratories', 'study_fields'));
     }
 
     /**

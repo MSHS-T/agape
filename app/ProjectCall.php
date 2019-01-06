@@ -30,6 +30,8 @@ class ProjectCall extends Model
         'help_candidates',
     ];
 
+    protected $appends = array('typeLabel');
+
     protected $dates = ['deleted_at'];
 
     public static function boot()
@@ -46,5 +48,9 @@ class ProjectCall extends Model
 
     public function applications(){
         return $this->hasMany('App\Application', 'projectcall_id');
+    }
+
+    public function getTypeLabelAttribute(){
+        return \App\Enums\CallType::getKey($this->type);
     }
 }

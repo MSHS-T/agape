@@ -8,16 +8,22 @@ class Person extends Model
 {
     protected $table = "persons";
 
+    protected $appends = array('name');
+
     public $fillable = [
         'first_name',
         'last_name',
         'email',
         'phone',
         'status',
-        'type'
+        'is_workshop'
     ];
 
     public function applications(){
         return $this->hasMany('App\Application');
+    }
+
+    public function getNameAttribute(){
+        return ucfirst($this->first_name) . " " . strtoupper($this->last_name);
     }
 }

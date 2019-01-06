@@ -20,9 +20,9 @@ class CreatePersonsTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('status');
-            $table->string('type');
+            $table->boolean('is_workshop')->default(false);
             $table->timestamps();
-            $table->unique(['email', 'type']);
+            $table->unique(['email', 'is_workshop']);
         });
     }
 

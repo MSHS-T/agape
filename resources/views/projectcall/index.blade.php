@@ -21,7 +21,7 @@
             @php($statestring = 'fields.projectcall.states.'.(empty($call->deleted_at) ? 'open' : 'archived'))
             <tr>
                 <td>{{$call->id}}</td>
-                <td>{{ __('vocabulary.calltype_short.'.\App\Enums\CallType::getKey($call->type)) }}</td>
+                <td>{{ __('vocabulary.calltype_short.'.$call->typeLabel) }}</td>
                 <td class="text-center">{{$call->year}}</td>
                 <td>{{$call->title}}</td>
                 <td class="text-center" data-search="{{ __($statestring) }}" data-toggle="tooltip" data-placement="right"
@@ -91,7 +91,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -122,4 +122,4 @@
     });
 
 </script>
-@endsection
+@endpush

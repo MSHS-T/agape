@@ -20,6 +20,8 @@ class CreateApplicationsTable extends Migration
 
             // All form fields must be nullable because user must be able to save an incomplete application without submitting it
             // Section 1
+            $table->string('title')->nullable();
+            $table->string('acronym')->nullable();
             $table->unsignedInteger('carrier_id')->nullable();
             // Laboratories are linked using a pivot table in another migration
             $table->string('duration')->nullable();
@@ -28,7 +30,7 @@ class CreateApplicationsTable extends Migration
             $table->text('theme')->nullable();
             $table->text('summary_fr')->nullable();
             $table->text('summary_en')->nullable();
-            $table->text('keywords')->nullable();
+            $table->text('keywords')->default('[]');
 
             // Section 2
             // Partners are linked using a foreign key in application_partners table

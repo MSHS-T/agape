@@ -5,9 +5,7 @@
         <div class="card text-center" style="min-height: 17rem;">
             <div class="card-body">
                 <h3 class="card-title">
-                    {{ __('vocabulary.calltype_short.'.\App\Enums\CallType::getKey($call->type)) . ' - ' .
-                    $call->year
-                    }}
+                    {{ __('vocabulary.calltype_short.'.$call->typeLabel) . ' - ' . $call->year }}
                 </h3>
                 <div class="card-text">
                     <h4>{{$call->title}}</h4>
