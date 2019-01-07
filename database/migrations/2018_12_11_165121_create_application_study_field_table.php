@@ -19,7 +19,6 @@ class CreateApplicationStudyFieldTable extends Migration
             $table->unsignedInteger('study_field_id');
             $table->foreign('application_id')->references('id')->on('applications');
             $table->foreign('study_field_id')->references('id')->on('study_fields');
-            $table->timestamps();
         });
     }
 

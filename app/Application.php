@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Application extends Model
 {
-    protected $with = ['projectcall', 'carrier', 'laboratories', 'studyFields', 'files'];
+    protected $with = ['projectcall', 'carrier', 'studyFields', 'files'];
 
     public $fillable = [
         'title',
@@ -43,7 +43,7 @@ class Application extends Model
     }
 
     public function laboratories(){
-        return $this->belongsToMany('App\Laboratory', 'application_laboratory', 'application_id', 'laboratory_id');
+        return $this->belongsToMany('App\Laboratory', 'application_laboratory', 'application_id', 'laboratory_id')->withPivot('order');
     }
 
     public function studyFields(){

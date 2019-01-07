@@ -17,7 +17,7 @@
     \Carbon\Carbon::parse($application->projectcall->evaluation_end_date)->format(__('locale.date_format')) }}
 </p>
 
-<form method="POST" action="{{ route('application.update', $application->id) }}">
+<form method="POST" action="{{ route('application.update', $application->id) }}" id="application_form">
     @csrf @method("PUT")
     {{-- SECTION 1 : Infos Générales --}}
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-1">{{
@@ -37,13 +37,8 @@
     'value' => old('acronym', $application->acronym)
     ])
 
-    @include('forms.hidden', [
-    'name' => 'carrier_id',
-    'value' => old('carrier_id', $application->carrier_id)
-    ])
-
     @include('forms.selectorother', [
-    'name' => 'carrier',
+    'name' => 'carrier_id',
     'label' => __('fields.application.carrier.'.$application->projectcall->typeLabel),
     'allowedValues' => $carriers,
     'allowNone' => false,
@@ -85,7 +80,7 @@
     ])
     @foreach(range(1,\App\Setting::get('max_number_of_laboratories')) as $index => $iteration)
     @include('forms.selectorother', [
-    'name' => 'laboratory_'.$iteration,
+    'name' => 'laboratory_id_'.$iteration,
     'label' => __('fields.application.laboratory_'.($iteration == 1 ? 1 : 'n'), ['index' => $iteration]),
     'allowedValues' => $laboratories,
     'allowNone' => true,
@@ -277,8 +272,72 @@
     <div class="form-group row">
         <div class="col-sm-9 offset-sm-3">
             <a href="{{ route('projectcall.index') }}" class="btn btn-secondary">{{ __('actions.cancel') }}</a>
-            <button type="submit" class="btn btn-primary">@svg('solid/check') {{ __('actions.save') }}</button>
+            <button type="submit" name="save" class="btn btn-primary">@svg('solid/save') {{ __('actions.save') }}</button>
+            <a href="{{ route('projectcall.apply', ['id' => $application->id]) }}" class="btn btn-success submission-link">@svg('solid/check')
+                {{ __('actions.application.submit') }}</a>
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="confirm-submission" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('actions.application.confirm_submission.title') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('actions.application.confirm_submission.body') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                <form id="confirmation-form" action="" method="post">
+                    @csrf @method('DELETE')
+                    <button class="btn btn-danger" type="submit">{{ __('actions.submit') }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="error-submission" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('fields.error') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('actions.application.confirm_submission.error_unsaved') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.close') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
+@push('scripts')
+<script type="text/javascript">
+    var form_old;
+    $(document).ready(function () {
+        form_old = $("form#application_form").serialize();
+
+        $('.submission-link').click(function (e) {
+            e.preventDefault();
+            var form_dirty = $("form#application_form").serialize();
+            if (form_old !== form_dirty) {
+                var targetUrl = jQuery(this).attr('href');
+                $("form#confirmation-form").attr('action', targetUrl);
+                $(".modal#confirm-submission").modal();
+            } else {
+                $('.modal#error-submission').modal();
+            }
+        });
+    });
+
+</script>
+@endpush

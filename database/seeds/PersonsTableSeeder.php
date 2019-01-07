@@ -12,6 +12,7 @@ class PersonsTableSeeder extends Seeder
     public function run()
     {
         DB::table('persons')->insert([
+            'creator_id' => 1,
             'first_name' => 'Michael',
             'last_name' => 'Jackson',
             'email' => 'kingofpop@gmail.com',
@@ -20,6 +21,7 @@ class PersonsTableSeeder extends Seeder
             'is_workshop' => false
         ]);
         DB::table('persons')->insert([
+            'creator_id' => 1,
             'first_name' => 'Freddy',
             'last_name' => 'Mercury',
             'email' => 'bohemianrhapsody@gmail.com',
@@ -28,6 +30,7 @@ class PersonsTableSeeder extends Seeder
             'is_workshop' => false
         ]);
         DB::table('persons')->insert([
+            'creator_id' => 1,
             'first_name' => 'Johnny',
             'last_name' => 'Hallyday',
             'email' => 'lepatron@gmail.com',
@@ -36,6 +39,7 @@ class PersonsTableSeeder extends Seeder
             'is_workshop' => true
         ]);
         DB::table('persons')->insert([
+            'creator_id' => 1,
             'first_name' => 'Claude',
             'last_name' => 'Nougaro',
             'email' => 'ohtoulouse@gmail.com',
@@ -44,6 +48,7 @@ class PersonsTableSeeder extends Seeder
             'is_workshop' => false
         ]);
         DB::table('persons')->insert([
+            'creator_id' => 1,
             'first_name' => 'Francis',
             'last_name' => 'Cabrel',
             'email' => 'petitemarie@gmail.com',
@@ -52,6 +57,7 @@ class PersonsTableSeeder extends Seeder
             'is_workshop' => true
         ]);
         DB::table('persons')->insert([
+            'creator_id' => 1,
             'first_name' => 'Patrick',
             'last_name' => 'Bruel',
             'email' => 'casserlavoix@gmail.com',
@@ -60,6 +66,7 @@ class PersonsTableSeeder extends Seeder
             'is_workshop' => true
         ]);
         DB::table('persons')->insert([
+            'creator_id' => 1,
             'first_name' => 'Serge',
             'last_name' => 'Gainsbourg',
             'email' => 'gainsbarre@gmail.com',

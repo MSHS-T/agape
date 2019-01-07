@@ -19,7 +19,7 @@ class CreateApplicationLaboratoryTable extends Migration
             $table->unsignedInteger('laboratory_id');
             $table->foreign('application_id')->references('id')->on('applications');
             $table->foreign('laboratory_id')->references('id')->on('laboratories');
-
+            $table->unsignedTinyInteger('order');
         });
     }
 

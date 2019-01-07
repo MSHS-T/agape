@@ -17,6 +17,7 @@ return [
     "archive" => "Archiver",
     "unarchive" => "Restaurer",
     "close" => "Fermer",
+    "submit" => "Soumettre",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",
@@ -45,6 +46,13 @@ return [
     "application" => [
         "list" => "Candidatures",
         "mylist" => "Mes Candidatures",
-        "edit" => "Modifier ma candidature"
+        "edit" => "Modifier ma candidature",
+        "submit" => "Soumettre ma candidature",
+        "confirm_submission" => [
+            "title" => "Confirmer la soumission",
+            "body" => "Êtes-vous sur de vouloir soumettre votre candidature ? Cette action est définitive",
+            "error_unsaved" => "Vous devez d'abord sauvegarder votre candidature avant de pouvoir la soumettre."
+        ],
+        'saved' => 'Votre candidature a été sauvegardée. Pensez à la soumettre avant la date limite.'
     ]
 ];

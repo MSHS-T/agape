@@ -21,8 +21,11 @@ class CreatePersonsTable extends Migration
             $table->string('phone');
             $table->string('status');
             $table->boolean('is_workshop')->default(false);
+            $table->unsignedInteger('creator_id');
             $table->timestamps();
+
             $table->unique(['email', 'is_workshop']);
+            $table->foreign('creator_id')->references('id')->on('users');
         });
     }
 

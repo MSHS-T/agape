@@ -39,11 +39,11 @@ $id = 'input'.ucfirst(camel_case($name));
         $('select#{{$id}}').change(function (e) {
             var fields = @json($fields);
             var selectionId = $(this).val();
-            $('#inputCarrierId').val(selectionId);
             if (selectionId == "new" || selectionId == "none") {
                 _.each(fields, function (field) {
                     var fieldId = "#input" + _.upperFirst(_.camelCase(field.name));
                     $(fieldId).val("");
+                    $(fieldId).attr('readonly', false);
                 });
             } else {
                 var value = _.find(@json($allowedValues), function (i) {
@@ -52,6 +52,7 @@ $id = 'input'.ucfirst(camel_case($name));
                 _.each(fields, function (field) {
                     var fieldId = "#input" + _.upperFirst(_.camelCase(field.name));
                     $(fieldId).val(value[field.valueField]);
+                    $(fieldId).attr('readonly', true);
                 });
             }
             if (selectionId == "none") {

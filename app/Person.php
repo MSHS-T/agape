@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Person extends Model
 {
@@ -18,6 +19,14 @@ class Person extends Model
         'status',
         'is_workshop'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($call) {
+            $call->creator_id = Auth::id();
+        });
+    }
 
     public function applications(){
         return $this->hasMany('App\Application');
