@@ -46,6 +46,7 @@ return [
     "application" => [
         "list" => "Candidatures",
         "mylist" => "Mes Candidatures",
+        "show" => "Visualiser ma candidature",
         "edit" => "Modifier ma candidature",
         "submit" => "Soumettre ma candidature",
         "confirm_submission" => [
