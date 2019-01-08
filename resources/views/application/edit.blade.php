@@ -276,7 +276,7 @@
         <div class="col-sm-9 offset-sm-3">
             <a href="{{ route('home') }}" class="btn btn-secondary">{{ __('actions.cancel') }}</a>
             <button type="submit" name="save" class="btn btn-primary">@svg('solid/save') {{ __('actions.save') }}</button>
-            <a href="{{ route('projectcall.apply', ['id' => $application->id]) }}" class="btn btn-success submission-link">@svg('solid/check')
+            <a href="{{ route('application.submit', ['id' => $application->id]) }}" class="btn btn-success submission-link">@svg('solid/check')
                 {{ __('actions.application.submit') }}</a>
         </div>
     </div>
@@ -297,7 +297,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
                 <form id="confirmation-form" action="" method="post">
-                    @csrf @method('DELETE')
+                    @csrf @method('PUT')
                     <button class="btn btn-danger" type="submit">{{ __('actions.submit') }}</button>
                 </form>
             </div>
@@ -332,7 +332,7 @@
         $('.submission-link').click(function (e) {
             e.preventDefault();
             var form_dirty = $("form#application_form").serialize();
-            if (form_old !== form_dirty) {
+            if (form_old === form_dirty) {
                 var targetUrl = jQuery(this).attr('href');
                 $("form#confirmation-form").attr('action', targetUrl);
                 $(".modal#confirm-submission").modal();

@@ -53,6 +53,7 @@ return [
             "body" => "Êtes-vous sur de vouloir soumettre votre candidature ? Cette action est définitive",
             "error_unsaved" => "Vous devez d'abord sauvegarder votre candidature avant de pouvoir la soumettre."
         ],
-        'saved' => 'Votre candidature a été sauvegardée. Pensez à la soumettre avant la date limite.'
+        'saved' => 'Votre candidature a été sauvegardée. Pensez à la soumettre avant la date limite.',
+        'submitted' => 'Votre candidature a été soumise avec succès.'
     ]
 ];

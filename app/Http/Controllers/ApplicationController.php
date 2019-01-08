@@ -11,6 +11,7 @@ use App\StudyField;
 use App\Enums\CallType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
@@ -90,6 +91,7 @@ class ApplicationController extends Controller
                     return $data->{"carrier_$f"};
                 }, $carrier_fields)
             );
+            $carrier->is_workshop = $application->projectcall->type == CallType::Workshop;
             $carrier = new Person($carrier_data);
             $carrier->save();
             $application->carrier()->associate($carrier);
@@ -180,7 +182,6 @@ class ApplicationController extends Controller
 
         $application->save();
         return redirect()->route('application.edit', ["application" => $application->id])
-        // return redirect()->route('home')
                          ->with('success', __('actions.application.saved'));
     }
 
@@ -190,8 +191,66 @@ class ApplicationController extends Controller
      * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function submit(Application $application)
+    public function submit($id)
     {
+        $application = Application::findOrFail($id);
+        dump($application->toArray());
+        $validator = Validator::make($application->toArray(), [
+            'title' => 'required|max:255',
+            'acronym' => 'required|max:15',
+            'carrier_id' => 'required|exists:persons,id',
+            'carrier.first_name' => 'required|max:255',
+            'carrier.last_name' => 'required|max:255',
+            'carrier.email' => 'required|max:255|email',
+            'carrier.phone' => 'required|max:255',
+            'carrier.status' => 'required|max:255',
+            'laboratories' => 'required',
+            'laboratories.*.id' => 'required|exists:laboratories,id',
+            'laboratories.*.name' => 'required|max:255',
+            'laboratories.*.unit_code' => 'required|max:255',
+            'laboratories.*.director_email' => 'required|max:255|email',
+            'laboratories.*.regency' => 'required|max:255',
+            'duration' =>'required_unless:projectcall.type,'.CallType::Workshop.'|max:255',
+            'target_date' =>'required_if:projectcall.type,'.CallType::Workshop.'|max:255',
+            'study_fields' => 'required',
+            'study_fields.*.id' => 'required|exists:study_fields,id',
+            'summary_fr' => 'required',
+            'summary_en' => 'required',
+            'keywords' => 'required',
+            'keywords.*' => 'max:100',
+            'short_description' => 'required',
+            'amount_requested' => 'required|numeric|min:0',
+            'other_fundings' => 'required|numeric|min:0',
+            'total_expected_income' => 'required|numeric|min:0',
+            'total_expected_outcome' => 'required|numeric|min:0',
+            'files' => [function($attribute, $value, $fail){
+                $orders = array_column($value, 'order');
+                if(!in_array(1, $orders)){
+                    $fail(__('validation.required', [
+                        'attribute' => __('fields.application.template.prefix.application')
+                    ]));
+                }
+                if(!in_array(2, $orders)){
+                    $fail(__('validation.required', [
+                        'attribute' => __('fields.application.template.prefix.financial')
+                    ]));
+                }
+            }],
+            'files.*.id' => 'required|exists:application_files,id',
+            'files.*.order' => 'required|integer|min:1'
+        ]);
 
+        if ($validator->fails()) {
+            return redirect()
+                        ->route('application.edit', ["application" => $application->id])
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $application->submitted_at = \Carbon\Carbon::now();
+        $application->save();
+
+        return redirect()->route('home')
+                         ->with('success', __('actions.application.submitted'));
     }
 }
