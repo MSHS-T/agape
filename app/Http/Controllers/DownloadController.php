@@ -25,12 +25,12 @@ class DownloadController extends Controller
 
     public function attachment($application_id, $index){
         $application = \App\Application::findOrFail($application_id);
-        $file = $application->files()->firstWhere('order', $index);
+        $file = $application->files()->where('order', $index)->first();
         if(is_null($file)){
             abort(404);
         }
-        return response()->download($file->filepath, $file->name, [
-            'Content-Length: '. filesize($file->filepath)
+        return response()->download(base_path($file->filepath), $file->name, [
+            'Content-Length: '. filesize(base_path($file->filepath))
         ]);
     }
 }

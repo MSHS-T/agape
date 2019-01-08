@@ -17,7 +17,7 @@
     \Carbon\Carbon::parse($application->projectcall->evaluation_end_date)->format(__('locale.date_format')) }}
 </p>
 
-<form method="POST" action="{{ route('application.update', $application->id) }}" id="application_form">
+<form method="POST" action="{{ route('application.update', $application->id) }}" id="application_form" enctype="multipart/form-data">
     @csrf @method("PUT")
     {{-- SECTION 1 : Infos Générales --}}
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-1">{{
@@ -251,27 +251,30 @@
     'label' => __('fields.application.template.prefix.application'),
     'value' => $application->files->where('order', 1),
     'multiple' => false,
-    'help' => true
+    'help' => true,
+    'accept' => '.xls,.xlsx'
     ])
     @include('forms.fileupload', [
     'name' => 'financial_form',
     'label' => __('fields.application.template.prefix.financial'),
     'value' => $application->files->where('order', 2),
     'multiple' => false,
-    'help' => true
+    'help' => true,
+    'accept' => '.xls,.xlsx'
     ])
     @include('forms.fileupload', [
     'name' => 'other_attachments',
     'label' => __('fields.application.other_attachments'),
     'value' => $application->files->whereNotIn('order', [1,2]),
     'multiple' => true,
-    'help' => true
+    'help' => true,
+    'accept' => '.pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.zip,.rar,.tar'
     ])
 
     <hr />
     <div class="form-group row">
         <div class="col-sm-9 offset-sm-3">
-            <a href="{{ route('projectcall.index') }}" class="btn btn-secondary">{{ __('actions.cancel') }}</a>
+            <a href="{{ route('home') }}" class="btn btn-secondary">{{ __('actions.cancel') }}</a>
             <button type="submit" name="save" class="btn btn-primary">@svg('solid/save') {{ __('actions.save') }}</button>
             <a href="{{ route('projectcall.apply', ['id' => $application->id]) }}" class="btn btn-success submission-link">@svg('solid/check')
                 {{ __('actions.application.submit') }}</a>

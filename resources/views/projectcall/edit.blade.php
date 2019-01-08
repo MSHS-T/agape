@@ -107,6 +107,7 @@
             <textarea class="form-control" id="inputHelpCandidates" name="help_candidates" rows="10" placeholder="{{ __('fields.projectcall.help_candidates') }}">{{ old('help_candidates', $projectcall->help_candidates) }}</textarea>
         </div>
     </div>
+    <hr />
     <div class="form-group row">
         <div class="col-sm-9 offset-sm-3">
             <a href="{{ route('projectcall.index') }}" class="btn btn-secondary">{{ __('actions.cancel') }}</a>

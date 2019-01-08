@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\ApplicationFile;
 use App\Laboratory;
 use App\Person;
 use App\Setting;
@@ -10,6 +11,7 @@ use App\StudyField;
 use App\Enums\CallType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
@@ -119,7 +121,6 @@ class ApplicationController extends Controller
         $application->studyFields()->detach();
         foreach(range(1, Setting::get('max_number_of_study_fields')) as $iteration){
             if(is_numeric($data->{"study_field_".$iteration})){
-                dump($data->{"study_field_".$iteration});
                 $sf = StudyField::find($data->{"study_field_".$iteration});
                 $application->studyFields()->attach($sf);
             }
@@ -135,10 +136,52 @@ class ApplicationController extends Controller
         $application->keywords = $keywords;
 
         // Files
-        // Later
+        // Replace only if a file has been sent
+        $specific_files = ['application_form' => 1, 'financial_form' => 2];
+        foreach($specific_files as $form_name => $order){
+            if($request->hasFile($form_name)
+            && ($rFile = $request->file($form_name))->isValid()
+            && in_array($rFile->getClientOriginalExtension(), ['xls', 'xlsx'])){
+                $existingFile = $application->files()->where('order', $order)->delete();
+                $name = $rFile->getClientOriginalName();
+                $extension = $rFile->getClientOriginalExtension();
+                $uniqname = str_random(40).'.'.$extension;
+                $path = Storage::disk('public')->putFileAs('uploads', $rFile, $uniqname);
+                $application->files()->create([
+                    'order' => $order,
+                    'name' => $name,
+                    'filepath' => $path
+                ]);
+            }
+        }
+        $order = max(array_values($specific_files));
+        if($request->hasFile('other_attachments')){
+            $existingFiles = $application->files()
+                                         ->whereNotIn('order', array_values($specific_files))
+                                         ->delete();
+            foreach($request->file('other_attachments') as $rFile){
+                if(!$rFile->isValid()
+                || !in_array(
+                    $rFile->getClientOriginalExtension(),
+                    ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'jpg', 'jpeg', 'png', 'gif', 'zip', 'rar', 'tar'])){
+                    continue;
+                }
+                $name = $rFile->getClientOriginalName();
+                $extension = $rFile->getClientOriginalExtension();
+                $uniqname = str_random(40).'.'.$extension;
+                $path = Storage::disk('public')->putFileAs('uploads', $rFile, $uniqname);
+                $application->files()->create([
+                    'order' => ++$order,
+                    'name' => $name,
+                    'filepath' => $path
+                ]);
+            }
+        }
 
         $application->save();
-        // return redirect()->route('home')->with('success', __('actions.application.saved'));
+        return redirect()->route('application.edit', ["application" => $application->id])
+        // return redirect()->route('home')
+                         ->with('success', __('actions.application.saved'));
     }
 
     /**
