@@ -10517,3 +10517,11 @@ label.col-form-label {
   font-weight: bold;
 }
 
+div.application-display {
+  font-size: 1.1rem;
+}
+
+div.application-display table {
+  font-size: 90%;
+}
+

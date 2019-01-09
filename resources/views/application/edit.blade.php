@@ -22,9 +22,6 @@
     {{-- SECTION 1 : Infos Générales --}}
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-1">{{
         __('fields.application.form.section_1') }}</h2>
-    @push('scrollspy')
-    <a href="#form-section-1">{{ __('fields.application.form.section_1') }}</a>
-    @endpush
     @include('forms.textinput', [
     'name' => 'title',
     'label' => __('fields.application.title.'.$application->projectcall->typeLabel),
@@ -178,11 +175,6 @@
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-2">
         {{ __('fields.application.form.section_2.'.$application->projectcall->typeLabel) }}
     </h2>
-    @push('scrollspy')
-    <a href="#form-section-2">
-        {{ __('fields.application.form.section_2.'.$application->projectcall->typeLabel) }}
-    </a>
-    @endpush
     @include('forms.textarea', [
     'name' => 'short_description',
     'label' => __('fields.application.short_description.'.$application->projectcall->typeLabel),
@@ -194,11 +186,6 @@
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-3">
         {{ __('fields.application.form.section_3.'.$application->projectcall->typeLabel) }}
     </h2>
-    @push('scrollspy')
-    <a href="#form-section-3">
-        {{ __('fields.application.form.section_3.'.$application->projectcall->typeLabel) }}
-    </a>
-    @endpush
     @include('forms.textinput', [
     'name' => 'amount_requested',
     'label' => __('fields.application.amount_requested'),
@@ -230,11 +217,6 @@
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-4">
         {{ __('fields.application.form.section_4') }}
     </h2>
-    @push('scrollspy')
-    <a href="#form-section-4">
-        {{ __('fields.application.form.section_4') }}
-    </a>
-    @endpush
     @foreach(["application"=>"Candidature", "financial"=>"Financier"] as $key => $value)
     @include('forms.filedownload', [
     'text' =>

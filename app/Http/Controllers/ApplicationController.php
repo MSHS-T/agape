@@ -34,7 +34,7 @@ class ApplicationController extends Controller
      */
     public function show(Application $application)
     {
-        //
+        return view('application.show', compact('application'));
     }
 
     /**
@@ -45,6 +45,9 @@ class ApplicationController extends Controller
      */
     public function edit(Application $application)
     {
+        if(!empty($application->submitted_at)){
+            return redirect()->route('home');
+        }
         $carriers = Person::where('is_workshop', $application->projectcall->type == CallType::Workshop)->get();
         $laboratories = Laboratory::all();
         $study_fields = StudyField::all();

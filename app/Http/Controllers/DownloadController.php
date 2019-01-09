@@ -29,8 +29,8 @@ class DownloadController extends Controller
         if(is_null($file)){
             abort(404);
         }
-        return response()->download(base_path($file->filepath), $file->name, [
-            'Content-Length: '. filesize(base_path($file->filepath))
+        return response()->download(public_path('storage/'.$file->filepath), $file->name, [
+            'Content-Length: '. filesize(public_path('storage/'.$file->filepath))
         ]);
     }
 }
