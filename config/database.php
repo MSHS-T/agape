@@ -1,11 +1,20 @@
 <?php
 
-$url = parse_url(getenv("DATABASE_URL"));
-
-$host = $url["host"];
-$username = $url["user"];
-$password = $url["pass"];
-$database = substr($url["path"], 1);
+$db_url = env("DATABASE_URL", null);
+if($db_url !== null){
+    $url = parse_url($db_url);
+    $host = $url["host"];
+    $port = $url["port"];
+    $username = $url["user"];
+    $password = $url["pass"];
+    $database = substr($url["path"], 1);
+} else {
+    $host = '127.0.0.1';
+    $port = '3306';
+    $username = 'root';
+    $password = 'root';
+    $database = 'db';
+}
 
 return [
 
@@ -42,7 +51,7 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', $host),
-            // 'port' => env('DB_PORT', '3306'),
+            'port' => env('DB_PORT', $port),
             'database' => env('DB_DATABASE', $database),
             'username' => env('DB_USERNAME', $username),
             'password' => env('DB_PASSWORD', $password),
