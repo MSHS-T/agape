@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert([
             'first_name' => 'Administrateur',
             'last_name' => 'AGAPE',
-            'email' => 'romain@3rgo.tech',
+            'email' => 'admin@3rgo.tech',
             'email_verified_at' => '2018-12-14 12:00:00',
             'role' => UserRole::Admin,
             'password' => bcrypt('admin'),
@@ -30,6 +30,15 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => '2018-12-14 12:00:00',
             'role' => UserRole::Candidate,
             'password' => bcrypt('candidat'),
+        ]);
+        // Insert expert user
+        DB::table('users')->insert([
+            'first_name' => 'Expert',
+            'last_name' => 'AGAPE',
+            'email' => 'expert@3rgo.tech',
+            'email_verified_at' => '2018-12-14 12:00:00',
+            'role' => UserRole::Expert,
+            'password' => bcrypt('expert'),
         ]);
 
         $this->call(SettingsTableSeeder::class);
