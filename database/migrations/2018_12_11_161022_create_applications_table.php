@@ -30,7 +30,7 @@ class CreateApplicationsTable extends Migration
             $table->text('theme')->nullable();
             $table->text('summary_fr')->nullable();
             $table->text('summary_en')->nullable();
-            $table->text('keywords')->default('[]');
+            $table->text('keywords');
 
             // Section 2
             // Partners are linked using a foreign key in application_partners table
