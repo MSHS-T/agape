@@ -21,7 +21,10 @@ class HomeController extends Controller
                 $projectcalls = ProjectCall::with(['applications' => function($query){
                     $query->where('applicant_id', Auth::id());
                 }])->orderBy('created_at', 'desc')->get();
-            break;
+                break;
+            case UserRole::Admin:
+                $projectcalls = ProjectCall::with('applications')->orderBy('created_at', 'desc')->get();
+                break;
             default:
                 $projectcalls = [];
         }

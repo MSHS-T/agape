@@ -30,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
          ->name('download.attachment');
 
     Route::get('projectcall/{id}/apply', 'ProjectCallController@apply')->name('projectcall.apply');
+    Route::get('projectcall/{id}/applications', 'ProjectCallController@applications')->name('projectcall.applications');
     Route::resource('projectcall', 'ProjectCallController');
 
     Route::put('application/submit/{id}', 'ApplicationController@submit')->name('application.submit');

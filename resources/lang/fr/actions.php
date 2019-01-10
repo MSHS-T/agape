@@ -48,6 +48,7 @@ return [
         "list" => "Candidatures",
         "mylist" => "Mes Candidatures",
         "show" => "Visualiser ma candidature",
+        "show_all" => "Visualiser les candidatures (:count)",
         "edit" => "Modifier ma candidature",
         "submit" => "Soumettre ma candidature",
         "confirm_submission" => [
@@ -57,5 +58,9 @@ return [
         ],
         'saved' => 'Votre candidature a été sauvegardée. Pensez à la soumettre avant la date limite.',
         'submitted' => 'Votre candidature a été soumise avec succès.'
+    ],
+
+    'evaluation' => [
+        "show_all" => "Visualiser les evaluations (:count)",
     ]
 ];

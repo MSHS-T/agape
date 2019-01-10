@@ -182,4 +182,17 @@ class ProjectCallController extends Controller
         $application->save();
         return redirect()->route('application.edit', $application->id);
     }
+
+    /**
+     * Lists applications for the given project call
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function applications($id)
+    {
+        $projectcall = ProjectCall::findOrFail($id);
+        $applications = $projectcall->applications()->where('submitted_at', '!=', null)->get();
+        return view('application.index', compact('applications'));
+    }
 }
