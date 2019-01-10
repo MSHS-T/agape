@@ -5,6 +5,7 @@ namespace App;
 use App\Observer\ProjectCallObserver;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +40,9 @@ class ProjectCall extends Model
         parent::boot();
         static::creating(function ($call) {
             $call->creator_id = Auth::id();
+        });
+        static::addGlobalScope('creation_date', function (Builder $builder) {
+            $builder->orderBy('created_at', 'desc');
         });
     }
 
