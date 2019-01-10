@@ -79,10 +79,6 @@
         <div class="col-9">{!! $projectcall->help_candidates !!}</div>
     </div>
     @endif
-    <div class="row">
-        <div class="col-12 text-center">
-            <a href="{{ url()->previous() }}" class="btn btn-secondary">{{ __('actions.back') }}</a>
-        </div>
-    </div>
+    @include('partials.back_button')
 </div>
 @endsection

@@ -173,5 +173,6 @@
                 @endforeach
         </div>
     </div>
+    @include('partials.back_button')
 </div>
 @endsection
