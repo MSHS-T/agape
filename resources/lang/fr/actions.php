@@ -8,6 +8,7 @@ return [
     "send_reset_password" => "Envoyer le lien de réinitialisation",
     "reset_password" => "Réinitialiser le mot de passe",
     "toggle_navigation" => "Afficher le menu",
+    "back" => "Retour",
     "show" => "Visualiser",
     "create" => "Créer",
     "save" => "Enregistrer",
