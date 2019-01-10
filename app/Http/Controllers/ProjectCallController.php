@@ -97,7 +97,9 @@ class ProjectCallController extends Controller
      */
     public function show($id)
     {
-        //
+        $projectcall = ProjectCall::findOrFail($id);
+
+        return view('projectcall.show', compact('projectcall'));
     }
 
     /**
@@ -191,8 +193,8 @@ class ProjectCallController extends Controller
      */
     public function applications($id)
     {
-        $projectcall = ProjectCall::findOrFail($id);
-        $applications = $projectcall->applications()->where('submitted_at', '!=', null)->get();
-        return view('application.index', compact('applications'));
+        $projectcall = ProjectCall::with('applications', 'applications.applicant')->findOrFail($id);
+        $projectcall->applications()->where('submitted_at', '!=', null)->get();
+        return view('application.index', compact('projectcall'));
     }
 }

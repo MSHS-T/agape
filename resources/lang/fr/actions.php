@@ -46,8 +46,10 @@ return [
 
     "application" => [
         "list" => "Candidatures",
+        "list_count" => "Candidatures (:count)",
         "mylist" => "Mes Candidatures",
         "show" => "Visualiser ma candidature",
+        "show_a" => "Visualiser une candidature",
         "show_all" => "Visualiser les candidatures (:count)",
         "edit" => "Modifier ma candidature",
         "submit" => "Soumettre ma candidature",
@@ -61,6 +63,7 @@ return [
     ],
 
     'evaluation' => [
+        "list_count" => "Évaluations (:count)",
         "show_all" => "Visualiser les evaluations (:count)",
     ]
 ];

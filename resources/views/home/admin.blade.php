@@ -28,14 +28,14 @@
                 $can_evaluate = $today >= $call->evaluation_start_date;
                 @endphp
                 @if($can_apply)
-                <a href="{{ route('projectcall.applications', ['projectcall' => $call->id])}}" class="btn btn-secondary d-inline-block my-1">
-                    @svg('solid/search', 'icon-fw') {{ __('actions.application.show_all', ['count' =>
+                <a href="{{ route('projectcall.applications', ['projectcall' => $call->id]) }}" class="btn btn-info d-inline-block my-1">
+                    @svg('solid/link', 'icon-fw') {{ __('actions.application.show_all', ['count' =>
                     count($call->applications)]) }}
                 </a>
                 @endif
                 @if($can_evaluate)
-                <a href="#" class="btn btn-secondary d-inline-block my-1">
-                    @svg('solid/search', 'icon-fw') {{ __('actions.evaluation.show_all', ['count' =>
+                <a href="#" class="btn btn-success d-inline-block my-1">
+                    @svg('solid/graduation-cap', 'icon-fw') {{ __('actions.evaluation.show_all', ['count' =>
                     0]) }}
                 </a>
                 @endif

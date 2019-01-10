@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
-<h2 class="mb-3 text-center">{{ __('actions.application.show') }}</h2>
+<h2 class="mb-3 text-center">
+    {{ __('actions.application.show' . ($application->applicant_id != Auth::id() ? "_a" : "")) }}
+</h2>
 <h3 class="text-center">{{
     __('vocabulary.calltype_short.'.$application->projectcall->typeLabel) }} :
     {{$application->projectcall->year}}

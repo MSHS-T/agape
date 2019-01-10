@@ -18,7 +18,12 @@
         </thead>
         <tbody>
             @foreach($projectcalls as $call)
-            @php($statestring = 'fields.projectcall.states.'.(empty($call->deleted_at) ? 'open' : 'archived'))
+            @php
+            $today = \Carbon\Carbon::parse('today');
+            $can_apply = $today >= $call->application_start_date;
+            $can_evaluate = $today >= $call->evaluation_start_date;
+            $statestring = 'fields.projectcall.states.'.(empty($call->deleted_at) ? 'open' : 'archived')
+            @endphp
             <tr>
                 <td>{{$call->id}}</td>
                 <td>{{ __('vocabulary.calltype_short.'.$call->typeLabel) }}</td>
@@ -53,6 +58,18 @@
                     </a>
                     <a href="{{ route('projectcall.destroy', $call->id)}}" class="btn btn-sm btn-danger d-block archive-link">
                         @svg('solid/trash', 'icon-fw') {{ __('actions.archive') }}
+                    </a>
+                    @endif
+                    @if($can_apply)
+                    <a href="{{ route('projectcall.applications', ['projectcall' => $call->id])}}" class="btn btn-sm btn-info d-block">
+                        @svg('solid/link', 'icon-fw') {{ __('actions.application.list_count', ['count' =>
+                        count($call->applications)]) }}
+                    </a>
+                    @endif
+                    @if($can_evaluate)
+                    <a href="#" class="btn btn-sm btn-success d-block">
+                        @svg('solid/graduation-cap', 'icon-fw') {{ __('actions.evaluation.list_count', ['count' => 0])
+                        }}
                     </a>
                     @endif
                 </td>
