@@ -18,6 +18,7 @@ return [
     "unarchive" => "Restaurer",
     "close" => "Fermer",
     "submit" => "Soumettre",
+    "home" => "Accueil",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",
