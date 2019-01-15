@@ -166,7 +166,8 @@
     @include('forms.textinput', [
     'name' => 'keyword_'.$iteration,
     'label' => __('fields.application.keyword_n', ['index' => $iteration]),
-    'value' => old('keyword_'.$iteration, (count($application->keywords) >= $iteration ?
+    'value' => old('keyword_'.$iteration, (count(is_array($application->keywords) ? $application->keywords :
+    json_decode($application->keywords)) >= $iteration ?
     $application->keywords[$index] : '')),
     ])
     @endforeach
