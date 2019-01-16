@@ -28,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($projectcall->applications as $application)
+            @foreach($applications as $application)
             <tr>
                 <td>{{ $application->id}}</td>
                 <td>{{ $application->applicant->name }}</td>

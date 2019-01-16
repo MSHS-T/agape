@@ -63,7 +63,7 @@
                     @if($can_apply)
                     <a href="{{ route('projectcall.applications', ['projectcall' => $call->id])}}" class="btn btn-sm btn-info d-block">
                         @svg('solid/link', 'icon-fw') {{ __('actions.application.list_count', ['count' =>
-                        count($call->applications)]) }}
+                        count($call->submittedApplications)]) }}
                     </a>
                     @endif
                     @if($can_evaluate)

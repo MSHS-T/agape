@@ -34,6 +34,10 @@ class ApplicationController extends Controller
      */
     public function show(Application $application)
     {
+        // Don't display non-submitted applications
+        if($application->submitted_at == null){
+            abort(404);
+        }
         return view('application.show', compact('application'));
     }
 

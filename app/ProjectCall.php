@@ -54,6 +54,10 @@ class ProjectCall extends Model
         return $this->hasMany('App\Application', 'projectcall_id');
     }
 
+    public function submittedApplications(){
+        return $this->applications()->where('submitted_at', '!=', null);
+    }
+
     public function getTypeLabelAttribute(){
         return \App\Enums\CallType::getKey($this->type);
     }

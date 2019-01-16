@@ -194,7 +194,7 @@ class ProjectCallController extends Controller
     public function applications($id)
     {
         $projectcall = ProjectCall::with('applications', 'applications.applicant')->findOrFail($id);
-        $projectcall->applications()->where('submitted_at', '!=', null)->get();
-        return view('application.index', compact('projectcall'));
+        $applications = $projectcall->submitted_applications()->get();
+        return view('application.index', compact('projectcall', 'applications'));
     }
 }
