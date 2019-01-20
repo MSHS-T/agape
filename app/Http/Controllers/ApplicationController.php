@@ -91,7 +91,8 @@ class ApplicationController extends Controller
         if(isset($data->carrier_id)){
             if(is_numeric($data->carrier_id)){
                 $application->carrier()->associate(Person::find($data->carrier_id));
-            } else if($data->carrier_id == "new"){
+            }
+            else if($data->carrier_id == "new"){
                 $carrier_fields = ['last_name', 'first_name', 'status', 'email', 'phone'];
                 $carrier_data = array_combine(
                     $carrier_fields,
