@@ -88,20 +88,22 @@ class ApplicationController extends Controller
 
         //Carrier
         $application->carrier()->dissociate();
-        if(is_numeric($data->carrier_id)){
-            $application->carrier()->associate(Person::find($data->carrier_id));
-        } else if($data->carrier_id == "new"){
-            $carrier_fields = ['last_name', 'first_name', 'status', 'email', 'phone'];
-            $carrier_data = array_combine(
-                $carrier_fields,
-                array_map(function($f) use ($data) {
-                    return $data->{"carrier_$f"};
-                }, $carrier_fields)
-            );
-            $carrier->is_workshop = $application->projectcall->type == CallType::Workshop;
-            $carrier = new Person($carrier_data);
-            $carrier->save();
-            $application->carrier()->associate($carrier);
+        if(isset($data->carrier_id)){
+            if(is_numeric($data->carrier_id)){
+                $application->carrier()->associate(Person::find($data->carrier_id));
+            } else if($data->carrier_id == "new"){
+                $carrier_fields = ['last_name', 'first_name', 'status', 'email', 'phone'];
+                $carrier_data = array_combine(
+                    $carrier_fields,
+                    array_map(function($f) use ($data) {
+                        return $data->{"carrier_$f"};
+                    }, $carrier_fields)
+                );
+                $carrier->is_workshop = $application->projectcall->type == CallType::Workshop;
+                $carrier = new Person($carrier_data);
+                $carrier->save();
+                $application->carrier()->associate($carrier);
+            }
         }
 
         //Laboratories
