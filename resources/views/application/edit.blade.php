@@ -34,14 +34,10 @@
     'value' => old('acronym', $application->acronym)
     ])
 
-    @include('forms.selectorother', [
+    @include('forms.subform', [
     'name' => 'carrier_id',
     'label' => __('fields.application.carrier.'.$application->projectcall->typeLabel),
-    'allowedValues' => $carriers,
-    'allowNone' => false,
-    'displayField' => 'name',
-    'valueField' => 'id',
-    'value' => old('carrier_id', $application->carrier_id),
+    'value' => old('carrier', $application->carrier),
     'fields' => [
     [
     'type' => 'textinput',

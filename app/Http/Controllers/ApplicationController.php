@@ -52,11 +52,10 @@ class ApplicationController extends Controller
         if(!empty($application->submitted_at)){
             return redirect()->route('home');
         }
-        $carriers = Person::where('is_workshop', $application->projectcall->type == CallType::Workshop)->get();
         $laboratories = Laboratory::all();
         $study_fields = StudyField::all();
         $application->laboratories()->orderBy('order', 'asc')->get();
-        return view('application.edit', compact('application', 'carriers', 'laboratories', 'study_fields'));
+        return view('application.edit', compact('application', 'laboratories', 'study_fields'));
     }
 
     /**
@@ -88,24 +87,17 @@ class ApplicationController extends Controller
 
         //Carrier
         $application->carrier()->dissociate();
-        if(isset($data->carrier_id)){
-            if(is_numeric($data->carrier_id)){
-                $application->carrier()->associate(Person::find($data->carrier_id));
-            }
-            else if($data->carrier_id == "new"){
-                $carrier_fields = ['last_name', 'first_name', 'status', 'email', 'phone'];
-                $carrier_data = array_combine(
-                    $carrier_fields,
-                    array_map(function($f) use ($data) {
-                        return $data->{"carrier_$f"};
-                    }, $carrier_fields)
-                );
-                $carrier->is_workshop = $application->projectcall->type == CallType::Workshop;
-                $carrier = new Person($carrier_data);
-                $carrier->save();
-                $application->carrier()->associate($carrier);
-            }
-        }
+        $carrier_fields = ['last_name', 'first_name', 'status', 'email', 'phone'];
+        $carrier_data = array_combine(
+            $carrier_fields,
+            array_map(function($f) use ($data) {
+                return $data->{"carrier_$f"};
+            }, $carrier_fields)
+        );
+        $carrier = new Person($carrier_data);
+        $carrier->is_workshop = $application->projectcall->type == CallType::Workshop;
+        $carrier->save();
+        $application->carrier()->associate($carrier);
 
         //Laboratories
         $application->laboratories()->detach();
