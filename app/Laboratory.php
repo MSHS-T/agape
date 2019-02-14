@@ -13,6 +13,7 @@ class Laboratory extends Model
         'unit_code',
         'director_email',
         'regency',
+        'contact_name',
         'creator_id'
     ];
 

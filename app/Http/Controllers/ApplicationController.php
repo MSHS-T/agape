@@ -109,7 +109,7 @@ class ApplicationController extends Controller
             } else if(is_numeric($lab_id)) {
                 $application->laboratories()->attach(Laboratory::find($lab_id), ['order' => $iteration]);
             } else if($lab_id === "new") {
-                $lab_fields = ['name', 'unit_code', 'director_email', 'regency'];
+                $lab_fields = ['name', 'unit_code', 'director_email', 'regency', 'contact_name'];
                 $lab_data = array_combine(
                     $lab_fields,
                     array_map(function($f) use ($data, $iteration) {

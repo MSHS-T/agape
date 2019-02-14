@@ -105,6 +105,12 @@
     'name' => 'laboratory_regency_'.$iteration,
     'label' => __('fields.laboratory.regency'),
     'valueField' => 'regency'
+    ],
+    [
+    'type' => 'textinput',
+    'name' => 'laboratory_contact_name_'.$iteration,
+    'label' => __('fields.laboratory.contact_name'),
+    'valueField' => 'contact_name'
     ]
     ]
     ])

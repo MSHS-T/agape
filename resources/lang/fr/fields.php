@@ -120,6 +120,7 @@ return [
     "laboratory" => [
         "unit_code" => "Code unité",
         "director_email" => "Email du directeur",
-        "regency" => "Tutelle du laboratoire (CNRS, Université ou Autre)"
+        "regency" => "Tutelle du laboratoire (CNRS, Université ou Autre)",
+        "contact_name" => "Nom du contact"
     ]
 ];
