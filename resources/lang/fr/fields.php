@@ -79,7 +79,7 @@ return [
         "laboratory_n" => "Laboratoire :index",
         "laboratories" => "Laboratoires",
         "duration" => "Durée du projet",
-        "target_date" => "Date prévisionnelle du workshop",
+        "target_date" => "Date(s) prévisionnelle(s) du workshop",
         "study_field_n" => "Champ disciplinaire :index",
         "study_fields" => "Champs disciplinaires",
         "theme" => "Thématique générale",

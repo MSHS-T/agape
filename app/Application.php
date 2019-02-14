@@ -27,6 +27,7 @@ class Application extends Model
     ];
 
     protected $casts = [
+        'target_date' => 'array',
         'keywords' => 'array',
     ];
 

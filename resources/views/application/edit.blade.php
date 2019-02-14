@@ -124,11 +124,15 @@
     ])
     @else
     {{-- Workshop --}}
-    @include('forms.textinput', [
+    @include('forms.multipleinput', [
     'name' => 'target_date',
-    'type' =>'date',
+    'input' => [
+        'type' => 'date'
+    ],
+    'type' =>'textinput',
     'label' => __('fields.application.target_date'),
-    'value' => old('target_date', $application->target_date)
+    'value' => old('target_date', $application->target_date ?? []),
+    'maximum_count' => \App\Setting::get('max_number_of_target_dates')
     ])
     @endif
 

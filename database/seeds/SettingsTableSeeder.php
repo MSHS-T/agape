@@ -12,6 +12,10 @@ class SettingsTableSeeder extends Seeder
     public function run()
     {
         DB::table('settings')->insert([
+            'key' => 'max_number_of_target_dates',
+            'value' => 4
+        ]);
+        DB::table('settings')->insert([
             'key' => 'max_number_of_experts',
             'value' => 4
         ]);

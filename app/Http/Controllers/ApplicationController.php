@@ -70,7 +70,7 @@ class ApplicationController extends Controller
         $data = (object) $request->all();
 
         //Simple fields with no post-treatment or validation at this time
-        $simple_fields = ['title', 'acronym', 'duration', 'target_date', 'theme', 'summary_fr', 'summary_en', 'short_description', 'amount_requested', 'other_fundings', 'total_expected_income', 'total_expected_outcome'];
+        $simple_fields = ['title', 'acronym', 'duration', 'theme', 'summary_fr', 'summary_en', 'short_description', 'amount_requested', 'other_fundings', 'total_expected_income', 'total_expected_outcome'];
         $defaults = ['duration' => null, 'target_date' => null, 'theme' => null];
         $simple_data = array_merge(
             $defaults,
@@ -130,6 +130,13 @@ class ApplicationController extends Controller
                 $application->studyFields()->attach($sf);
             }
         }
+
+        //Target dates
+        $target_dates = [];
+        foreach(range(1, Setting::get('max_number_of_target_dates')) as $iteration){
+            $target_dates[] = $data->{"target_date_".$iteration} ?? null;
+        }
+        $application->target_date = array_filter($target_dates);
 
         //Keywords
         $keywords = [];

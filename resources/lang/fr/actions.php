@@ -20,6 +20,7 @@ return [
     "close" => "Fermer",
     "submit" => "Soumettre",
     "home" => "Accueil",
+    "add" => "Ajouter",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",
