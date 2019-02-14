@@ -11,6 +11,7 @@ try {
     window.$ = window.jQuery = require("jquery");
 
     require("bootstrap");
+    require("chosen-js");
 } catch (e) {
     console.log("error");
 }

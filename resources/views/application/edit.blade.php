@@ -136,18 +136,19 @@
     ])
     @endif
 
-    @foreach(range(1,\App\Setting::get('max_number_of_study_fields')) as $index => $iteration)
     @include('forms.select', [
-    'name' => 'study_field_'.$iteration,
-    'label' => __('fields.application.study_field_n', ['index' => $iteration]),
+    'name' => 'study_fields',
+    'label' => __('fields.application.study_fields'),
+    'help' => __('fields.application.study_fields_help', ['max' => \App\Setting::get('max_number_of_study_fields')]),
     'allowedValues' => $study_fields,
-    'allowNone' => 'true',
+    'allowNone' => true,
+    'allowNew' => true,
+    'multiple' => true,
+    'maximum_count' => \App\Setting::get('max_number_of_study_fields'),
     'displayField' => 'name',
     'valueField' => 'id',
-    'value' => old('study_field_'.$iteration, count($application->studyFields) >= $iteration ?
-    $application->studyFields[$index]->id : 'none'),
+    'value' => old('study_fields', $application->studyFields->pluck('id')->all()),
     ])
-    @endforeach
 
     @if($application->projectcall->type == \App\Enums\CallType::Workshop)
     @include('forms.textarea', [

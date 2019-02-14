@@ -124,11 +124,16 @@ class ApplicationController extends Controller
 
         //Study fields
         $application->studyFields()->detach();
-        foreach(range(1, Setting::get('max_number_of_study_fields')) as $iteration){
-            if(is_numeric($data->{"study_field_".$iteration})){
-                $sf = StudyField::find($data->{"study_field_".$iteration});
-                $application->studyFields()->attach($sf);
+        foreach($data->study_fields as $sfValue){
+            if(is_numeric($sfValue)){
+                $sf = StudyField::find($sfValue);
+            } else {
+                $sf = new StudyField([
+                    'name' => $sfValue
+                ]);
+                $sf->save();
             }
+            $application->studyFields()->attach($sf);
         }
 
         //Target dates

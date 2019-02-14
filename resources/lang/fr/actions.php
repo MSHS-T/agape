@@ -21,6 +21,8 @@ return [
     "submit" => "Soumettre",
     "home" => "Accueil",
     "add" => "Ajouter",
+    "select_elements" => "Sélectionner des éléments (taper du texte pour filtrer)",
+    "add_element" => "Ajouter un nouvel élément",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",
