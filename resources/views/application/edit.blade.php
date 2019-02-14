@@ -241,7 +241,7 @@
     'value' => $application->files->where('order', 1),
     'multiple' => false,
     'help' => true,
-    'accept' => '.xls,.xlsx'
+    'accept' => '.xls,.xlsx,.doc,.docx,.pdf'
     ])
     @include('forms.fileupload', [
     'name' => 'financial_form',
