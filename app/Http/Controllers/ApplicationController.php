@@ -86,7 +86,6 @@ class ApplicationController extends Controller
         $application->fill($simple_data);
 
         //Carrier
-        $application->carrier()->dissociate();
         $carrier_fields = ['last_name', 'first_name', 'status', 'email', 'phone'];
         $carrier_data = array_combine(
             $carrier_fields,
@@ -94,10 +93,12 @@ class ApplicationController extends Controller
                 return $data->{"carrier_$f"};
             }, $carrier_fields)
         );
-        $carrier = new Person($carrier_data);
-        $carrier->is_workshop = $application->projectcall->type == CallType::Workshop;
-        $carrier->save();
-        $application->carrier()->associate($carrier);
+        if(empty($application->carrier())){
+            $carrier = new Person($carrier_data);
+            $application->carrier()->associate($carrier);
+        }
+        $application->carrier->is_workshop = $application->projectcall->type == CallType::Workshop;
+        $application->carrier->save();
 
         //Laboratories
         $application->laboratories()->detach();
