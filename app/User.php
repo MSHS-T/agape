@@ -59,4 +59,9 @@ class User extends Authenticatable //implements MustVerifyEmail
     {
         return $query->where('role', Enums\UserRole::Admin);
     }
+
+    public function scopeExperts($query)
+    {
+        return $query->where('role', Enums\UserRole::Expert);
+    }
 }
