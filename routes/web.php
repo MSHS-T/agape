@@ -35,6 +35,9 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('projectcall', 'ProjectCallController');
 
     Route::put('application/submit/{id}', 'ApplicationController@submit')->name('application.submit');
+    Route::get('application/{id}/assignations', 'ApplicationController@assignations')->name('application.assignations');
+    Route::post('application/{application_id}/assign/', 'ApplicationController@assign')->name('application.assign');
+    Route::delete('application/unassign/{offer_id}', 'ApplicationController@unassign')->name('application.unassign');
     Route::resource('application', 'ApplicationController')->only(['index', 'show', 'edit', 'update']);
 });
 

@@ -1,13 +1,16 @@
 @php
 $id = 'input'.ucfirst(camel_case($name));
 if($multiple){ $name = $name."[]"; }
+else { $maximum_count = 1; }
+$placeholder = $multiple ? __('actions.select_elements') : __('actions.select_element');
+$value = [($value ?? null)];
 @endphp
 <div class="form-group row">
     <label for="{{$id}}" class="col-3 col-form-label">{{$label}}</label>
     <div class="col-9">
         <div class="row">
             <div class="col">
-                <select class="form-control chosen-select" id="{{$id}}" name="{{$name}}" @if($multiple) multiple @endif data-placeholder="{{ __('actions.select_elements') }}">
+                <select class="form-control chosen-select" id="{{$id}}" name="{{$name}}" @if($multiple) multiple @endif data-placeholder="{{ $placeholder }}">
                     @foreach($allowedValues as $v)
                     @php
                     $valueVal = $v->{$valueField};

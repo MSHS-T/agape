@@ -110,7 +110,8 @@ return [
                 "Workshop" => " AAP Workshop",
             ]
         ],
-        "other_attachments" => "Pièces complémentaires"
+        "other_attachments" => "Pièces complémentaires",
+        "experts" => "Experts",
     ],
 
     "carrier" => [
@@ -123,5 +124,13 @@ return [
         "director_email" => "Email du directeur",
         "regency" => "Tutelle du laboratoire (CNRS, Université ou Autre)",
         "contact_name" => "Nom du contact"
+    ],
+
+    "offer" => [
+        "expert" => "Expert",
+        "accepted" => "Accepté",
+        "declined" => "Refusé",
+        "pending" => "En attente",
+        "no_experts" => "Aucun expert disponible"
     ]
 ];

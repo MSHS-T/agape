@@ -3,13 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class EvaluationOffer extends Model
 {
     public $fillable = [
         'accepted',
-        'justification'
+        'justification',
+        'expert_id'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($offer) {
+            $offer->creator_id = Auth::id();
+        });
+    }
 
     public function creator(){
         return $this->belongsTo('App\User', 'creator_id');
@@ -24,6 +34,6 @@ class EvaluationOffer extends Model
     }
 
     public function evaluation(){
-        return $this->hasOne('App\Evaluation');
+        return $this->hasOne('App\Evaluation', 'offer_id');
     }
 }

@@ -24,6 +24,7 @@
                 <th>{{ __('fields.projectcall.applicant') }}</th>
                 <th>{{ __('fields.creation_date') }}</th>
                 <th>{{ __('fields.submission_date') }}</th>
+                <th>{{ __('fields.application.experts') }}</th>
                 <th data-orderable="false">{{ __('fields.actions') }}</th>
             </tr>
         </thead>
@@ -39,9 +40,31 @@
                     {{ \Carbon\Carbon::parse($application->submitted_at)->format(__('locale.datetime_format'))}}
                 </td>
                 <td>
+                    @if(!empty($application->offers))
+                        <ul>
+                            @foreach($application->offers as $offer)
+                                <li>
+                                    {{ $offer->expert->name }}
+                                    @if($offer->accepted === true)
+                                        @svg('solid/check', 'icon-fw text-success')
+                                    @elseif($offer->accepted === false)
+                                        @svg('solid/times', 'icon-fw text-danger')
+                                    @else
+                                        @svg('solid/question', 'icon-fw text-primary')
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </td>
+                <td>
                     <a href="
                     {{ route('application.show',$application->id)}}" class="btn btn-sm btn-primary d-block">
                         @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
+                    </a>
+                    <a href="
+                    {{ route('application.assignations',$application->id)}}" class="btn btn-sm btn-success d-block">
+                        @svg('solid/user-graduate', 'icon-fw') {{ __('actions.application.show_experts') }}
                     </a>
                 </td>
             </tr>
@@ -49,4 +72,30 @@
         </tbody>
     </table>
 </div>
+@include('partials.back_button', ['url' => route('projectcall.index')])
 @endsection
+
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#application_list').DataTable({
+            lengthChange: true,
+            searching: true,
+            ordering: true,
+            order: [
+                [3, 'desc']
+            ],
+            columns: [null, null, null, null, null, {
+                searchable: false
+            }],
+            language: @json(__('datatable')),
+            pageLength: 5,
+            lengthMenu: [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "@lang('datatable.all')"]
+            ]
+        });
+    });
+
+</script>
+@endpush

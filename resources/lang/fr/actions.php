@@ -21,6 +21,7 @@ return [
     "submit" => "Soumettre",
     "home" => "Accueil",
     "add" => "Ajouter",
+    "select_element" => "Sélectionner un élément (taper du texte pour filtrer)",
     "select_elements" => "Sélectionner des éléments (taper du texte pour filtrer)",
     "add_element" => "Ajouter un nouvel élément",
 
@@ -63,7 +64,12 @@ return [
             "error_unsaved" => "Vous devez d'abord sauvegarder votre candidature avant de pouvoir la soumettre."
         ],
         'saved' => 'Votre candidature a été sauvegardée. Pensez à la soumettre avant la date limite.',
-        'submitted' => 'Votre candidature a été soumise avec succès.'
+        'submitted' => 'Votre candidature a été soumise avec succès.',
+        'show_experts' => 'Voir les experts',
+        'assign_expert' => 'Assigner un expert',
+        'expert_assigned' => 'La demande d\'évaluation a été transmise à l\'expert',
+        'expert_unassigned' => 'La demande d\'évaluation a été annulée',
+        'expert_already_assigned' => 'L\'expert est déjà affecté à cette candidature'
     ],
 
     'evaluation' => [

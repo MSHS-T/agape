@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Application;
 use App\ApplicationFile;
+use App\EvaluationOffer;
 use App\Laboratory;
 use App\Person;
 use App\Setting;
@@ -288,5 +289,52 @@ class ApplicationController extends Controller
 
         return redirect()->route('home')
                          ->with('success', __('actions.application.submitted'));
+    }
+
+    /**
+     * List assignations between experts and application
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function assignations($id)
+    {
+        $application = Application::with('projectcall', 'offers', 'offers.expert', 'offers.creator', 'offers.evaluation')->findOrFail($id);
+        $assigned_experts = $application->offers()->get()->pluck('expert.id')->all();
+        $experts = User::experts()->whereNotIn('id', $assigned_experts)->get();
+        return view('application.assignations', compact('application', 'experts'));
+    }
+
+    /**
+     * Assign an expert to an application
+     *
+     * @param  int  $application_id
+     * @return \Illuminate\Http\Response
+     */
+    public function assign($application_id, Request $request)
+    {
+        $expert_id = $request->get('expert_id');
+        $application = Application::with('offers', 'offers.expert')->findOrFail($application_id);
+        $expert = User::findOrFail($expert_id);
+        $offer = $application->offers()->firstOrNew(['expert_id' => $expert_id]);
+        $offer->save();
+
+        return redirect()->route('application.assignations', ['id' => $application_id])
+                         ->with('success', __('actions.application.expert_assigned'));
+    }
+
+    /**
+     * Remove an assignation
+     *
+     * @param  int  $offer_id
+     * @return \Illuminate\Http\Response
+     */
+    public function unassign($offer_id)
+    {
+        $offer = EvaluationOffer::findOrFail($offer_id);
+        $application_id = $offer->application_id;
+        $offer->delete();
+        return redirect()->route('application.assignations', ['id' => $application_id])
+                         ->with('success', __('actions.application.expert_unassigned'));
     }
 }

@@ -9,6 +9,7 @@
 @break
 @case(\App\Enums\UserRole::Expert)
 @include('home.expert')
+@break;
 @default
 <script type="text/javascript">
     window.location = "/error";
