@@ -40,7 +40,7 @@ class Application extends Model
     }
 
     public function carrier(){
-        return $this->belongsTo('App\Person', 'carrier_id');
+        return $this->belongsTo('App\Person', 'carrier_id')->withDefault();
     }
 
     public function laboratories(){

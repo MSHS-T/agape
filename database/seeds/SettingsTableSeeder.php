@@ -84,5 +84,17 @@ class SettingsTableSeeder extends Seeder
             'key' => 'max_number_of_keywords',
             'value' => 5
         ]);
+        DB::table('settings')->insert([
+            'key' => 'extensions_application_form',
+            'value' => '.xls,.xlsx,.doc,.docx,.pdf'
+        ]);
+        DB::table('settings')->insert([
+            'key' => 'extensions_financial_form',
+            'value' => '.xls,.xlsx,.doc,.docx,.pdf'
+        ]);
+        DB::table('settings')->insert([
+            'key' => 'extensions_other_attachments',
+            'value' => '.pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.zip,.rar,.tar'
+        ]);
     }
 }

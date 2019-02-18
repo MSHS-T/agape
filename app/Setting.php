@@ -17,4 +17,11 @@ class Setting extends Model
         $row = self::find($key);
         return is_null($row) ? null : $row->value;
     }
+
+    public static function set(string $key, $value) {
+        $row = self::find($key);
+        $row->value = $value;
+        $row->save();
+        return $row;
+    }
 }

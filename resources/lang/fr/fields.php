@@ -80,7 +80,7 @@ return [
         "laboratories" => "Laboratoires",
         "duration" => "Durée du projet",
         "target_date" => "Date(s) prévisionnelle(s) du workshop",
-        "study_fields" => "Champs disciplinaires",
+        "study_fields" => "Champ(s) disciplinaire(s)",
         "study_fields_help" => "Vous pouvez choisir et/ou saisir jusqu'à :max éléments",
         "theme" => "Thématique générale",
         "summary_fr" => "Résumé public (FR)",
@@ -114,7 +114,8 @@ return [
     ],
 
     "carrier" => [
-        "status" => "Statut (MCF/PR/CR/DR ou autre)"
+        "status" => "Statut (MCF/PR/CR/DR ou autre)",
+        "email" => ""
     ],
 
     "laboratory" => [

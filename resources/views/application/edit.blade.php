@@ -242,7 +242,7 @@
     'value' => $application->files->where('order', 1),
     'multiple' => false,
     'help' => true,
-    'accept' => '.xls,.xlsx,.doc,.docx,.pdf'
+    'accept' => \App\Setting::get('extensions_application_form')
     ])
     @include('forms.fileupload', [
     'name' => 'financial_form',
@@ -250,7 +250,7 @@
     'value' => $application->files->where('order', 2),
     'multiple' => false,
     'help' => true,
-    'accept' => '.xls,.xlsx'
+    'accept' => \App\Setting::get('extensions_financial_form')
     ])
     @include('forms.fileupload', [
     'name' => 'other_attachments',
@@ -258,7 +258,7 @@
     'value' => $application->files->whereNotIn('order', [1,2]),
     'multiple' => true,
     'help' => true,
-    'accept' => '.pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.zip,.rar,.tar'
+    'accept' => \App\Setting::get('extensions_other_attachments')
     ])
 
     <hr />

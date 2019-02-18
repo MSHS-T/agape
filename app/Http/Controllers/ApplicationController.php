@@ -71,7 +71,7 @@ class ApplicationController extends Controller
 
         //Simple fields with no post-treatment or validation at this time
         $simple_fields = ['title', 'acronym', 'duration', 'theme', 'summary_fr', 'summary_en', 'short_description', 'amount_requested', 'other_fundings', 'total_expected_income', 'total_expected_outcome'];
-        $defaults = ['duration' => null, 'target_date' => null, 'theme' => null];
+        $defaults = ['duration' => null, 'target_date' => [], 'theme' => null];
         $simple_data = array_merge(
             $defaults,
             array_combine($simple_fields,
@@ -93,12 +93,16 @@ class ApplicationController extends Controller
                 return $data->{"carrier_$f"};
             }, $carrier_fields)
         );
-        if(empty($application->carrier())){
-            $carrier = new Person($carrier_data);
-            $application->carrier()->associate($carrier);
-        }
-        $application->carrier->is_workshop = $application->projectcall->type == CallType::Workshop;
-        $application->carrier->save();
+        $carrier_data['is_workshop'] = $application->projectcall->type == CallType::Workshop;
+        $carrier = $application->carrier;
+        $carrier->fill($carrier_data);
+        $carrier->save();
+        $application->carrier()->associate($carrier);
+        // if(empty($application->carrier())){
+        //     $carrier = new Person($carrier_data);
+        //     $carrier->save();
+        // } else {
+        // }
 
         //Laboratories
         $application->laboratories()->detach();
@@ -124,16 +128,18 @@ class ApplicationController extends Controller
 
         //Study fields
         $application->studyFields()->detach();
-        foreach($data->study_fields as $sfValue){
-            if(is_numeric($sfValue)){
-                $sf = StudyField::find($sfValue);
-            } else {
-                $sf = new StudyField([
-                    'name' => $sfValue
-                ]);
-                $sf->save();
+        if(isset($data->study_fields)){
+            foreach($data->study_fields as $sfValue){
+                if(is_numeric($sfValue)){
+                    $sf = StudyField::find($sfValue);
+                } else {
+                    $sf = new StudyField([
+                        'name' => $sfValue
+                    ]);
+                    $sf->save();
+                }
+                $application->studyFields()->attach($sf);
             }
-            $application->studyFields()->attach($sf);
         }
 
         //Target dates
@@ -158,7 +164,14 @@ class ApplicationController extends Controller
         foreach($specific_files as $form_name => $order){
             if($request->hasFile($form_name)
             && ($rFile = $request->file($form_name))->isValid()
-            && in_array($rFile->getClientOriginalExtension(), ['xls', 'xlsx'])){
+                && in_array(
+                    $rFile->getClientOriginalExtension(),
+                    array_map(
+                        function($e){ return trim($e, '.'); },
+                        explode(',', Setting::get("extensions_$form_name"))
+                    )
+                )
+            ){
                 $existingFile = $application->files()->where('order', $order)->delete();
                 $name = $rFile->getClientOriginalName();
                 $extension = $rFile->getClientOriginalExtension();
@@ -179,8 +192,14 @@ class ApplicationController extends Controller
             foreach($request->file('other_attachments') as $rFile){
                 if(!$rFile->isValid()
                 || !in_array(
-                    $rFile->getClientOriginalExtension(),
-                    ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'jpg', 'jpeg', 'png', 'gif', 'zip', 'rar', 'tar'])){
+                        $rFile->getClientOriginalExtension(),
+                        array_map(
+                            function($e){ return trim($e, '.'); },
+                            explode(',', Setting::get("extensions_other_attachments"))
+                        )
+                    )
+                ){
+                    var_dump($rFile);die;
                     continue;
                 }
                 $name = $rFile->getClientOriginalName();
@@ -209,36 +228,37 @@ class ApplicationController extends Controller
     public function submit($id)
     {
         $application = Application::findOrFail($id);
-        dump($application->toArray());
         $validator = Validator::make($application->toArray(), [
-            'title' => 'required|max:255',
-            'acronym' => 'required|max:15',
-            'carrier_id' => 'required|exists:persons,id',
-            'carrier.first_name' => 'required|max:255',
-            'carrier.last_name' => 'required|max:255',
-            'carrier.email' => 'required|max:255|email',
-            'carrier.phone' => 'required|max:255',
-            'carrier.status' => 'required|max:255',
-            'laboratories' => 'required',
-            'laboratories.*.id' => 'required|exists:laboratories,id',
-            'laboratories.*.name' => 'required|max:255',
-            'laboratories.*.unit_code' => 'required|max:255',
+            'title'                         => 'required|max:255',
+            'acronym'                       => 'required|max:15',
+            'carrier_id'                    => 'required|exists:persons,id',
+            'carrier.first_name'            => 'required|max:255',
+            'carrier.last_name'             => 'required|max:255',
+            'carrier.email'                 => 'required|max:255|email',
+            'carrier.phone'                 => 'required|max:255',
+            'carrier.status'                => 'required|max:255',
+            'laboratories'                  => 'required',
+            'laboratories.*.id'             => 'required|exists:laboratories,id',
+            'laboratories.*.name'           => 'required|max:255',
+            'laboratories.*.unit_code'      => 'required|max:255',
             'laboratories.*.director_email' => 'required|max:255|email',
-            'laboratories.*.regency' => 'required|max:255',
-            'duration' =>'required_unless:projectcall.type,'.CallType::Workshop.'|max:255',
-            'target_date' =>'required_if:projectcall.type,'.CallType::Workshop.'|max:255',
-            'study_fields' => 'required',
-            'study_fields.*.id' => 'required|exists:study_fields,id',
-            'summary_fr' => 'required',
-            'summary_en' => 'required',
-            'keywords' => 'required',
-            'keywords.*' => 'max:100',
-            'short_description' => 'required',
-            'amount_requested' => 'required|numeric|min:0',
-            'other_fundings' => 'required|numeric|min:0',
-            'total_expected_income' => 'required|numeric|min:0',
-            'total_expected_outcome' => 'required|numeric|min:0',
-            'files' => [function($attribute, $value, $fail){
+            'laboratories.*.contact_name'   => 'required|max:255',
+            'laboratories.*.regency'        => 'required|max:255',
+            'duration'                      => 'required_unless:projectcall.type,'.CallType::Workshop.'|max:255',
+            'target_date'                   => 'required_if:projectcall.type,'.CallType::Workshop,
+            'target_date.*'                 => 'date',
+            'study_fields'                  => 'required',
+            'study_fields.*.id'             => 'required|exists:study_fields,id',
+            'summary_fr'                    => 'required',
+            'summary_en'                    => 'required',
+            'keywords'                      => 'required',
+            'keywords.*'                    => 'max:100',
+            'short_description'             => 'required',
+            'amount_requested'              => 'required|numeric|min:0',
+            'other_fundings'                => 'required|numeric|min:0',
+            'total_expected_income'         => 'required|numeric|min:0',
+            'total_expected_outcome'        => 'required|numeric|min:0',
+            'files'                         => [function($attribute, $value, $fail){
                 $orders = array_column($value, 'order');
                 if(!in_array(1, $orders)){
                     $fail(__('validation.required', [
@@ -251,7 +271,7 @@ class ApplicationController extends Controller
                     ]));
                 }
             }],
-            'files.*.id' => 'required|exists:application_files,id',
+            'files.*.id'    => 'required|exists:application_files,id',
             'files.*.order' => 'required|integer|min:1'
         ]);
 
