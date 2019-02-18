@@ -32,4 +32,11 @@ class Laboratory extends Model
     public function creator(){
         return $this->belongsTo('App\User', 'creator_id');
     }
+
+    public function scopeAccessible($query)
+    {
+        $users = User::admins()->get()->pluck('id')->toArray();
+        array_push($users, Auth::id());
+        return $query->whereIn('creator_id', $users);
+    }
 }

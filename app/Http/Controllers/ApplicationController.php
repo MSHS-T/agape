@@ -55,7 +55,7 @@ class ApplicationController extends Controller
         if(!empty($application->submitted_at)){
             return redirect()->route('home');
         }
-        $laboratories = Laboratory::all();
+        $laboratories = Laboratory::accessible()->get();
         $study_fields = StudyField::all();
         $application->laboratories()->orderBy('order', 'asc')->get();
         return view('application.edit', compact('application', 'laboratories', 'study_fields'));
