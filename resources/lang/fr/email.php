@@ -18,5 +18,16 @@ return [
         'intro' => 'Vous recevez ce message car une réinitialisation de mot de passe a été demandée pour votre compte.',
         'action' => 'Réinitialiser mon mot de passe',
         'outro' => 'Si vous n\'êtes pas à l\'origine de cette demande, vous pouvez ignorer ce message.',
-    ]
+    ],
+    'application_submitted' => [
+        'title' => 'Ajout d\'une nouvelle candidature',
+        'intro' => 'Le candidat :name vient de soumettre sa candidature à l\'appel à projets :call',
+        'action' => 'Visualiser la candidature',
+    ],
+    'expert_decision' => [
+        'title' => '',
+        'intro' => '',
+        'action' => '',
+        'outro' => '',
+    ],
 ];
