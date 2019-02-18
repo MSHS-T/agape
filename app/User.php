@@ -54,4 +54,9 @@ class User extends Authenticatable //implements MustVerifyEmail
     {
         $this->notify(new Notifications\CustomResetPassword($token));
     }
+
+    public function scopeAdmins($query)
+    {
+        return $query->where('role', Enums\UserRole::Admin);
+    }
 }

@@ -8,11 +8,14 @@ use App\Laboratory;
 use App\Person;
 use App\Setting;
 use App\StudyField;
+use App\User;
 use App\Enums\CallType;
+use App\Notifications\ApplicationSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ApplicationController extends Controller
 {
@@ -98,11 +101,6 @@ class ApplicationController extends Controller
         $carrier->fill($carrier_data);
         $carrier->save();
         $application->carrier()->associate($carrier);
-        // if(empty($application->carrier())){
-        //     $carrier = new Person($carrier_data);
-        //     $carrier->save();
-        // } else {
-        // }
 
         //Laboratories
         $application->laboratories()->detach();
@@ -284,6 +282,9 @@ class ApplicationController extends Controller
 
         $application->submitted_at = \Carbon\Carbon::now();
         $application->save();
+
+        // Notify admins
+        Notification::send(User::admins()->get(), new ApplicationSubmitted($application));
 
         return redirect()->route('home')
                          ->with('success', __('actions.application.submitted'));

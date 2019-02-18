@@ -42,11 +42,11 @@ class ApplicationSubmitted extends Notification
      */
     public function toMail($notifiable)
     {
-        $call = $this->application->projectcall();
+        $call = $this->application->projectcall;
         return (new MailMessage)
                     ->subject(__('email.application_submitted.title'))
                     ->line(__('email.application_submitted.intro', [
-                        'name' => $this->application->applicant()->name,
+                        'name' => $this->application->applicant->name,
                         'call' => sprintf("%s - %d (%s)", $call->typeLabel, $call->year, $call->title)
                     ]))
                     ->action(__('email.application_submitted.action'), url(config('app.url').route('application.show', $this->application->id, false)));
