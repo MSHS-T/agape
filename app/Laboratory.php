@@ -20,8 +20,8 @@ class Laboratory extends Model
     public static function boot()
     {
         parent::boot();
-        static::creating(function ($call) {
-            $call->creator_id = Auth::id();
+        static::creating(function ($lab) {
+            $lab->creator_id = Auth::id();
         });
     }
 
