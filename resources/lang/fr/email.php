@@ -21,8 +21,14 @@ return [
     ],
     'application_submitted' => [
         'title' => 'Ajout d\'une nouvelle candidature',
-        'intro' => 'Le candidat :name vient de soumettre sa candidature à l\'appel à projets :call',
+        'intro' => 'Le candidat :name vient de soumettre sa candidature à l\'appel à projets :call.',
         'action' => 'Visualiser la candidature',
+    ],
+    'offer_created' => [
+        'title' => 'Proposition d\'évaluation',
+        'intro' => 'L\'administrateur de la plateforme AGAPE vous a proposé d\'évaluer une nouvelle candidature.',
+        'action' => 'Répondre',
+        'outro' => 'Merci de nous faire connaître votre choix dans les plus brefs délais.',
     ],
     'expert_decision' => [
         'title' => '',

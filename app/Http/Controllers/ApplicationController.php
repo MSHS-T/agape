@@ -12,6 +12,7 @@ use App\StudyField;
 use App\User;
 use App\Enums\CallType;
 use App\Notifications\ApplicationSubmitted;
+use App\Notifications\OfferCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -318,6 +319,8 @@ class ApplicationController extends Controller
         $expert = User::findOrFail($expert_id);
         $offer = $application->offers()->firstOrNew(['expert_id' => $expert_id]);
         $offer->save();
+
+        $expert->notify(new OfferCreated());
 
         return redirect()->route('application.assignations', ['id' => $application_id])
                          ->with('success', __('actions.application.expert_assigned'));

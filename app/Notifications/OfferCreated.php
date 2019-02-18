@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ExpertDecision extends Notification
+class OfferCreated extends Notification
 {
     use Queueable;
 
@@ -41,10 +41,10 @@ class ExpertDecision extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject(__('email.expert_decision.title'))
-                    ->line(__('email.expert_decision.intro'))
-                    ->action(__('email.expert_decision.action'), url('/'))
-                    ->line(__('email.expert_decision.outro'));
+                    ->subject(__('email.offer_created.title'))
+                    ->line(__('email.offer_created.intro'))
+                    ->action(__('email.offer_created.action'), url('/'))
+                    ->line(__('email.offer_created.outro'));
     }
 
     /**
