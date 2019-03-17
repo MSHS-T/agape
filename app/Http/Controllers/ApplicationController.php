@@ -237,7 +237,8 @@ class ApplicationController extends Controller
     public function submit($id)
     {
         $application = Application::findOrFail($id);
-        $validator = Validator::make($application->toArray(), [
+        $data = $application->toArray();
+        $validator = Validator::make($data, [
             'title'                         => 'required|max:255',
             'acronym'                       => 'required|max:15',
             'carrier_id'                    => 'required|exists:persons,id',
@@ -253,8 +254,33 @@ class ApplicationController extends Controller
             'laboratories.*.director_email' => 'required|max:255|email',
             'laboratories.*.contact_name'   => 'required|max:255',
             'laboratories.*.regency'        => 'required|max:255',
-            'duration'                      => 'required_unless:projectcall.type,'.CallType::Workshop.'|max:255',
-            'target_date'                   => 'required_if:projectcall.type,'.CallType::Workshop,
+            'duration'                      => [
+                function($attribute, $value, $fail) use ($application) {
+                    if($application->projectcall->type != CallType::Workshop){
+                        if(empty($value)){
+                            $fail(__('validation.required_if', [
+                            'attribute' => __('fields.application.duration'),
+                            'other' => __('fields.projectcall.type'),
+                            'value' => $application->projectcall->typeLabel,
+                        ]));
+                        }
+                    }
+                },
+                'max:255'
+            ],
+            'target_date'                      => [
+                function($attribute, $value, $fail) use ($application) {
+                    if($application->projectcall->type == CallType::Workshop){
+                        if(empty($value)){
+                            $fail(__('validation.required_if', [
+                            'attribute' => __('fields.application.duration'),
+                            'other' => __('fields.projectcall.type'),
+                            'value' => $application->projectcall->typeLabel,
+                        ]));
+                        }
+                    }
+                }
+            ],
             'target_date.*'                 => 'date',
             'study_fields'                  => 'required',
             'study_fields.*.id'             => 'required|exists:study_fields,id',
