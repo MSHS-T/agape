@@ -199,7 +199,6 @@ class ApplicationController extends Controller
                         )
                     )
                 ){
-                    var_dump($rFile);die;
                     continue;
                 }
                 $name = $rFile->getClientOriginalName();

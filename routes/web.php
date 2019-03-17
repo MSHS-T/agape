@@ -10,13 +10,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();//['verify' => true]);
+Auth::routes(['verify' => true]);
 
 Route::redirect('/', '/home');
 
 
-// Route::middleware(['auth', 'verified'])->group(function(){
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function(){
+// Route::middleware(['auth'])->group(function(){
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('profile', 'HomeController@profile')->name('profile');
 

@@ -81,7 +81,9 @@
     @if($application->projectcall->typeLabel == "Workshop")
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.target_date') }}</div>
-        <div class="col-9">{{ \Carbon\Carbon::parse($application->target_date)->format(__('locale.date_format')) }}</div>
+        <div class="col-9">@foreach($application->target_date as $date)
+        {{ \Carbon\Carbon::parse($date)->format(__('locale.date_format')) }}<br/>
+        @endforeach</div>
     </div>
     @else
     <div class="row mb-3">
