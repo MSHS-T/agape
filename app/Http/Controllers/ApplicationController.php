@@ -108,12 +108,19 @@ class ApplicationController extends Controller
         $application->laboratories()->detach();
         foreach(range(1, Setting::get('max_number_of_laboratories')) as $iteration){
             $lab_id = $data->{'laboratory_id_'.$iteration};
+            $lab_contact = $data->{'laboratory_contact_name_'.$iteration};
             if($lab_id === "none") {
                 continue;
             } else if(is_numeric($lab_id)) {
-                $application->laboratories()->attach(Laboratory::find($lab_id), ['order' => $iteration]);
+                $application->laboratories()->attach(
+                    Laboratory::find($lab_id),
+                    [
+                        'contact_name' => $lab_contact,
+                        'order' => $iteration
+                    ]
+                );
             } else if($lab_id === "new") {
-                $lab_fields = ['name', 'unit_code', 'director_email', 'regency', 'contact_name'];
+                $lab_fields = ['name', 'unit_code', 'director_email', 'regency'];
                 $lab_data = array_combine(
                     $lab_fields,
                     array_map(function($f) use ($data, $iteration) {
@@ -122,7 +129,10 @@ class ApplicationController extends Controller
                 );
                 $lab = new Laboratory($lab_data);
                 $lab->save();
-                $application->laboratories()->attach($lab, ['order' => $iteration]);
+                $application->laboratories()->attach($lab, [
+                    'contact_name' => $lab_contact,
+                    'order' => $iteration
+                ]);
             }
         }
 

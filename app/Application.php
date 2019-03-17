@@ -44,7 +44,7 @@ class Application extends Model
     }
 
     public function laboratories(){
-        return $this->belongsToMany('App\Laboratory', 'application_laboratory', 'application_id', 'laboratory_id')->withPivot('order');
+        return $this->belongsToMany('App\Laboratory', 'application_laboratory', 'application_id', 'laboratory_id')->withPivot('order', 'contact_name');
     }
 
     public function studyFields(){

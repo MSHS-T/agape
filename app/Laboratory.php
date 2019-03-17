@@ -13,7 +13,6 @@ class Laboratory extends Model
         'unit_code',
         'director_email',
         'regency',
-        'contact_name',
         'creator_id'
     ];
 
@@ -26,7 +25,7 @@ class Laboratory extends Model
     }
 
     public function applications(){
-        return $this->belongsToMany('App\Application', 'application_laboratory', 'laboratory_id', 'application_id')->withPivot('order');
+        return $this->belongsToMany('App\Application', 'application_laboratory', 'laboratory_id', 'application_id')->withPivot('order', 'contact_name');
     }
 
     public function creator(){

@@ -51,8 +51,13 @@ $id = 'input'.ucfirst(camel_case($name));
                 });
                 _.each(fields, function (field) {
                     var fieldId = "#input" + _.upperFirst(_.camelCase(field.name));
-                    $(fieldId).val(value[field.valueField]);
-                    $(fieldId).attr('readonly', true);
+                    if(field.hasOwnProperty("valueField")){
+                        $(fieldId).val(value[field.valueField]);
+                        $(fieldId).attr('readonly', true);
+                    } else {
+                        console.log(field);
+                        $(fieldId).val(field.value);
+                    }
                 });
             }
             if (selectionId == "none") {

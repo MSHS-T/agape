@@ -63,6 +63,7 @@
                         <th scope="col">{{ __('fields.laboratory.unit_code') }}</th>
                         <th scope="col">{{ __('fields.laboratory.director_email') }}</th>
                         <th scope="col">{{ __('fields.laboratory.regency') }}</th>
+                        <th scope="col">{{ __('fields.laboratory.contact_name') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,6 +73,7 @@
                         <td>{{ $laboratory->unit_code }}</td>
                         <td>{{ $laboratory->directory_email }}</td>
                         <td>{{ $laboratory->regency }}</td>
+                        <td>{{ $laboratory->pivot->contact_name }}</td>
                     </tr>
                     @endforeach
                 </tbody>
