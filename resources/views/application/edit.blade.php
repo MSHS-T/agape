@@ -120,7 +120,7 @@
                         'laboratory_contact_name_'.$iteration,
                         count($application->laboratories) >= $iteration
                             ? $application->laboratories[$index]->pivot->contact_name
-                            : 'none'
+                            : ''
                     )
                 ]
             ]
