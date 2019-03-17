@@ -17,28 +17,29 @@
                         \Carbon\Carbon::parse($call->evaluation_start_date)->format(__('locale.date_format')) }} -
                         {{ \Carbon\Carbon::parse($call->evaluation_end_date)->format(__('locale.date_format')) }}
                     </p>
+                    <div class="d-flex flex-column align-items-stretch">
+                        <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block my-1">
+                            @svg('solid/search', 'icon-fw') {{ __('actions.projectcall.show') }}
+                        </a>
+                        @php
+                        $today = \Carbon\Carbon::parse('today');
+                        $can_apply = $today >= $call->application_start_date;
+                        $can_evaluate = $today >= $call->evaluation_start_date;
+                        @endphp
+                        @if($can_apply)
+                        <a href="{{ route('projectcall.applications', ['projectcall' => $call->id]) }}" class="btn btn-info d-inline-block my-1">
+                            @svg('solid/link', 'icon-fw') {{ __('actions.application.show_all', ['count' =>
+                            count($call->submittedApplications)]) }}
+                        </a>
+                        @endif
+                        @if($can_evaluate)
+                        <a href="#" class="btn btn-success d-inline-block my-1">
+                            @svg('solid/graduation-cap', 'icon-fw') {{ __('actions.evaluation.show_all', ['count' =>
+                            0]) }}
+                        </a>
+                        @endif
+                    </div>
                 </div>
-                <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block my-1">
-                    @svg('solid/search', 'icon-fw') {{ __('actions.projectcall.show') }}
-                </a>
-                <br />
-                @php
-                $today = \Carbon\Carbon::parse('today');
-                $can_apply = $today >= $call->application_start_date;
-                $can_evaluate = $today >= $call->evaluation_start_date;
-                @endphp
-                @if($can_apply)
-                <a href="{{ route('projectcall.applications', ['projectcall' => $call->id]) }}" class="btn btn-info d-inline-block my-1">
-                    @svg('solid/link', 'icon-fw') {{ __('actions.application.show_all', ['count' =>
-                    count($call->submittedApplications)]) }}
-                </a>
-                @endif
-                @if($can_evaluate)
-                <a href="#" class="btn btn-success d-inline-block my-1">
-                    @svg('solid/graduation-cap', 'icon-fw') {{ __('actions.evaluation.show_all', ['count' =>
-                    0]) }}
-                </a>
-                @endif
             </div>
         </div>
     </div>
