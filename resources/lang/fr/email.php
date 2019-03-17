@@ -19,9 +19,14 @@ return [
         'action' => 'Réinitialiser mon mot de passe',
         'outro' => 'Si vous n\'êtes pas à l\'origine de cette demande, vous pouvez ignorer ce message.',
     ],
-    'application_submitted' => [
+    'new_application_submitted' => [
         'title' => 'Ajout d\'une nouvelle candidature',
         'intro' => 'Le candidat :name vient de soumettre sa candidature à l\'appel à projets :call.',
+        'action' => 'Visualiser la candidature',
+    ],
+    'application_submitted' => [
+        'title' => 'Confirmation de candidature',
+        'intro' => 'Votre candidature à l\'appel à projets :call a bien été soumise.',
         'action' => 'Visualiser la candidature',
     ],
     'offer_created' => [

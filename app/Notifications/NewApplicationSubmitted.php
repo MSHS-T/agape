@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ApplicationSubmitted extends Notification
+class NewApplicationSubmitted extends Notification
 {
     use Queueable;
 
@@ -44,11 +44,12 @@ class ApplicationSubmitted extends Notification
     {
         $call = $this->application->projectcall;
         return (new MailMessage)
-                    ->subject(__('email.application_submitted.title'))
-                    ->line(__('email.application_submitted.intro', [
+                    ->subject(__('email.new_application_submitted.title'))
+                    ->line(__('email.new_application_submitted.intro', [
+                        'name' => $this->application->applicant->name,
                         'call' => sprintf("%s - %d (%s)", $call->typeLabel, $call->year, $call->title)
                     ]))
-                    ->action(__('email.application_submitted.action'), url(config('app.url').route('application.show', $this->application->id, false)));
+                    ->action(__('email.new_application_submitted.action'), url(config('app.url').route('application.show', $this->application->id, false)));
     }
 
     /**

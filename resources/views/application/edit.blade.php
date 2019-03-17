@@ -146,7 +146,6 @@
             'maximum_count' => \App\Setting::get('max_number_of_target_dates')
         ])
     @endif
-
     @include('forms.select', [
         'name'          => 'study_fields',
         'label'         => __('fields.application.study_fields'),
@@ -288,7 +287,7 @@
 
     <hr />
     <div class="form-group row">
-        <div class="col-sm-9 offset-sm-3">
+        <div class="col-sm-12 text-center">
             <a href="{{ route('home') }}" class="btn btn-secondary">{{ __('actions.cancel') }}</a>
             <button type="submit" name="save" class="btn btn-primary">@svg('solid/save') {{ __('actions.save') }}</button>
             <a href="{{ route('application.submit', ['id' => $application->id]) }}" class="btn btn-success submission-link">@svg('solid/check')

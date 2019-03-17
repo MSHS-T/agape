@@ -12,6 +12,7 @@ use App\StudyField;
 use App\User;
 use App\Enums\CallType;
 use App\Notifications\ApplicationSubmitted;
+use App\Notifications\NewApplicationSubmitted;
 use App\Notifications\OfferCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -239,22 +240,22 @@ class ApplicationController extends Controller
         $application = Application::findOrFail($id);
         $data = $application->toArray();
         $validator = Validator::make($data, [
-            'title'                         => 'required|max:255',
-            'acronym'                       => 'required|max:15',
-            'carrier_id'                    => 'required|exists:persons,id',
-            'carrier.first_name'            => 'required|max:255',
-            'carrier.last_name'             => 'required|max:255',
-            'carrier.email'                 => 'required|max:255|email',
-            'carrier.phone'                 => 'required|max:255',
-            'carrier.status'                => 'required|max:255',
-            'laboratories'                  => 'required',
-            'laboratories.*.id'             => 'required|exists:laboratories,id',
-            'laboratories.*.name'           => 'required|max:255',
-            'laboratories.*.unit_code'      => 'required|max:255',
-            'laboratories.*.director_email' => 'required|max:255|email',
-            'laboratories.*.contact_name'   => 'required|max:255',
-            'laboratories.*.regency'        => 'required|max:255',
-            'duration'                      => [
+            'title'                             => 'required|max:255',
+            'acronym'                           => 'required|max:15',
+            'carrier_id'                        => 'required|exists:persons,id',
+            'carrier.first_name'                => 'required|max:255',
+            'carrier.last_name'                 => 'required|max:255',
+            'carrier.email'                     => 'required|max:255|email',
+            'carrier.phone'                     => 'required|max:255',
+            'carrier.status'                    => 'required|max:255',
+            'laboratories'                      => 'required',
+            'laboratories.*.id'                 => 'required|exists:laboratories,id',
+            'laboratories.*.name'               => 'required|max:255',
+            'laboratories.*.unit_code'          => 'required|max:255',
+            'laboratories.*.director_email'     => 'required|max:255|email',
+            'laboratories.*.pivot.contact_name' => 'required|max:255',
+            'laboratories.*.regency'            => 'required|max:255',
+            'duration'                          => [
                 function($attribute, $value, $fail) use ($application) {
                     if($application->projectcall->type != CallType::Workshop){
                         if(empty($value)){
@@ -273,7 +274,7 @@ class ApplicationController extends Controller
                     if($application->projectcall->type == CallType::Workshop){
                         if(empty($value)){
                             $fail(__('validation.required_if', [
-                            'attribute' => __('fields.application.duration'),
+                            'attribute' => __('fields.application.target_date'),
                             'other' => __('fields.projectcall.type'),
                             'value' => $application->projectcall->typeLabel,
                         ]));
@@ -286,7 +287,7 @@ class ApplicationController extends Controller
             'study_fields.*.id'             => 'required|exists:study_fields,id',
             'summary_fr'                    => 'required',
             'summary_en'                    => 'required',
-            'keywords'                      => 'required',
+            'keywords'                      => 'required|array|min:3',
             'keywords.*'                    => 'max:100',
             'short_description'             => 'required',
             'amount_requested'              => 'required|numeric|min:0',
@@ -321,7 +322,8 @@ class ApplicationController extends Controller
         $application->save();
 
         // Notify admins
-        Notification::send(User::admins()->get(), new ApplicationSubmitted($application));
+        Notification::send(User::admins()->get(), new NewApplicationSubmitted($application));
+        $application->applicant->notify(new ApplicationSubmitted($application));
 
         return redirect()->route('home')
                          ->with('success', __('actions.application.submitted'));
