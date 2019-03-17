@@ -1,4 +1,4 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 @section('content')
 <div class="container">
     <div class="row align-items-center justify-content-center">
@@ -60,7 +60,23 @@
                     </div>
                 </div>
             </form>
+            <div class="row">
+                <div class="col-8 offset-2">
+                    <h4 class="text-through-line mb-4">
+                        <span class="text-uppercase">
+                            {{ __('auth.or_register') }}
+                        </span>
+                    </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 offset-4 text-center">
 
+                    <a href="{{ route('register') }}" class="btn btn-success d-inline-block">
+                        {{ __('actions.register') }}
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

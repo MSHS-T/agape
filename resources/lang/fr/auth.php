@@ -25,5 +25,7 @@ return [
     'register2' => 'Merci de remplir le formulaire suivant pour créer votre compte',
     'reset_password1' => 'Réinitialisation du mot de passe',
     'reset_password2' => 'Veuillez saisir votre adresse email afin de recevoir un lien de réinitialisation',
-    'reset_password3' => 'Veuillez saisir votre adresse email, ainsi que votre nouveau mot de passe'
+    'reset_password3' => 'Veuillez saisir votre adresse email, ainsi que votre nouveau mot de passe',
+    'or_register' => 'Ou',
+    'email_requirements' => 'Seules les adresses email professionnelles sont autorisées'
 ];

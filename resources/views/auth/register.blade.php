@@ -46,7 +46,10 @@
 
                     <div class="col-md-6">
                         <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                            name="email" value="{{ old('email') }}" required autofocus>
+                            name="email" value="{{ old('email') }}" required autofocus aria-describedby="emailHelpBlock">
+                        <small id="emailHelpBlock" class="form-text text-muted">
+                            {{ __('auth.email_requirements') }}
+                        </small>
                         @if ($errors->has('email'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('email') }}</strong>
@@ -82,7 +85,7 @@
 
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-success">
                             {{ __('actions.register') }}
                         </button>
                     </div>
