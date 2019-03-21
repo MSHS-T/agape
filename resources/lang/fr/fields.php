@@ -132,5 +132,21 @@ return [
         "declined" => "Refusé",
         "pending" => "En attente",
         "no_experts" => "Aucun expert disponible"
-    ]
+    ],
+
+    "setting" => [
+        'max_number_of_target_dates' => 'Nombre maximum de dates prévisionnelles (Workshop)',
+        'max_number_of_experts' => 'Nombre maximum d\'experts',
+        'max_number_of_documents' => 'Nombre maximum de documents joints',
+        'max_number_of_laboratories' => 'Nombre maximum de laboratoires',
+        'max_number_of_study_fields' => 'Nombre maximum de champs disciplinaires',
+        'max_number_of_keywords' => 'Nombre maximum de mots-clés',
+        'notation_title' => 'Catégorie de notation :index',
+        'notation_description' => 'Description de la catégorie :index',
+        'notation_grade' => "Note :grade",
+        'notation_details' => "Explication",
+        'extensions_application_form' => 'Extensions autorisées pour le formulaire de candidature',
+        'extensions_financial_form' => 'Extensions autorisées pour le formulaire financier',
+        'extensions_other_attachments' => 'Extensions autorisées pour les autres fichiers'
+    ],
 ];

@@ -39,6 +39,19 @@
                         @switch(Auth::user()->role)
                         @case(\App\Enums\UserRole::Admin)
                         <a class="nav-link" href="{{route('projectcall.index')}}">{{__('actions.projectcall.list')}}</a>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ __('actions.administration') }} <span class="caret"></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">{{ __('actions.study_fields') }}</a>
+                                <a class="dropdown-item" href="#">{{ __('actions.laboratories') }}</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('settings') }}">{{ __('actions.settings.list') }}</a>
+                            </div>
+                        </li>
                         @break
                         @case(\App\Enums\UserRole::Expert)
                         @endswitch

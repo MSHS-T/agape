@@ -19,6 +19,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
 // Route::middleware(['auth'])->group(function(){
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('profile', 'HomeController@profile')->name('profile');
+    Route::get('settings', 'SettingsController@edit')->name('settings');
+    Route::post('settings', 'SettingsController@update')->name('settings.update');
 
     Route::get('download/template/{form}/{type}/{year}', 'DownloadController@template')
          ->where([

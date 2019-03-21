@@ -36,6 +36,9 @@ return [
     ],
 
     "profile" => "Mon profil",
+    "administration" => "Administration",
+    "laboratories" => "Laboratoires",
+    "study_fields" => "Champs disciplinaires",
 
     "projectcall" => [
         "show" => "Visualiser l'appel à Projets",
@@ -75,5 +78,15 @@ return [
     'evaluation' => [
         "list_count" => "Évaluations (:count)",
         "show_all" => "Visualiser les evaluations (:count)",
+    ],
+
+    'settings' => [
+        'list' => 'Paramètres',
+        'saved' => 'Les paramètres ont bien été sauvegardés.',
+        'sections' => [
+            'projectcalls' => 'Configuration des appels à projets',
+            'notation_guide' => 'Guide de notation',
+            'notation_description' => 'Description des notes'
+        ]
     ]
 ];

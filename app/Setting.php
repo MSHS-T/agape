@@ -24,4 +24,13 @@ class Setting extends Model
         $row->save();
         return $row;
     }
+
+    public static function all($columns = []) {
+        $data = parent::all();
+        $compacted = new \stdClass;
+        foreach($data as $item){
+            $compacted->{$item->key} = $item->value;
+        }
+        return $compacted;
+    }
 }

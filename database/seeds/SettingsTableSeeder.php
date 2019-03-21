@@ -24,15 +24,11 @@ class SettingsTableSeeder extends Seeder
             'value' => 10
         ]);
         DB::table('settings')->insert([
-            'key' => 'application_confirmation_email',
-            'value' => 'Bonjour,<br/><br/>Votre dossier de candidature a &eacute;t&eacute; enregistr&eacute; sous le num&eacute;ro [ID].<br/>Vous pouvez y acc&eacute;der en ligne via ce lien : <a href=[LINK]>[LINK]</a>.<br/><br/>A bient&ocirc;t sur notre site,<br/><br/>L\'&eacute;quipe AAP MSH'
-        ]);
-        DB::table('settings')->insert([
             'key' => 'notation_grid',
             'value' => json_encode([
                 0 => [
                     "grade" => "C",
-                    "details" => "Projet &agrave; conforter"
+                    "details" => "Projet à conforter"
                 ],
                 1 => [
                     "grade" => "B",
@@ -40,7 +36,7 @@ class SettingsTableSeeder extends Seeder
                 ],
                 2 => [
                     "grade" => "A",
-                    "details" => "Tr&egrave;s bon projet"
+                    "details" => "Très bon projet"
                 ],
                 3 => [
                     "grade" => "A+",
@@ -50,7 +46,7 @@ class SettingsTableSeeder extends Seeder
         ]);
         DB::table('settings')->insert([
             'key' => 'notation_1_title',
-            'value' => 'Qualit&eacute; et ambition scientifique du projet'
+            'value' => 'Qualité et ambition scientifique du projet'
         ]);
         DB::table('settings')->insert([
             'key' => 'notation_2_title',
@@ -58,19 +54,19 @@ class SettingsTableSeeder extends Seeder
         ]);
         DB::table('settings')->insert([
             'key' => 'notation_3_title',
-            'value' => 'Impact et retomb&eacute;es du projet'
+            'value' => 'Impact et retombées du projet'
         ]);
         DB::table('settings')->insert([
             'key' => 'notation_1_description',
-            'value' => '<ul><li>Clart&eacute; des objectifs et des hypoth&egrave;ses de recherche</li><li>Caract&egrave;re interdisciplinaire du projet et effet structurant</li><li>Caract&egrave;re novateur, originalit&eacute;, progr&egrave;s par rapport &agrave; l\'&eacute;tat de l\'art</li><li>Faisabilit&eacute; notamment au regard des m&eacute;thodes, gestion des risques scientifiques</li></ul>'
+            'value' => '<ul><li>Clarté des objectifs et des hypothèses de recherche</li><li>Caractère interdisciplinaire du projet et effet structurant</li><li>Caractère novateur, originalité, progrès par rapport à l\'état de l\'art</li><li>Faisabilité notamment au regard des méthodes, gestion des risques scientifiques</li></ul>'
         ]);
         DB::table('settings')->insert([
             'key' => 'notation_2_description',
-            'value' => '<ul><li>Comp&eacute;tence, expertise et implication du coordinateur scientique et des partenaires</li><li>Qualit&eacute; et compl&eacute;mentarit&eacute; de l\'&eacute;quipe, qualit&eacute; de la collaboration</li><li>Ad&eacute;quation aux objectifs des moyens mis en oeuvre et demand&eacute;s (coh&eacute;rence du projet)</li></ul>'
+            'value' => '<ul><li>Compétence, expertise et implication du coordinateur scientique et des partenaires</li><li>Qualité et complémentarité de l\'équipe, qualité de la collaboration</li><li>Adéquation aux objectifs des moyens mis en oeuvre et demandés (cohérence du projet)</li></ul>'
         ]);
         DB::table('settings')->insert([
             'key' => 'notation_3_description',
-            'value' => '<ul><li>Impact scientifique, social, &eacute;conomique ou culturel</li><li>Capacit&eacute; du projet &agrave; r&eacute;pondre aux enjeux de recherche, acquisitions de nouvelles connaissances et de savoir-faire</li><li>Strat&eacute;gie de diffusion et de valorisation des r&eacute;sultats</li></ul>'
+            'value' => '<ul><li>Impact scientifique, social, économique ou culturel</li><li>Capacité du projet à répondre aux enjeux de recherche, acquisitions de nouvelles connaissances et de savoir-faire</li><li>Stratégie de diffusion et de valorisation des résultats</li></ul>'
         ]);
         DB::table('settings')->insert([
             'key' => 'max_number_of_laboratories',
