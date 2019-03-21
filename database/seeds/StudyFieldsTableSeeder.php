@@ -12,14 +12,14 @@ class StudyFieldsTableSeeder extends Seeder
     public function run()
     {
         DB::table('study_fields')->insert([
-            ['name' => 'Ingénierie'],
-            ['name' => 'Biologie'],
-            ['name' => 'Aéronautique'],
-            ['name' => 'Spatial'],
-            ['name' => 'Chimie'],
-            ['name' => 'Sciences Humaines'],
-            ['name' => 'Sciences Sociales'],
-            ['name' => 'Économie']
+            ['name' => 'Ingénierie', 'creator_id' => 1],
+            ['name' => 'Biologie', 'creator_id' => 1],
+            ['name' => 'Aéronautique', 'creator_id' => 1],
+            ['name' => 'Spatial', 'creator_id' => 1],
+            ['name' => 'Chimie', 'creator_id' => 1],
+            ['name' => 'Sciences Humaines', 'creator_id' => 1],
+            ['name' => 'Sciences Sociales', 'creator_id' => 1],
+            ['name' => 'Économie', 'creator_id' => 1]
         ]);
     }
 }

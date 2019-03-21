@@ -59,7 +59,7 @@ class ApplicationController extends Controller
             return redirect()->route('home');
         }
         $laboratories = Laboratory::accessible()->get();
-        $study_fields = StudyField::all();
+        $study_fields = StudyField::accessible()->get();
         $application->laboratories()->orderBy('order', 'asc')->get();
         return view('application.edit', compact('application', 'laboratories', 'study_fields'));
     }
