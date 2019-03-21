@@ -82,6 +82,7 @@ return [
         "laboratory_1" => "Laboratoire porteur 1",
         "laboratory_n" => "Laboratoire :index",
         "laboratories" => "Laboratoires",
+        "other_laboratories" => "Autres laboratoires et partenaires",
         "duration" => "Durée du projet",
         "target_date" => "Date(s) prévisionnelle(s) du workshop",
         "study_fields" => "Champ(s) disciplinaire(s)",

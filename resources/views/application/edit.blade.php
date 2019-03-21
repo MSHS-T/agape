@@ -71,7 +71,7 @@
             ]
         ]
     ])
-    @foreach(range(1,\App\Setting::get('max_number_of_laboratories')) as $index => $iteration)
+    @foreach(range(1,$application->projectcall->number_of_laboratories) as $index => $iteration)
         @include('forms.selectorother', [
             'name'          => 'laboratory_id_'.$iteration,
             'label'         => __(
@@ -126,6 +126,11 @@
             ]
         ])
     @endforeach
+    @include('forms.textarea', [
+        'name'  => 'other_laboratories',
+        'label' => __('fields.application.other_laboratories'),
+        'value' => old('other_laboratories', $application->other_laboratories)
+    ])
     @if($application->projectcall->type != \App\Enums\CallType::Workshop)
         {{-- Not workshop --}}
         @include('forms.textinput', [
@@ -143,7 +148,7 @@
             'type'          => 'textinput',
             'label'         => __('fields.application.target_date'),
             'value'         => old('target_date', $application->target_date ?? []),
-            'maximum_count' => \App\Setting::get('max_number_of_target_dates')
+            'maximum_count' => $application->projectcall->number_of_target_dates
         ])
     @endif
     @include('forms.select', [
@@ -151,13 +156,13 @@
         'label'         => __('fields.application.study_fields'),
         'help'          => __(
             'fields.application.study_fields_help',
-            ['max' => \App\Setting::get('max_number_of_study_fields')]
+            ['max' => $application->projectcall->number_of_study_fields]
         ),
         'allowedValues' => $study_fields,
         'allowNone'     => true,
         'allowNew'      => true,
         'multiple'      => true,
-        'maximum_count' => \App\Setting::get('max_number_of_study_fields'),
+        'maximum_count' => $application->projectcall->number_of_study_fields,
         'displayField'  => 'name',
         'valueField'    => 'id',
         'value'         => old('study_fields', $application->studyFields->pluck('id')->all()),
@@ -182,7 +187,7 @@
         'value' => old('summary_en', $application->summary_en)
     ])
 
-    @foreach(range(1,\App\Setting::get('max_number_of_keywords')) as $index => $iteration)
+    @foreach(range(1,$application->projectcall->number_of_keywords) as $index => $iteration)
         @include('forms.textinput', [
             'name'  => 'keyword_'.$iteration,
             'label' => __('fields.application.keyword_n', ['index' => $iteration]),
