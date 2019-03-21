@@ -21,6 +21,8 @@ return [
     "submit" => "Soumettre",
     "home" => "Accueil",
     "add" => "Ajouter",
+    "accept" => "Accepter",
+    "decline" => "Refuser",
     "select_element" => "Sélectionner un élément (taper du texte pour filtrer)",
     "select_elements" => "Sélectionner des éléments (taper du texte pour filtrer)",
     "add_element" => "Ajouter un nouvel élément",
@@ -33,6 +35,12 @@ return [
     "confirm_delete" => [
         "title" => "Confirmer la suppression",
         "body" => "Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est irréversible."
+    ],
+
+    "confirm_decline" => [
+        "title" => "Confirmer le refus",
+        "body" => "Veuillez saisir la raison de votre refus. Attention : cette action est irréversible.",
+        "error" => "Erreur : la justification de votre refus est obligatoire"
     ],
 
     "profile" => "Mon profil",
@@ -75,7 +83,16 @@ return [
         'expert_already_assigned' => 'L\'expert est déjà affecté à cette candidature'
     ],
 
+    'evaluationoffers' => [
+        "offer_count" => "Propositions d'évaluation (:count)",
+        "accepted_count" => "Évaluations à réaliser (:count)",
+        "done_count" => "Évaluations terminées (:count)",
+        "accepted" => "Proposition d'évaluation acceptée.",
+        "declined" => "Proposition d'évaluation refusée."
+    ],
+
     'evaluation' => [
+        "evaluate" => "Évaluer",
         "list_count" => "Évaluations (:count)",
         "show_all" => "Visualiser les evaluations (:count)",
     ],

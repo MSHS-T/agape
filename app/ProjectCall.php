@@ -65,4 +65,8 @@ class ProjectCall extends Model
     public function getTypeLabelAttribute(){
         return \App\Enums\CallType::getKey($this->type);
     }
+
+    public function toString(){
+        return sprintf("%s (%d)", $this->typeLabel, $this->year);
+    }
 }

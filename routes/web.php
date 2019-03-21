@@ -41,6 +41,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::post('application/{application_id}/assign/', 'ApplicationController@assign')->name('application.assign');
     Route::delete('application/unassign/{offer_id}', 'ApplicationController@unassign')->name('application.unassign');
     Route::resource('application', 'ApplicationController')->only(['index', 'show', 'edit', 'update']);
+    Route::get('evaluation/offer/{offer_id}/accept/', 'EvaluationController@acceptOffer')->name('offer.accept');
+    Route::post('evaluation/offer/{offer_id}/decline/', 'EvaluationController@declineOffer')->name('offer.decline');
+    Route::get('evaluation/offer/{offer_id}', 'EvaluationController@create')->name('evaluation.create');
+    Route::post('evaluation/offer/{offer_id}', 'EvaluationController@store')->name('evaluation.store');
 });
 
 Route::get('error', function(){
