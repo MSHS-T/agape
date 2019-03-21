@@ -46,7 +46,7 @@
                                 <li>
                                     {{ $offer->expert->name }}
                                     @if(is_null($offer->accepted))
-
+                                        @svg('solid/question', 'icon-fw text-primary')
                                     @elseif($offer->accepted == true)
                                         @svg('solid/check', 'icon-fw text-success')
                                     @elseif($offer->accepted == false)
