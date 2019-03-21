@@ -107,7 +107,7 @@ class ApplicationController extends Controller
 
         //Laboratories
         $application->laboratories()->detach();
-        foreach(range(1, Setting::get('max_number_of_laboratories')) as $iteration){
+        foreach(range(1, $application->projectcall->number_of_laboratories) as $iteration){
             $lab_id = $data->{'laboratory_id_'.$iteration};
             $lab_contact = $data->{'laboratory_contact_name_'.$iteration};
             if($lab_id === "none") {
@@ -155,14 +155,14 @@ class ApplicationController extends Controller
 
         //Target dates
         $target_dates = [];
-        foreach(range(1, Setting::get('max_number_of_target_dates')) as $iteration){
+        foreach(range(1, $application->projectcall->number_of_target_dates) as $iteration){
             $target_dates[] = $data->{"target_date_".$iteration} ?? null;
         }
         $application->target_date = array_filter($target_dates);
 
         //Keywords
         $keywords = [];
-        foreach(range(1, Setting::get('max_number_of_keywords')) as $iteration){
+        foreach(range(1, $application->projectcall->number_of_keywords) as $iteration){
             if(!is_null($data->{'keyword_'.$iteration})){
                 $keywords[] = $data->{'keyword_'.$iteration};
             }

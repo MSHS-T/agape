@@ -11,6 +11,14 @@ class StudyField extends Model
 
     public $timestamps = false;
 
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($sf) {
+            $sf->creator_id = Auth::id();
+        });
+    }
+
     public function applications(){
         return $this->belongsToMany('App\Application');
     }
