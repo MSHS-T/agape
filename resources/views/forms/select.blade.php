@@ -3,7 +3,7 @@ $id = 'input'.ucfirst(camel_case($name));
 if($multiple){ $name = $name."[]"; }
 else { $maximum_count = 1; }
 $placeholder = $multiple ? __('actions.select_elements') : __('actions.select_element');
-$value = is_array($value) ? $value : [($value ?? null)];
+$value = is_array($value ?? null) ? $value : [($value ?? null)];
 @endphp
 <div class="form-group row">
     <label for="{{$id}}" class="col-3 col-form-label">{{$label}}</label>
