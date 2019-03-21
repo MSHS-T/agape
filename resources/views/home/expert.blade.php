@@ -1,6 +1,6 @@
-@if(!empty($offers))
+@if(count($offers))
     <h2 class="mb-3 text-center">{{ __('actions.evaluationoffers.offer_count', ['count' => count($offers)]) }}</h2>
-    <div class="row justify-content-center">
+    <div class="row mb-3 justify-content-center">
         <div class="col-12">
             @foreach ($offers as $offer)
                 <div class="row mb-1">
@@ -26,9 +26,9 @@
     </div>
 @endif
 
-@if(!empty($accepted))
+@if(count($accepted))
     <h2 class="mb-3 text-center">{{ __('actions.evaluationoffers.accepted_count', ['count' => count($accepted)]) }}</h2>
-    <div class="row justify-content-center">
+    <div class="row mb-3 justify-content-center">
         <div class="col-12">
             @foreach ($accepted as $offer)
                 <div class="row mb-1">
@@ -53,9 +53,9 @@
     </div>
 @endif
 
-@if(!empty($done))
+@if(count($done))
     <h2 class="mb-3 text-center">{{ __('actions.evaluationoffers.done_count', ['count' => count($done)]) }}</h2>
-    <div class="row justify-content-center">
+    <div class="row mb-3 justify-content-center">
         <div class="col-12">
             @foreach ($done as $offer)
                 <div class="row mb-1">

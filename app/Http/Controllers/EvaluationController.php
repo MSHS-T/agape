@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Evaluation;
 use App\EvaluationOffer;
+use App\User;
+use App\Notifications\OfferAccepted;
+use App\Notifications\OfferDeclined;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class EvaluationController extends Controller
 {
@@ -18,7 +23,6 @@ class EvaluationController extends Controller
     public function show($id)
     {
         $evaluation = Evaluation::findOrFail($id);
-
         return view('evaluation.show', compact('evaluation'));
     }
 
@@ -59,6 +63,7 @@ class EvaluationController extends Controller
         $offer = EvaluationOffer::findOrFail($offer_id);
         $offer->accepted = true;
         $offer->save();
+        Notification::send(User::admins()->get(), new OfferAccepted($offer));
         return redirect()->route('evaluation.create', ["offer_id" => $offer_id])
                          ->with('success', __('actions.evaluationoffers.accepted'));
     }
@@ -76,6 +81,7 @@ class EvaluationController extends Controller
         $offer->accepted = false;
         $offer->justification = $request->input('justification');
         $offer->save();
+        Notification::send(User::admins()->get(), new OfferDeclined($offer));
         return redirect()->route('home')
                          ->with('success', __('actions.evaluationoffers.declined'));
     }

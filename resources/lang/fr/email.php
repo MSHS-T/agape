@@ -35,10 +35,13 @@ return [
         'action' => 'Répondre',
         'outro' => 'Merci de nous faire connaître votre choix dans les plus brefs délais.',
     ],
-    'expert_decision' => [
-        'title' => '',
-        'intro' => '',
-        'action' => '',
-        'outro' => '',
+    'offer_accepted' => [
+        'title' => 'Proposition d\'évaluation acceptée',
+        'intro' => 'L\'expert :expert vient d\'accepter la proposition d\'évaluation de la candidature de :candidat pour l\'appel à projets :call'
+    ],
+    'offer_declined' => [
+        'title' => 'Proposition d\'évaluation refusée',
+        'intro' => 'L\'expert :expert vient de refuser la proposition d\'évaluation de la candidature de :candidat pour l\'appel à projets :call',
+        'outro' => 'Justification du refus : :justification'
     ],
 ];

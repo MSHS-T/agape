@@ -7,18 +7,20 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ExpertDecision extends Notification
+class OfferAccepted extends Notification
 {
     use Queueable;
+
+    private $offer;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($offer)
     {
-        //
+        $this->offer = $offer;
     }
 
     /**
@@ -40,11 +42,14 @@ class ExpertDecision extends Notification
      */
     public function toMail($notifiable)
     {
+        $call = $this->offer->application->projectcall;
         return (new MailMessage)
-                    ->subject(__('email.expert_decision.title'))
-                    ->line(__('email.expert_decision.intro'))
-                    ->action(__('email.expert_decision.action'), url('/'))
-                    ->line(__('email.expert_decision.outro'));
+                    ->subject(__('email.offer_accepted.title'))
+                    ->line(__('email.offer_accepted.intro', [
+                        'expert' => $this->offer->expert->name,
+                        'candidat' => $this->offer->application->applicant->name,
+                        'call' => sprintf("%s - %d (%s)", $call->typeLabel, $call->year, $call->title)
+                    ]));
     }
 
     /**
