@@ -78,6 +78,34 @@
         </div>
     </div>
     <div class="form-group row">
+        <label for="inputNbKeywords" class="col-sm-3 col-form-label">{{ __('fields.projectcall.number_of_keywords')
+            }}</label>
+        <div class="col-sm-9">
+            <input type="number" class="form-control" id="inputNbKeywords" name="number_of_keywords" min="1" value="{{old('number_of_keywords', $projectcall->number_of_keywords)}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputNbLaboratories" class="col-sm-3 col-form-label">{{ __('fields.projectcall.number_of_laboratories')
+            }}</label>
+        <div class="col-sm-9">
+            <input type="number" class="form-control" id="inputNbLaboratories" name="number_of_laboratories" min="1" value="{{old('number_of_laboratories', $projectcall->number_of_laboratories)}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputNbStudyFields" class="col-sm-3 col-form-label">{{ __('fields.projectcall.number_of_study_fields')
+            }}</label>
+        <div class="col-sm-9">
+            <input type="number" class="form-control" id="inputNbStudyFields" name="number_of_study_fields" min="1" value="{{old('number_of_study_fields', $projectcall->number_of_study_fields)}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputNbTargetDatess" class="col-sm-3 col-form-label">{{ __('fields.projectcall.number_of_target_dates')
+            }}</label>
+        <div class="col-sm-9">
+            <input type="number" class="form-control" id="inputNbTargetDatess" name="number_of_target_dates" min="1" value="{{old('number_of_target_dates', $projectcall->number_of_target_dates)}}">
+        </div>
+    </div>
+    <div class="form-group row">
         <label for="inputPrivacyClause" class="col-sm-3 col-form-label">{{ __('fields.projectcall.privacy_clause') }}</label>
         <div class="col-sm-9">
             <textarea class="form-control" id="inputPrivacyClause" name="privacy_clause" rows="10" placeholder="{{ __('fields.projectcall.privacy_clause') }}">{{ old('privacy_clause', $projectcall->privacy_clause) }}</textarea>

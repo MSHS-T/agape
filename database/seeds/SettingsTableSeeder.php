@@ -12,15 +12,15 @@ class SettingsTableSeeder extends Seeder
     public function run()
     {
         DB::table('settings')->insert([
-            'key' => 'max_number_of_target_dates',
+            'key' => 'default_number_of_target_dates',
             'value' => 4
         ]);
         DB::table('settings')->insert([
-            'key' => 'max_number_of_experts',
+            'key' => 'default_number_of_experts',
             'value' => 4
         ]);
         DB::table('settings')->insert([
-            'key' => 'max_number_of_documents',
+            'key' => 'default_number_of_documents',
             'value' => 10
         ]);
         DB::table('settings')->insert([
@@ -69,15 +69,15 @@ class SettingsTableSeeder extends Seeder
             'value' => '<ul><li>Impact scientifique, social, économique ou culturel</li><li>Capacité du projet à répondre aux enjeux de recherche, acquisitions de nouvelles connaissances et de savoir-faire</li><li>Stratégie de diffusion et de valorisation des résultats</li></ul>'
         ]);
         DB::table('settings')->insert([
-            'key' => 'max_number_of_laboratories',
+            'key' => 'default_number_of_laboratories',
             'value' => 4
         ]);
         DB::table('settings')->insert([
-            'key' => 'max_number_of_study_fields',
+            'key' => 'default_number_of_study_fields',
             'value' => 3
         ]);
         DB::table('settings')->insert([
-            'key' => 'max_number_of_keywords',
+            'key' => 'default_number_of_keywords',
             'value' => 5
         ]);
         DB::table('settings')->insert([

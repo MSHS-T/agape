@@ -32,12 +32,12 @@ class SettingsController extends Controller
     public function update(Request $request, Setting $setting)
     {
         $request->validate([
-            'max_number_of_target_dates' => 'required|gt:0',
-            'max_number_of_experts'      => 'required|gt:0',
-            'max_number_of_documents'    => 'required|gt:0',
-            'max_number_of_laboratories' => 'required|gt:0',
-            'max_number_of_study_fields' => 'required|gt:0',
-            'max_number_of_keywords'     => 'required|gt:0',
+            'default_number_of_target_dates' => 'required|gte:0',
+            'default_number_of_experts'      => 'required|gte:0',
+            'default_number_of_documents'    => 'required|gte:0',
+            'default_number_of_laboratories' => 'required|gte:0',
+            'default_number_of_study_fields' => 'required|gte:0',
+            'default_number_of_keywords'     => 'required|gte:0',
             'notation_1_title' => 'required|string',
             'notation_2_title' => 'required|string',
             'notation_3_title' => 'required|string',
@@ -58,10 +58,13 @@ class SettingsController extends Controller
         ]);
 
         $data = $request->only([
-            'max_number_of_target_dates', 'max_number_of_experts', 'max_number_of_documents', 'max_number_of_laboratories',
-            'max_number_of_study_fields', 'max_number_of_keywords', 'notation_1_title', 'notation_2_title',
-            'notation_3_title', 'notation_1_description', 'notation_2_description', 'notation_3_description',
-            'extensions_application_form', 'extensions_financial_form', 'extensions_other_attachments'
+            'default_number_of_target_dates', 'default_number_of_experts',
+            'default_number_of_documents', 'default_number_of_laboratories',
+            'default_number_of_study_fields', 'default_number_of_keywords',
+            'notation_1_title', 'notation_2_title', 'notation_3_title',
+            'notation_1_description', 'notation_2_description', 'notation_3_description',
+            'extensions_application_form', 'extensions_financial_form',
+            'extensions_other_attachments'
         ]);
         foreach($data as $key => $value){
             Setting::set($key, $value);

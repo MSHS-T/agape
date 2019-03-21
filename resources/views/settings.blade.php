@@ -9,49 +9,49 @@
         {{ __('actions.settings.sections.projectcalls') }}
     </h2>
     @include('forms.textinput', [
-        'name'  => 'max_number_of_target_dates',
-        'label' => __('fields.setting.max_number_of_target_dates'),
-        'value' => old('max_number_of_target_dates', $settings->max_number_of_target_dates),
+        'name'  => 'default_number_of_target_dates',
+        'label' => __('fields.setting.default_number_of_target_dates'),
+        'value' => old('default_number_of_target_dates', $settings->default_number_of_target_dates),
         'type'  => 'number',
         'step'  => 1,
         'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
-        'name'  => 'max_number_of_experts',
-        'label' => __('fields.setting.max_number_of_experts'),
-        'value' => old('max_number_of_experts', $settings->max_number_of_experts),
+        'name'  => 'default_number_of_experts',
+        'label' => __('fields.setting.default_number_of_experts'),
+        'value' => old('default_number_of_experts', $settings->default_number_of_experts),
         'type'  => 'number',
         'step'  => 1,
         'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
-        'name'  => 'max_number_of_documents',
-        'label' => __('fields.setting.max_number_of_documents'),
-        'value' => old('max_number_of_documents', $settings->max_number_of_documents),
+        'name'  => 'default_number_of_documents',
+        'label' => __('fields.setting.default_number_of_documents'),
+        'value' => old('default_number_of_documents', $settings->default_number_of_documents),
         'type'  => 'number',
         'step'  => 1,
         'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
-        'name'  => 'max_number_of_laboratories',
-        'label' => __('fields.setting.max_number_of_laboratories'),
-        'value' => old('max_number_of_laboratories', $settings->max_number_of_laboratories),
+        'name'  => 'default_number_of_laboratories',
+        'label' => __('fields.setting.default_number_of_laboratories'),
+        'value' => old('default_number_of_laboratories', $settings->default_number_of_laboratories),
         'type'  => 'number',
         'step'  => 1,
         'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
-        'name'  => 'max_number_of_study_fields',
-        'label' => __('fields.setting.max_number_of_study_fields'),
-        'value' => old('max_number_of_study_fields', $settings->max_number_of_study_fields),
+        'name'  => 'default_number_of_study_fields',
+        'label' => __('fields.setting.default_number_of_study_fields'),
+        'value' => old('default_number_of_study_fields', $settings->default_number_of_study_fields),
         'type'  => 'number',
         'step'  => 1,
         'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
-        'name'  => 'max_number_of_keywords',
-        'label' => __('fields.setting.max_number_of_keywords'),
-        'value' => old('max_number_of_keywords', $settings->max_number_of_keywords),
+        'name'  => 'default_number_of_keywords',
+        'label' => __('fields.setting.default_number_of_keywords'),
+        'value' => old('default_number_of_keywords', $settings->default_number_of_keywords),
         'type'  => 'number',
         'step'  => 1,
         'help' => __('fields.setting.help.default_value')
