@@ -147,6 +147,9 @@ return [
         'notation_details' => "Explication",
         'extensions_application_form' => 'Extensions autorisées pour le formulaire de candidature',
         'extensions_financial_form' => 'Extensions autorisées pour le formulaire financier',
-        'extensions_other_attachments' => 'Extensions autorisées pour les autres fichiers'
+        'extensions_other_attachments' => 'Extensions autorisées pour les autres fichiers',
+        'help' => [
+            'default_value' => 'Valeur par défaut pré-remplie lors de la création d\'un appel à projets, modifiable individuellement dans ce dernier'
+        ]
     ],
 ];

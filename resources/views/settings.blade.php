@@ -13,42 +13,48 @@
         'label' => __('fields.setting.max_number_of_target_dates'),
         'value' => old('max_number_of_target_dates', $settings->max_number_of_target_dates),
         'type'  => 'number',
-        'step'  => 1
+        'step'  => 1,
+        'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
         'name'  => 'max_number_of_experts',
         'label' => __('fields.setting.max_number_of_experts'),
         'value' => old('max_number_of_experts', $settings->max_number_of_experts),
         'type'  => 'number',
-        'step'  => 1
+        'step'  => 1,
+        'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
         'name'  => 'max_number_of_documents',
         'label' => __('fields.setting.max_number_of_documents'),
         'value' => old('max_number_of_documents', $settings->max_number_of_documents),
         'type'  => 'number',
-        'step'  => 1
+        'step'  => 1,
+        'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
         'name'  => 'max_number_of_laboratories',
         'label' => __('fields.setting.max_number_of_laboratories'),
         'value' => old('max_number_of_laboratories', $settings->max_number_of_laboratories),
         'type'  => 'number',
-        'step'  => 1
+        'step'  => 1,
+        'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
         'name'  => 'max_number_of_study_fields',
         'label' => __('fields.setting.max_number_of_study_fields'),
         'value' => old('max_number_of_study_fields', $settings->max_number_of_study_fields),
         'type'  => 'number',
-        'step'  => 1
+        'step'  => 1,
+        'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
         'name'  => 'max_number_of_keywords',
         'label' => __('fields.setting.max_number_of_keywords'),
         'value' => old('max_number_of_keywords', $settings->max_number_of_keywords),
         'type'  => 'number',
-        'step'  => 1
+        'step'  => 1,
+        'help' => __('fields.setting.help.default_value')
     ])
     @include('forms.textinput', [
         'name'  => 'extensions_application_form',
