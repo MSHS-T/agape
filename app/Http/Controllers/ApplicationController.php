@@ -253,7 +253,15 @@ class ApplicationController extends Controller
             'laboratories.*.name'               => 'required|max:255',
             'laboratories.*.unit_code'          => 'required|max:255',
             'laboratories.*.director_email'     => 'required|max:255|email',
-            'laboratories.*.pivot.contact_name' => 'required|max:255',
+            'laboratories.*.pivot.contact_name' => [
+                function($attribute, $value, $fail){
+                    if(empty($value)){
+                        $fail(__('validation.required', [
+                            'attribute' => __('fields.laboratory.contact_name')
+                        ]));
+                    }
+                }
+            ],
             'laboratories.*.regency'            => 'required|max:255',
             'duration'                          => [
                 function($attribute, $value, $fail) use ($application) {

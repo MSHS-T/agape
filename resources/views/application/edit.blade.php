@@ -83,7 +83,7 @@
             'valueField'    => 'id',
             'value'         => old(
                 'laboratory_'.$iteration,
-                count($application->laboratories) > $iteration
+                count($application->laboratories) >= $iteration
                     ? $application->laboratories[$index]->id
                     : 'none'
             ),
@@ -118,7 +118,7 @@
                     'label' => __('fields.laboratory.contact_name'),
                     'value' => old(
                         'laboratory_contact_name_'.$iteration,
-                        count($application->laboratories) > $iteration
+                        count($application->laboratories) >= $iteration
                             ? $application->laboratories[$index]->pivot->contact_name
                             : ''
                     )
