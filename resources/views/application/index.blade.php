@@ -45,12 +45,12 @@
                             @foreach($application->offers as $offer)
                                 <li>
                                     {{ $offer->expert->name }}
-                                    @if($offer->accepted === true)
+                                    @if(is_null($offer->accepted))
+
+                                    @elseif($offer->accepted == true)
                                         @svg('solid/check', 'icon-fw text-success')
-                                    @elseif($offer->accepted === false)
+                                    @elseif($offer->accepted == false)
                                         @svg('solid/times', 'icon-fw text-danger')
-                                    @else
-                                        @svg('solid/question', 'icon-fw text-primary')
                                     @endif
                                 </li>
                             @endforeach

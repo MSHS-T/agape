@@ -32,17 +32,17 @@
                 <td>{{ $offer->id}}</td>
                 <td>{{ $offer->expert->name }}</td>
                 <td>
-                    @if($offer->accepted === true)
-                        @svg('solid/check', 'icon-fw text-success')
-                        {{ __('fields.offer.accepted') }}
-                        @php($total++)
-                    @elseif($offer->accepted === false)
-                        @svg('solid/times', 'icon-fw text-danger')
-                        {{ __('fields.offer.declined') }}
-                    @else
+                    @if(is_null($offer->accepted))
                         @svg('solid/question', 'icon-fw text-primary')
                         {{ __('fields.offer.pending') }}
                         @php($total++)
+                    @elseif($offer->accepted == true)
+                        @svg('solid/check', 'icon-fw text-success')
+                        {{ __('fields.offer.accepted') }}
+                        @php($total++)
+                    @elseif($offer->accepted == false)
+                        @svg('solid/times', 'icon-fw text-danger')
+                        {{ __('fields.offer.declined') }}
                     @endif
                 </td>
                 <td>
