@@ -63,7 +63,7 @@ label.col-form-label {
 }
 
 
-div.application-display {
+div.application-display, div.projectcall-display {
     font-size: 1.1rem;
 
     table {
@@ -84,4 +84,9 @@ div.application-display {
         background: $body-bg;
         padding: 0 10px;
     }
+}
+
+#accordion h5 button {
+    font-size: inherit;
+    font-wieght: bold;
 }

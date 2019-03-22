@@ -1,7 +1,8 @@
 @php
 $id = 'input'.ucfirst(camel_case($name));
+$row = $row ?? true;
 @endphp
-<div class="form-group row">
+<div class="form-group {{ $row ? "row" : "" }}">
     <label for="{{$id}}" class="col-3 col-form-label">{{$label}}</label>
     <div class="col-9">
         <textarea class="form-control" id="{{$id}}" name="{{$name}}" placeholder="{{$label}}" rows={{$rows??3}}>{{$value}}</textarea>

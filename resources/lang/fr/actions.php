@@ -95,6 +95,11 @@ return [
         "evaluate" => "Évaluer",
         "list_count" => "Évaluations (:count)",
         "show_all" => "Visualiser les evaluations (:count)",
+        "create" => "Evaluer la candidature",
+        "call_data" => "Détails de l'appel à projets",
+        "application_data" => "Détails de la candidature",
+        "evaluation_form" => "Formulaire d'évaluation",
+        "submit" => "Soumettre l'évaluation"
     ],
 
     'settings' => [

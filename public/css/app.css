@@ -11036,11 +11036,13 @@ label.col-form-label {
   font-weight: bold;
 }
 
-div.application-display {
+div.application-display,
+div.projectcall-display {
   font-size: 1.1rem;
 }
 
-div.application-display table {
+div.application-display table,
+div.projectcall-display table {
   font-size: 90%;
 }
 
@@ -11056,5 +11058,10 @@ div.application-display table {
 .text-through-line span {
   background: #f8fafc;
   padding: 0 10px;
+}
+
+#accordion h5 button {
+  font-size: inherit;
+  font-wieght: bold;
 }
 

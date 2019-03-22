@@ -48,7 +48,15 @@ class EvaluationController extends Controller
      */
     public function store($offer_id, Request $request)
     {
+        $offer = EvaluationOffer::findOrFail($offer_id);
 
+        $data = $request->all();
+        // $evaluation = new Evaluation($data);
+        $offer->evaluation()->create($data);
+
+        //TODO : Notify admin of evaluation submission
+        return redirect()->route('home')
+                         ->with('success', __('actions.evaluation.submitted'));
     }
 
     /**

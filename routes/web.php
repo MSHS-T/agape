@@ -45,6 +45,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::post('evaluation/offer/{offer_id}/decline/', 'EvaluationController@declineOffer')->name('offer.decline');
     Route::get('evaluation/offer/{offer_id}', 'EvaluationController@create')->name('evaluation.create');
     Route::post('evaluation/offer/{offer_id}', 'EvaluationController@store')->name('evaluation.store');
+    Route::get('evaluation/{id}', 'EvaluationController@show')->name('evaluation.show');
 });
 
 Route::get('error', function(){
