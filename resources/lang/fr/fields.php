@@ -133,9 +133,10 @@ return [
 
     "offer" => [
         "expert" => "Expert",
-        "accepted" => "Accepté",
-        "declined" => "Refusé",
+        "accepted" => "Acceptée",
+        "declined" => "Refusée",
         "pending" => "En attente",
+        "done" => "Terminée",
         "no_experts" => "Aucun expert disponible"
     ],
 

@@ -37,8 +37,13 @@
                         {{ __('fields.offer.pending') }}
                         @php($total++)
                     @elseif($offer->accepted == true)
-                        @svg('solid/check', 'icon-fw text-success')
-                        {{ __('fields.offer.accepted') }}
+                        @if(!is_null($offer->evaluation))
+                            @svg('solid/check', 'icon-fw text-success')
+                            {{ __('fields.offer.done') }}
+                        @else
+                            @svg('solid/hourglass', 'icon-fw text-warning')
+                            {{ __('fields.offer.accepted') }}
+                        @endif
                         @php($total++)
                     @elseif($offer->accepted == false)
                         @svg('solid/times', 'icon-fw text-danger')

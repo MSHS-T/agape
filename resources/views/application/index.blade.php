@@ -48,7 +48,11 @@
                                     @if(is_null($offer->accepted))
                                         @svg('solid/question', 'icon-fw text-primary')
                                     @elseif($offer->accepted == true)
-                                        @svg('solid/check', 'icon-fw text-success')
+                                        @if(!is_null($offer->evaluation))
+                                            @svg('solid/check', 'icon-fw text-success')
+                                        @else
+                                            @svg('solid/hourglass', 'icon-fw text-warning')
+                                        @endif
                                     @elseif($offer->accepted == false)
                                         @svg('solid/times', 'icon-fw text-danger')
                                     @endif
