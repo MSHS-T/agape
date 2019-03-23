@@ -19,7 +19,7 @@
                     </p>
                     <div class="d-flex flex-column align-items-stretch">
                         <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block my-1">
-                            @svg('solid/search', 'icon-fw') {{ __('actions.projectcall.show') }}
+                            @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
                         </a>
                         @php
                         $today = \Carbon\Carbon::parse('today');
@@ -28,13 +28,13 @@
                         @endphp
                         @if($can_apply)
                         <a href="{{ route('projectcall.applications', ['projectcall' => $call->id]) }}" class="btn btn-info d-inline-block my-1">
-                            @svg('solid/link', 'icon-fw') {{ __('actions.application.show_all', ['count' =>
+                            @svg('solid/link', 'icon-fw') {{ __('actions.application.list_count', ['count' =>
                             count($call->submittedApplications)]) }}
                         </a>
                         @endif
                         @if($can_evaluate)
                         <a href="#" class="btn btn-success d-inline-block my-1">
-                            @svg('solid/graduation-cap', 'icon-fw') {{ __('actions.evaluation.show_all', ['count' =>
+                            @svg('solid/graduation-cap', 'icon-fw') {{ __('actions.evaluation.list_count', ['count' =>
                             0]) }}
                         </a>
                         @endif
