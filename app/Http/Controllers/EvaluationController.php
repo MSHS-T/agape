@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Evaluation;
 use App\EvaluationOffer;
 use App\User;
+use App\Notifications\EvaluationSubmitted;
 use App\Notifications\OfferAccepted;
 use App\Notifications\OfferDeclined;
 
@@ -51,10 +52,9 @@ class EvaluationController extends Controller
         $offer = EvaluationOffer::findOrFail($offer_id);
 
         $data = $request->all();
-        // $evaluation = new Evaluation($data);
         $offer->evaluation()->create($data);
 
-        //TODO : Notify admin of evaluation submission
+        Notification::send(User::admins()->get(), new EvaluationSubmitted($offer));
         return redirect()->route('home')
                          ->with('success', __('actions.evaluation.submitted'));
     }

@@ -38,6 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     Route::put('application/submit/{id}', 'ApplicationController@submit')->name('application.submit');
     Route::get('application/{id}/assignations', 'ApplicationController@assignations')->name('application.assignations');
+    Route::get('application/{id}/evaluations', 'ApplicationController@evaluations')->name('application.evaluations');
     Route::post('application/{application_id}/assign/', 'ApplicationController@assign')->name('application.assign');
     Route::delete('application/unassign/{offer_id}', 'ApplicationController@unassign')->name('application.unassign');
     Route::resource('application', 'ApplicationController')->only(['index', 'show', 'edit', 'update']);

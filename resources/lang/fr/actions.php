@@ -99,7 +99,8 @@ return [
         "call_data" => "Détails de l'appel à projets",
         "application_data" => "Détails de la candidature",
         "evaluation_form" => "Formulaire d'évaluation",
-        "submit" => "Soumettre l'évaluation"
+        "submit" => "Soumettre l'évaluation",
+        "submitted" => "L'évaluation a été enregistrée."
     ],
 
     'settings' => [
