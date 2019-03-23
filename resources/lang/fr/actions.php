@@ -80,7 +80,7 @@ return [
         'assign_expert' => 'Assigner un expert',
         'expert_assigned' => 'La demande d\'évaluation a été transmise à l\'expert',
         'expert_unassigned' => 'La demande d\'évaluation a été annulée',
-        'expert_already_assigned' => 'L\'expert est déjà affecté à cette candidature'
+        'expert_already_assigned' => 'L\'expert est déjà affecté à cette candidature',
     ],
 
     'evaluationoffers' => [
@@ -88,7 +88,9 @@ return [
         "accepted_count" => "Évaluations à réaliser (:count)",
         "done_count" => "Évaluations terminées (:count)",
         "accepted" => "Proposition d'évaluation acceptée.",
-        "declined" => "Proposition d'évaluation refusée."
+        "declined" => "Proposition d'évaluation refusée.",
+        "retry" => "Envoyer un rappel",
+        "reminder_sent" => "Un rappel a été envoyé à l'expert",
     ],
 
     'evaluation' => [

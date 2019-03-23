@@ -55,9 +55,16 @@
                     {{ \Carbon\Carbon::parse($offer->created_at)->format(__('locale.datetime_format'))}}
                 </td>
                 <td>
-                    <a href="{{ route('application.unassign',[$offer->id])}}" class="btn btn-sm btn-danger d-block delete-link">
-                        @svg('solid/times', 'icon-fw') {{ __('actions.cancel') }}
-                    </a>
+                    @if(is_null($offer->accepted) || ($offer->accepted == true && is_null($offer->evaluation)))
+                        <a href="{{ route('offer.retry',[$offer->id])}}" class="btn btn-sm btn-warning d-block">
+                            @svg('solid/sync', 'icon-fw') {{ __('actions.evaluationoffers.retry') }}
+                        </a>
+                    @endif
+                    @if(is_null($offer->accepted))
+                        <a href="{{ route('application.unassign',[$offer->id])}}" class="btn btn-sm btn-danger d-block delete-link">
+                            @svg('solid/times', 'icon-fw') {{ __('actions.cancel') }}
+                        </a>
+                    @endif
                 </td>
             </tr>
             @endforeach

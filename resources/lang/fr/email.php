@@ -20,8 +20,8 @@ return [
         'outro' => 'Si vous n\'êtes pas à l\'origine de cette demande, vous pouvez ignorer ce message.',
     ],
     'new_application_submitted' => [
-        'title' => 'Ajout d\'une nouvelle candidature',
-        'intro' => 'Le candidat :name vient de soumettre sa candidature à l\'appel à projets :call.',
+        'title'  => 'Ajout d\'une nouvelle candidature',
+        'intro'  => 'Le candidat :name vient de soumettre sa candidature à l\'appel à projets :call.',
         'action' => 'Visualiser la candidature',
     ],
     'application_submitted' => [
@@ -30,10 +30,10 @@ return [
         'action' => 'Visualiser la candidature',
     ],
     'offer_created' => [
-        'title' => 'Proposition d\'évaluation',
-        'intro' => 'L\'administrateur de la plateforme AGAPE vous a proposé d\'évaluer une nouvelle candidature.',
+        'title'  => 'Proposition d\'évaluation',
+        'intro'  => 'L\'administrateur de la plateforme AGAPE vous a proposé d\'évaluer une nouvelle candidature.',
         'action' => 'Répondre',
-        'outro' => 'Merci de nous faire connaître votre choix dans les plus brefs délais.',
+        'outro'  => 'Merci de nous faire connaître votre choix dans les plus brefs délais.',
     ],
     'offer_accepted' => [
         'title' => 'Proposition d\'évaluation acceptée',
@@ -43,6 +43,11 @@ return [
         'title' => 'Proposition d\'évaluation refusée',
         'intro' => 'L\'expert :expert vient de refuser la proposition d\'évaluation de la candidature de :candidat pour l\'appel à projets :call',
         'outro' => 'Justification du refus : :justification'
+    ],
+    'offer_retry' => [
+        'title'  => 'Rappel : Proposition d\'évaluation à traiter',
+        'intro'  => 'Nous vous rappelons que la proposition d\'évaluation de la candidature de :candidat pour l\'appel à projets :call est en attente de traitement.',
+        'action' => 'Voir la proposition'
     ],
     'evaluation_submitted' => [
         'title' => 'Évaluation envoyée',

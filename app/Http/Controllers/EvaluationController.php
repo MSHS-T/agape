@@ -8,6 +8,7 @@ use App\User;
 use App\Notifications\EvaluationSubmitted;
 use App\Notifications\OfferAccepted;
 use App\Notifications\OfferDeclined;
+use App\Notifications\OfferRetry;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,5 +93,21 @@ class EvaluationController extends Controller
         Notification::send(User::admins()->get(), new OfferDeclined($offer));
         return redirect()->route('home')
                          ->with('success', __('actions.evaluationoffers.declined'));
+    }
+
+    /**
+     * Sends a reminder email to expert to process the evaluation offer
+     *
+     * @param  int  $offer_id
+     * @return \Illuminate\Http\Response
+     */
+    public function retryOffer($offer_id, Request $request)
+    {
+        $offer = EvaluationOffer::findOrFail($offer_id);
+
+        $offer->expert->notify(new OfferRetry($offer));
+
+        return redirect()->route('application.assignations', ['id' => $offer->application->id])
+                         ->with('success', __('actions.evaluationoffers.reminder_sent'));
     }
 }
