@@ -26,6 +26,10 @@ return [
     "select_element" => "Sélectionner un élément (taper du texte pour filtrer)",
     "select_elements" => "Sélectionner des éléments (taper du texte pour filtrer)",
     "add_element" => "Ajouter un nouvel élément",
+    "edit_profile" => "Edition du profil utilisateur",
+    "edit_password" => "Modification du mot de passe",
+    "edit_password_help" => "Si vous ne souhaitez pas changer votre mot de passe, laissez les 2 champs vides",
+    "profile_edited" => "Profil utilisateur modifié",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",

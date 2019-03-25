@@ -11,6 +11,7 @@ return [
     "password_confirmation" => "Confirmation du mot de passe",
     "remember_me" => "Se souvenir de moi",
     "id" => "ID",
+    "role" => "Rôle",
     "actions" => "Actions",
     "creation_date" => "Création",
     "modification_date" => "Dernière modification",

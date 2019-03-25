@@ -63,7 +63,10 @@
 
                     <div class="col-md-6">
                         <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                            name="password" required>
+                            name="password" required aria-describedby="passwordHelpBlock">
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                            {{ __('auth.password_requirements') }}
+                        </small>
                         @if ($errors->has('password'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('password') }}</strong>

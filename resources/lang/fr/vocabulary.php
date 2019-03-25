@@ -10,5 +10,10 @@ return [
         'Region' => 'Région Occitanie',
         'Exploratoire' => 'APEX',
         'Workshop' => 'Workshop',
+    ],
+    'role' => [
+        'Admin' => 'Administrateur',
+        'Candidate' => 'Candidat',
+        'Expert' => 'Expert'
     ]
 ];

@@ -16,9 +16,9 @@ Route::redirect('/', '/home');
 
 
 Route::middleware(['auth', 'verified'])->group(function(){
-// Route::middleware(['auth'])->group(function(){
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('profile', 'HomeController@profile')->name('profile');
+    Route::post('profile', 'HomeController@saveProfile')->name('profile.save');
 
     Route::get('download/template/{form}/{type}/{year}', 'DownloadController@template')
          ->where([

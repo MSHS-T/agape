@@ -7,6 +7,9 @@ use App\Enums\UserRole;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class HomeController extends Controller
 {
@@ -52,8 +55,45 @@ class HomeController extends Controller
      */
     public function profile()
     {
-        return view('profile', [
-            "user" => Auth::user()
+        return view('user.edit', [
+            "user"        => Auth::user(),
+            "mode"        => "edit",
+            "form_action" => route('profile.save')
         ]);
+    }
+
+    /**
+     * Updates the contents of a user's profile
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function saveProfile(Request $request)
+    {
+        $user = Auth::user();
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'phone' => ['required', 'string', 'max:255'],
+            'password' => ['nullable', 'string', 'min:6', 'confirmed'],
+        ]);
+        if ($validator->fails()) {
+            return redirect()
+                        ->route('profile')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        $data = $request->only(['first_name', 'last_name', 'email', 'phone']);
+        $user->fill($data);
+
+        if($request->filled(['password', 'password_confirmation'])) {
+            $user->password = Hash::make($request->input('password'));
+        }
+        $user->save();
+
+        return redirect()->route('home')
+                         ->with('success', __('actions.profile_edited'));
     }
 }
