@@ -27,7 +27,7 @@ class RoleMiddleware
         }, $roles);
         if ($request->user() && !in_array($request->user()->role, $roleValues))
         {
-            return response()->view('pages.unauthorized', ['roles' => $roleLabels]);
+            return response()->view('errors.unauthorized', ['roles' => $roleLabels]);
         }
         return $next($request);
     }

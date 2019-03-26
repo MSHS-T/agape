@@ -121,6 +121,9 @@ return [
     ],
 
     'error' => [
-        'unauthorized' => 'Vous n\'avez pas la permission d\'accéder à cette page.<br/>Profils autorisés : :roles.'
+        'title' => 'Une erreur s\'est produite :',
+        'unauthorized' => 'Vous n\'avez pas la permission d\'accéder à cette page.<br/>Profils autorisés : :roles.',
+        'not_found' => 'La page demandée n\'a pas pu être trouvée.',
+        'unknown' => 'Erreur inconnue. Veuillez contacter l\'administrateur du site si l\'erreur se reproduit.'
     ]
 ];
