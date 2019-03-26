@@ -77,7 +77,7 @@ class EvaluationOfferController extends Controller
         $offer->accepted = true;
         $offer->save();
         Notification::send(User::admins()->get(), new OfferAccepted($offer));
-        return redirect()->route('evaluation.create', ["offer_id" => $offer_id])
+        return redirect()->route('evaluation.create', ["offer" => $offer])
                          ->with('success', __('actions.evaluationoffers.accepted'));
     }
 
