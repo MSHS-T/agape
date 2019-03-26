@@ -41,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
             Route::put('{projectcall}', 'ProjectCallController@update')->name('update');
             Route::delete('{projectcall}', 'ProjectCallController@destroy')->name('destroy');
             Route::get('{projectcall}/applications', 'ProjectCallController@applications')->name('applications');
+            Route::get('{projectcall}/evaluations', 'EvaluationController@indexForProjectCall')->name('evaluations');
         });
 
         // Generates application object and redirect to applicatio.edit form
@@ -59,7 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
         Route::middleware('role:admin')->group(function(){
             Route::get('{application}/assignations', 'ApplicationController@assignations')->name('assignations');
-            Route::get('{application}/evaluations', 'ApplicationController@evaluations')->name('evaluations');
+            Route::get('{application}/evaluations', 'EvaluationController@indexForApplication')->name('evaluations');
         });
 
     });

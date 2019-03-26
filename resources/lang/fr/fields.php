@@ -143,8 +143,9 @@ return [
     ],
 
     "evaluation" => [
-        "grade"        => "Note",
-        "global_grade" => "Note globale"
+        "grade"          => "Note",
+        "global_grade"   => "Note globale",
+        "global_comment" => "Commentaires globaux"
     ],
 
     "setting" => [

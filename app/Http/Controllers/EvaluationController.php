@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Application;
 use App\Evaluation;
 use App\EvaluationOffer;
+use App\ProjectCall;
 use App\User;
 use App\Notifications\EvaluationSubmitted;
 
@@ -12,6 +14,33 @@ use Illuminate\Support\Facades\Notification;
 
 class EvaluationController extends Controller
 {
+    /**
+     * Display the evaluations for a specific projectcall.
+     *
+     * @param  ProjectCall $projectcall
+     * @return \Illuminate\Http\Response
+     */
+    public function indexForProjectCall(ProjectCall $projectcall)
+    {
+        $evaluations = collect([]);
+        foreach($projectcall->submittedApplications as $application){
+            $evaluations = $evaluations->merge($application->evaluations);
+        }
+        return view('evaluation.index', compact('evaluations', 'projectcall'));
+    }
+
+    /**
+     * Display the evaluations for a specific application.
+     *
+     * @param  Application  $application
+     * @return \Illuminate\Http\Response
+     */
+    public function indexForApplication(Application $application)
+    {
+        $evaluations = $application->evaluations;
+        return view('evaluation.index', compact('evaluations', 'application'));
+    }
+
     /**
      * Display the specified resource.
      *

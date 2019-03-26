@@ -59,4 +59,8 @@ class Application extends Model
     public function offers(){
         return $this->hasMany('App\EvaluationOffer');
     }
+
+    public function evaluations(){
+        return $this->hasManyThrough('App\Evaluation', 'App\EvaluationOffer', 'application_id', 'offer_id', 'id', 'id');
+    }
 }

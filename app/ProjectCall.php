@@ -35,7 +35,7 @@ class ProjectCall extends Model
         'help_candidates',
     ];
 
-    protected $appends = array('typeLabel');
+    protected $appends = array('typeLabel', 'evaluationCount');
 
     protected $dates = ['deleted_at'];
 
@@ -64,6 +64,14 @@ class ProjectCall extends Model
 
     public function getTypeLabelAttribute(){
         return \App\Enums\CallType::getKey($this->type);
+    }
+
+    public function getEvaluationCountAttribute(){
+        $cpt = 0;
+        foreach($this->submittedApplications as $application){
+            $cpt += count($application->evaluations);
+        }
+        return $cpt;
     }
 
     public function toString(){

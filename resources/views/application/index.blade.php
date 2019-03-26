@@ -63,12 +63,16 @@
                 </td>
                 <td>
                     <a href="
-                    {{ route('application.show',$application->id)}}" class="btn btn-sm btn-primary d-block">
+                    {{ route('application.show',$application)}}" class="btn btn-sm btn-primary d-block">
                         @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
                     </a>
                     <a href="
-                    {{ route('application.assignations',$application->id)}}" class="btn btn-sm btn-success d-block">
-                        @svg('solid/user-graduate', 'icon-fw') {{ __('actions.application.show_experts') }}
+                    {{ route('application.assignations',$application)}}" class="btn btn-sm btn-success d-block">
+                        @svg('solid/user-graduate', 'icon-fw') {{ __('actions.application.experts') }}
+                    </a>
+                    <a href="
+                    {{ route('application.evaluations',$application)}}" class="btn btn-sm btn-light d-block">
+                        @svg('solid/graduation-cap', 'icon-fw') {{ __('actions.application.evaluations') }}
                     </a>
                 </td>
             </tr>
