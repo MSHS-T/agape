@@ -33,9 +33,9 @@ class ProjectCallController extends Controller
     public function create()
     {
         return view('projectcall.edit', [
-            'mode' => 'create',
-            'method' => 'POST',
-            'action' => route('projectcall.store'),
+            'mode'        => 'create',
+            'method'      => 'POST',
+            'action'      => route('projectcall.store'),
             'projectcall' => (object)[
                 'type'                   => 1,
                 'year'                   => intval(date('Y'))+1,
@@ -69,17 +69,17 @@ class ProjectCallController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'type' => ['required', 'integer', new EnumValue(CallType::class, false)],
-            'year' => 'required|integer|min:'.(intval(date('Y')) - 1),
-            'title' => 'required',
-            'description' => 'required',
+            'type'                   => ['required', 'integer', new EnumValue(CallType::class, false)],
+            'year'                   => 'required|integer|min:'.(intval(date('Y')) - 1),
+            'title'                  => 'required',
+            'description'            => 'required',
             'application_start_date' => 'required|date',
-            'application_end_date' => 'required|date|after:application_start_date',
-            'evaluation_start_date' => 'required|date|after:application_end_date',
-            'evaluation_end_date' => 'required|date|after:evaluation_start_date',
-            'number_of_experts' => 'required|integer|min:1',
-            'number_of_documents' => 'required|integer|min:0',
-            'number_of_keywords' => 'required|integer|min:0',
+            'application_end_date'   => 'required|date|after:application_start_date',
+            'evaluation_start_date'  => 'required|date|after:application_end_date',
+            'evaluation_end_date'    => 'required|date|after:evaluation_start_date',
+            'number_of_experts'      => 'required|integer|min:1',
+            'number_of_documents'    => 'required|integer|min:0',
+            'number_of_keywords'     => 'required|integer|min:0',
             'number_of_laboratories' => 'required|integer|min:0',
             'number_of_study_fields' => 'required|integer|min:0',
             // Optional fields
@@ -94,36 +94,33 @@ class ProjectCallController extends Controller
         $call = new ProjectCall($request->all());
         $call->save();
 
-        return redirect()->route('projectcall.index')->with('success', __('actions.projectcall.created'));
+        return redirect()->route('projectcall.index')
+                         ->with('success', __('actions.projectcall.created'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  ProjectCall  $projectcall
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ProjectCall $projectcall)
     {
-        $projectcall = ProjectCall::findOrFail($id);
-
         return view('projectcall.show', compact('projectcall'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  ProjectCall  $projectcall
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ProjectCall $projectcall)
     {
-        $projectcall = ProjectCall::findOrFail($id);
-
         return view('projectcall.edit', [
-            'mode' => 'edit',
-            'method' => 'PUT',
-            'action' => route('projectcall.update', $id),
+            'mode'        => 'edit',
+            'method'      => 'PUT',
+            'action'      => route('projectcall.update', $projectcall),
             'projectcall' => $projectcall
         ]);
     }
@@ -132,24 +129,22 @@ class ProjectCallController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  ProjectCall  $projectcall
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ProjectCall $projectcall)
     {
-        $projectcall = ProjectCall::findOrFail($id);
-
         $request->validate([
-            'type' => ['required', 'integer', new EnumValue(CallType::class, false)],
-            'year' => 'required|integer|min:'.(intval(date('Y')) - 1),
-            'description' => 'required',
+            'type'                   => ['required', 'integer', new EnumValue(CallType::class, false)],
+            'year'                   => 'required|integer|min:'.(intval(date('Y')) - 1),
+            'description'            => 'required',
             'application_start_date' => 'required|date',
-            'application_end_date' => 'required|date|after:application_start_date',
-            'evaluation_start_date' => 'required|date|after:application_end_date',
-            'evaluation_end_date' => 'required|date|after:evaluation_start_date',
-            'number_of_experts' => 'required|integer|min:1',
-            'number_of_documents' => 'required|integer|min:0',
-            'number_of_keywords' => 'required|integer|min:0',
+            'application_end_date'   => 'required|date|after:application_start_date',
+            'evaluation_start_date'  => 'required|date|after:application_end_date',
+            'evaluation_end_date'    => 'required|date|after:evaluation_start_date',
+            'number_of_experts'      => 'required|integer|min:1',
+            'number_of_documents'    => 'required|integer|min:0',
+            'number_of_keywords'     => 'required|integer|min:0',
             'number_of_laboratories' => 'required|integer|min:0',
             'number_of_study_fields' => 'required|integer|min:0',
             // Optional fields
@@ -167,45 +162,49 @@ class ProjectCallController extends Controller
 
         $projectcall->fill($updatedData);
         $projectcall->save();
-        return redirect()->route('projectcall.index')->with('success', __('actions.projectcall.edited'));
+        return redirect()->route('projectcall.index')
+                         ->with('success', __('actions.projectcall.edited'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  ProjectCall  $projectcall
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ProjectCall $projectcall)
     {
-        $projectcall = ProjectCall::findOrFail($id);
         $projectcall->delete();
-        return redirect()->route('projectcall.index')->with('success', __('actions.projectcall.deleted'));
+        return redirect()->route('projectcall.index')
+                         ->with('success', __('actions.projectcall.deleted'));
     }
 
     /**
      * Creates an application for the given project call
      *
-     * @param  int  $id
+     * @param  ProjectCall  $projectcall
      * @return \Illuminate\Http\Response
      */
-    public function apply($id)
+    public function apply(ProjectCall $projectcall)
     {
-        $projectcall = ProjectCall::findOrFail($id);
-        $application = $projectcall->applications()->firstOrNew(['applicant_id' => Auth::id(), 'keywords' => '[]']);
+        $application = $projectcall->applications()
+                                   ->firstOrNew([
+                                       'applicant_id' => Auth::id(),
+                                       'keywords' => '[]'
+                                    ]);
         $application->save();
-        return redirect()->route('application.edit', $application->id);
+        return redirect()->route('application.edit', $application);
     }
 
     /**
      * Lists applications for the given project call
      *
-     * @param  int  $id
+     * @param  ProjectCall  $projectcall
      * @return \Illuminate\Http\Response
      */
-    public function applications($id)
+    public function applications(ProjectCall $projectcall)
     {
-        $projectcall = ProjectCall::with('applications', 'applications.applicant')->findOrFail($id);
+        $projectcall->load(['applications', 'applications.applicant']);
         $applications = $projectcall->submittedApplications()->get();
         return view('application.index', compact('projectcall', 'applications'));
     }

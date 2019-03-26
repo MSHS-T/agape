@@ -61,7 +61,7 @@
                         </a>
                     @endif
                     @if(is_null($offer->accepted))
-                        <a href="{{ route('application.unassign',[$offer->id])}}" class="btn btn-sm btn-danger d-block delete-link">
+                        <a href="{{ route('offer.destroy', ['offer' => $offer]) }}" class="btn btn-sm btn-danger d-block delete-link">
                             @svg('solid/times', 'icon-fw') {{ __('actions.cancel') }}
                         </a>
                     @endif
@@ -76,7 +76,7 @@
         <div class="col-6 jumbotron">
             <h4 class="text-center pb-2">{{ __('actions.application.assign_expert') }}</h4>
             @if(count($experts) > 0)
-                <form method="POST" action="{{ route('application.assign', $application->id) }}" id="assignation_form">
+                <form method="POST" action="{{ route('offer.store', $application) }}" id="assignation_form">
                 @csrf @method("POST")
                     @include('forms.select', [
                         'name' => 'expert_id',

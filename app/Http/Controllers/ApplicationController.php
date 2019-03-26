@@ -13,7 +13,6 @@ use App\User;
 use App\Enums\CallType;
 use App\Notifications\ApplicationSubmitted;
 use App\Notifications\NewApplicationSubmitted;
-use App\Notifications\OfferCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -22,16 +21,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ApplicationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
@@ -56,7 +45,8 @@ class ApplicationController extends Controller
     public function edit(Application $application)
     {
         if(!empty($application->submitted_at)){
-            return redirect()->route('home');
+            return redirect()->route('home')
+                             ->with('error', __('actions.application.already_submitted'));
         }
         $laboratories = Laboratory::accessible()->get();
         $study_fields = StudyField::accessible()->get();
@@ -225,7 +215,7 @@ class ApplicationController extends Controller
         }
 
         $application->save();
-        return redirect()->route('application.edit', ["application" => $application->id])
+        return redirect()->route('application.edit', ["application" => $application])
                          ->with('success', __('actions.application.saved'));
     }
 
@@ -235,9 +225,8 @@ class ApplicationController extends Controller
      * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function submit($id)
+    public function submit(Application $application)
     {
-        $application = Application::findOrFail($id);
         $data = $application->toArray();
         $validator = Validator::make($data, [
             'title'                             => 'required|max:255',
@@ -340,49 +329,14 @@ class ApplicationController extends Controller
     /**
      * List assignations between experts and application
      *
-     * @param  int  $id
+     * @param  Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function assignations($id)
+    public function assignations(Application $application)
     {
-        $application = Application::with('projectcall', 'offers', 'offers.expert', 'offers.creator', 'offers.evaluation')->findOrFail($id);
+        $application->load(['projectcall', 'offers', 'offers.expert', 'offers.creator', 'offers.evaluation']);
         $assigned_experts = $application->offers()->get()->pluck('expert.id')->all();
         $experts = User::experts()->whereNotIn('id', $assigned_experts)->get();
         return view('application.assignations', compact('application', 'experts'));
-    }
-
-    /**
-     * Assign an expert to an application
-     *
-     * @param  int  $application_id
-     * @return \Illuminate\Http\Response
-     */
-    public function assign($application_id, Request $request)
-    {
-        $expert_id = $request->get('expert_id');
-        $application = Application::with('offers', 'offers.expert')->findOrFail($application_id);
-        $expert = User::findOrFail($expert_id);
-        $offer = $application->offers()->firstOrNew(['expert_id' => $expert_id]);
-        $offer->save();
-
-        $expert->notify(new OfferCreated());
-
-        return redirect()->route('application.assignations', ['id' => $application_id])
-                         ->with('success', __('actions.application.expert_assigned'));
-    }
-
-    /**
-     * Remove an assignation
-     *
-     * @param  int  $offer_id
-     * @return \Illuminate\Http\Response
-     */
-    public function unassign($offer_id)
-    {
-        $offer = EvaluationOffer::findOrFail($offer_id);
-        $application_id = $offer->application_id;
-        $offer->delete();
-        return redirect()->route('application.assignations', ['id' => $application_id])
-                         ->with('success', __('actions.application.expert_unassigned'));
     }
 }

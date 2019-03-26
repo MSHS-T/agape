@@ -80,6 +80,7 @@ return [
         ],
         'saved' => 'Votre candidature a été sauvegardée. Pensez à la soumettre avant la date limite.',
         'submitted' => 'Votre candidature a été soumise avec succès.',
+        'already_submitted' => 'Votre candidature a déjà été soumise et ne peut plus être modifiée.',
         'show_experts' => 'Voir les experts',
         'assign_expert' => 'Assigner un expert',
         'expert_assigned' => 'La demande d\'évaluation a été transmise à l\'expert',
@@ -117,5 +118,9 @@ return [
             'notation_guide' => 'Guide de notation',
             'notation_description' => 'Description des notes'
         ]
+    ],
+
+    'error' => [
+        'unauthorized' => 'Vous n\'avez pas la permission d\'accéder à cette page.<br/>Profils autorisés : :roles.'
     ]
 ];
