@@ -6,3 +6,25 @@
  */
 
 require('./bootstrap');
+
+$(document).ready(function () {
+    $('.quill-container').each(function () {
+        var quillContainer = this;
+        new Quill(quillContainer, {
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['link', 'blockquote', 'image'],
+                    [{ list: 'ordered' }, { list: 'bullet' }]
+                ]
+            },
+            theme: 'snow'
+        });
+
+        $(quillContainer).parents('form').on('submit', function () {
+            $(quillContainer).siblings('input[type=hidden]').val(
+                $(quillContainer).children('.ql-editor').html()
+            );
+        });
+    });
+})

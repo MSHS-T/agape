@@ -11,6 +11,8 @@
 
 @import "component.chosen";
 
+@import "~quill/dist/quill.snow.css";
+
 .navbar-laravel {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -89,4 +91,9 @@ div.application-display, div.projectcall-display {
 #accordion h5 button {
     font-size: inherit;
     font-weight: bold;
+}
+
+.ql-container {
+    height: initial !important;
+    background: white;
 }

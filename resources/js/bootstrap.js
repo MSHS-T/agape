@@ -18,6 +18,8 @@ try {
 
 // Load Bootstrap DataTable
 require("datatables.net-bs4");
+// Load QuillJS
+window.Quill = require("quill");
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
