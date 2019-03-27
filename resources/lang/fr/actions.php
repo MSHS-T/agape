@@ -30,6 +30,7 @@ return [
     "edit_password"       => "Modification du mot de passe",
     "edit_password_help"  => "Si vous ne souhaitez pas changer votre mot de passe, laissez les 2 champs vides",
     "profile_edited"      => "Profil utilisateur modifié",
+    "export_pdf"          => "Exporter en PDF",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",
@@ -108,7 +109,8 @@ return [
         "application_data" => "Détails de la candidature",
         "evaluation_form"  => "Formulaire d'évaluation",
         "submit"           => "Soumettre l'évaluation",
-        "submitted"        => "L'évaluation a été enregistrée."
+        "submitted"        => "L'évaluation a été enregistrée.",
+        "export_name" => "Évaluations"
     ],
 
     "settings" => [

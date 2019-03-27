@@ -36,6 +36,7 @@ return [
         "application_period"     => "Période de candidature",
         "application"            => "Candidature",
         "applicant"              => "Candidat",
+        "all_applicants"         => "Tous les candidats",
         "evaluation_period"      => "Période d'évaluation",
         "evaluation"             => "Évaluation",
         "number_of_experts"      => "Nombre d'experts par dossier",

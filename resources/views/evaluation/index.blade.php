@@ -12,7 +12,11 @@
 @if(isset($application))
     <h4 class="text-center">{{ __('fields.projectcall.applicant') }} : {{ $application->applicant->name }}</h4>
 @endif
-<div class="row justify-content-center">
+<div class="row">
+    <div class="col-12 table-buttons">
+    </div>
+</div>
+<div class="row d-flex flex-column align-content-stretch">
     <table class="table table-striped table-hover table-bordered w-100" id="application_list">
         <thead>
             <tr>
@@ -76,7 +80,7 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#application_list').DataTable({
+        var dt = $('#application_list').DataTable({
             lengthChange: true,
             searching: true,
             ordering: true,
@@ -88,8 +92,25 @@
             lengthMenu: [
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "@lang('datatable.all')"]
+            ],
+            buttons: [
+                {
+                    extend     : 'pdfHtml5',
+                    filename   : "{{ config('app.name') }}-{{ __('actions.evaluation.export_name') }}",
+                    text       : "{{ __('actions.export_pdf') }}",
+                    title      : "{{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }} : {{$projectcall->year}}",
+                    messageTop :
+                        @if(isset($application))
+                            "{{ __('fields.projectcall.applicant') }} : {{ $application->applicant->name }}"
+                        @else
+                            "{{ __('fields.projectcall.all_applicants') }}"
+                        @endif
+                    ,
+                    orientation: "landscape"
+                }
             ]
         });
+        dt.buttons().container().appendTo('.table-buttons');
     });
 
 </script>

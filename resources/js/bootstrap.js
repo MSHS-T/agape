@@ -17,7 +17,14 @@ try {
 }
 
 // Load Bootstrap DataTable
-require("datatables.net-bs4");
+
+var pdfMake = require('pdfmake/build/pdfmake');
+var pdfFonts = require('pdfmake/build/vfs_fonts');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+global.pdfMake = pdfMake;
+require('datatables.net-bs4');
+require('datatables.net-buttons/js/buttons.html5');
+require('datatables.net-buttons-bs4');
 // Load QuillJS
 window.Quill = require("quill");
 
