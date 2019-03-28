@@ -47,7 +47,7 @@ class EvaluationController extends Controller
      * @param  Evaluation  $evaluation
      * @return \Illuminate\Http\Response
      */
-    public function show($evaluation)
+    public function show(Evaluation $evaluation)
     {
         return view('evaluation.show', compact('evaluation'));
     }

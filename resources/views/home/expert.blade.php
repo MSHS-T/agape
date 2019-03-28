@@ -70,7 +70,7 @@
                                     <strong class="text-underline">{{ $offer->application->title }}</strong><br/>
                                     {{ $offer->application->short_description }}
                                 </p>
-                                <a href="{{ route('evaluation.show', ['id' => $offer->evaluation->id]) }}" class="btn btn-primary">{{ __('actions.show')}}</a>
+                                <a href="{{ route('evaluation.show', ['id' => $offer->evaluation->id]) }}" class="btn btn-success">{{ __('actions.show')}}</a>
                             </div>
                         </div>
                     </div>

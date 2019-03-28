@@ -105,12 +105,13 @@ return [
         "list_count"       => "Évaluations (:count)",
         "show_all"         => "Visualiser les evaluations (:count)",
         "create"           => "Evaluer la candidature",
+        "show"             => "Visualiser l'évaluation",
         "call_data"        => "Détails de l'appel à projets",
         "application_data" => "Détails de la candidature",
         "evaluation_form"  => "Formulaire d'évaluation",
         "submit"           => "Soumettre l'évaluation",
         "submitted"        => "L'évaluation a été enregistrée.",
-        "export_name" => "Évaluations"
+        "export_name"      => "Évaluations"
     ],
 
     "settings" => [
