@@ -62,7 +62,7 @@ class SettingsTableSeeder extends Seeder
         ]);
         DB::table('settings')->insert([
             'key' => 'notation_2_description',
-            'value' => '<ul><li>Compétence, expertise et implication du coordinateur scientique et des partenaires</li><li>Qualité et complémentarité de l\'équipe, qualité de la collaboration</li><li>Adéquation aux objectifs des moyens mis en oeuvre et demandés (cohérence du projet)</li></ul>'
+            'value' => '<ul><li>Compétence, expertise et implication du coordinateur scientfiique et des partenaires</li><li>Qualité et complémentarité de l\'équipe, qualité de la collaboration</li><li>Adéquation aux objectifs des moyens mis en oeuvre et demandés (cohérence du projet)</li></ul>'
         ]);
         DB::table('settings')->insert([
             'key' => 'notation_3_description',

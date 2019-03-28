@@ -1,6 +1,6 @@
 @php
-$id = 'input'.ucfirst(camel_case($name));
-$row = $row ?? true;
+    $id = 'input'.ucfirst(camel_case($name));
+    $row = $row ?? true;
 @endphp
 <div class="form-group {{ $row ? "row" : "" }}">
     <label for="{{$id}}" class="col-3 col-form-label">{{$label}}</label>
@@ -10,9 +10,9 @@ $row = $row ?? true;
             <p>{!! ($value ?? "") !!}</p>
         </div>
         @if(isset($help))
-        <small id="{{$id}}HelpBlock" class="form-text text-muted">
-            {!! $help !!}
-        </small>
+            <small id="{{$id}}HelpBlock" class="form-text text-muted">
+                {!! $help !!}
+            </small>
         @endif
     </div>
 </div>
