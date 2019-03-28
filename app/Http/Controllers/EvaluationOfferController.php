@@ -27,7 +27,7 @@ class EvaluationOfferController extends Controller
     {
         $application->load(['offers', 'offers.expert']);
         $expert = User::findOrFail($request->input('expert_id'));
-        $offer = $application->offers()->firstOrNew(['expert_id' => $expert_id]);
+        $offer = $application->offers()->firstOrNew(['expert_id' => $expert->id]);
         $offer->save();
 
         $expert->notify(new OfferCreated());
