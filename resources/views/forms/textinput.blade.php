@@ -2,6 +2,7 @@
     $id    = 'input'.ucfirst(camel_case($name));
     $money = false;
     $type  = $type ?? 'text';
+    $readonly = $readonly ?? false;
     if($type == "money"){
         $type  = "number";
         $step  = 0.01;
@@ -22,8 +23,10 @@
                 name="{{$name}}"
                 placeholder="{{$label}}"
                 value="{{$value}}"
+                @if (isset($tabindex)) tabindex="{{ $tabindex }}" @endif
                 @if (isset($step)) step="{{ $step }}" @endif
                 @if (isset($min)) min="{{ $min }}" @endif
+                @if ($readonly) readonly @endif
             >
         @if($money)
                 <div class="input-group-append">

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@php($tabindex = 0)
 @section('content')
 <h2 class="mb-3 text-center">{{ __('actions.projectcall.'.$mode) }}</h2>
 <form method="<?php echo (in_array(strtoupper($method), ['GET', 'POST']) ? $method : 'POST'); ?>" action="{{ $action }}">
@@ -8,133 +9,146 @@
         <div class="col-sm-9">
             @foreach (\App\Enums\CallType::toArray() as $type_key => $type_value)
             <div class="form-check">
-                <input type="radio" name="type" id="type{{ $type_value }}" value="{{ $type_value }}" autocomplete="off"
-                    {{ $type_value == old('type', $projectcall->type) ? "checked" : "disabled"}}>
+                <input
+                    type="radio"
+                    name="type"
+                    id="type{{ $type_value }}"
+                    value="{{ $type_value }}"
+                    autocomplete="off"
+                    {{ $type_value == old('type', $projectcall->type) ? "checked" : ( $mode == "edit" ? "disabled" : "")}}
+                    tabindex="{{ ++$tabindex }}"
+                >
                 <label class="form-check-label" for="type{{ $type_value }}">{{ __('vocabulary.calltype.'.$type_key) }}</label>
             </div>
             @endforeach
         </div>
     </div>
-    <div class="form-group row">
-        <label for="inputYear" class="col-sm-3 col-form-label">{{ __('fields.projectcall.year') }}</label>
-        <div class="col-sm-9">
-            <input type="number" class="form-control" id="inputYear" name="year" placeholder="{{ __('fields.projectcall.year') }}"
-                min="{{ \Carbon\Carbon::now()->year }}" value="{{ old('year', $projectcall->year) }}"
-                {{ $mode!="create" ? "readonly" : "" }}>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputTitle" class="col-sm-3 col-form-label">{{ __('fields.projectcall.title') }}</label>
-        <div class="col-sm-9">
-            <input type="text" class="form-control" id="inputTitle" name="title" placeholder="{{ __('fields.projectcall.title') }}"
-                value="{{ old('title', $projectcall->title) }}">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputDescription" class="col-sm-3 col-form-label">{{ __('fields.projectcall.description') }}</label>
-        <div class="col-sm-9">
-            <textarea class="form-control" id="inputDescription" name="description" rows="10" placeholder="{{ __('fields.projectcall.description') }}">{{ old('description', $projectcall->description) }}</textarea>
-        </div>
-    </div>
-    <div class="form-group row text-left">
-        <label for="inputApplicationPeriod" class="col-sm-3 col-form-label">{{
-            __('fields.projectcall.application_period') }}</label>
-        <div class="col-sm-4">
-            <input type="date" class="form-control form-datepicker" id="inputApplicationPeriod" name="application_start_date"
-                value="{{ old('application_start_date', $projectcall->application_start_date) }}">
-        </div>
-        <div class="col-sm-1 col-form-label">&nbsp;au&nbsp;</div>
-        <div class="col-sm-4">
-            <input type="date" class="form-control form-datepicker" id="inputApplicationPeriod2" name="application_end_date"
-                value="{{ old('application_end_date', $projectcall->application_end_date) }}">
-        </div>
-    </div>
-    <div class="form-group row text-left">
-        <label for="inputEvaluationPeriod" class="col-sm-3 col-form-label">{{
-            __('fields.projectcall.evaluation_period') }}</label>
-        <div class="col-sm-4">
-            <input type="date" class="form-control form-datepicker" id="inputEvaluationPeriod" name="evaluation_start_date"
-                value="{{ old('evaluation_start_date', $projectcall->evaluation_start_date) }}">
-        </div>
-        <div class="col-sm-1 col-form-label">&nbsp;au&nbsp;</div>
-        <div class="col-sm-4">
-            <input type="date" class="form-control form-datepicker" id="inputEvaluationPeriod2" name="evaluation_end_date"
-                value="{{ old('evaluation_end_date', $projectcall->evaluation_end_date) }}">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputNbExperts" class="col-sm-3 col-form-label">{{ __('fields.projectcall.number_of_experts') }}</label>
-        <div class="col-sm-9">
-            <input type="number" class="form-control" id="inputNbExperts" name="number_of_experts" min="1" max="{{ \App\Setting::get('max_number_of_experts') }}"
-                value="{{old('number_of_experts', $projectcall->number_of_experts)}}">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputNbDocuments" class="col-sm-3 col-form-label">{{ __('fields.projectcall.number_of_documents')
-            }}</label>
-        <div class="col-sm-9">
-            <input type="number" class="form-control" id="inputNbDocuments" name="number_of_documents" min="1" max="{{ \App\Setting::get('max_number_of_documents') }}"
-                value="{{old('number_of_documents', $projectcall->number_of_documents)}}">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputNbKeywords" class="col-sm-3 col-form-label">{{ __('fields.projectcall.number_of_keywords')
-            }}</label>
-        <div class="col-sm-9">
-            <input type="number" class="form-control" id="inputNbKeywords" name="number_of_keywords" min="1" value="{{old('number_of_keywords', $projectcall->number_of_keywords)}}">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputNbLaboratories" class="col-sm-3 col-form-label">{{ __('fields.projectcall.number_of_laboratories')
-            }}</label>
-        <div class="col-sm-9">
-            <input type="number" class="form-control" id="inputNbLaboratories" name="number_of_laboratories" min="1" value="{{old('number_of_laboratories', $projectcall->number_of_laboratories)}}">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputNbStudyFields" class="col-sm-3 col-form-label">{{ __('fields.projectcall.number_of_study_fields')
-            }}</label>
-        <div class="col-sm-9">
-            <input type="number" class="form-control" id="inputNbStudyFields" name="number_of_study_fields" min="1" value="{{old('number_of_study_fields', $projectcall->number_of_study_fields)}}">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputNbTargetDatess" class="col-sm-3 col-form-label">{{ __('fields.projectcall.number_of_target_dates')
-            }}</label>
-        <div class="col-sm-9">
-            <input type="number" class="form-control" id="inputNbTargetDatess" name="number_of_target_dates" min="1" value="{{old('number_of_target_dates', $projectcall->number_of_target_dates)}}">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputPrivacyClause" class="col-sm-3 col-form-label">{{ __('fields.projectcall.privacy_clause') }}</label>
-        <div class="col-sm-9">
-            <textarea class="form-control" id="inputPrivacyClause" name="privacy_clause" rows="10" placeholder="{{ __('fields.projectcall.privacy_clause') }}">{{ old('privacy_clause', $projectcall->privacy_clause) }}</textarea>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputInvitationFr" class="col-sm-3 col-form-label">{{ __('fields.projectcall.invite_email_fr') }}</label>
-        <div class="col-sm-9">
-            <textarea class="form-control" id="inputInvitationFr" name="invite_email_fr" rows="10" placeholder="{{ __('fields.projectcall.invite_email_fr') }}">{{ old('invite_email_fr', $projectcall->invite_email_fr) }}</textarea>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputInvitationEn" class="col-sm-3 col-form-label">{{ __('fields.projectcall.invite_email_en') }}</label>
-        <div class="col-sm-9">
-            <textarea class="form-control" id="inputInvitationEn" name="invite_email_en" rows="10" placeholder="{{ __('fields.projectcall.invite_email_en') }}">{{ old('invite_email_en', $projectcall->invite_email_en) }}</textarea>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputHelpExpert" class="col-sm-3 col-form-label">{{ __('fields.projectcall.help_experts') }}</label>
-        <div class="col-sm-9">
-            <textarea class="form-control" id="inputHelpExpert" name="help_experts" rows="10" placeholder="{{ __('fields.projectcall.help_experts') }}">{{ old('help_experts', $projectcall->help_experts) }}</textarea>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="inputHelpCandidates" class="col-sm-3 col-form-label">{{ __('fields.projectcall.help_candidates') }}</label>
-        <div class="col-sm-9">
-            <textarea class="form-control" id="inputHelpCandidates" name="help_candidates" rows="10" placeholder="{{ __('fields.projectcall.help_candidates') }}">{{ old('help_candidates', $projectcall->help_candidates) }}</textarea>
-        </div>
-    </div>
+    @include('forms.textinput', [
+        'name'     => 'year',
+        'label'    => __('fields.projectcall.year'),
+        'value'    => old('year', $projectcall->year),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => \Carbon\Carbon::now()->year,
+        'readonly' => $mode != "create",
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textinput', [
+        'name'     => 'title',
+        'label'    => __('fields.projectcall.title'),
+        'value'    => old('title', $projectcall->title),
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textarea', [
+        'name'     => 'description',
+        'label'    => __('fields.projectcall.description'),
+        'value'    => old('description', $projectcall->description),
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.daterange', [
+        'name'     => ["application_start_date", "application_end_date"],
+        'label'    => __('fields.projectcall.application_period'),
+        'value'    => [
+            old('application_start_date', $projectcall->application_start_date),
+            old('application_end_date', $projectcall->application_end_date)
+        ],
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.daterange', [
+        'name'     => ["evaluation_start_date", "evaluation_end_date"],
+        'label'    => __('fields.projectcall.evaluation_period'),
+        'value'    => [
+            old('evaluation_start_date', $projectcall->evaluation_start_date),
+            old('evaluation_end_date', $projectcall->evaluation_end_date)
+        ],
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textinput', [
+        'name'     => 'number_of_experts',
+        'label'    => __('fields.projectcall.number_of_experts'),
+        'value'    => old('number_of_experts', $projectcall->number_of_experts),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textinput', [
+        'name'     => 'number_of_documents',
+        'label'    => __('fields.projectcall.number_of_documents'),
+        'value'    => old('number_of_documents', $projectcall->number_of_documents),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textinput', [
+        'name'     => 'number_of_keywords',
+        'label'    => __('fields.projectcall.number_of_keywords'),
+        'value'    => old('number_of_keywords', $projectcall->number_of_keywords),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textinput', [
+        'name'     => 'number_of_laboratories',
+        'label'    => __('fields.projectcall.number_of_laboratories'),
+        'value'    => old('number_of_laboratories', $projectcall->number_of_laboratories),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textinput', [
+        'name'     => 'number_of_study_fields',
+        'label'    => __('fields.projectcall.number_of_study_fields'),
+        'value'    => old('number_of_study_fields', $projectcall->number_of_study_fields),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textinput', [
+        'name'     => 'number_of_target_dates',
+        'label'    => __('fields.projectcall.number_of_target_dates'),
+        'value'    => old('number_of_target_dates', $projectcall->number_of_target_dates),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'tabindex' => ++$tabindex
+    ])
+
+    @include('forms.textarea', [
+        'name'     => 'privacy_clause',
+        'label'    => __('fields.projectcall.privacy_clause'),
+        'value'    => old('privacy_clause', $projectcall->privacy_clause),
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textarea', [
+        'name'     => 'invite_email_fr',
+        'label'    => __('fields.projectcall.invite_email_fr'),
+        'value'    => old('invite_email_fr', $projectcall->invite_email_fr),
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textarea', [
+        'name'     => 'invite_email_en',
+        'label'    => __('fields.projectcall.invite_email_en'),
+        'value'    => old('invite_email_en', $projectcall->invite_email_en),
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textarea', [
+        'name'     => 'help_candidates',
+        'label'    => __('fields.projectcall.help_candidates'),
+        'value'    => old('help_candidates', $projectcall->help_candidates),
+        'tabindex' => ++$tabindex
+    ])
+    @include('forms.textarea', [
+        'name'     => 'help_experts',
+        'label'    => __('fields.projectcall.help_experts'),
+        'value'    => old('help_experts', $projectcall->help_experts),
+        'tabindex' => ++$tabindex
+    ])
+
     <hr />
     <div class="form-group row">
         <div class="col-sm-9 offset-sm-3">

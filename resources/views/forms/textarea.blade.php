@@ -6,7 +6,13 @@
     <label for="{{$id}}" class="col-3 col-form-label">{{$label}}</label>
     <div class="col-9">
         <input type="hidden" name="{{$name}}" value="{{$value ?? ""}}">
-        <div class="quill-container" id="{{$id}}" data-placeholder="{{$label}}" data-rows="{{$rows??3}}">
+        <div
+            class="quill-container"
+            id="{{$id}}"
+            data-placeholder="{{$label}}"
+            style="height:{{($rows??5)*1.5}}rem;"
+            @if(isset($tabindex)) data-tabindex="{{ $tabindex }}" @endif
+        >
             <p>{!! ($value ?? "") !!}</p>
         </div>
         @if(isset($help))
