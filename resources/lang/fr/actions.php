@@ -23,6 +23,7 @@ return [
     "add"                 => "Ajouter",
     "accept"              => "Accepter",
     "decline"             => "Refuser",
+    "download"            => "Télécharger",
     "select_element"      => "Sélectionner un élément (taper du texte pour filtrer)",
     "select_elements"     => "Sélectionner des éléments (taper du texte pour filtrer)",
     "add_element"         => "Ajouter un nouvel élément",

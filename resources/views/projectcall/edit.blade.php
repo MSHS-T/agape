@@ -2,7 +2,7 @@
 @php($tabindex = 0)
 @section('content')
 <h2 class="mb-3 text-center">{{ __('actions.projectcall.'.$mode) }}</h2>
-<form method="<?php echo (in_array(strtoupper($method), ['GET', 'POST']) ? $method : 'POST'); ?>" action="{{ $action }}">
+<form method="<?php echo (in_array(strtoupper($method), ['GET', 'POST']) ? $method : 'POST'); ?>" action="{{ $action }}" enctype="multipart/form-data">
     @csrf @method($method)
     <div class="form-group row">
         <label for="type" class="col-sm-3 col-form-label">{{ __('fields.projectcall.type') }}</label>
@@ -148,6 +148,52 @@
         'value'    => old('help_experts', $projectcall->help_experts),
         'tabindex' => ++$tabindex
     ])
+    <div class="form-group row">
+        <label for="inputApplicationFormFilepath" class="col-3 col-form-label">
+            {{ __('fields.application.template.prefix.application')}}
+        </label>
+        <div class="col-9">
+            @if(isset($projectcall->id) && !empty($projectcall->application_form_filepath))
+                {{ __('fields.download_link') }} :
+                <a href="{{ route('projectcall.template', ['projectcall' => $projectcall, 'template' => "application"]) }}"
+                    target="_blank" rel="noopener">{{ __('actions.download') }}</a>
+                <br />
+            @endif
+            <input
+                type="file"
+                id="inputApplicationFormFilepath"
+                name="application_form"
+                accept="{{ \App\Setting::get('extensions_application_form') }}"
+            >
+            <small id="inputApplicationFormFilepathHelpBlock" class="form-text text-muted">
+                {{__('fields.upload_extensions')}} : {{ str_replace(',', ', ', \App\Setting::get('extensions_application_form')) }}<br />
+                {!! __('fields.upload_overwrite') !!}
+            </small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputFinancialFormFilepath" class="col-3 col-form-label">
+            {{ __('fields.application.template.prefix.financial')}}
+        </label>
+        <div class="col-9">
+            @if(isset($projectcall->id) && !empty($projectcall->financial_form_filepath))
+                {{ __('fields.download_link') }} :
+                <a href="{{ route('projectcall.template', ['projectcall' => $projectcall, 'template' => "financial"]) }}"
+                    target="_blank" rel="noopener">{{ __('actions.download') }}</a>
+                <br />
+            @endif
+            <input
+                type="file"
+                id="inputFinancialFormFilepath"
+                name="financial_form"
+                accept="{{ \App\Setting::get('extensions_financial_form') }}"
+            >
+            <small id="inputFinancialFormFilepathHelpBlock" class="form-text text-muted">
+                {{__('fields.upload_extensions')}} : {{ str_replace(',', ', ', \App\Setting::get('extensions_financial_form')) }}<br />
+                {!! __('fields.upload_overwrite') !!}
+            </small>
+        </div>
+    </div>
 
     <hr />
     <div class="form-group row">

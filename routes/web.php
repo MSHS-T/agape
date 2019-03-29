@@ -20,13 +20,6 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('profile', 'HomeController@profile')->name('profile');
     Route::post('profile', 'HomeController@saveProfile')->name('profile.save');
 
-    Route::get('download/template/{form}/{type}/{year}', 'DownloadController@template')
-         ->where([
-            'form' => '(Candidature|Financier)',
-            'type' => '(Region|Exploratoire|Workshop)',
-            'year' => '[\d]{4}'
-         ])
-         ->name('download.template');
     Route::get('download/attachment/{application_id}/{index}', 'DownloadController@attachment')
          ->name('download.attachment');
 
@@ -43,7 +36,11 @@ Route::middleware(['auth', 'verified'])->group(function(){
             Route::get('{projectcall}/evaluations', 'EvaluationController@indexForProjectCall')->name('evaluations');
         });
 
-        Route::get('{projectcall}', 'ProjectCallController@show')->name('show')->middleware('role:candidate,admin');
+        Route::middleware('role:admin,candidate')->group(function(){
+            Route::get('{projectcall}', 'ProjectCallController@show')->name('show');
+            Route::get('{projectcall}/template/{template}', 'ProjectCallController@downloadTemplate')->name('template')->where(['template' => '(application|financial)']);
+        });
+
         // Generates application object and redirect to application.edit form
         Route::get('{projectcall}/apply', 'ProjectCallController@apply')->name('apply')->middleware('role:candidate');
     });

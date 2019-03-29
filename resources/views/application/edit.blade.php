@@ -244,16 +244,15 @@
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-4">
         {{ __('fields.application.form.section_4') }}
     </h2>
-    @foreach(["application"=>"Candidature", "financial"=>"Financier"] as $key => $value)
+    @foreach(["application", "financial"] as $key)
         @include('forms.filedownload', [
             'text' => __('fields.application.template.prefix.'.$key)
                 . __(
                     'fields.application.template.suffix.' . $application->projectcall->typeLabel
                 ),
-            'link' => route('download.template', [
-                'form' => $value,
-                'type' => $application->projectcall->typeLabel,
-                'year' => $application->projectcall->year
+            'link' => route('projectcall.template', [
+                'projectcall' => $application->projectcall,
+                'template' => $key
             ])
         ])
     @endforeach

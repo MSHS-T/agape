@@ -33,6 +33,8 @@ class ProjectCall extends Model
         'invite_email_en',
         'help_experts',
         'help_candidates',
+        'application_form_filepath',
+        'financial_form_filepath',
     ];
 
     protected $appends = array('typeLabel', 'evaluationCount');

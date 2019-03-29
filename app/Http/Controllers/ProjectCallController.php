@@ -9,6 +9,7 @@ use App\Enums\CallType;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use BenSampo\Enum\Rules\EnumValue;
 
@@ -55,7 +56,7 @@ class ProjectCallController extends Controller
                 'invite_email_fr'        => '',
                 'invite_email_en'        => '',
                 'help_experts'           => '',
-                'help_candidates'        => ''
+                'help_candidates'        => '',
             ]
         ]);
     }
@@ -82,6 +83,8 @@ class ProjectCallController extends Controller
             'number_of_keywords'     => 'required|integer|min:0',
             'number_of_laboratories' => 'required|integer|min:0',
             'number_of_study_fields' => 'required|integer|min:0',
+            'application_form'       => 'required|file',
+            'financial_form'         => 'required|file',
             // Optional fields
             // 'number_of_target_dates' => '',
             // 'privacy_clause' => '',
@@ -92,6 +95,23 @@ class ProjectCallController extends Controller
         ]);
 
         $call = new ProjectCall($request->all());
+        foreach(['application_form', 'financial_form'] as $form_name){
+            if($request->hasFile($form_name)
+            && ($rFile = $request->file($form_name))->isValid()
+                && in_array(
+                    $rFile->getClientOriginalExtension(),
+                    array_map(
+                        function($e){ return trim($e, '.'); },
+                        explode(',', Setting::get("extensions_$form_name"))
+                    )
+                )
+            ){
+                $extension = $rFile->getClientOriginalExtension();
+                $uniqname = str_random(40).'.'.$extension;
+                $path = Storage::disk('public')->putFileAs('formulaires', $rFile, $uniqname);
+                $call->{$form_name."_filepath"} = $path;
+            }
+        }
         $call->save();
 
         return redirect()->route('projectcall.index')
@@ -147,6 +167,14 @@ class ProjectCallController extends Controller
             'number_of_keywords'     => 'required|integer|min:0',
             'number_of_laboratories' => 'required|integer|min:0',
             'number_of_study_fields' => 'required|integer|min:0',
+            'application_form'       => [
+                Rule::requiredIf(empty($projectcall->application_form_filepath)),
+                'file',
+            ],
+            'financial_form'         => [
+                Rule::requiredIf(empty($projectcall->financial_form_filepath)),
+                'file',
+            ],
             // Optional fields
             // 'number_of_target_dates' => '',
             // 'privacy_clause' => '',
@@ -161,6 +189,28 @@ class ProjectCallController extends Controller
         ]);
 
         $projectcall->fill($updatedData);
+
+        foreach(['application_form', 'financial_form'] as $form_name){
+            if($request->hasFile($form_name)
+            && ($rFile = $request->file($form_name))->isValid()
+                && in_array(
+                    $rFile->getClientOriginalExtension(),
+                    array_map(
+                        function($e){ return trim($e, '.'); },
+                        explode(',', Setting::get("extensions_$form_name"))
+                    )
+                )
+            ){
+                if(!empty($projectcall->{$form_name."_filepath"})){
+                    unlink(public_path('storage/'.$projectcall->{$form_name."_filepath"}));
+                }
+                $extension = $rFile->getClientOriginalExtension();
+                $uniqname = str_random(40).'.'.$extension;
+                $path = Storage::disk('public')->putFileAs('formulaires', $rFile, $uniqname);
+                $projectcall->{$form_name."_filepath"} = $path;
+            }
+        }
+
         $projectcall->save();
         return redirect()->route('projectcall.index')
                          ->with('success', __('actions.projectcall.edited'));
@@ -207,5 +257,35 @@ class ProjectCallController extends Controller
         $projectcall->load(['applications', 'applications.applicant']);
         $applications = $projectcall->submittedApplications()->get();
         return view('application.index', compact('projectcall', 'applications'));
+    }
+
+    /**
+     * Download one of the templates from the project call
+     *
+     * @param  ProjectCall  $projectcall
+     * @param  string  $template
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadTemplate(ProjectCall $projectcall, $template)
+    {
+        $filepath = public_path('storage/'.$projectcall->{$template."_form_filepath"});
+        if (file_exists($filepath))
+        {
+            $segments = explode('.', $filepath);
+            if($template == "application") {
+                $filename = "Formulaire_Candidature.".end($segments);
+            }
+            else if ($template == "financial") {
+                $filename = "Formulaire_Financier.".end($segments);
+            }
+            // Send Download
+            return response()->download($filepath, "Formulaire_".$filename, [
+                'Content-Length: '. filesize($filepath)
+            ]);
+        }
+        else
+        {
+            abort(404);
+        }
     }
 }
