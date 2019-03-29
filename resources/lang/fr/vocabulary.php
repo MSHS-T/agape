@@ -7,7 +7,7 @@ return [
         "Workshop"     => "AAP Workshop",
     ],
     "calltype_short" => [
-        "Region"       => "Région Occitanie",
+        "Region"       => "Appel Coordonné",
         "Exploratoire" => "APEX",
         "Workshop"     => "Workshop",
     ],
