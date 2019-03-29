@@ -5,15 +5,8 @@
     {{ $projectcall->toString() }}
 </h3>
 <h4 class="text-center">{{$projectcall->title}}</h4>
-<p><u>{{ str_plural(__('fields.projectcall.application_period')) }} :</u> {{
-    \Carbon\Carbon::parse($projectcall->application_start_date)->format(__('locale.date_format'))
-    }}&nbsp;-&nbsp;{{
-    \Carbon\Carbon::parse($projectcall->application_end_date)->format(__('locale.date_format')) }}
-    <br />
-    <u>{{ str_plural(__('fields.projectcall.evaluation_period')) }} :</u> {{
-    \Carbon\Carbon::parse($projectcall->evaluation_start_date)->format(__('locale.date_format'))
-    }}&nbsp;-&nbsp;{{
-    \Carbon\Carbon::parse($projectcall->evaluation_end_date)->format(__('locale.date_format')) }}
+<p>
+    @include('partials.projectcall_dates', ['projectcall' => $projectcall])
 </p>
 <div class="row justify-content-center">
     <table class="table table-striped table-hover table-bordered w-100" id="application_list">

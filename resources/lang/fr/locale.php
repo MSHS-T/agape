@@ -2,6 +2,6 @@
 
 return [
     "currency"        => "€",
-    "date_format"     => "d/m/y",
-    "datetime_format" => "d/m/y H:i:s"
+    "date_format"     => "d/m/Y",
+    "datetime_format" => "d/m/Y H:i:s"
 ];

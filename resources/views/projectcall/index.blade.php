@@ -36,14 +36,7 @@
                     @endif
                 </td>
                 <td>
-                    <u>{{ str_plural(__('fields.projectcall.application')) }} :</u><br />{{
-                    \Carbon\Carbon::parse($call->application_start_date)->format(__('locale.date_format'))
-                    }}&nbsp;-&nbsp;{{
-                    \Carbon\Carbon::parse($call->application_end_date)->format(__('locale.date_format')) }}<br />
-                    <u>{{ str_plural(__('fields.projectcall.evaluation')) }} :</u><br />{{
-                    \Carbon\Carbon::parse($call->evaluation_start_date)->format(__('locale.date_format'))
-                    }}&nbsp;-&nbsp;{{
-                    \Carbon\Carbon::parse($call->evaluation_end_date)->format(__('locale.date_format')) }}
+                    @include('partials.projectcall_dates', ['projectcall' => $call])
                 </td>
                 <td>{{ \Carbon\Carbon::parse($call->created_at)->format(__('locale.datetime_format'))}}</td>
                 <td>{{ \Carbon\Carbon::parse($call->updated_at)->format(__('locale.datetime_format'))}}</td>

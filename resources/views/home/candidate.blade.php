@@ -10,12 +10,7 @@
                 <div class="card-text">
                     <h4>{{ $call->title }}</h4>
                     <p>
-                        <u>Candidatures :</u> {{
-                        \Carbon\Carbon::parse($call->application_start_date)->format(__('locale.date_format')) }} -
-                        {{ \Carbon\Carbon::parse($call->application_end_date)->format(__('locale.date_format')) }}<br />
-                        <u>Évaluations :</u> {{
-                        \Carbon\Carbon::parse($call->evaluation_start_date)->format(__('locale.date_format')) }} -
-                        {{ \Carbon\Carbon::parse($call->evaluation_end_date)->format(__('locale.date_format')) }}
+                        @include('partials.projectcall_dates', ['projectcall' => $call])
                     </p>
                 </div>
                 <a href="{{ route('projectcall.show',$call->id)}}" class="btn btn-primary d-inline-block my-1">
