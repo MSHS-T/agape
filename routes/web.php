@@ -36,7 +36,6 @@ Route::middleware(['auth', 'verified'])->group(function(){
             Route::get('/', 'ProjectCallController@index')->name('index');
             Route::get('create', 'ProjectCallController@create')->name('create');
             Route::post('create', 'ProjectCallController@store')->name('store');
-            Route::get('{projectcall}', 'ProjectCallController@show')->name('show');
             Route::get('{projectcall}/edit', 'ProjectCallController@edit')->name('edit');
             Route::put('{projectcall}', 'ProjectCallController@update')->name('update');
             Route::delete('{projectcall}', 'ProjectCallController@destroy')->name('destroy');
@@ -44,7 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
             Route::get('{projectcall}/evaluations', 'EvaluationController@indexForProjectCall')->name('evaluations');
         });
 
-        // Generates application object and redirect to applicatio.edit form
+        Route::get('{projectcall}', 'ProjectCallController@show')->name('show')->middleware('role:candidate,admin');
+        // Generates application object and redirect to application.edit form
         Route::get('{projectcall}/apply', 'ProjectCallController@apply')->name('apply')->middleware('role:candidate');
     });
 
