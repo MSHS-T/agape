@@ -79,6 +79,11 @@
         </div>
     </div>
 @endif
+
+@if(!count($offers) && !count($accepted) && !count($done))
+    <h2 class="mb-3 text-center">{{ __('actions.evaluationoffers.empty') }}</h2>
+@endif
+
 <div class="modal fade" id="confirm-decline" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
