@@ -12,7 +12,7 @@ class Application extends Model
         'title',
         'acronym',
         'applicant_id',
-        'others_laboratories',
+        'other_laboratories',
         'duration',
         'target_date',
         'theme',
