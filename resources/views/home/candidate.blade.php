@@ -5,10 +5,10 @@
         <div class="card text-center" style="min-height: 17rem;">
             <div class="card-body">
                 <h3 class="card-title">
-                    {{ __('vocabulary.calltype_short.'.$call->typeLabel) . ' - ' . $call->year }}
+                    {{ $call->toString() }}
                 </h3>
                 <div class="card-text">
-                    <h4>{{$call->title}}</h4>
+                    <h4>{{ $call->title }}</h4>
                     <p>
                         <u>Candidatures :</u> {{
                         \Carbon\Carbon::parse($call->application_start_date)->format(__('locale.date_format')) }} -

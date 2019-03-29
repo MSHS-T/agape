@@ -75,6 +75,9 @@ class ProjectCall extends Model
     }
 
     public function toString(){
-        return sprintf("%s (%d)", $this->typeLabel, $this->year);
+        return (
+            sprintf("%s %d", $this->typeLabel, $this->year)
+            . (!empty($this->title) ? " (".$this->title.")" : "")
+        );
     }
 }

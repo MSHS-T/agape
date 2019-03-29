@@ -1,9 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <h2 class="text-center mb-3">{{ __('actions.application.list') }}</h2>
-<h3 class="text-center">{{
-    __('vocabulary.calltype_short.'.$projectcall->typeLabel) }} :
-    {{$projectcall->year}}
+<h3 class="text-center">
+    {{ $projectcall->toString() }}
 </h3>
 <h4 class="text-center">{{$projectcall->title}}</h4>
 <p><u>{{ str_plural(__('fields.projectcall.application_period')) }} :</u> {{

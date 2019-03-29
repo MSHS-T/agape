@@ -9,10 +9,12 @@
         <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.year') }}</div>
         <div class="col-9">{{ $projectcall->year }}</div>
     </div>
-    <div class="row mb-3">
-        <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.title') }}</div>
-        <div class="col-9">{{ $projectcall->title }}</div>
-    </div>
+    @if(!empty($projectcall->title))
+        <div class="row mb-3">
+            <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.title') }}</div>
+            <div class="col-9">{{ $projectcall->title }}</div>
+        </div>
+    @endif
     <div class="row mb-3">
         <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.description') }}</div>
         <div class="col-9">{!! $projectcall->description !!}</div>
@@ -24,12 +26,12 @@
         <div class="col-9">
             <p><u>{{ str_plural(__('fields.projectcall.application_period')) }} :</u> {{
                 \Carbon\Carbon::parse($projectcall->application_start_date)->format(__('locale.date_format'))
-                }}&nbsp;-&nbsp;{{
+                }}&nbsp;&rarr;&nbsp;{{
                 \Carbon\Carbon::parse($projectcall->application_end_date)->format(__('locale.date_format')) }}
                 <br />
                 <u>{{ str_plural(__('fields.projectcall.evaluation_period')) }} :</u> {{
                 \Carbon\Carbon::parse($projectcall->evaluation_start_date)->format(__('locale.date_format'))
-                }}&nbsp;-&nbsp;{{
+                }}&nbsp;&rarr;&nbsp;{{
                 \Carbon\Carbon::parse($projectcall->evaluation_end_date)->format(__('locale.date_format')) }}
             </p>
         </div>

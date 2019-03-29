@@ -3,9 +3,8 @@
 <h2 class="mb-3 text-center">
     {{ __('actions.application.show' . ($application->applicant_id != Auth::id() ? "_a" : "")) }}
 </h2>
-<h3 class="text-center">{{
-    __('vocabulary.calltype_short.'.$application->projectcall->typeLabel) }} :
-    {{$application->projectcall->year}}
+<h3 class="text-center">
+    {{ $application->projectcall->toString() }}
 </h3>
 <h4 class="text-center">{{$application->projectcall->title}}</h4>
 <p><u>{{ str_plural(__('fields.projectcall.application_period')) }} :</u> {{
