@@ -8,74 +8,84 @@
     <h2 class="text-center font-weight-bold border border-secondary rounded">
         {{ __('actions.settings.sections.projectcalls') }}
     </h2>
+    @php($tabindex = 0)
     @include('forms.textinput', [
-        'name'  => 'default_number_of_target_dates',
-        'label' => __('fields.setting.default_number_of_target_dates'),
-        'value' => old('default_number_of_target_dates', $settings->default_number_of_target_dates),
-        'type'  => 'number',
-        'step'  => 1,
-        'min'   => 1,
-        'help'  => __('fields.setting.help.default_value')
+        'name'     => 'default_number_of_target_dates',
+        'label'    => __('fields.setting.default_number_of_target_dates'),
+        'value'    => old('default_number_of_target_dates', $settings->default_number_of_target_dates),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'help'     => __('fields.setting.help.default_value'),
+        'tabindex' => ++$tabindex
     ])
     @include('forms.textinput', [
-        'name'  => 'default_number_of_experts',
-        'label' => __('fields.setting.default_number_of_experts'),
-        'value' => old('default_number_of_experts', $settings->default_number_of_experts),
-        'type'  => 'number',
-        'step'  => 1,
-        'min'   => 1,
-        'help'  => __('fields.setting.help.default_value')
+        'name'     => 'default_number_of_experts',
+        'label'    => __('fields.setting.default_number_of_experts'),
+        'value'    => old('default_number_of_experts', $settings->default_number_of_experts),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'help'     => __('fields.setting.help.default_value'),
+        'tabindex' => ++$tabindex
     ])
     @include('forms.textinput', [
-        'name'  => 'default_number_of_documents',
-        'label' => __('fields.setting.default_number_of_documents'),
-        'value' => old('default_number_of_documents', $settings->default_number_of_documents),
-        'type'  => 'number',
-        'step'  => 1,
-        'min'   => 1,
-        'help'  => __('fields.setting.help.default_value')
+        'name'     => 'default_number_of_documents',
+        'label'    => __('fields.setting.default_number_of_documents'),
+        'value'    => old('default_number_of_documents', $settings->default_number_of_documents),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'help'     => __('fields.setting.help.default_value'),
+        'tabindex' => ++$tabindex
     ])
     @include('forms.textinput', [
-        'name'  => 'default_number_of_laboratories',
-        'label' => __('fields.setting.default_number_of_laboratories'),
-        'value' => old('default_number_of_laboratories', $settings->default_number_of_laboratories),
-        'type'  => 'number',
-        'step'  => 1,
-        'min'   => 1,
-        'help'  => __('fields.setting.help.default_value')
+        'name'     => 'default_number_of_laboratories',
+        'label'    => __('fields.setting.default_number_of_laboratories'),
+        'value'    => old('default_number_of_laboratories', $settings->default_number_of_laboratories),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'help'     => __('fields.setting.help.default_value'),
+        'tabindex' => ++$tabindex
     ])
     @include('forms.textinput', [
-        'name'  => 'default_number_of_study_fields',
-        'label' => __('fields.setting.default_number_of_study_fields'),
-        'value' => old('default_number_of_study_fields', $settings->default_number_of_study_fields),
-        'type'  => 'number',
-        'step'  => 1,
-        'min'   => 1,
-        'help'  => __('fields.setting.help.default_value')
+        'name'     => 'default_number_of_study_fields',
+        'label'    => __('fields.setting.default_number_of_study_fields'),
+        'value'    => old('default_number_of_study_fields', $settings->default_number_of_study_fields),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 1,
+        'help'     => __('fields.setting.help.default_value'),
+        'tabindex' => ++$tabindex
     ])
     @include('forms.textinput', [
-        'name'  => 'default_number_of_keywords',
-        'label' => __('fields.setting.default_number_of_keywords'),
-        'value' => old('default_number_of_keywords', $settings->default_number_of_keywords),
-        'type'  => 'number',
-        'step'  => 1,
-        'min'   => 3,
-        'help'  => __('fields.setting.help.default_value')
+        'name'     => 'default_number_of_keywords',
+        'label'    => __('fields.setting.default_number_of_keywords'),
+        'value'    => old('default_number_of_keywords', $settings->default_number_of_keywords),
+        'type'     => 'number',
+        'step'     => 1,
+        'min'      => 3,
+        'help'     => __('fields.setting.help.default_value'),
+        'tabindex' => ++$tabindex
     ])
     @include('forms.textinput', [
-        'name'  => 'extensions_application_form',
-        'label' => __('fields.setting.extensions_application_form'),
-        'value' => old('extensions_application_form', $settings->extensions_application_form)
+        'name'     => 'extensions_application_form',
+        'label'    => __('fields.setting.extensions_application_form'),
+        'value'    => old('extensions_application_form', $settings->extensions_application_form),
+        'tabindex' => ++$tabindex
     ])
     @include('forms.textinput', [
-        'name'  => 'extensions_financial_form',
-        'label' => __('fields.setting.extensions_financial_form'),
-        'value' => old('extensions_financial_form', $settings->extensions_financial_form)
+        'name'     => 'extensions_financial_form',
+        'label'    => __('fields.setting.extensions_financial_form'),
+        'value'    => old('extensions_financial_form', $settings->extensions_financial_form),
+        'tabindex' => ++$tabindex
     ])
     @include('forms.textinput', [
-        'name'  => 'extensions_other_attachments',
-        'label' => __('fields.setting.extensions_other_attachments'),
-        'value' => old('extensions_other_attachments', $settings->extensions_other_attachments)
+        'name'     => 'extensions_other_attachments',
+        'label'    => __('fields.setting.extensions_other_attachments'),
+        'value'    => old('extensions_other_attachments', $settings->extensions_other_attachments),
+        'tabindex' => ++$tabindex
     ])
 
     <h2 class="text-center font-weight-bold border border-secondary rounded">
@@ -88,7 +98,8 @@
             'value' => old(
                 'notation_'.$iteration.'_title',
                 $settings->{'notation_'.$iteration.'_title'}
-            )
+            ),
+            'tabindex' => ++$tabindex
         ])
         @include('forms.textarea', [
             'name'  => 'notation_'.$iteration.'_description',
@@ -96,7 +107,8 @@
             'value' => old(
                 'notation_'.$iteration.'_description',
                 $settings->{'notation_'.$iteration.'_description'}
-            )
+            ),
+            'tabindex' => ++$tabindex
         ])
     @endforeach
     <h2 class="text-center font-weight-bold border border-secondary rounded">
@@ -109,7 +121,8 @@
             'value' => old(
                 'notation_grid_'.$index.'_grade',
                 json_decode($settings->notation_grid, true)[$index]['grade']
-            )
+            ),
+            'tabindex' => ++$tabindex
         ])
         @include('forms.textinput', [
             'name'  => 'notation_grid_'.$index.'_details',
@@ -117,7 +130,8 @@
             'value' => old(
                 'notation_grid_'.$index.'_details',
                 json_decode($settings->notation_grid, true)[$index]['details']
-            )
+            ),
+            'tabindex' => ++$tabindex
         ])
     @endforeach
 

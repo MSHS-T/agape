@@ -22,7 +22,11 @@ $(document).ready(function () {
                         tab: {
                             key: 9,
                             handler: function () {
-                                $(quillContainer).closest(".form-group.row").next().find(':input').first().focus();
+                                $(quillContainer).closest(".form-group.row")
+                                    .next(".form-group.row")
+                                    .find(':input,.ql-editor')
+                                    .first()
+                                    .focus();
                             }
                         }
                     }
