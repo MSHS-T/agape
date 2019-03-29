@@ -13,7 +13,7 @@
                                 </h4>
                                 <p class="card-text">
                                     <strong class="text-underline">{{ $offer->application->title }}</strong><br/>
-                                    {{ $offer->application->short_description }}
+                                    {!! $offer->application->short_description !!}
                                 </p>
                                 <a href="{{ route('offer.accept', ['offer_id' => $offer->id]) }}" class="btn btn-primary">{{ __('actions.accept')}}</a>
                                 <a href="{{ route('offer.decline', ['offer_id' => $offer->id]) }}" class="btn btn-danger decline-link">{{ __('actions.decline')}}</a>
@@ -41,7 +41,7 @@
                                 </h4>
                                 <p class="card-text">
                                     <strong class="text-underline">{{ $offer->application->title }}</strong><br/>
-                                    {{ $offer->application->short_description }}
+                                    {!! $offer->application->short_description !!}
                                 </p>
                                 <a href="{{ route('evaluation.create', ['offer_id' => $offer->id]) }}" class="btn btn-primary">{{ __('actions.evaluation.evaluate')}}</a>
                             </div>
@@ -68,7 +68,7 @@
                                 </h4>
                                 <p class="card-text">
                                     <strong class="text-underline">{{ $offer->application->title }}</strong><br/>
-                                    {{ $offer->application->short_description }}
+                                    {!! $offer->application->short_description !!}
                                 </p>
                                 <a href="{{ route('evaluation.show', ['id' => $offer->evaluation->id]) }}" class="btn btn-success">{{ __('actions.show')}}</a>
                             </div>
