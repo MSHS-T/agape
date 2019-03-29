@@ -27,6 +27,13 @@ class Application extends Model
         'submitted_at'
     ];
 
+    protected $attributes = [
+        'amount_requested'       => 0,
+        'other_fundings'         => 0,
+        'total_expected_income'  => 0,
+        'total_expected_outcome' => 0,
+    ];
+
     protected $casts = [
         'target_date' => 'array',
         'keywords' => 'array',
