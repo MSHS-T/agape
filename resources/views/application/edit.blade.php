@@ -190,7 +190,7 @@
                     is_array($application->keywords)
                         ? $application->keywords
                         : json_decode($application->keywords)
-                ) > $iteration
+                ) >= $iteration
                     ? $application->keywords[$index]
                     : ''
                 )
