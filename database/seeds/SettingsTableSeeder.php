@@ -82,7 +82,7 @@ class SettingsTableSeeder extends Seeder
         ]);
         DB::table('settings')->insert([
             'key' => 'extensions_application_form',
-            'value' => '.xls,.xlsx,.doc,.docx,.pdf'
+            'value' => '.doc,.docx,.pdf'
         ]);
         DB::table('settings')->insert([
             'key' => 'extensions_financial_form',
