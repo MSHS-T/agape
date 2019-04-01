@@ -73,6 +73,10 @@ class EvaluationOfferController extends Controller
      */
     public function accept(EvaluationOffer $offer, Request $request)
     {
+        if(!$offer->application->projectcall->canEvaluate()){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+        }
         $offer->accepted = true;
         $offer->save();
         Notification::send(User::admins()->get(), new OfferAccepted($offer));
@@ -89,6 +93,10 @@ class EvaluationOfferController extends Controller
      */
     public function decline(EvaluationOffer $offer, Request $request)
     {
+        if(!$offer->application->projectcall->canEvaluate()){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+        }
         $offer->accepted = false;
         $offer->justification = $request->input('justification');
         $offer->save();

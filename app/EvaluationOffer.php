@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EvaluationOffer extends Model
 {
+    protected $with = ['application', 'application.projectcall'];
     public $fillable = [
         'accepted',
         'justification',
@@ -35,5 +36,14 @@ class EvaluationOffer extends Model
 
     public function evaluation(){
         return $this->hasOne('App\Evaluation', 'offer_id');
+    }
+
+    public function scopeOpenCalls($query){
+        return $query->whereHas('application.projectcall', function($q){
+            $q->where([
+                ['evaluation_start_date', '<=', \Carbon\Carbon::parse('today')],
+                ['evaluation_end_date', '>=', \Carbon\Carbon::parse('today')]
+            ]);
+        });
     }
 }

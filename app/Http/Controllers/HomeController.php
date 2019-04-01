@@ -35,14 +35,14 @@ class HomeController extends Controller
                 $data = compact('projectcalls');
                 break;
             case UserRole::Expert:
-                $offers = EvaluationOffer::with(['application', 'application.projectcall'])
-                    ->where('accepted', null)
+                $offers = EvaluationOffer::where('accepted', null)
+                    ->openCalls()
                     ->get();
-                $accepted = EvaluationOffer::with(['application', 'application.projectcall'])
-                    ->where('accepted', true)
+                $accepted = EvaluationOffer::where('accepted', true)
+                    ->openCalls()
                     ->doesntHave('evaluation')
                     ->get();
-                $done = EvaluationOffer::with(['application', 'application.projectcall', 'evaluation'])
+                $done = EvaluationOffer::with('evaluation')
                     ->where('accepted', true)
                     ->has('evaluation')
                     ->get();

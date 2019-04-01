@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<h2 class="text-center mb-3">{{ __('actions.application.list') }}</h2>
+<h2 class="text-center mb-3">{{ __('actions.application.assignations') }}</h2>
 <h3 class="text-center">{{
     __('vocabulary.calltype_short.'.$application->projectcall->typeLabel) }} :
     {{$application->projectcall->year}}
@@ -22,7 +22,9 @@
                 <th>{{ __('fields.offer.expert') }}</th>
                 <th>{{ __('fields.status') }}</th>
                 <th>{{ __('fields.creation_date') }}</th>
-                <th data-orderable="false">{{ __('fields.actions') }}</th>
+                @if($application->projectcall->canEvaluate())
+                    <th data-orderable="false">{{ __('fields.actions') }}</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -54,24 +56,26 @@
                     {{ $offer->creator->name}}<br/>
                     {{ \Carbon\Carbon::parse($offer->created_at)->format(__('locale.datetime_format'))}}
                 </td>
+                @if($application->projectcall->canEvaluate())
                 <td>
-                    @if(is_null($offer->accepted) || ($offer->accepted == true && is_null($offer->evaluation)))
-                        <a href="{{ route('offer.retry',[$offer->id])}}" class="btn btn-sm btn-warning d-block">
-                            @svg('solid/sync', 'icon-fw') {{ __('actions.evaluationoffers.retry') }}
-                        </a>
-                    @endif
-                    @if(is_null($offer->accepted))
-                        <a href="{{ route('offer.destroy', ['offer' => $offer]) }}" class="btn btn-sm btn-danger d-block delete-link">
-                            @svg('solid/times', 'icon-fw') {{ __('actions.cancel') }}
-                        </a>
-                    @endif
+                        @if(is_null($offer->accepted) || ($offer->accepted == true && is_null($offer->evaluation)))
+                            <a href="{{ route('offer.retry',[$offer->id])}}" class="btn btn-sm btn-warning d-block">
+                                @svg('solid/sync', 'icon-fw') {{ __('actions.evaluationoffers.retry') }}
+                            </a>
+                        @endif
+                        @if(is_null($offer->accepted))
+                            <a href="{{ route('offer.destroy', ['offer' => $offer]) }}" class="btn btn-sm btn-danger d-block delete-link">
+                                @svg('solid/times', 'icon-fw') {{ __('actions.cancel') }}
+                            </a>
+                        @endif
                 </td>
+                @endif
             </tr>
             @endforeach
         </tbody>
     </table>
 </div>
-@if($total < $application->projectcall->number_of_experts)
+@if($application->projectcall->canEvaluate() && $total < $application->projectcall->number_of_experts)
     <div class="row justify-content-center">
         <div class="col-6 jumbotron">
             <h4 class="text-center pb-2">{{ __('actions.application.assign_expert') }}</h4>

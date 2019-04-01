@@ -67,7 +67,8 @@ return [
         "deleted"              => "L'appel à projets a bien été supprimé.",
         "apply"                => "Déposer une candidature",
         "empty"                => "Aucun Appel à Projets à afficher",
-        "cannot_apply_anymore" => "Il n'est plus possible de candidater sur cet appel à projets"
+        "cannot_apply_anymore" => "Il n'est plus possible de candidater sur cet appel à projets",
+        "cannot_evaluate_anymore" => "Il n'est plus possible d'évaluer les candidatures de cet appel à projets"
     ],
 
     "application" => [
@@ -89,7 +90,8 @@ return [
         "already_submitted"       => "Votre candidature a déjà été soumise et ne peut plus être modifiée.",
         "experts"                 => "Experts",
         "evaluations"             => "Évaluations",
-        "assign_expert"           => "Assigner un expert",
+        "assignations"           => "Affectation des experts",
+        "assign_expert"           => "Affecter un expert",
         "expert_assigned"         => "La demande d'évaluation a été transmise à l'expert",
         "expert_unassigned"       => "La demande d'évaluation a été annulée",
         "expert_already_assigned" => "L'expert est déjà affecté à cette candidature",

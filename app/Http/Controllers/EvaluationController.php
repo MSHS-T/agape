@@ -60,6 +60,10 @@ class EvaluationController extends Controller
      */
     public function create(EvaluationOffer $offer)
     {
+        if(!$offer->application->projectcall->canEvaluate()){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+        }
         $offer->load(['application', 'application.applicant']);
         return view('evaluation.create', compact('offer'));
     }
@@ -73,6 +77,10 @@ class EvaluationController extends Controller
      */
     public function store(EvaluationOffer $offer, Request $request)
     {
+        if(!$offer->application->projectcall->canEvaluate()){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+        }
         $data = $request->all();
         $offer->evaluation()->create($data);
 
