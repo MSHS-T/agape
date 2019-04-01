@@ -69,7 +69,7 @@ class LaboratoryController extends Controller
      */
     public function edit(Laboratory $laboratory)
     {
-        // $laboratory->load('creator');
+        $laboratory->load('creator');
         return view('laboratory.edit', [
             'mode'       => 'edit',
             'method'     => 'PUT',

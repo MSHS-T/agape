@@ -136,6 +136,15 @@ return [
         "deleted"  => "Le Laboratoire a bien été supprimé.",
     ],
 
+    "studyfield" => [
+        "list" => "Champs Disciplinaires",
+        "create"   => "Nouveau Champ Disciplinaire",
+        "created"  => "Le Champ Disciplinaire a bien été créé.",
+        "edit"     => "Modifier le Champ Disciplinaire",
+        "edited"   => "Le Champ Disciplinaire a bien été modifié.",
+        "deleted"  => "Le Champ Disciplinaire a bien été supprimé.",
+    ],
+
     "error" => [
         "title"        => "Une erreur s'est produite :",
         "unauthorized" => "Vous n'avez pas la permission d'accéder à cette page.<br/>Profils autorisés : :roles.",

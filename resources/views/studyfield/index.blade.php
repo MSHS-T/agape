@@ -1,37 +1,27 @@
 @extends('layouts.app')
 @section('content')
+<h2 class="mb-3 text-center">{{ __('actions.studyfield.list') }}</h2>
 <div class="row justify-content-center">
-    <h2 class="mb-3">{{ __('actions.laboratory.list') }}</h2>
-    <table class="table table-striped table-hover table-bordered w-100" id="laboratory_list">
+    <table class="table table-striped table-hover table-bordered w-100" id="studyfield_list">
         <thead>
             <tr>
                 <th>{{ __('fields.id') }}</th>
                 <th>{{ __('fields.name') }}</th>
-                <th>{{ __('fields.laboratory.unit_code') }}</th>
-                <th>{{ __('fields.laboratory.director_email') }}</th>
-                <th>{{ __('fields.laboratory.regency') }}</th>
                 <th>{{ __('fields.creator') }}</th>
-                <th>{{ __('fields.creation_date') }}</th>
-                <th>{{ __('fields.modification_date') }}</th>
                 <th data-orderable="false">{{ __('fields.actions') }}</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($laboratories as $lab)
+            @foreach($studyfields as $sf)
                 <tr>
-                    <td>{{ $lab->id }}</td>
-                    <td>{{ $lab->name }}</td>
-                    <td>{{ $lab->unit_code }}</td>
-                    <td>{{ $lab->director_email }}</td>
-                    <td>{{ $lab->regency }}</td>
-                    <td>{{ $lab->creator->name }}</td>
-                    <td>@date(['datetime' => $lab->created_at])</td>
-                    <td>@date(['datetime' => $lab->updated_at])</td>
+                    <td>{{ $sf->id }}</td>
+                    <td>{{ $sf->name }}</td>
+                    <td>{{ $sf->creator->name }}</td>
                     <td>
-                        <a href="{{ route('laboratory.edit',$lab)}}" class="btn btn-sm btn-warning d-block">
+                        <a href="{{ route('studyfield.edit',$sf)}}" class="btn btn-sm btn-warning d-block">
                             @svg('solid/edit', 'icon-fw') {{ __('actions.edit') }}
                         </a>
-                        <a href="{{ route('laboratory.destroy', $lab)}}" class="btn btn-sm btn-danger d-block delete-link">
+                        <a href="{{ route('studyfield.destroy', $sf)}}" class="btn btn-sm btn-danger d-block delete-link">
                             @svg('solid/trash', 'icon-fw') {{ __('actions.delete') }}
                         </a>
                     </td>
@@ -41,7 +31,7 @@
     </table>
 </div>
 <div class="row mt-1">
-    <a href="{{ route('laboratory.create')}}" class="btn btn-success">
+    <a href="{{ route('studyfield.create')}}" class="btn btn-success">
         @svg('solid/plus-square', 'icon-fw') {{ __('actions.create') }}
     </a>
 </div>
@@ -80,19 +70,19 @@
             $("form#confirmation-form").attr('action', targetUrl);
             $(".modal#confirm-delete").modal();
         });
-        $('#laboratory_list').DataTable({
+        $('#studyfield_list').DataTable({
             autoWidth: false,
             lengthChange: true,
             searching: true,
             ordering: true,
             order: [
-                [6, 'desc']
+                [0, 'desc']
             ],
-            columns: [null, null, null, null, null, null, null, null, {
+            columns: [null, null, null, {
                 searchable: false
             }],
             language: @json(__('datatable')),
-            pageLength: 5,
+            pageLength: 10,
             lengthMenu: [
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "@lang('datatable.all')"]

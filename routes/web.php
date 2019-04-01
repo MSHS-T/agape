@@ -92,6 +92,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::post('settings', 'SettingsController@update')->name('settings.update');
 
         Route::resource('laboratory', 'LaboratoryController')->except(['show']);
+        Route::resource('studyfield', 'StudyFieldController')->except(['show']);
     });
 });
 
