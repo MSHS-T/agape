@@ -76,6 +76,18 @@ class ProjectCall extends Model
         return $cpt;
     }
 
+    public function canApply()
+    {
+        $today = \Carbon\Carbon::parse('today');
+        return $this->application_start_date <= $today && $today <= $this->application_end_date;
+    }
+
+    public function canEvaluate()
+    {
+        $today = \Carbon\Carbon::parse('today');
+        return $this->evaluation_start_date <= $today && $today <= $this->evaluation_end_date;
+    }
+
     public function scopeOpen($query)
     {
         return $query->where('evaluation_end_date', '>=', \Carbon\Carbon::parse('today'));

@@ -45,7 +45,11 @@ class ApplicationController extends Controller
     {
         if(!empty($application->submitted_at)){
             return redirect()->route('home')
-                             ->with('error', __('actions.application.already_submitted'));
+                             ->withErrors([__('actions.application.already_submitted')]);
+        }
+        if(!$application->projectcall->canApply()){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
         }
         $laboratories = Laboratory::accessible()->get();
         $study_fields = StudyField::accessible()->get();
@@ -62,6 +66,14 @@ class ApplicationController extends Controller
      */
     public function update(Request $request, Application $application)
     {
+        if(!empty($application->submitted_at)){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.application.already_submitted')]);
+        }
+        if(!$application->projectcall->canApply()){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
+        }
         $data = (object) $request->all();
 
         //Simple fields with no post-treatment or validation at this time
@@ -226,6 +238,14 @@ class ApplicationController extends Controller
      */
     public function submit(Application $application)
     {
+        if(!empty($application->submitted_at)){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.application.already_submitted')]);
+        }
+        if(!$application->projectcall->canApply()){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
+        }
         $data = $application->toArray();
         $validator = Validator::make($data, [
             'title'                             => 'required|max:255',
