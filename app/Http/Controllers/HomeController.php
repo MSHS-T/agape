@@ -31,7 +31,7 @@ class HomeController extends Controller
                 $data = compact('open_calls', 'old_calls');
                 break;
             case UserRole::Admin:
-                $projectcalls = ProjectCall::with('applications')->get();
+                $projectcalls = ProjectCall::with('applications')->open()->get();
                 $data = compact('projectcalls');
                 break;
             case UserRole::Expert:

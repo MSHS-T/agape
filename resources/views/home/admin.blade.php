@@ -10,7 +10,7 @@
                 <div class="card-text">
                     <h4>{{$call->title}}</h4>
                     <p>
-                        <@include('partials.projectcall_dates', ['projectcall' => $call])
+                        @include('partials.projectcall_dates', ['projectcall' => $call])
                     </p>
                     <div class="d-flex flex-column align-items-stretch">
                         <a href="{{ route('projectcall.show',$call)}}" class="btn btn-primary d-inline-block my-1">
