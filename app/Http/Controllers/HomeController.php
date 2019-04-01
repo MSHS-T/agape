@@ -22,10 +22,13 @@ class HomeController extends Controller
     {
         switch(Auth::user()->role){
             case UserRole::Candidate:
-                $projectcalls = ProjectCall::with(['applications' => function($query){
+                $open_calls = ProjectCall::with(['applications' => function($query){
                     $query->where('applicant_id', Auth::id());
-                }])->get();
-                $data = compact('projectcalls');
+                }])->open()->get();
+                $old_calls = ProjectCall::with(['applications' => function($query){
+                    $query->where('applicant_id', Auth::id());
+                }])->old()->get();
+                $data = compact('open_calls', 'old_calls');
                 break;
             case UserRole::Admin:
                 $projectcalls = ProjectCall::with('applications')->get();
