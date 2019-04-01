@@ -42,6 +42,7 @@ $(document).ready(function () {
         $(quillContainer).find('.ql-toolbar').find(':button').attr('tabindex', '-1');
         tabindex = parseInt($(quillContainer).attr('data-tabindex'), 10);
         $(quillContainer).find('.ql-editor').attr('tabindex', tabindex);
-
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
 })

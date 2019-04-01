@@ -137,12 +137,13 @@ return [
     ],
 
     "offer" => [
-        "expert"     => "Expert",
-        "accepted"   => "Acceptée",
-        "declined"   => "Refusée",
-        "pending"    => "En attente",
-        "done"       => "Terminée",
-        "no_experts" => "Aucun expert disponible"
+        "expert"        => "Expert",
+        "accepted"      => "Acceptée",
+        "declined"      => "Refusée",
+        "pending"       => "En attente",
+        "done"          => "Terminée",
+        "justification" => "Justification",
+        "no_experts"    => "Aucun expert disponible"
     ],
 
     "evaluation" => [

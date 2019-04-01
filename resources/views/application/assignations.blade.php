@@ -50,6 +50,8 @@
                     @elseif($offer->accepted == false)
                         @svg('solid/times', 'icon-fw text-danger')
                         {{ __('fields.offer.declined') }}
+                        <br/>
+                        <b><u>{{ __('fields.offer.justification') }}:</u></b> {{ $offer->justification }}
                     @endif
                 </td>
                 <td>

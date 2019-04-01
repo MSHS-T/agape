@@ -45,7 +45,14 @@
                                             @svg('solid/hourglass', 'icon-fw text-warning')
                                         @endif
                                     @elseif($offer->accepted == false)
-                                        @svg('solid/times', 'icon-fw text-danger')
+                                        <span
+                                            data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            data-html="true"
+                                            title="<b><u>{{ __('fields.offer.justification') }}:</u></b> {{$offer->justification}}"
+                                        >
+                                            @svg('solid/times', 'icon-fw text-danger')
+                                        </span>
                                     @endif
                                 </li>
                             @endforeach

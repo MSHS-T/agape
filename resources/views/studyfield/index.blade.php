@@ -63,7 +63,6 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
         $('.delete-link').click(function (e) {
             e.preventDefault();
             var targetUrl = jQuery(this).attr('href');
