@@ -4,7 +4,6 @@
 <h3 class="text-center">
     {{ $projectcall->toString() }}
 </h3>
-<h4 class="text-center">{{$projectcall->title}}</h4>
 <p>
     @include('partials.projectcall_dates', ['projectcall' => $projectcall])
 </p>
