@@ -49,10 +49,16 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">{{ __('actions.study_fields') }}</a>
-                                <a class="dropdown-item" href="#">{{ __('actions.laboratories') }}</a>
+                                <a class="dropdown-item" href="#">
+                                    {{ __('actions.study_fields') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('laboratory.index') }}">
+                                    {{ __('actions.laboratories') }}
+                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('settings') }}">{{ __('actions.settings.list') }}</a>
+                                <a class="dropdown-item" href="{{ route('settings') }}">
+                                    {{ __('actions.settings.list') }}
+                                </a>
                             </div>
                         </li>
                         @break

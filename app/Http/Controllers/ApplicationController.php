@@ -14,7 +14,6 @@ use App\Enums\CallType;
 use App\Notifications\ApplicationSubmitted;
 use App\Notifications\NewApplicationSubmitted;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;

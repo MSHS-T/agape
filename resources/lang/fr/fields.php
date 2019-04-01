@@ -13,6 +13,7 @@ return [
     "id"                        => "ID",
     "role"                      => "Rôle",
     "actions"                   => "Actions",
+    "creator"                   => "Créateur",
     "creation_date"             => "Création",
     "modification_date"         => "Dernière modification",
     "submission_date"           => "Date de soumission",

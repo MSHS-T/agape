@@ -90,6 +90,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::prefix('admin')->middleware('role:admin')->group(function () {
         Route::get('settings', 'SettingsController@edit')->name('settings');
         Route::post('settings', 'SettingsController@update')->name('settings.update');
+
+        Route::resource('laboratory', 'LaboratoryController')->except(['show']);
     });
 });
 

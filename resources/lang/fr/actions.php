@@ -32,6 +32,7 @@ return [
     "edit_password_help"  => "Si vous ne souhaitez pas changer votre mot de passe, laissez les 2 champs vides",
     "profile_edited"      => "Profil utilisateur modifié",
     "export_pdf"          => "Exporter en PDF",
+    "make_public"         => "Rendre public",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",
@@ -124,6 +125,15 @@ return [
             "notation_guide"       => "Guide de notation",
             "notation_description" => "Description des notes"
         ]
+    ],
+
+    "laboratory" => [
+        "list" => "Laboratoires",
+        "create"   => "Nouveau Laboratoire",
+        "created"  => "Le Laboratoire a bien été créé.",
+        "edit"     => "Modifier le Laboratoire",
+        "edited"   => "Le Laboratoire a bien été modifié.",
+        "deleted"  => "Le Laboratoire a bien été supprimé.",
     ],
 
     "error" => [

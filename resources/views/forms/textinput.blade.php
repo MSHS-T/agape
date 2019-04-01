@@ -3,6 +3,7 @@
     $money = false;
     $type  = $type ?? 'text';
     $readonly = $readonly ?? false;
+    $disabled = $disabled ?? false;
     if($type == "money"){
         $type  = "number";
         $step  = 0.01;
@@ -27,6 +28,7 @@
                 @if (isset($step)) step="{{ $step }}" @endif
                 @if (isset($min)) min="{{ $min }}" @endif
                 @if ($readonly) readonly @endif
+                @if ($disabled) disabled @endif
             >
         @if($money)
                 <div class="input-group-append">

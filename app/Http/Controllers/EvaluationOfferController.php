@@ -11,7 +11,6 @@ use App\Notifications\OfferDeclined;
 use App\Notifications\OfferRetry;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 class EvaluationOfferController extends Controller
