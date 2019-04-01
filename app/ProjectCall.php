@@ -76,6 +76,21 @@ class ProjectCall extends Model
         return $cpt;
     }
 
+    public function getStateAttribute(){
+        if(\Carbon\Carbon::parse('today') <= $this->evaluation_end_date)
+        {
+            return "open";
+        }
+        else if($this->trashed())
+        {
+            return "archived";
+        }
+        else
+        {
+            return "closed";
+        }
+    }
+
     public function canApply()
     {
         $today = \Carbon\Carbon::parse('today');
@@ -90,7 +105,10 @@ class ProjectCall extends Model
 
     public function scopeOpen($query)
     {
-        return $query->where('evaluation_end_date', '>=', \Carbon\Carbon::parse('today'));
+        return $query->where([
+            ['application_start_date', '<=', \Carbon\Carbon::parse('today')],
+            ['evaluation_end_date', '>=', \Carbon\Carbon::parse('today')]
+        ]);
     }
 
     public function scopeOld($query)

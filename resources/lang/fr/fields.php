@@ -53,6 +53,7 @@ return [
         "help_candidates"        => "Aide en ligne pour les candidats",
         "states"                 => [
             "open" => "En cours",
+            "closed" => "Terminé",
             "archived" => "Archivé"
         ]
     ],

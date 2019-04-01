@@ -18,55 +18,62 @@
         </thead>
         <tbody>
             @foreach($projectcalls as $call)
-            @php
-            $today = \Carbon\Carbon::parse('today');
-            $can_apply = $today >= $call->application_start_date;
-            $can_evaluate = $today >= $call->evaluation_start_date;
-            $statestring = 'fields.projectcall.states.'.(empty($call->deleted_at) ? 'open' : 'archived')
-            @endphp
-            <tr>
-                <td>{{$call->id}}</td>
-                <td>{{ __('vocabulary.calltype_short.'.$call->typeLabel) }}</td>
-                <td class="text-center">{{$call->year}}</td>
-                <td>{{$call->title}}</td>
-                <td class="text-center" data-search="{{ __($statestring) }}" data-toggle="tooltip" data-placement="right"
-                    title="{{ __($statestring) }}">
-                    @if (!empty($call->deleted_at)) @svg('solid/door-closed', 'icon-lg icon-fw')
-                    @else @svg('solid/door-open', 'icon-lg icon-fw')
-                    @endif
-                </td>
-                <td>
-                    @include('partials.projectcall_dates', ['projectcall' => $call])
-                </td>
-                <td>{{ \Carbon\Carbon::parse($call->created_at)->format(__('locale.datetime_format'))}}</td>
-                <td>{{ \Carbon\Carbon::parse($call->updated_at)->format(__('locale.datetime_format'))}}</td>
-                <td>
-                    <a href="
-                    {{ route('projectcall.show',$call)}}" class="btn btn-sm btn-primary d-block">
-                        @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
-                    </a>
-                    @if (empty($call->deleted_at))
-                    <a href="{{ route('projectcall.edit',$call)}}" class="btn btn-sm btn-warning d-block">
-                        @svg('solid/edit', 'icon-fw') {{ __('actions.edit') }}
-                    </a>
-                    <a href="{{ route('projectcall.destroy', $call)}}" class="btn btn-sm btn-danger d-block archive-link">
-                        @svg('solid/trash', 'icon-fw') {{ __('actions.archive') }}
-                    </a>
-                    @endif
-                    @if($can_apply)
-                    <a href="{{ route('projectcall.applications', ['projectcall' => $call])}}" class="btn btn-sm btn-info d-block">
-                        @svg('solid/link', 'icon-fw') {{ __('actions.application.list_count', ['count' =>
-                        count($call->submittedApplications)]) }}
-                    </a>
-                    @endif
-                    @if($can_evaluate)
-                    <a href="{{ route('projectcall.evaluations', ['projectcall' => $call]) }}" class="btn btn-sm btn-success d-block">
-                        @svg('solid/graduation-cap', 'icon-fw') {{ __('actions.evaluation.list_count', ['count' => $call->evaluationCount])
-                        }}
-                    </a>
-                    @endif
-                </td>
-            </tr>
+                @php
+                    $today = \Carbon\Carbon::parse('today');
+                    $can_apply = $today >= $call->application_start_date;
+                    $can_evaluate = $today >= $call->evaluation_start_date;
+                @endphp
+                <tr>
+                    <td>{{$call->id}}</td>
+                    <td>{{ __('vocabulary.calltype_short.'.$call->typeLabel) }}</td>
+                    <td class="text-center">{{$call->year}}</td>
+                    <td>{{$call->title}}</td>
+                    <td class="text-center" data-search="{{ __('fields.projectcall.states.'.$call->state) }}" data-toggle="tooltip" data-placement="right"
+                        title="{{ __('fields.projectcall.states.'.$call->state) }}">
+                        @switch($call->state)
+                            @case("open")
+                                @svg('solid/door-open', 'icon-lg icon-fw')
+                                @break
+                            @case("closed")
+                                @svg('solid/door-closed', 'icon-lg icon-fw')
+                                @break
+                            @case("archived")
+                                @svg('solid/archive', 'icon-lg icon-fw')
+                                @break
+                        @endswitch
+                    </td>
+                    <td>
+                        @include('partials.projectcall_dates', ['projectcall' => $call])
+                    </td>
+                    <td>{{ \Carbon\Carbon::parse($call->created_at)->format(__('locale.datetime_format'))}}</td>
+                    <td>{{ \Carbon\Carbon::parse($call->updated_at)->format(__('locale.datetime_format'))}}</td>
+                    <td>
+                        <a href="
+                        {{ route('projectcall.show',$call)}}" class="btn btn-sm btn-primary d-block">
+                            @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
+                        </a>
+                        @if (empty($call->deleted_at))
+                            <a href="{{ route('projectcall.edit',$call)}}" class="btn btn-sm btn-warning d-block">
+                                @svg('solid/edit', 'icon-fw') {{ __('actions.edit') }}
+                            </a>
+                            <a href="{{ route('projectcall.destroy', $call)}}" class="btn btn-sm btn-danger d-block archive-link">
+                                @svg('solid/trash', 'icon-fw') {{ __('actions.archive') }}
+                            </a>
+                        @endif
+                        @if($can_apply)
+                            <a href="{{ route('projectcall.applications', ['projectcall' => $call])}}" class="btn btn-sm btn-info d-block">
+                                @svg('solid/link', 'icon-fw') {{ __('actions.application.list_count', ['count' =>
+                                count($call->submittedApplications)]) }}
+                            </a>
+                        @endif
+                        @if($can_evaluate)
+                            <a href="{{ route('projectcall.evaluations', ['projectcall' => $call]) }}" class="btn btn-sm btn-success d-block">
+                                @svg('solid/graduation-cap', 'icon-fw') {{ __('actions.evaluation.list_count', ['count' => $call->evaluationCount])
+                                }}
+                            </a>
+                        @endif
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
