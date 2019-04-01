@@ -5,6 +5,7 @@ use App\ProjectCall;
 use App\EvaluationOffer;
 use App\Enums\UserRole;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -40,11 +41,15 @@ class HomeController extends Controller
                     ->get();
                 $accepted = EvaluationOffer::where('accepted', true)
                     ->openCalls()
-                    ->doesntHave('evaluation')
+                    ->whereDoesntHave('evaluation', function(Builder $query){
+                        $query->whereNotNull('submitted_at');
+                    })
                     ->get();
                 $done = EvaluationOffer::with('evaluation')
                     ->where('accepted', true)
-                    ->has('evaluation')
+                    ->whereHas('evaluation', function(Builder $query){
+                        $query->whereNotNull('submitted_at');
+                    })
                     ->get();
                 $data = compact('offers', 'accepted', 'done');
         }

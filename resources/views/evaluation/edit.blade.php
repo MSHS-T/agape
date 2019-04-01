@@ -15,7 +15,7 @@
 
         <div id="evaluationCall" class="collapse" aria-labelledby="evaluationCallTitle" data-parent="#accordion">
             <div class="card-body">
-                @include('partials.projectcall_display', ["projectcall" => $offer->application->projectcall])
+                @include('partials.projectcall_display', ["projectcall" => $evaluation->offer->application->projectcall])
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
         </div>
         <div id="evaluationApplication" class="collapse" aria-labelledby="evaluationApplicationTitle" data-parent="#accordion">
             <div class="card-body">
-                @include('partials.application_display', ["application" => $offer->application])
+                @include('partials.application_display', ["application" => $evaluation->offer->application])
             </div>
         </div>
     </div>
@@ -43,8 +43,8 @@
         </div>
         <div id="evaluationForm" class="collapse show" aria-labelledby="evaluationFormTitle" data-parent="#accordion">
             <div class="card-body">
-                <form method="POST" action="{{ route('evaluation.store', $offer->id) }}" id="evaluation_form">
-                    @csrf @method("POST")
+                <form method="POST" action="{{ route('evaluation.update', ["evaluation" => $evaluation]) }}" id="evaluation_form">
+                    @csrf @method("PUT")
                     @foreach(range(1,3) as $iteration)
                         <div class="jumbotron jumbotron-fluid px-1 py-2 mb-1">
                             <div class="container">
@@ -64,7 +64,7 @@
                                             name="grade{{$iteration}}"
                                             id="grade{{$iteration}}_{{$grade}}"
                                             value="{{$grade}}"
-                                            @if(old("grade".$iteration, null) === $grade) checked @endif
+                                            @if(old("grade".$iteration, $evaluation->{"grade".$iteration}) === $grade) checked @endif
                                         >
                                         <label class="form-check-label" for="grade{{$iteration}}_{{$grade}}">
                                             <span class="font-weight-bold">
@@ -80,7 +80,7 @@
                         @include('forms.textarea', [
                             'name'  => 'comment'.$iteration,
                             'label' => __('fields.comments'),
-                            'value' => old('comment'.$iteration, "")
+                            'value' => old('comment'.$iteration, $evaluation->{"comment".$iteration})
                         ])
                         <hr/>
                     @endforeach
@@ -100,7 +100,7 @@
                                         name="global_grade"
                                         id="global_grade_{{$grade}}"
                                         value="{{$grade}}"
-                                        @if(old("grade".$iteration, null) === $grade) checked @endif
+                                        @if(old("global_grade", $evaluation->global_grade) === $grade) checked @endif
                                     >
                                     <label class="form-check-label" for="global_grade_{{$grade}}">
                                         <span class="font-weight-bold">
@@ -116,16 +116,22 @@
                     @include('forms.textarea', [
                         'name'  => 'global_comment',
                         'label' => __('fields.comments'),
-                        'value' => old('global_comment', "")
+                        'value' => old('global_comment', $evaluation->global_comment)
                     ])
                     <hr/>
                     <div class="form-group row">
                         <div class="col-sm-12 text-center">
-                            <a href="{{ route('home') }}" class="btn btn-secondary">{{ __('actions.cancel') }}</a>
+                            <a href="{{ route('home') }}" class="btn btn-secondary">
+                                {{ __('actions.cancel') }}
+                            </a>
                             <button type="submit" name="save" class="btn btn-primary">
+                                @svg('solid/save')
+                                {{ __('actions.save') }}
+                            </button>
+                            <a href="{{ route('evaluation.submit', ['evaluation' => $evaluation]) }}" class="btn btn-success submission-link">
                                 @svg('solid/check')
                                 {{ __('actions.evaluation.submit') }}
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -133,6 +139,65 @@
         </div>
     </div>
 </div>
-
-
+<div class="modal fade" id="confirm-submission" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('actions.evaluation.confirm_submission.title') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('actions.evaluation.confirm_submission.body') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                <form id="confirmation-form" action="" method="post">
+                    @csrf @method('PUT')
+                    <button class="btn btn-danger" type="submit">{{ __('actions.submit') }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="error-submission" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('fields.error') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('actions.evaluation.confirm_submission.error_unsaved') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.close') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
+@push('scripts')
+<script type="text/javascript">
+    var form_old;
+    $(document).ready(function () {
+        form_old = $("form#evaluation_form").serialize();
+
+        $('.submission-link').click(function (e) {
+            e.preventDefault();
+            var form_dirty = $("form#evaluation_form").serialize();
+            if (form_old === form_dirty) {
+                var targetUrl = jQuery(this).attr('href');
+                $("form#confirmation-form").attr('action', targetUrl);
+                $(".modal#confirm-submission").modal();
+            } else {
+                $('.modal#error-submission').modal();
+            }
+        });
+    });
+
+</script>
+@endpush

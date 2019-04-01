@@ -39,7 +39,7 @@
                         {{ __('fields.offer.pending') }}
                         @php($total++)
                     @elseif($offer->accepted == true)
-                        @if(!is_null($offer->evaluation))
+                        @if(!is_null($offer->evaluation) && !is_null($offer->evaluation->submitted_at))
                             @svg('solid/check', 'icon-fw text-success')
                             {{ __('fields.offer.done') }}
                         @else

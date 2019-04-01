@@ -11,6 +11,7 @@ use App\Notifications\EvaluationSubmitted;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
 
 class EvaluationController extends Controller
 {
@@ -55,36 +56,88 @@ class EvaluationController extends Controller
     /**
      * Show the form for the evaluation.
      *
-     * @param  EvaluationOffer  $offer
+     * @param  Evaluation  $evaluation
      * @return \Illuminate\Http\Response
      */
-    public function create(EvaluationOffer $offer)
+    public function edit(Evaluation $evaluation)
     {
-        if(!$offer->application->projectcall->canEvaluate()){
+        if(!empty($evaluation->submitted_at)){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.evaluation.already_submitted')]);
+        }
+        $evaluation->load(['offer', 'offer.application', 'offer.application.applicant']);
+        if(!$evaluation->offer->application->projectcall->canEvaluate()){
             return redirect()->route('home')
                              ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
-        $offer->load(['application', 'application.applicant']);
-        return view('evaluation.create', compact('offer'));
+        return view('evaluation.edit', compact('evaluation'));
     }
 
     /**
-     * Stores the evaluation.
+     * Updates the evaluation.
      *
-     * @param  EvaluationOffer  $offer
+     * @param  Evaluation  $evaluation
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EvaluationOffer $offer, Request $request)
+    public function update(Evaluation $evaluation, Request $request)
     {
-        if(!$offer->application->projectcall->canEvaluate()){
+        if(!empty($evaluation->submitted_at)){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.evaluation.already_submitted')]);
+        }
+        if(!$evaluation->offer->application->projectcall->canEvaluate()){
             return redirect()->route('home')
                              ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
         $data = $request->all();
-        $offer->evaluation()->create($data);
+        $evaluation->fill($data);
+        $evaluation->save();
 
-        Notification::send(User::admins()->get(), new EvaluationSubmitted($offer));
+        return redirect()->route('home')
+                         ->with('success', __('actions.evaluation.saved'));
+    }
+
+    /**
+     * Submits the evaluation.
+     *
+     * @param  Evaluation  $evaluation
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function submit(Evaluation $evaluation, Request $request)
+    {
+        if(!empty($evaluation->submitted_at)){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.evaluation.already_submitted')]);
+        }
+        if(!$evaluation->offer->application->projectcall->canEvaluate()){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+        }
+        $data = $evaluation->toArray();
+        $validator = Validator::make($data, [
+            'grade1'         => 'required|integer|min:0|max:3',
+            'comment1'       => 'required|string',
+            'grade2'         => 'required|integer|min:0|max:3',
+            'comment2'       => 'required|string',
+            'grade3'         => 'required|integer|min:0|max:3',
+            'comment3'       => 'required|string',
+            'global_grade'   => 'required|integer|min:0|max:3',
+            'global_comment' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                        ->route('evaluation.edit', ["evaluation" => $evaluation])
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $evaluation->submitted_at = \Carbon\Carbon::now();
+        $evaluation->save();
+
+        Notification::send(User::admins()->get(), new EvaluationSubmitted($evaluation->offer));
 
         return redirect()->route('home')
                          ->with('success', __('actions.evaluation.submitted'));

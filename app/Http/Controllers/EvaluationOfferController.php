@@ -78,9 +78,10 @@ class EvaluationOfferController extends Controller
                              ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
         $offer->accepted = true;
+        $evaluation = $offer->evaluation()->create([]);
         $offer->save();
         Notification::send(User::admins()->get(), new OfferAccepted($offer));
-        return redirect()->route('evaluation.create', ["offer" => $offer])
+        return redirect()->route('evaluation.edit', ["evaluation" => $evaluation])
                          ->with('success', __('actions.evaluationoffers.accepted'));
     }
 

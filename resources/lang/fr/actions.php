@@ -118,7 +118,14 @@ return [
         "application_data" => "Détails de la candidature",
         "evaluation_form"  => "Formulaire d'évaluation",
         "submit"           => "Soumettre l'évaluation",
-        "submitted"        => "L'évaluation a été enregistrée.",
+        "saved"                   => "Votre évaluation a été sauvegardée. Pensez à la soumettre avant la date limite.",
+        "submitted"               => "Votre évaluation a été soumise avec succès.",
+        "already_submitted"       => "Votre évaluation a déjà été soumise et ne peut plus être modifiée.",
+        "confirm_submission" => [
+            "title"         => "Confirmer la soumission",
+            "body"          => "Êtes-vous sur de vouloir soumettre cette évaluation ? Cette action est définitive",
+            "error_unsaved" => "Vous devez d'abord sauvegarder cette évaluation avant de pouvoir la soumettre."
+        ],
         "export_name"      => "Évaluations"
     ],
 

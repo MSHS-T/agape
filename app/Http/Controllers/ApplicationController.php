@@ -329,7 +329,7 @@ class ApplicationController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                        ->route('application.edit', ["application" => $application->id])
+                        ->route('application.edit', ["application" => $application])
                         ->withErrors($validator)
                         ->withInput();
         }

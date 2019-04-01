@@ -51,6 +51,6 @@ return [
     ],
     "evaluation_submitted" => [
         "title" => "Évaluation envoyée",
-        "intro" => "L'expert :expert vient d'effectuer l'évaluation de la candidature de :candidat pour l'appel à projets :call"
+        "intro" => "L'expert :expert vient de finaliser l'évaluation de la candidature de :candidat pour l'appel à projets :call"
     ],
 ];

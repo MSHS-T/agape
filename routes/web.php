@@ -79,8 +79,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // Evaluations
     Route::name('evaluation.')->prefix('evaluation')->group(function(){
         Route::middleware('role:expert')->group(function(){
-            Route::get('create/{offer}', 'EvaluationController@create')->name('create');
-            Route::post('create/{offer}', 'EvaluationController@store')->name('store');
+            Route::get('{evaluation}/edit/', 'EvaluationController@edit')->name('edit');
+            Route::put('{evaluation}', 'EvaluationController@update')->name('update');
+            Route::put('{evaluation}/submit', 'EvaluationController@submit')->name('submit');
         });
 
         Route::get('{evaluation}', 'EvaluationController@show')->name('show')->middleware('role:admin,expert');

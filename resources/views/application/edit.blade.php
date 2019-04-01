@@ -10,7 +10,7 @@
     @include('partials.projectcall_dates', ['projectcall' => $application->projectcall])
 </p>
 
-<form method="POST" action="{{ route('application.update', $application->id) }}" id="application_form" enctype="multipart/form-data">
+<form method="POST" action="{{ route('application.update', ["application" => $application]) }}" id="application_form" enctype="multipart/form-data">
     @csrf @method("PUT")
     {{-- SECTION 1 : Infos Générales --}}
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-1">{{
@@ -285,10 +285,20 @@
     <hr />
     <div class="form-group row">
         <div class="col-sm-12 text-center">
-            <a href="{{ route('home') }}" class="btn btn-secondary">{{ __('actions.cancel') }}</a>
-            <button type="submit" name="save" class="btn btn-primary">@svg('solid/save') {{ __('actions.save') }}</button>
-            <a href="{{ route('application.submit', ['id' => $application->id]) }}" class="btn btn-success submission-link">@svg('solid/check')
-                {{ __('actions.application.submit') }}</a>
+            <a href="{{ route('home') }}" class="btn btn-secondary">
+                {{ __('actions.cancel') }}
+            </a>
+            <button type="submit" name="save" class="btn btn-primary">
+                @svg('solid/save')
+                {{ __('actions.save') }}
+            </button>
+            <a
+                href="{{ route('application.submit', ['application' => $application]) }}"
+                class="btn btn-success submission-link"
+            >
+                @svg('solid/check')
+                {{ __('actions.application.submit') }}
+            </a>
         </div>
     </div>
 </form>
