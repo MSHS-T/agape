@@ -11,6 +11,7 @@ return [
     "password_confirmation"     => "Confirmation du mot de passe",
     "remember_me"               => "Se souvenir de moi",
     "id"                        => "ID",
+    "message"                   => "Message",
     "role"                      => "Rôle",
     "actions"                   => "Actions",
     "creator"                   => "Créateur",

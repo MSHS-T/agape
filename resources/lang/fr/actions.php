@@ -24,6 +24,7 @@ return [
     "accept"              => "Accepter",
     "decline"             => "Refuser",
     "download"            => "Télécharger",
+    "send"                => "Envoyer",
     "select_element"      => "Sélectionner un élément (taper du texte pour filtrer)",
     "select_elements"     => "Sélectionner des éléments (taper du texte pour filtrer)",
     "add_element"         => "Ajouter un nouvel élément",
@@ -33,6 +34,8 @@ return [
     "profile_edited"      => "Profil utilisateur modifié",
     "export_pdf"          => "Exporter en PDF",
     "make_public"         => "Rendre public",
+    "contact"             => "Contact",
+    "contact_sent"        => "Votre message a bien été envoyé aux administrateurs.",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",

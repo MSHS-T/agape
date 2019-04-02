@@ -132,6 +132,14 @@
         </main>
     </div>
 
+    <footer class="footer">
+        <div class="container text-center">
+            <span class="text-muted">
+                &copy; {{ config('app.name') }} 2018-{{ date('Y') }} - <a href="{{ route('contact') }}">{{ __('actions.contact') }}</a>
+            </span>
+        </div>
+    </footer>
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     @stack('scripts')

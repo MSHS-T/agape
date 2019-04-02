@@ -98,6 +98,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
     });
 });
 
+Route::get('contact', 'HomeController@contact')->name('contact');
+Route::post('contact', 'HomeController@sendContact')->name('contact.send');
+
 Route::get('error', function(){
     abort(500);
 });

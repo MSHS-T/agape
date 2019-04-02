@@ -1,14 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\ProjectCall;
 use App\EvaluationOffer;
+use App\ProjectCall;
+use App\User;
 use App\Enums\UserRole;
+use App\Notifications\ContactMessage;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -103,5 +106,47 @@ class HomeController extends Controller
 
         return redirect()->route('home')
                          ->with('success', __('actions.profile_edited'));
+    }
+
+    /**
+     * Show the contact form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function contact()
+    {
+        return view('contact', [
+            "user"        => Auth::user(),
+            "form_action" => route('contact.send')
+        ]);
+    }
+
+    /**
+     * Send the contents of the contact form
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function sendContact(Request $request)
+    {
+        $user = Auth::user();
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'message' => ['required', 'string'],
+        ]);
+        if ($validator->fails()) {
+            return redirect()
+                        ->route('contact')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        $data = (object) $request->only(['name', 'email', 'message']);
+        $data->visitor = !Auth::check();
+        Notification::send(User::admins()->get(), new ContactMessage($data));
+
+        return redirect()->route(Auth::check() ? 'home' : 'login')
+                         ->with('success', __('actions.contact_sent'));
     }
 }
