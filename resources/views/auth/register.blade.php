@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('head')
+    {!! htmlScriptTagJsApi() !!}
+@endsection
 @section('content')
 <div class="container">
     <div class="row align-items-center justify-content-center">
@@ -85,6 +88,11 @@
                     <div class="col-md-6">
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
                             required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 offset-md-4">
+                        {!! htmlFormSnippet() !!}
                     </div>
                 </div>
 

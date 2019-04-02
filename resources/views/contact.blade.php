@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('head')
+    {!! htmlScriptTagJsApi() !!}
+@endsection
 @section('content')
 <h2 class="mb-3 text-center">{{ __('actions.contact') }}</h2>
 <form method="POST" action="{{ $form_action }}">
@@ -26,9 +29,14 @@
         'label' => __('fields.message'),
         'value' => old('message', '')
     ])
+    <div class="form-group row">
+        <div class="col-9 offset-3">
+            {!! htmlFormSnippet() !!}
+        </div>
+    </div>
     <hr />
     <div class="form-group row">
-        <div class="col-sm-9 offset-sm-3">
+        <div class="col-9 offset-3">
             <a href="{{ $cancelRoute ?? route('home') }}" class="btn btn-secondary">{{ __('actions.cancel') }}</a>
             <button type="submit" class="btn btn-primary">@svg('solid/share') {{ __('actions.send') }}</button>
         </div>

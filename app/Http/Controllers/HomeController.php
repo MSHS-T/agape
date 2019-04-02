@@ -132,9 +132,10 @@ class HomeController extends Controller
         $user = Auth::user();
         $data = $request->all();
         $validator = Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'message' => ['required', 'string'],
+            'name'                 => ['required', 'string', 'max:255'],
+            'email'                => ['required', 'string', 'email', 'max:255'],
+            'message'              => ['required', 'string'],
+            'g-recaptcha-response' => 'recaptcha',
         ]);
         if ($validator->fails()) {
             return redirect()

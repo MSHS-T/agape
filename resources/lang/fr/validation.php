@@ -144,6 +144,8 @@ return [
     |
     */
 
+    "recaptcha" => "Le système anti-robot a rejeté votre action !",
+
     "attributes" => [
         "title"                         => "Titre",
         "acronym"                       => "Acronyme",

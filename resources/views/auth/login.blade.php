@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('head')
+    {!! htmlScriptTagJsApi() !!}
+@endsection
 @section('content')
 <div class="container">
     <div class="row align-items-center justify-content-center">
@@ -10,7 +13,7 @@
                 <h1 class="h3 mb-3 font-weight-normal">{{ __('auth.welcome1', ['appname' => config('app.name')]) }}</h1>
                 <h1 class="h3 mb-3 font-weight-normal">{{ __('auth.welcome2') }}</h1>
             </div>
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}" id="login_form">
                 @csrf
 
                 <div class="form-group row">
@@ -48,15 +51,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <div class="col-md-6 offset-md-4">
+                        {!! htmlFormSnippet() !!}
+                    </div>
+                </div>
 
                 <div class="form-group row mb-0">
                     <div class="col-md-8 offset-md-4">
                         <button type="submit" class="btn btn-primary">
-                                    {{ __('actions.login') }}
-                                </button> @if (Route::has('password.request'))
-                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('passwords.forgot') }}
-                                    </a> @endif
+                            {{__("actions.login")}}
+                        </button>
+                        @if (Route::has('password.request'))
+                            <a class="btn btn-link" href="{{ route('password.request') }}">
+                                {{ __('passwords.forgot') }}
+                            </a>
+                        @endif
                     </div>
                 </div>
             </form>

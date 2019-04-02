@@ -105,4 +105,9 @@ div.application-display, div.projectcall-display {
     height: 60px;
     line-height: 60px;
     background-color: #f5f5f5;
+    z-index: 100;
+}
+
+.grecaptcha-badge {
+    z-index: 1000;
 }
