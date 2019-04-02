@@ -113,16 +113,27 @@
                 <div class="row justify-content-center">
                     <div class="col-md-10">
                         @if ($errors->any())
-                        <div class="alert alert-danger" role="alert">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div><br /> @endif @if(session()->get('success'))
-                        <div class="alert alert-success">
-                            {{ session()->get('success') }}
-                        </div><br /> @endif
+                            @foreach ($errors->all() as $error)
+                                <div class="alert alter-dismissible fade show alert-danger" role="alert">
+                                    <u>{{ __('fields.error') }}</u> : {{ $error }}
+                                    <button
+                                        type="button"
+                                        class="close"
+                                        data-dismiss="alert"
+                                        aria-label="{{ __('actions.close') }}"
+                                    >
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <br />
+                            @endforeach
+                        @endif
+                        @if(session()->get('success'))
+                            <div class="alert alter-dismissible fade show alert-success">
+                                {{ session()->get('success') }}
+                            </div>
+                            <br />
+                        @endif
                     </div>
                 </div>
                 <div class="row justify-content-center">
