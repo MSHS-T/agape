@@ -10,4 +10,21 @@ final class UserRole extends Enum
     const Candidate = 0;
     const Expert = 1;
     const Admin = 2;
+
+    /**
+     * Return the enum as an array
+     *
+     * @return array
+     */
+    public static function toSelectArray(): array {
+        $parent = parent::toArray();
+
+        $resp = [];
+        foreach($parent as $label => $value){
+            $label = __('vocabulary.role.'.$label);
+            $resp[] = (object) compact('value', 'label');
+        }
+
+        return $resp;
+    }
 }

@@ -94,6 +94,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
         Route::resource('laboratory', 'LaboratoryController')->except(['show']);
         Route::resource('studyfield', 'StudyFieldController')->except(['show']);
+        Route::resource('user', 'UserController')->only(['index', 'store', 'destroy']);
     });
 });
 

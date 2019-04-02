@@ -19,6 +19,7 @@ return [
     "submission_date"           => "Date de soumission",
     "other"                     => "Autre",
     "none"                      => "Aucun",
+    "never"                     => "Jamais",
     "error"                     => "Erreur",
     "status"                    => "Statut",
     "comments"                  => "Commentaires",
@@ -150,6 +151,13 @@ return [
         "grade"          => "Note",
         "global_grade"   => "Note globale",
         "global_comment" => "Commentaires globaux"
+    ],
+
+    "user" => [
+        "registration_date" => "Date d'inscription",
+        "last_login_date" => "Date de dernière connexion",
+        "blocked" => "Bloqué",
+        "unblocked" => "Débloqué",
     ],
 
     "setting" => [

@@ -56,6 +56,9 @@
                                     {{ __('actions.laboratories') }}
                                 </a>
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('user.index') }}">
+                                    {{ __('actions.user.list') }}
+                                </a>
                                 <a class="dropdown-item" href="{{ route('settings') }}">
                                     {{ __('actions.settings.list') }}
                                 </a>

@@ -53,4 +53,9 @@ return [
         "title" => "Évaluation envoyée",
         "intro" => "L'expert :expert vient de finaliser l'évaluation de la candidature de :candidat pour l'appel à projets :call"
     ],
+    "invitation" => [
+        "title" => "Invitation à rejoindre la plateforme AGAPE",
+        "intro" => "L'administrateur de la plateforme AGAPE vous invite à rejoindre l'application en tant que :role",
+        "action" => "Inscription"
+    ]
 ];

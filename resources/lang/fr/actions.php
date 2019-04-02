@@ -44,6 +44,11 @@ return [
         "body"  => "Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est irréversible."
     ],
 
+    "confirm_block" => [
+        "title" => "Confirmer le (dé)bloquage",
+        "body"  => "Êtes-vous sûr de vouloir bloquer/débloquer cet utilisateur ?"
+    ],
+
     "confirm_decline" => [
         "title" => "Confirmer le refus",
         "body"  => "Veuillez saisir la raison de votre refus. Attention : cette action est irréversible.",
@@ -155,6 +160,16 @@ return [
         "edit"     => "Modifier le Champ Disciplinaire",
         "edited"   => "Le Champ Disciplinaire a bien été modifié.",
         "deleted"  => "Le Champ Disciplinaire a bien été supprimé.",
+    ],
+
+    "user" => [
+        "list" => "Utilisateurs",
+        "invite" => "Inviter un Utilisateur",
+        "invited" => "L'invitation a bien été envoyée.",
+        "block" => "Bloquer",
+        "unblock" => "Débloquer",
+        "blocked" => "L'Utilisateur a bien été bloqué",
+        "unblocked" => "L'Utilisateur a bien été débloqué"
     ],
 
     "error" => [

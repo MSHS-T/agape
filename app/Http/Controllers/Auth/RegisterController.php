@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Invitation;
 use App\User;
+use App\Enums\UserRole;
+
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -41,6 +45,18 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm(Request $request)
+    {
+        return view('auth.register', [
+            'invitation' => ($request->has('invitation') ? $request->get('invitation') : false)
+        ]);
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -51,8 +67,9 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'exists:invitations'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'invitation' => ['nullable', 'string', 'exists:invitations']
         ]);
     }
 
@@ -64,11 +81,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        if(array_key_exists('invitation', $data)) {
+            $invitation = Invitation::findOrFail($data['invitation']);
+        }
+        else {
+            $invitation = Invitation::where('email', $data['email'])->first();
+        }
+        $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'invited' => ($invitation !== null),
+            'role' => ($invitation ? $invitation->role : UserRole::Candidate)
         ]);
+        if($invitation !== null){
+            $invitation->delete();
+        }
+        return $user;
     }
 }
