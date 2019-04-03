@@ -6,8 +6,9 @@ use App\Application;
 use App\ProjectCall;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ApplicationsExport implements FromArray, ShouldAutoSize
+class ApplicationsExport implements FromArray, ShouldAutoSize, WithHeadings
 {
     protected $projectcall;
 
@@ -16,13 +17,10 @@ class ApplicationsExport implements FromArray, ShouldAutoSize
         $this->projectcall = $projectcall;
     }
 
-    /**
-     * @return array
-     */
     public function array(): array
     {
         $pc = $this->projectcall;
-        $data = $pc->submittedApplications->map(function($application) use ($pc) {
+        return $pc->submittedApplications->map(function($application) use ($pc) {
             return [
                 $application->id,
                 $pc->toString(),
@@ -32,7 +30,10 @@ class ApplicationsExport implements FromArray, ShouldAutoSize
                 $application->applicant->phone,
             ];
         })->all();
-        array_unshift($data, __('exports.applications.columns'));
-        return $data;
+    }
+
+    public function headings(): array
+    {
+        return __('exports.applications.columns');
     }
 }

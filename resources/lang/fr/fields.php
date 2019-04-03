@@ -1,6 +1,8 @@
 <?php
 
 return [
+    "yes"                       => "Oui",
+    "no"                        => "Non",
     "first_name"                => "Prénom",
     "last_name"                 => "Nom",
     "name"                      => "Nom",

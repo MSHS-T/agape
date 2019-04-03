@@ -64,6 +64,10 @@
                                 <a class="dropdown-item" href="{{ route('settings') }}">
                                     {{ __('actions.settings.list') }}
                                 </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('globalExport') }}">
+                                    {{ __('actions.globalExport') }}
+                                </a>
                             </div>
                         </li>
                         @break

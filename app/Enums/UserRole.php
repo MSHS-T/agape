@@ -27,4 +27,9 @@ final class UserRole extends Enum
 
         return $resp;
     }
+
+    public static function getTranslatedLabel(int $value): string
+    {
+        return __('vocabulary.role.'.self::getKey($value));
+    }
 }

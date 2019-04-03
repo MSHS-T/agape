@@ -37,6 +37,7 @@ return [
     "make_public"         => "Rendre public",
     "contact"             => "Contact",
     "contact_sent"        => "Votre message a bien été envoyé aux administrateurs.",
+    "globalExport"        => "Export Global",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",

@@ -150,4 +150,9 @@ class HomeController extends Controller
         return redirect()->route(Auth::check() ? 'home' : 'login')
                          ->with('success', __('actions.contact_sent'));
     }
+
+    public function globalExport()
+    {
+        return new \App\Exports\GlobalExport();
+    }
 }

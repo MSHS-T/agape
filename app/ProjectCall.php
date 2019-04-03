@@ -71,7 +71,10 @@ class ProjectCall extends Model
     public function getEvaluationCountAttribute(){
         $cpt = 0;
         foreach($this->submittedApplications as $application){
-            $cpt += count($application->evaluations);
+            $submittedEvaluations = $application->evaluations->filter(function($eval){
+                return !is_null($eval->submitted_at);
+            });
+            $cpt += count($submittedEvaluations);
         }
         return $cpt;
     }
