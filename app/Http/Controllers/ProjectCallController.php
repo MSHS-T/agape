@@ -6,12 +6,14 @@ use App\ProjectCall;
 use App\Setting;
 
 use App\Enums\CallType;
+use App\Exports\ApplicationsExport;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use BenSampo\Enum\Rules\EnumValue;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProjectCallController extends Controller
 {
@@ -257,6 +259,19 @@ class ProjectCallController extends Controller
         $projectcall->load(['applications', 'applications.applicant']);
         $applications = $projectcall->submittedApplications()->get();
         return view('application.index', compact('projectcall', 'applications'));
+    }
+
+    /**
+     * Export applications for the given project call
+     *
+     * @param  ProjectCall  $projectcall
+     * @return \Illuminate\Http\Response
+     */
+    public function applicationsExport(ProjectCall $projectcall)
+    {
+        $projectcall->load(['applications', 'applications.applicant']);
+        $export = new ApplicationsExport($projectcall);
+        return Excel::download($export, config('app.name').'-'.__('exports.applications.name').'.xlsx');
     }
 
     /**

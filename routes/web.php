@@ -33,6 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
             Route::put('{projectcall}', 'ProjectCallController@update')->name('update');
             Route::delete('{projectcall}', 'ProjectCallController@destroy')->name('destroy');
             Route::get('{projectcall}/applications', 'ProjectCallController@applications')->name('applications');
+            Route::get('{projectcall}/applications/export', 'ProjectCallController@applicationsExport')->name('applicationsExport');
             Route::get('{projectcall}/evaluations', 'EvaluationController@indexForProjectCall')->name('evaluations');
         });
 
