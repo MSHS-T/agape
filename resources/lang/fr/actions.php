@@ -32,7 +32,8 @@ return [
     "edit_password"       => "Modification du mot de passe",
     "edit_password_help"  => "Si vous ne souhaitez pas changer votre mot de passe, laissez les 2 champs vides",
     "profile_edited"      => "Profil utilisateur modifié",
-    "export_pdf"          => "Exporter en PDF",
+    "export_pdf"          => "Export PDF",
+    "export_pdf_anon"     => "Export PDF Anonymisé",
     "make_public"         => "Rendre public",
     "contact"             => "Contact",
     "contact_sent"        => "Votre message a bien été envoyé aux administrateurs.",
@@ -134,7 +135,8 @@ return [
             "body"          => "Êtes-vous sur de vouloir soumettre cette évaluation ? Cette action est définitive",
             "error_unsaved" => "Vous devez d'abord sauvegarder cette évaluation avant de pouvoir la soumettre."
         ],
-        "export_name"      => "Évaluations"
+        "export_name"      => "Évaluations",
+        "export_name_anon" => "Évaluations Anonymisées"
     ],
 
     "settings" => [

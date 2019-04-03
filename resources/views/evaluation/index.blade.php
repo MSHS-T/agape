@@ -12,7 +12,7 @@
 @if(isset($application))
     <h4 class="text-center">{{ __('fields.projectcall.applicant') }} : {{ $application->applicant->name }}</h4>
 @endif
-<div class="row">
+<div class="row mb-3">
     <div class="col-12 table-buttons">
     </div>
 </div>
@@ -96,9 +96,19 @@
             buttons: [
                 {
                     extend     : 'pdfHtml5',
-                    filename   : "{{ config('app.name') }}-{{ __('actions.evaluation.export_name') }}",
+                    filename   : [
+                        "{{ config('app.name') }}",
+                        "{{ __('actions.evaluation.export_name') }}",
+                        "{{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }}",
+                        "{{ $projectcall->year }}",
+                    ].join("-"),
                     text       : "{{ __('actions.export_pdf') }}",
-                    title      : "{{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }} : {{$projectcall->year}}",
+                    title      : [
+                        "{{ config('app.name') }}",
+                        "{{ __('actions.evaluation.export_name') }}",
+                        "{{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }}",
+                        "{{ $projectcall->year }}",
+                    ].join(" - "),
                     messageTop :
                         @if(isset($application))
                             "{{ __('fields.projectcall.applicant') }} : {{ $application->applicant->name }}"
@@ -107,6 +117,42 @@
                         @endif
                     ,
                     orientation: "landscape"
+                },
+                {
+                    extend     : 'pdfHtml5',
+                    filename   : [
+                        "{{ config('app.name') }}",
+                        "{{ __('actions.evaluation.export_name_anon') }}",
+                        "{{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }}",
+                        "{{ $projectcall->year }}",
+                    ].join("-"),
+                    text       : "{{ __('actions.export_pdf_anon') }}",
+                    title      : [
+                        "{{ config('app.name') }}",
+                        "{{ __('actions.evaluation.export_name_anon') }}",
+                        "{{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }}",
+                        "{{ $projectcall->year }}",
+                    ].join(" - "),
+                    messageTop :
+                        @if(isset($application))
+                            "{{ __('fields.projectcall.applicant') }} : {{ $application->applicant->name }}"
+                        @else
+                            "{{ __('fields.projectcall.all_applicants') }}"
+                        @endif
+                    ,
+                    orientation: "landscape",
+                    customize  : function(doc){
+                        var table = doc.content[2].table.body;
+                        for(var row_index in table){
+                            if(!table.hasOwnProperty(row_index)){
+                                continue;
+                            }
+                            // Remove the second or third cell of the row,
+                            // depending on whether we display the applicant's name
+                            table[row_index].splice({{ isset($application) ? 1 : 2}}, 1);
+                        }
+                        doc.content[2].table.body = table;
+                    }
                 }
             ]
         });
