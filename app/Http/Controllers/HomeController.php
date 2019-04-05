@@ -155,4 +155,9 @@ class HomeController extends Controller
     {
         return new \App\Exports\GlobalExport();
     }
+
+    public function error()
+    {
+        abort(500);
+    }
 }
