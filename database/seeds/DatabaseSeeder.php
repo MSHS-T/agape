@@ -22,27 +22,7 @@ class DatabaseSeeder extends Seeder
             'role' => UserRole::Admin,
             'password' => bcrypt('admin'),
         ]);
-        // Insert candidate user
-        DB::table('users')->insert([
-            'first_name' => 'Candidat',
-            'last_name' => 'AGAPE',
-            'email' => 'candidat@3rgo.tech',
-            'email_verified_at' => '2018-12-14 12:00:00',
-            'role' => UserRole::Candidate,
-            'password' => bcrypt('candidat'),
-        ]);
-        // Insert expert user
-        DB::table('users')->insert([
-            'first_name' => 'Expert',
-            'last_name' => 'AGAPE',
-            'email' => 'expert@3rgo.tech',
-            'email_verified_at' => '2018-12-14 12:00:00',
-            'role' => UserRole::Expert,
-            'password' => bcrypt('expert'),
-        ]);
 
         $this->call(SettingsTableSeeder::class);
-        $this->call(ProjectCallsTableSeeder::class);
-        $this->call(StudyFieldsTableSeeder::class);
     }
 }
