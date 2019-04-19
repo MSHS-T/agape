@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
+<h2 class="mb-3 text-center">{{ __('actions.user.list') }}</h2>
 <div class="row justify-content-center">
-    <h2 class="mb-3">{{ __('actions.user.list') }}</h2>
     <table class="table table-striped table-hover table-bordered w-100" id="user_list">
         <thead>
             <tr>
