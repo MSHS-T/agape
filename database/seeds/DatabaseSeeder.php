@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => '2019-04-19 11:00',
             'role' => UserRole::Admin,
             'password' => bcrypt('admin'),
+            'created_at' => '2019-04-19 11:00',
+            'updated_at' => '2019-04-19 11:00'
         ]);
 
         $this->call(SettingsTableSeeder::class);
