@@ -123,11 +123,16 @@ class ProjectCallController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  ProjectCall  $projectcall
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ProjectCall $projectcall)
+    public function show($id)
     {
+        if(Auth::user()->isAdmin()){
+            $projectcall = ProjectCall::withTrashed()->where('id', $id)->firstOrFail();
+        } else {
+            $projectcall = ProjectCall::where('id', $id)->firstOrFail();
+        }
         return view('projectcall.show', compact('projectcall'));
     }
 
