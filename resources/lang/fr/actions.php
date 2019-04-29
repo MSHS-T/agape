@@ -88,7 +88,7 @@ return [
         "show"               => "Visualiser ma candidature",
         "show_a"             => "Visualiser une candidature",
         "show_all"           => "Visualiser les candidatures (:count)",
-        "edit"               => "Modifier ma candidature",
+        "edit"               => "Saisir ma candidature",
         "submit"             => "Soumettre ma candidature",
         "confirm_submission" => [
             "title"         => "Confirmer la soumission",
