@@ -13,7 +13,6 @@
                             {{ $call->toString() }}
                         </h3>
                         <div class="card-text">
-                            <h4>{{ $call->title }}</h4>
                             <p>
                                 @include('partials.projectcall_dates', ['projectcall' => $call])
                             </p>
