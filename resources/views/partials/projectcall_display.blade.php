@@ -55,10 +55,6 @@
             <div class="col-9">{{ $projectcall->number_of_target_dates }}</div>
         </div>
     @endif
-    <div class="row mb-3">
-        <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.privacy_clause') }}</div>
-        <div class="col-9">{!! $projectcall->privacy_clause !!}</div>
-    </div>
     @if(Auth::user()->role == \App\Enums\UserRole::Admin)
         <div class="row mb-3">
             <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.invite_email_fr') }}</div>
@@ -70,6 +66,10 @@
         </div>
     @endif
     @if(in_array(Auth::user()->role, [\App\Enums\UserRole::Admin, \App\Enums\UserRole::Expert]))
+        <div class="row mb-3">
+            <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.privacy_clause') }}</div>
+            <div class="col-9">{!! $projectcall->privacy_clause !!}</div>
+        </div>
         <div class="row mb-3">
             <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.help_experts') }}</div>
             <div class="col-9">{!! $projectcall->help_experts !!}</div>
