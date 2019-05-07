@@ -317,7 +317,7 @@ class ApplicationController extends Controller
                         'attribute' => __('fields.application.template.prefix.application')
                     ]));
                 }
-                if(!in_array(2, $orders)){
+                if(!empty($application->projectcall->financial_form_filepath) && !in_array(2, $orders)){
                     $fail(__('validation.required', [
                         'attribute' => __('fields.application.template.prefix.financial')
                     ]));

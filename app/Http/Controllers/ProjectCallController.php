@@ -74,7 +74,7 @@ class ProjectCallController extends Controller
         $request->validate([
             'type'                   => ['required', 'integer', new EnumValue(CallType::class, false)],
             'year'                   => 'required|integer|min:'.(intval(date('Y')) - 1),
-            'title'                  => 'required',
+            'title'                  => 'nullable|string',
             'description'            => 'required',
             'application_start_date' => 'required|date',
             'application_end_date'   => 'required|date|after:application_start_date',
@@ -86,7 +86,7 @@ class ProjectCallController extends Controller
             'number_of_laboratories' => 'required|integer|min:0',
             'number_of_study_fields' => 'required|integer|min:0',
             'application_form'       => 'required|file',
-            'financial_form'         => 'required|file',
+            'financial_form'         => 'nullable|file',
             // Optional fields
             // 'number_of_target_dates' => '',
             // 'privacy_clause' => '',
@@ -178,10 +178,7 @@ class ProjectCallController extends Controller
                 Rule::requiredIf(empty($projectcall->application_form_filepath)),
                 'file',
             ],
-            'financial_form'         => [
-                Rule::requiredIf(empty($projectcall->financial_form_filepath)),
-                'file',
-            ],
+            'financial_form'         => 'nullable|file',
             // Optional fields
             // 'number_of_target_dates' => '',
             // 'privacy_clause' => '',

@@ -139,22 +139,25 @@
                 rel="noopener">{{ $application->files[0]->name }}</a>
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-3 font-weight-bold">{{ __('fields.application.template.prefix.financial') }}</div>
-        <div class="col-9">
-            {{ __('fields.download_link') }} :
-            <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => 2]) }}" target="_blank"
-                rel="noopener">{{ $application->files[1]->name }}</a>
+    @if(!empty($application->projectcall->financial_form_filepath))
+        <div class="row mb-3">
+            <div class="col-3 font-weight-bold">{{ __('fields.application.template.prefix.financial') }}</div>
+            <div class="col-9">
+                {{ __('fields.download_link') }} :
+                <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => 2]) }}" target="_blank"
+                    rel="noopener">{{ $application->files[1]->name }}</a>
+            </div>
         </div>
-    </div>
+    @endif
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.other_attachments') }}</div>
         <div class="col-9">
             @foreach($application->files as $f)
-            @continue($f->order <= 2) {{ __('fields.download_link') }} : <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => $f->order]) }}"
-                target="_blank" rel="noopener">{{ $f->name }}</a>
+                @continue($f->order <= 2)
+                {{ __('fields.download_link') }} : <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => $f->order]) }}"
+                    target="_blank" rel="noopener">{{ $f->name }}</a>
                 @if(!$loop->last) <br /> @endif
-                @endforeach
+            @endforeach
         </div>
     </div>
 </div>

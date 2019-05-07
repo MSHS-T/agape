@@ -245,16 +245,18 @@
         {{ __('fields.application.form.section_4') }}
     </h2>
     @foreach(["application", "financial"] as $key)
-        @include('forms.filedownload', [
-            'text' => __('fields.application.template.prefix.'.$key)
-                . __(
-                    'fields.application.template.suffix.' . $application->projectcall->typeLabel
-                ),
-            'link' => route('projectcall.template', [
-                'projectcall' => $application->projectcall,
-                'template' => $key
+        @if(!empty($application->projectcall->{$key."_form_filepath"}))
+            @include('forms.filedownload', [
+                'text' => __('fields.application.template.prefix.'.$key)
+                    . __(
+                        'fields.application.template.suffix.' . $application->projectcall->typeLabel
+                    ),
+                'link' => route('projectcall.template', [
+                    'projectcall' => $application->projectcall,
+                    'template' => $key
+                ])
             ])
-        ])
+        @endif
     @endforeach
 
     @include('forms.fileupload', [
@@ -265,14 +267,16 @@
         'help'     => true,
         'accept'   => \App\Setting::get('extensions_application_form')
     ])
-    @include('forms.fileupload', [
-        'name'     => 'financial_form',
-        'label'    => __('fields.application.template.prefix.financial'),
-        'value'    => $application->files->where('order', 2),
-        'multiple' => false,
-        'help'     => true,
-        'accept'   => \App\Setting::get('extensions_financial_form')
-    ])
+    @if(!empty($application->projectcall->financial_form_filepath))
+        @include('forms.fileupload', [
+            'name'     => 'financial_form',
+            'label'    => __('fields.application.template.prefix.financial'),
+            'value'    => $application->files->where('order', 2),
+            'multiple' => false,
+            'help'     => true,
+            'accept'   => \App\Setting::get('extensions_financial_form')
+        ])
+    @endif
     @include('forms.fileupload', [
         'name'     => 'other_attachments',
         'label'    => __('fields.application.other_attachments'),

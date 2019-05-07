@@ -45,8 +45,8 @@
                     <td>
                         @include('partials.projectcall_dates', ['projectcall' => $call])
                     </td>
-                    <td>{{ \Carbon\Carbon::parse($call->created_at)->format(__('locale.datetime_format'))}}</td>
-                    <td>{{ \Carbon\Carbon::parse($call->updated_at)->format(__('locale.datetime_format'))}}</td>
+                    <td data-sort="{{ $call->created_at }}">{{ \Carbon\Carbon::parse($call->created_at)->format(__('locale.datetime_format'))}}</td>
+                    <td data-sort="{{ $call->updated_at }}">{{ \Carbon\Carbon::parse($call->updated_at)->format(__('locale.datetime_format'))}}</td>
                     <td>
                         <a href="
                         {{ route('projectcall.show',$call)}}" class="btn btn-sm btn-primary d-block">
