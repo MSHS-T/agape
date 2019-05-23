@@ -40,16 +40,19 @@ class HomeController extends Controller
                 break;
             case UserRole::Expert:
                 $offers = EvaluationOffer::where('accepted', null)
+                    ->where('expert_id', Auth::id())
                     ->openCalls()
                     ->get();
                 $accepted = EvaluationOffer::where('accepted', true)
                     ->openCalls()
+                    ->where('expert_id', Auth::id())
                     ->whereDoesntHave('evaluation', function(Builder $query){
                         $query->whereNotNull('submitted_at');
                     })
                     ->get();
                 $done = EvaluationOffer::with('evaluation')
                     ->where('accepted', true)
+                    ->where('expert_id', Auth::id())
                     ->whereHas('evaluation', function(Builder $query){
                         $query->whereNotNull('submitted_at');
                     })
