@@ -24,12 +24,12 @@ class EvaluationOfferController extends Controller
      */
     public function store(Application $application, Request $request)
     {
-        $application->load(['offers', 'offers.expert']);
+        $application->load(['projectcall', 'offers', 'offers.expert']);
         $expert = User::findOrFail($request->input('expert_id'));
         $offer = $application->offers()->firstOrNew(['expert_id' => $expert->id]);
         $offer->save();
 
-        $expert->notify(new OfferCreated());
+        $expert->notify(new OfferCreated($application->projectcall));
 
         return redirect()->route('application.assignations', ['application' => $application])
                          ->with('success', __('actions.application.expert_assigned'));

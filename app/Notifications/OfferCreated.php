@@ -11,14 +11,16 @@ class OfferCreated extends Notification
 {
     use Queueable;
 
+    private $projectcall;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($projectcall)
     {
-        //
+        $this->projectcall = $projectcall;
     }
 
     /**
@@ -40,10 +42,20 @@ class OfferCreated extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject(__('email.offer_created.title'))
-                    ->line(__('email.offer_created.intro'))
-                    ->action(__('email.offer_created.action'), url('/'))
+        $message = (new MailMessage)->subject(__('email.offer_created.title'));
+
+        if(empty($this->projectcall->invite_email_fr) && empty($this->projectcall->invite_email_en)){
+            $text = str_replace("[AAP]", $this->projectcall->toString(), __('email.offer_created.intro'));
+            $message = $message->line($text);
+        } else {
+            $text = [($this->projectcall->invite_email_fr ?? null), ($this->projectcall->invite_email_en ?? null)];
+            $text = implode("<hr/>", array_filter($text));
+            $text = str_replace("[AAP]", $this->projectcall->toString(), $text);
+            $message = $message->greeting(null)
+                               ->line($text);
+        }
+
+        return $message->action(__('email.offer_created.action'), url('/'))
                     ->line(__('email.offer_created.outro'));
     }
 

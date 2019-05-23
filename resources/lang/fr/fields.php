@@ -51,10 +51,11 @@ return [
         "number_of_laboratories" => "Nombre de laboratoires maximum",
         "number_of_study_fields" => "Nombre de champs disciplinaires maximum",
         "privacy_clause"         => "Clause de confidentialité",
-        "invite_email_fr"        => "Email d'invitation (FR)",
-        "invite_email_en"        => "Email d'invitation (EN)",
+        "invite_email_fr"        => "Email d'invitation Expert(FR)",
+        "invite_email_en"        => "Email d'invitation Expert(EN)",
         "help_experts"           => "Aide en ligne pour les experts",
         "help_candidates"        => "Aide en ligne pour les candidats",
+        "invite_email_help"      => "Vous pouvez insérer le texte [AAP] dans ce champ et il sera remplacé par le titre de l'appel à projet",
         "states"                 => [
             "open" => "En cours",
             "closed" => "Terminé",

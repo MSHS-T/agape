@@ -128,12 +128,14 @@
         'name'     => 'invite_email_fr',
         'label'    => __('fields.projectcall.invite_email_fr'),
         'value'    => old('invite_email_fr', $projectcall->invite_email_fr),
+        'help'     => __('fields.projectcall.invite_email_help'),
         'tabindex' => ++$tabindex
     ])
     @include('forms.textarea', [
         'name'     => 'invite_email_en',
         'label'    => __('fields.projectcall.invite_email_en'),
         'value'    => old('invite_email_en', $projectcall->invite_email_en),
+        'help'     => __('fields.projectcall.invite_email_help'),
         'tabindex' => ++$tabindex
     ])
     @include('forms.textarea', [

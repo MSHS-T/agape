@@ -35,7 +35,7 @@ return [
 
     "offer_created" => [
         "title"  => "Proposition d'évaluation",
-        "intro"  => "L'administrateur de la plateforme AGAPE vous a proposé d'évaluer une nouvelle candidature.",
+        "intro"  => "L'administrateur de la plateforme AGAPE vous a proposé d'évaluer une nouvelle candidature pour l'AAP [AAP].",
         "action" => "Répondre",
         "outro"  => "Merci de nous faire connaître votre choix dans les plus brefs délais.",
     ],
