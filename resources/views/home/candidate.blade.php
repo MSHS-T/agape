@@ -22,7 +22,7 @@
                         </a>
                         <br />
                         @php
-                            $today = \Carbon\Carbon::parse('today');
+                            $today = \Carbon\Carbon::parse('today')->format('Y-m-d');
                             $can_apply = true;
                             $can_apply = ($call->application_end_date >= $today) && ($today >= $call->application_start_date);
                         @endphp
