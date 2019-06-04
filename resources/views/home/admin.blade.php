@@ -1,6 +1,6 @@
 <h2 class="mb-3 text-center">{{ __('actions.projectcall.listopen') }}</h2>
 <div class="row justify-content-center">
-    @foreach($projectcalls as $call)
+    @forelse($projectcalls as $call)
     <div class="col-4">
         <div class="card text-center" style="min-height: 17rem;">
             <div class="card-body">
@@ -37,5 +37,7 @@
             </div>
         </div>
     </div>
-    @endforeach
+    @empty
+        <h3 class="mb-3 text-center">{{ __('actions.projectcall.empty') }}</h3>
+    @endforelse
 </div>
