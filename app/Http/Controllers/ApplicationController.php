@@ -249,7 +249,7 @@ class ApplicationController extends Controller
         $data = $application->toArray();
         $validator = Validator::make($data, [
             'title'                             => 'required|max:255',
-            'acronym'                           => 'required|max:15',
+            'acronym'                           => 'nullable|string|max:15',
             'carrier_id'                        => 'required|exists:persons,id',
             'carrier.first_name'                => 'required|max:255',
             'carrier.last_name'                 => 'required|max:255',

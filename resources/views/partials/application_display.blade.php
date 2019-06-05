@@ -8,10 +8,12 @@
         </div>
         <div class="col-9">{{ $application->title }}</div>
     </div>
-    <div class="row mb-3">
-        <div class="col-3 font-weight-bold">{{ __('fields.application.acronym') }}</div>
-        <div class="col-9">{{ $application->acronym }}</div>
-    </div>
+    @if(!empty($application->acronym))
+        <div class="row mb-3">
+            <div class="col-3 font-weight-bold">{{ __('fields.application.acronym') }}</div>
+            <div class="col-9">{{ $application->acronym }}</div>
+        </div>
+    @endif
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">
             {{ __('fields.application.carrier.' . $application->projectcall->typeLabel) }}
