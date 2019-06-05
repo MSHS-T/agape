@@ -115,7 +115,7 @@ class EvaluationController extends Controller
             return redirect()->route('home')
                              ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
-        $data = $evaluation->toArray();
+        $data = $evaluation->attributesToArray();
         $validator = Validator::make($data, [
             'grade1'         => 'required|integer|min:0|max:3',
             'comment1'       => 'required|string',

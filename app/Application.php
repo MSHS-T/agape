@@ -39,6 +39,13 @@ class Application extends Model
         'keywords' => 'array',
     ];
 
+    protected $hidden = [
+        'projectcall',
+        'applicant',
+        'offers',
+        'evaluations'
+    ];
+
     public function projectcall(){
         return $this->belongsTo('App\ProjectCall', 'projectcall_id');
     }
