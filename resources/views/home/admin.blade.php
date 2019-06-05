@@ -1,5 +1,8 @@
 <h2 class="mb-3 text-center">{{ __('actions.projectcall.listopen') }}</h2>
 <div class="row justify-content-center">
+    @php
+        $today = \Carbon\Carbon::parse('today')->format('Y-m-d');
+    @endphp
     @forelse($projectcalls as $call)
     <div class="col-4">
         <div class="card text-center" style="min-height: 17rem;">
@@ -17,9 +20,8 @@
                             @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
                         </a>
                         @php
-                        $today = \Carbon\Carbon::parse('today');
-                        $can_apply = $today >= $call->application_start_date;
-                        $can_evaluate = $today >= $call->evaluation_start_date;
+                            $can_apply = $today >= $call->application_start_date;
+                            $can_evaluate = $today >= $call->evaluation_start_date;
                         @endphp
                         @if($can_apply)
                         <a href="{{ route('projectcall.applications', ['projectcall' => $call]) }}" class="btn btn-info d-inline-block my-1">

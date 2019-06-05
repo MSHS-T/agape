@@ -21,24 +21,19 @@
                             @svg('solid/search', 'icon-fw') {{ __('actions.projectcall.show') }}
                         </a>
                         <br />
-                        @php
-                            $today = \Carbon\Carbon::parse('today')->format('Y-m-d');
-                            $can_apply = true;
-                            $can_apply = ($call->application_end_date >= $today) && ($today >= $call->application_start_date);
-                        @endphp
                         @forelse ($call->applications as $application)
                             @break(!$loop->first)
                             @if(!empty($application->submitted_at))
                                 <a href="{{ route('application.show',$call->applications[0]->id)}}" class="btn btn-secondary d-inline-block my-1">
                                     @svg('solid/search', 'icon-fw') {{ __('actions.application.show') }}
                                 </a>
-                            @elseif($can_apply)
+                            @elseif($call->canApply())
                                 <a href="{{ route('application.edit',$call->applications[0]->id)}}" class="btn btn-warning d-inline-block my-1">
                                     @svg('solid/edit', 'icon-fw') {{ __('actions.application.edit') }}
                                 </a>
                             @endif
                         @empty
-                            @if($can_apply)
+                            @if($call->canApply())
                                 <a href="{{ route('projectcall.apply',$call->id)}}" class="btn btn-success d-inline-block my-1">
                                     @svg('solid/plus-square', 'icon-fw') {{ __('actions.projectcall.apply') }}
                                 </a>

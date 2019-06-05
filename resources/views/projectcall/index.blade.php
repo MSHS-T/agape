@@ -17,9 +17,11 @@
             </tr>
         </thead>
         <tbody>
+            @php
+                $today = \Carbon\Carbon::parse('today')->format('Y-m-d');
+            @endphp
             @foreach($projectcalls as $call)
                 @php
-                    $today = \Carbon\Carbon::parse('today');
                     $can_apply = $today >= $call->application_start_date;
                     $can_evaluate = $today >= $call->evaluation_start_date;
                 @endphp

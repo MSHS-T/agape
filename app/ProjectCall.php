@@ -80,7 +80,7 @@ class ProjectCall extends Model
     }
 
     public function getStateAttribute(){
-        if(\Carbon\Carbon::parse('today') <= $this->evaluation_end_date)
+        if(\Carbon\Carbon::parse('today')->format('Y-m-d') <= $this->evaluation_end_date)
         {
             return "open";
         }
@@ -96,27 +96,27 @@ class ProjectCall extends Model
 
     public function canApply()
     {
-        $today = \Carbon\Carbon::parse('today');
+        $today = \Carbon\Carbon::parse('today')->format('Y-m-d');
         return $this->application_start_date <= $today && $today <= $this->application_end_date;
     }
 
     public function canEvaluate()
     {
-        $today = \Carbon\Carbon::parse('today');
+        $today = \Carbon\Carbon::parse('today')->format('Y-m-d');
         return $this->evaluation_start_date <= $today && $today <= $this->evaluation_end_date;
     }
 
     public function scopeOpen($query)
     {
         return $query->where([
-            ['application_start_date', '<=', \Carbon\Carbon::parse('today')],
-            ['evaluation_end_date', '>=', \Carbon\Carbon::parse('today')]
+            ['application_start_date', '<=', \Carbon\Carbon::parse('today')->format('Y-m-d')],
+            ['evaluation_end_date', '>=', \Carbon\Carbon::parse('today')->format('Y-m-d')]
         ]);
     }
 
     public function scopeOld($query)
     {
-        return $query->where('evaluation_end_date', '<', \Carbon\Carbon::parse('today'));
+        return $query->where('evaluation_end_date', '<', \Carbon\Carbon::parse('today')->format('Y-m-d'));
     }
 
     public function toString(){
