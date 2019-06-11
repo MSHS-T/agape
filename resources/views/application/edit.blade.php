@@ -21,11 +21,13 @@
         'value' => old('title', $application->title)
     ])
 
+    @if($application->projectcall->type != \App\Enums\CallType::Workshop)
     @include('forms.textinput', [
         'name'  => 'acronym',
         'label' => __('fields.application.acronym'),
         'value' => old('acronym', $application->acronym)
     ])
+    @endif
 
     @include('forms.subform', [
         'name'   => 'carrier_id',

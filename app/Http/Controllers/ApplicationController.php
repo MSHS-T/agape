@@ -249,7 +249,20 @@ class ApplicationController extends Controller
         $data = $application->toArray();
         $validator = Validator::make($data, [
             'title'                             => 'required|max:255',
-            'acronym'                           => 'nullable|string|max:15',
+            'acronym'                           => [
+                function($attribute, $value, $fail) use ($application) {
+                    if($application->projectcall->type != CallType::Workshop){
+                        if(empty($value)){
+                            $fail(__('validation.required_if', [
+                            'attribute' => __('fields.application.acronym'),
+                            'other' => __('fields.projectcall.type'),
+                            'value' => $application->projectcall->typeLabel,
+                        ]));
+                        }
+                    }
+                },
+                'max:15'
+            ],
             'carrier_id'                        => 'required|exists:persons,id',
             'carrier.first_name'                => 'required|max:255',
             'carrier.last_name'                 => 'required|max:255',
