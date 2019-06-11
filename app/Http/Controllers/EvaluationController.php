@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
+use PDF;
+
 class EvaluationController extends Controller
 {
     /**
@@ -40,6 +42,44 @@ class EvaluationController extends Controller
     {
         $evaluations = $application->evaluations;
         return view('evaluation.index', compact('evaluations', 'application'));
+    }
+
+    /**
+     * Export the evaluations for a specific projectcall.
+     *
+     * @param  ProjectCall $projectcall
+     * @return \Illuminate\Http\Response
+     */
+    public function exportForProjectCall(ProjectCall $projectcall, Request $request)
+    {
+        $evaluations = collect([]);
+        foreach($projectcall->submittedApplications as $application){
+            $evaluations = $evaluations->merge($application->evaluations);
+        }
+        $anonymized = boolval($request->input('anonymized', "0"));
+
+        $title = implode(' - ', [config('app.name'), __('actions.evaluation.export_name'), __('vocabulary.calltype_short.'.$projectcall->typeLabel), $projectcall->year]);
+
+        $pdf = PDF::loadView('export.evaluations', compact('evaluations', 'projectcall', 'anonymized'));
+        return $pdf->download($title . '.pdf');
+    }
+
+    /**
+     * Export the evaluations for a specific application.
+     *
+     * @param  Application  $application
+     * @return \Illuminate\Http\Response
+     */
+    public function exportForApplication(Application $application, Request $request)
+    {
+        $evaluations = $application->evaluations;
+        $projectcall = $application->projectcall;
+        $anonymized = boolval($request->input('anonymized', "0"));
+
+        $title = implode(' - ', [config('app.name'), __('actions.evaluation.export_name'), __('vocabulary.calltype_short.'.$projectcall->typeLabel), $projectcall->year]);
+
+        $pdf = PDF::loadView('export.evaluations', compact('evaluations', 'projectcall', 'anonymized'));
+        return $pdf->download($title . '.pdf');
     }
 
     /**

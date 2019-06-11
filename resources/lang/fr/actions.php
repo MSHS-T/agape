@@ -136,8 +136,7 @@ return [
             "body"          => "Êtes-vous sur de vouloir soumettre cette évaluation ? Cette action est définitive",
             "error_unsaved" => "Vous devez d'abord sauvegarder cette évaluation avant de pouvoir la soumettre."
         ],
-        "export_name"      => "Évaluations",
-        "export_name_anon" => "Évaluations Anonymisées"
+        "export_name"      => "Grille d'Évaluation"
     ],
 
     "settings" => [

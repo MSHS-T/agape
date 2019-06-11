@@ -89,7 +89,7 @@ return [
             "Region"       => "Porteur/Coordinateur du projet",
             "Workshop"     => "Responsable du workshop",
         ],
-        "laboratory_1"       => "Laboratoire porteur 1",
+        "laboratory_1"       => "Laboratoire porteur",
         "laboratory_n"       => "Laboratoire :index",
         "laboratories"       => "Laboratoires",
         "other_laboratories" => "Autres laboratoires et partenaires",

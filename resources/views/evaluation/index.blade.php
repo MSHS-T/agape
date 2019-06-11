@@ -14,6 +14,13 @@
 @endif
 <div class="row mb-3">
     <div class="col-12 table-buttons">
+        @if(isset($application))
+            @php($link=route('application.evaluationsExport', ['application'=>$application]))
+        @else
+            @php($link=route('projectcall.evaluationsExport', ['projectcall'=>$projectcall]))
+        @endif
+        <a href="{{$link}}" class="btn btn-secondary">{{ __('actions.export_pdf') }}</a>
+        <a href="{{$link}}?anonymized=1" class="btn btn-secondary">{{ __('actions.export_pdf_anon') }}</a>
     </div>
 </div>
 <div class="row d-flex flex-column align-content-stretch">
@@ -92,71 +99,8 @@
             lengthMenu: [
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "@lang('datatable.all')"]
-            ],
-            buttons: [
-                {
-                    extend     : 'pdfHtml5',
-                    filename   : [
-                        "{{ config('app.name') }}",
-                        "{{ __('actions.evaluation.export_name') }}",
-                        "{{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }}",
-                        "{{ $projectcall->year }}",
-                    ].join("-"),
-                    text       : "{{ __('actions.export_pdf') }}",
-                    title      : [
-                        "{{ config('app.name') }}",
-                        "{{ __('actions.evaluation.export_name') }}",
-                        "{{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }}",
-                        "{{ $projectcall->year }}",
-                    ].join(" - "),
-                    messageTop :
-                        @if(isset($application))
-                            "{{ __('fields.projectcall.applicant') }} : {{ $application->applicant->name }}"
-                        @else
-                            "{{ __('fields.projectcall.all_applicants') }}"
-                        @endif
-                    ,
-                    orientation: "landscape"
-                },
-                {
-                    extend     : 'pdfHtml5',
-                    filename   : [
-                        "{{ config('app.name') }}",
-                        "{{ __('actions.evaluation.export_name_anon') }}",
-                        "{{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }}",
-                        "{{ $projectcall->year }}",
-                    ].join("-"),
-                    text       : "{{ __('actions.export_pdf_anon') }}",
-                    title      : [
-                        "{{ config('app.name') }}",
-                        "{{ __('actions.evaluation.export_name_anon') }}",
-                        "{{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }}",
-                        "{{ $projectcall->year }}",
-                    ].join(" - "),
-                    messageTop :
-                        @if(isset($application))
-                            "{{ __('fields.projectcall.applicant') }} : {{ $application->applicant->name }}"
-                        @else
-                            "{{ __('fields.projectcall.all_applicants') }}"
-                        @endif
-                    ,
-                    orientation: "landscape",
-                    customize  : function(doc){
-                        var table = doc.content[2].table.body;
-                        for(var row_index in table){
-                            if(!table.hasOwnProperty(row_index)){
-                                continue;
-                            }
-                            // Remove the second or third cell of the row,
-                            // depending on whether we display the applicant's name
-                            table[row_index].splice({{ isset($application) ? 1 : 2}}, 1);
-                        }
-                        doc.content[2].table.body = table;
-                    }
-                }
             ]
         });
-        dt.buttons().container().appendTo('.table-buttons');
     });
 
 </script>

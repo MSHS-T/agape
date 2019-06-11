@@ -35,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
             Route::get('{projectcall}/applications', 'ProjectCallController@applications')->name('applications');
             Route::get('{projectcall}/applications/export', 'ProjectCallController@applicationsExport')->name('applicationsExport');
             Route::get('{projectcall}/evaluations', 'EvaluationController@indexForProjectCall')->name('evaluations');
+            Route::get('{projectcall}/evaluations/export', 'EvaluationController@exportForProjectCall')->name('evaluationsExport');
         });
 
         Route::middleware('role:admin,candidate')->group(function(){
@@ -59,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::middleware('role:admin')->group(function(){
             Route::get('{application}/assignations', 'ApplicationController@assignations')->name('assignations');
             Route::get('{application}/evaluations', 'EvaluationController@indexForApplication')->name('evaluations');
+            Route::get('{application}/evaluations/export', 'EvaluationController@exportForApplication')->name('evaluationsExport');
         });
 
     });
