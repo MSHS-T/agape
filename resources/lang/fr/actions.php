@@ -38,6 +38,7 @@ return [
     "contact"             => "Contact",
     "contact_sent"        => "Votre message a bien été envoyé aux administrateurs.",
     "globalExport"        => "Export Global",
+    "credits"             => "Crédits : Danièle DATTAS - Université Toulouse Jean Jaurès",
 
     "confirm_archive" => [
         "title" => "Confirmer l'archivage",

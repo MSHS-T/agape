@@ -148,6 +148,8 @@
         <div class="container text-center">
             <span class="text-muted">
                 &copy; {{ config('app.name') }} 2018-{{ date('Y') }} - <a href="{{ route('contact') }}">{{ __('actions.contact') }}</a>
+                <br/>
+                {!! __('actions.credits') !!}
             </span>
         </div>
     </footer>
