@@ -30,7 +30,7 @@
     </h1>
     @foreach($evaluations as $evaluation)
         <section class="page-break">
-            <h2 class="text-center">{{ __('fields.projectcall.applicant') }} : {{ $evaluation->offer->application->applicant->name }}</h2>
+            <h2 class="text-center">{{ __('fields.projectcall.applicant') }} : {{ $evaluation->offer->application->applicant->name }} ({{ $evaluation->offer->application->reference }})</h2>
             <h3 class="text-center">
                 {{ __('fields.application.title.'.$projectcall->typeLabel)}} : {{ $evaluation->offer->application->title }}
                 @if(!empty($evaluation->offer->application->acronym))

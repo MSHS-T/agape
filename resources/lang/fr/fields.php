@@ -26,6 +26,7 @@ return [
     "error"                     => "Erreur",
     "status"                    => "Statut",
     "comments"                  => "Commentaires",
+    "reference"                 => "Référence",
     "download_link"             => "Lien de téléchargement",
     "template_download_link"    => "Formulaire à télécharger",
     "upload_overwrite"          => "Si vous avez déjà soumis un fichier pour ce champ, vous pouvez le contrôler à l'aide du lien ci dessus.<br/>Si vous envoyez un nouveau fichier, l'ancien sera écrasé. Laissez ce champ vide pour conserver le fichier déjà présent.",

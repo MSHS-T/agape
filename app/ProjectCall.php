@@ -2,12 +2,14 @@
 
 namespace App;
 
-use App\Observer\ProjectCallObserver;
+use App\Enums\CallType;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 
 class ProjectCall extends Model
 {
@@ -46,6 +48,17 @@ class ProjectCall extends Model
         parent::boot();
         static::creating(function ($call) {
             $call->creator_id = Auth::id();
+
+            $result = DB::table('project_calls')
+                ->where('type',$call->type)
+                ->where('year',$call->year)
+                ->count();
+            $call->reference = sprintf(
+                "%s-%s-%s",
+                substr(strval($call->year), -2),
+                Lang::trans('vocabulary.calltype_reference.'.CallType::getKey(intval($call->type))),
+                str_pad(strval(++$result), 2, "0", STR_PAD_LEFT)
+            );
         });
         static::addGlobalScope('creation_date', function (Builder $builder) {
             $builder->orderBy('created_at', 'desc');

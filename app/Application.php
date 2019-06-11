@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Application extends Model
 {
@@ -45,6 +46,22 @@ class Application extends Model
         'offers',
         'evaluations'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($application) {
+            $result = DB::table('applications')
+                ->where('projectcall_id',$application->projectcall->id)
+                ->count();
+
+            $application->reference = sprintf(
+                "%s-%s",
+                $application->projectcall->reference,
+                str_pad(strval(++$result), 3, "0", STR_PAD_LEFT)
+            );
+        });
+    }
 
     public function projectcall(){
         return $this->belongsTo('App\ProjectCall', 'projectcall_id');

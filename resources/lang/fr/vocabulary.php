@@ -11,6 +11,11 @@ return [
         "Exploratoire" => "APEX",
         "Workshop"     => "Workshop",
     ],
+    "calltype_reference" => [
+        "Region"       => "RG",
+        "Exploratoire" => "EX",
+        "Workshop"     => "WS"
+    ],
     "role" => [
         "Admin"     => "Administrateur",
         "Candidate" => "Candidat",

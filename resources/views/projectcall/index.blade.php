@@ -6,6 +6,7 @@
         <thead>
             <tr>
                 <th>{{ __('fields.id') }}</th>
+                <th>{{ __('fields.reference') }}</th>
                 <th>{{ __('fields.projectcall.type') }}</th>
                 <th>{{ __('fields.projectcall.year') }}</th>
                 <th>{{ __('fields.projectcall.title') }}</th>
@@ -27,6 +28,7 @@
                 @endphp
                 <tr>
                     <td>{{$call->id}}</td>
+                    <td>{{$call->reference}}</td>
                     <td>{{ __('vocabulary.calltype_short.'.$call->typeLabel) }}</td>
                     <td class="text-center">{{$call->year}}</td>
                     <td>{{$call->title}}</td>
@@ -125,9 +127,9 @@
             searching: true,
             ordering: true,
             order: [
-                [6, 'desc']
+                [7, 'desc']
             ],
-            columns: [null, null, null, null, null, null, null, null, {
+            columns: [null, null, null, null, null, null, null, null, null, {
                 searchable: false
             }],
             language: @json(__('datatable')),

@@ -14,6 +14,7 @@ class ProjectCallsTableSeeder extends Seeder
         DB::table('project_calls')->insert([
             "type" => 1,
             "year" => 2018,
+            "reference" => "18-RG-01",
             "title" => "Test titre archivé",
             "description" => "Description",
             "application_start_date" => "2018-11-01",
@@ -39,6 +40,7 @@ class ProjectCallsTableSeeder extends Seeder
         DB::table('project_calls')->insert([
             "type" => 1,
             "year" => 2019,
+            "reference" => "19-RG-01",
             "title" => "Test titre 1",
             "description" => "Description",
             "application_start_date" => "2019-03-01",
@@ -63,6 +65,7 @@ class ProjectCallsTableSeeder extends Seeder
         DB::table('project_calls')->insert([
             "type" => 2,
             "year" => 2019,
+            "reference" => "19-EX-01",
             "title" => "Test titre 2",
             "description" => "Description",
             "application_start_date" => "2019-03-01",
@@ -87,6 +90,7 @@ class ProjectCallsTableSeeder extends Seeder
         DB::table('project_calls')->insert([
             "type" => 3,
             "year" => 2019,
+            "reference" => "19-WS-01",
             "title" => "Test titre 3",
             "description" => "Description",
             "application_start_date" => "2019-03-01",

@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <th>{{ __('fields.id') }}</th>
+                    <th>{{ __('fields.reference') }}</th>
                     <th>{{ __('fields.projectcall.applicant') }}</th>
                     <th>{{ __('fields.creation_date') }}</th>
                     <th>{{ __('fields.submission_date') }}</th>
@@ -31,6 +32,7 @@
                 @foreach($applications as $application)
                 <tr>
                     <td>{{ $application->id}}</td>
+                    <td>{{ $application->reference}}</td>
                     <td>{{ $application->applicant->name }}</td>
                     <td>
                         {{ \Carbon\Carbon::parse($application->created_at)->format(__('locale.datetime_format'))}}
@@ -99,9 +101,9 @@
             searching: true,
             ordering: true,
             order: [
-                [3, 'desc']
+                [4, 'desc']
             ],
-            columns: [null, null, null, null, null, {
+            columns: [null, null, null, null, null, null, {
                 searchable: false
             }],
             language: @json(__('datatable')),
