@@ -254,7 +254,8 @@
                 'link' => route('projectcall.template', [
                     'projectcall' => $application->projectcall,
                     'template' => $key
-                ])
+                ]),
+                'label' => 'fields.template_download_link'
             ])
         @endif
     @endforeach

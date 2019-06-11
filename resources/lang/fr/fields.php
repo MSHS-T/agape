@@ -27,6 +27,7 @@ return [
     "status"                    => "Statut",
     "comments"                  => "Commentaires",
     "download_link"             => "Lien de téléchargement",
+    "template_download_link"    => "Formulaire à télécharger",
     "upload_overwrite"          => "Si vous avez déjà soumis un fichier pour ce champ, vous pouvez le contrôler à l'aide du lien ci dessus.<br/>Si vous envoyez un nouveau fichier, l'ancien sera écrasé. Laissez ce champ vide pour conserver le fichier déjà présent.",
     "upload_overwrite_multiple" => "Ce champ accepte plusieurs fichiers.<br/>Si vous avez déjà soumis un ou plusieurs fichiers pour ce champ, vous pouvez les contrôler à l'aide des liens ci dessus.<br/>Si vous envoyez un ou plusieurs nouveaux fichiers, ils remplaceront <b>l'ensemble des fichiers existants</b>. Laissez ce champ vide pour conserver les fichiers déjà présents",
     "upload_extensions"         => "Extensions acceptées",
