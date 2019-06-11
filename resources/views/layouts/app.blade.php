@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('head')
+@section('head_content')
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->

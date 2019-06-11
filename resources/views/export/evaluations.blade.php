@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('head')
+@section('head_content')
     <style>
         .page-break {
             page-break-after: always;
