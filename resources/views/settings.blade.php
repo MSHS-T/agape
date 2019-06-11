@@ -114,7 +114,7 @@
     <h2 class="text-center font-weight-bold border border-secondary rounded">
         {{ __('actions.settings.sections.notation_description') }}
     </h2>
-    @foreach(range(0,3) as $index)
+    @foreach(range(3,0) as $index)
         @include('forms.textinput', [
             'name'  => 'notation_grid_'.$index.'_grade',
             'label' => __('fields.setting.notation_grade', ['grade' => $index]),
