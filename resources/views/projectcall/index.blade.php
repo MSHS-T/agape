@@ -34,13 +34,13 @@
                         title="{{ __('fields.projectcall.states.'.$call->state) }}">
                         @switch($call->state)
                             @case("open")
-                                @svg('solid/door-open', 'icon-lg icon-fw')
+                                @svg('solid/door-open', 'icon-lg icon-fw text-success')
                                 @break
                             @case("closed")
-                                @svg('solid/door-closed', 'icon-lg icon-fw')
+                                @svg('solid/door-closed', 'icon-lg icon-fw text-danger')
                                 @break
                             @case("archived")
-                                @svg('solid/archive', 'icon-lg icon-fw')
+                                @svg('solid/archive', 'icon-lg icon-fw text-primary')
                                 @break
                         @endswitch
                     </td>
