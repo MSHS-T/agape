@@ -75,7 +75,7 @@
             searching: true,
             ordering: true,
             order: [
-                [0, 'desc']
+                [1, 'asc']
             ],
             columns: [null, null, null, {
                 searchable: false
