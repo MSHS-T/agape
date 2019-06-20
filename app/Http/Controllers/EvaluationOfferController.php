@@ -43,7 +43,7 @@ class EvaluationOfferController extends Controller
      */
     public function destroy(EvaluationOffer $offer)
     {
-        $application_id = $offer->application_id;
+        $application = $offer->application;
         $offer->delete();
         return redirect()->route('application.assignations', ['application' => $application])
                          ->with('success', __('actions.application.expert_unassigned'));
