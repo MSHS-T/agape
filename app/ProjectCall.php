@@ -132,6 +132,14 @@ class ProjectCall extends Model
         return $query->where('evaluation_end_date', '<', \Carbon\Carbon::parse('today')->format('Y-m-d'));
     }
 
+    public function scopeUserApplied($query)
+    {
+        return $query->whereHas('applications', function(Builder $query){
+                        $query->where('applicant_id', '=', Auth::id())
+                              ->whereNotNull('submitted_at');
+        });
+    }
+
     public function toString(){
         return (
             sprintf("%s %d", $this->typeLabel, $this->year)

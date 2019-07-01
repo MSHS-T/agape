@@ -31,7 +31,7 @@ class HomeController extends Controller
                 }])->open()->get();
                 $old_calls = ProjectCall::with(['applications' => function($query){
                     $query->where('applicant_id', Auth::id());
-                }])->old()->get();
+                }])->old()->userApplied()->get();
                 $data = compact('open_calls', 'old_calls');
                 break;
             case UserRole::Admin:
