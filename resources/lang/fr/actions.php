@@ -145,7 +145,7 @@ return [
         "saved"    => "Les paramètres ont bien été sauvegardés.",
         "sections" => [
             "projectcalls"         => "Configuration des appels à projets",
-            "notation_guide"       => "Guide de notation",
+            "notation_guide"       => "Guide d'évaluation",
             "notation_description" => "Description des notes"
         ]
     ],
