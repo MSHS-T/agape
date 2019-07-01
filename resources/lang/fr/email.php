@@ -29,7 +29,7 @@ return [
 
     "application_submitted" => [
         "title"  => "Confirmation de candidature",
-        "intro"  => "Votre candidature à l'appel à projets :call a bien été soumise.",
+        "intro"  => "Votre candidature à l'appel à projets :call a bien été soumise sous la référence :reference.",
         "action" => "Visualiser la candidature",
     ],
 

@@ -96,9 +96,9 @@ return [
             "body"          => "Êtes-vous sur de vouloir soumettre votre candidature ? Cette action est définitive",
             "error_unsaved" => "Vous devez d'abord sauvegarder votre candidature avant de pouvoir la soumettre."
         ],
-        "saved"                   => "Votre candidature a été sauvegardée. Pensez à la soumettre avant la date limite.",
-        "submitted"               => "Votre candidature a été soumise avec succès.",
-        "already_submitted"       => "Votre candidature a déjà été soumise et ne peut plus être modifiée.",
+        "saved"                   => "Votre candidature :reference a été sauvegardée. Pensez à la soumettre avant la date limite.",
+        "submitted"               => "Votre candidature :reference a été soumise avec succès.",
+        "already_submitted"       => "Votre candidature :reference a déjà été soumise et ne peut plus être modifiée.",
         "experts"                 => "Experts",
         "evaluations"             => "Évaluations",
         "assignations"           => "Affectation des experts",

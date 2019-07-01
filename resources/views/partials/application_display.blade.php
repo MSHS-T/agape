@@ -4,6 +4,12 @@
     </h2>
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">
+            {{ __('fields.reference') }}
+        </div>
+        <div class="col-9">{{ $application->reference }}</div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-3 font-weight-bold">
             {{ __('fields.application.title.' . $application->projectcall->typeLabel) }}
         </div>
         <div class="col-9">{{ $application->title }}</div>

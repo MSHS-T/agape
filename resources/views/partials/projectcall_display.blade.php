@@ -16,6 +16,10 @@
         </div>
     @endif
     <div class="row mb-3">
+        <div class="col-3 font-weight-bolder">{{ __('fields.reference') }}</div>
+        <div class="col-9">{!! $projectcall->reference !!}</div>
+    </div>
+    <div class="row mb-3">
         <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.description') }}</div>
         <div class="col-9">{!! $projectcall->description !!}</div>
     </div>

@@ -227,7 +227,7 @@ class ApplicationController extends Controller
 
         $application->save();
         return redirect()->route('application.edit', ["application" => $application])
-                         ->with('success', __('actions.application.saved'));
+                         ->with('success', __('actions.application.saved', ['reference' => $application->reference]));
     }
 
     /**
@@ -240,7 +240,7 @@ class ApplicationController extends Controller
     {
         if(!empty($application->submitted_at)){
             return redirect()->route('home')
-                             ->withErrors([__('actions.application.already_submitted')]);
+                             ->withErrors([__('actions.application.already_submitted', ['reference' => $application->reference])]);
         }
         if(!$application->projectcall->canApply()){
             return redirect()->route('home')
@@ -355,7 +355,7 @@ class ApplicationController extends Controller
         $application->applicant->notify(new ApplicationSubmitted($application));
 
         return redirect()->route('home')
-                         ->with('success', __('actions.application.submitted'));
+                         ->with('success', __('actions.application.submitted', ['reference' => $application->reference]));
     }
 
     /**
