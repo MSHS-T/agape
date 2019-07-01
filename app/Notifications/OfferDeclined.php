@@ -48,7 +48,7 @@ class OfferDeclined extends Notification
                     ->line(__('email.offer_declined.intro', [
                         'expert' => $this->offer->expert->name,
                         'candidat' => $this->offer->application->applicant->name,
-                        'call' => sprintf("%s - %d (%s)", $call->typeLabel, $call->year, $call->title)
+                        'call' => $call->toString()
                     ]))
                     ->line(__('email.offer_declined.outro', [
                         'justification' => $this->offer->justification

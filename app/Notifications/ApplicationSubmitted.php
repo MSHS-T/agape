@@ -46,7 +46,7 @@ class ApplicationSubmitted extends Notification
         return (new MailMessage)
                     ->subject(__('email.application_submitted.title'))
                     ->line(__('email.application_submitted.intro', [
-                        'call'      => sprintf("%s - %d (%s)", $call->typeLabel, $call->year, $call->title),
+                        'call'      => $call->toString,
                         'reference' => $this->application->reference
                     ]))
                     ->action(__('email.application_submitted.action'), url(config('app.url').route('application.show', $this->application->id, false)));

@@ -48,7 +48,7 @@ class EvaluationSubmitted extends Notification
                     ->line(__('email.evaluation_submitted.intro', [
                         'expert' => $this->offer->expert->name,
                         'candidat' => $this->offer->application->applicant->name,
-                        'call' => sprintf("%s - %d (%s)", $call->typeLabel, $call->year, $call->title)
+                        'call' => $call->toString()
                     ]));
     }
 

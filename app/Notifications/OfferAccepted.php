@@ -48,7 +48,7 @@ class OfferAccepted extends Notification
                     ->line(__('email.offer_accepted.intro', [
                         'expert' => $this->offer->expert->name,
                         'candidat' => $this->offer->application->applicant->name,
-                        'call' => sprintf("%s - %d (%s)", $call->typeLabel, $call->year, $call->title)
+                        'call' => $call->toString()
                     ]));
     }
 

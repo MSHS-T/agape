@@ -47,7 +47,7 @@ class OfferRetry extends Notification
                     ->subject(__('email.offer_retry.title'))
                     ->line(__('email.offer_retry.intro', [
                         'candidat' => $this->offer->application->applicant->name,
-                        'call' => sprintf("%s - %d (%s)", $call->typeLabel, $call->year, $call->title)
+                        'call' => $call->toString()
                     ]))
                     ->action(__('email.offer_retry.action'), url('/'));
     }
