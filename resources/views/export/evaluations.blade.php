@@ -24,22 +24,22 @@
     </style>
 @endsection
 @section('body')
-    <h1 class="text-center">
+    <h2 class="text-center">
         {{ config('app.name') }} - {!! __('actions.evaluation.export_name') !!} -
         {{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }} - {{ $projectcall->year }}
-    </h1>
+    </h2>
     @foreach($evaluations as $evaluation)
         <section class="page-break">
-            <h2 class="text-center">{{ __('fields.projectcall.applicant') }} : {{ $evaluation->offer->application->applicant->name }} ({{ $evaluation->offer->application->reference }})</h2>
-            <h3 class="text-center">
+            <h3 class="text-center">{{ __('fields.projectcall.applicant') }} : {{ $evaluation->offer->application->applicant->name }} ({{ $evaluation->offer->application->reference }})</h3>
+            <h4 class="text-center">
                 {{ __('fields.application.title.'.$projectcall->typeLabel)}} : {{ $evaluation->offer->application->title }}
                 @if(!empty($evaluation->offer->application->acronym))
                     ({{ $evaluation->offer->application->acronym }})
                 @endif
-            </h3>
-            <h3 class="text-center">{{ __('fields.application.laboratory_1')}} : {{ $evaluation->offer->application->laboratories->first()->name }}</h3>
+            </h4>
+            <h5 class="text-center">{{ __('fields.application.laboratory_1')}} : {{ $evaluation->offer->application->laboratories->first()->name }}</h5>
             @if(!$anonymized)
-            <h4 class="text-center">{{ __('fields.offer.expert')}} : {{ $evaluation->offer->expert->name }}</h4>
+            <h5 class="text-center">{{ __('fields.offer.expert')}} : {{ $evaluation->offer->expert->name }}</h5>
             @endif
             @include('partials.evaluation_display', ["evaluation" => $evaluation])
         </section>
