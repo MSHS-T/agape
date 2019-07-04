@@ -102,6 +102,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     });
 });
 
+Route::get('legal', 'HomeController@legal')->name('legal');
 Route::get('contact', 'HomeController@contact')->name('contact');
 Route::post('contact', 'HomeController@sendContact')->name('contact.send');
 

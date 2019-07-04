@@ -112,6 +112,16 @@ class HomeController extends Controller
     }
 
     /**
+     * Show the legal information.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function legal()
+    {
+        return view('legal');
+    }
+
+    /**
      * Show the contact form.
      *
      * @return \Illuminate\Http\Response
