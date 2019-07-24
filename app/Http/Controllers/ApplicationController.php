@@ -323,7 +323,7 @@ class ApplicationController extends Controller
             'other_fundings'                => 'required|numeric|min:0',
             'total_expected_income'         => 'required|numeric|min:0',
             'total_expected_outcome'        => 'required|numeric|min:0',
-            'files'                         => [function($attribute, $value, $fail){
+            'files'                         => [function($attribute, $value, $fail) use ($application) {
                 $orders = array_column($value, 'order');
                 if(!in_array(1, $orders)){
                     $fail(__('validation.required', [
