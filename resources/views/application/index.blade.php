@@ -34,12 +34,8 @@
                     <td>{{ $application->id}}</td>
                     <td>{{ $application->reference}}</td>
                     <td>{{ $application->applicant->name }}</td>
-                    <td>
-                        {{ \Carbon\Carbon::parse($application->created_at)->format(__('locale.datetime_format'))}}
-                    </td>
-                    <td>
-                        {{ \Carbon\Carbon::parse($application->submitted_at)->format(__('locale.datetime_format'))}}
-                    </td>
+                    <td>@date(['datetime' => $application->created_at])</td>
+                    <td>@date(['datetime' => $application->submitted_at])</td>
                     <td>
                         @if(!empty($application->offers))
                             <ul>

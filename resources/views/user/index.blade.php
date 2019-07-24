@@ -32,11 +32,7 @@
                         @date(['datetime' => $user->created_at])
                     </td>
                     <td data-order="{{ $user->updated_at ?? 0 }}">
-                        @if(is_null($user->updated_at))
-                            {{__('fields.never')}}
-                        @else
-                            @date(['datetime' => $user->updated_at])
-                        @endif
+                        @date(['datetime' => $user->updated_at])
                     </td>
                     <td
                         class="text-center"

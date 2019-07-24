@@ -12,7 +12,7 @@
 </h5>
 <h5 class="text-center mb-4">
     <u>{{ __('fields.submission_date') }} :</u>
-    {{ \Carbon\Carbon::parse($application->submitted_at)->format(__('locale.datetime_format'))}}
+    @date(['datetime' => $application->submitted_at])
 </h5>
 <div class="row justify-content-center">
     <table class="table table-striped table-hover table-bordered w-100" id="assignation_list">
@@ -56,7 +56,7 @@
                 </td>
                 <td>
                     {{ $offer->creator->name}}<br/>
-                    {{ \Carbon\Carbon::parse($offer->created_at)->format(__('locale.datetime_format'))}}
+                    @date(['datetime' => $offer->created_at])
                 </td>
                 @if($application->projectcall->canEvaluate())
                 <td>
