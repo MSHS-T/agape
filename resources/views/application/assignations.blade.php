@@ -35,7 +35,7 @@
                 <td>{{ $offer->expert->name }}</td>
                 <td>
                     @if(is_null($offer->accepted))
-                        @svg('solid/question', 'icon-fw text-primary')
+                        @svg('solid/question', 'icon-fw text-info')
                         {{ __('fields.offer.pending') }}
                         @php($total++)
                     @elseif($offer->accepted == true)
@@ -43,7 +43,7 @@
                             @svg('solid/check', 'icon-fw text-success')
                             {{ __('fields.offer.done') }}
                         @else
-                            @svg('solid/hourglass', 'icon-fw text-warning')
+                            @svg('solid/hourglass', 'icon-fw text-primary')
                             {{ __('fields.offer.accepted') }}
                         @endif
                         @php($total++)
