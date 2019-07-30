@@ -1,25 +1,35 @@
 @extends('layouts.master')
 @section('head_content')
     <style>
-        .page-break {
-            page-break-after: always;
+        @page {
+            size: A4 portrait;
+        }
+        section {
             page-break-inside: avoid;
         }
-        .page-break:last-child{
-            page-break-after: avoid;
+        .page-break {
+            page-break-after: always;
         }
         .text-center {
             text-align: center;
         }
-        .row {
-            clear: both;
+        .evaluation_criteria, .row {
+            page-break-inside: avoid;
+            display: block;
         }
         .col-3 {
-            width: 25%;
-            float: left;
+            width: 20%;
+            display: inline;
+            font-weight: bold;
+            text-decoration: underline;
         }
         .col-9 {
-            width: 75%;
+            width: 80%;
+            display: inline;
+            text-align: justify;
+        }
+        p.lead, .col-9 > * {
+            text-align: justify;
         }
     </style>
 @endsection
@@ -29,7 +39,7 @@
         {{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }} - {{ $projectcall->year }}
     </h2>
     @foreach($evaluations as $evaluation)
-        <section class="page-break">
+        <section>
             <h3 class="text-center">{{ __('fields.projectcall.applicant') }} : {{ $evaluation->offer->application->applicant->name }} ({{ $evaluation->offer->application->reference }})</h3>
             <h4 class="text-center">
                 {{ __('fields.application.title.'.$projectcall->typeLabel)}} : {{ $evaluation->offer->application->title }}
@@ -43,5 +53,8 @@
             @endif
             @include('partials.evaluation_display', ["evaluation" => $evaluation])
         </section>
+        @if(!$loop->last)
+            <div class="page-break"></div>
+        @endif
     @endforeach
 @endsection
