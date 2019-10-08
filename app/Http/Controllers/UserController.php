@@ -54,12 +54,12 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Soft-deletes (or restores) the given user.
      *
      * @param  string  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user)
+    public function block($user)
     {
         $user = User::withTrashed()->where('id', $user)->firstOrFail();
 
@@ -70,6 +70,22 @@ class UserController extends Controller
             $user->delete();
             $message = __('actions.user.blocked');
         }
+        return redirect()->route('user.index')
+                         ->with('success', $message);
+    }
+
+    /**
+     * Permanently deletes a user
+     *
+     * @param  string  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($user)
+    {
+        $user = User::withTrashed()->where('id', $user)->firstOrFail();
+        $user->forceDelete();
+        $message = __('actions.user.deleted');
+
         return redirect()->route('user.index')
                          ->with('success', $message);
     }

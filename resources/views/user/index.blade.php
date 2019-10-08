@@ -57,11 +57,14 @@
                             else {
                                 $icon = "solid/lock";
                                 $text = __('actions.user.block');
-                                $color = "danger";
+                                $color = "warning";
                             }
                         @endphp
-                        <a href="{{ route('user.destroy', $user)}}" class="btn btn-sm btn-{{ $color }} d-block block-link" data-buttontext="{{ $text }}" data-buttoncolor="{{ $color }}">
+                        <a href="{{ route('user.block', $user)}}" class="btn btn-sm btn-{{ $color }} d-block block-link" data-buttontext="{{ $text }}" data-buttoncolor="{{ $color }}">
                             @svg($icon, 'icon-fw') {{ $text }}
+                        </a>
+                        <a href="{{ route('user.destroy', $user)}}" class="btn btn-sm btn-danger d-block delete-link" data-buttontext="{{ __('actions.delete') }}" data-buttoncolor="danger">
+                            @svg('solid/trash', 'icon-fw') {{ __('actions.delete') }}
                         </a>
                     </td>
                 </tr>
@@ -118,6 +121,29 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('actions.confirm_delete.title') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('actions.confirm_delete.body') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                <form id="confirmation-form" action="" method="post">
+                    @csrf @method('DELETE')
+                    <button class="btn btn-danger" type="submit">{{ __('actions.delete') }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -135,6 +161,19 @@
                                        .addClass('btn btn-'+color);
 
             $(".modal#confirm-block").modal();
+        });
+        $('.delete-link').click(function (e) {
+            e.preventDefault();
+            var targetUrl = jQuery(this).attr('href');
+            var text = jQuery(this).attr('data-buttontext');
+            var color = jQuery(this).attr('data-buttoncolor');
+            $("form#confirmation-form").attr('action', targetUrl);
+            $("form#confirmation-form").find('button[type=submit]')
+                                       .text(text)
+                                       .removeClass()
+                                       .addClass('btn btn-'+color);
+
+            $(".modal#confirm-delete").modal();
         });
         $('#user_list').DataTable({
             autoWidth: false,

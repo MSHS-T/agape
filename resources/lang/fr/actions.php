@@ -56,6 +56,11 @@ return [
         "body"  => "Êtes-vous sûr de vouloir bloquer/débloquer cet utilisateur ?"
     ],
 
+    "confirm_delete" => [
+        "title" => "Confirmer la suppression",
+        "body"  => "Êtes-vous sûr de vouloir supprimer cet utilisateur ?"
+    ],
+
     "confirm_decline" => [
         "title" => "Confirmer le refus",
         "body"  => "Veuillez saisir la raison de votre refus. Attention : cette action est irréversible.",
@@ -176,7 +181,8 @@ return [
         "block" => "Bloquer",
         "unblock" => "Débloquer",
         "blocked" => "L'Utilisateur a bien été bloqué",
-        "unblocked" => "L'Utilisateur a bien été débloqué"
+        "unblocked" => "L'Utilisateur a bien été débloqué",
+        "deleted" => "L'Utilisateur a bien été supprimé"
     ],
 
     "error" => [
