@@ -56,6 +56,7 @@ class EvaluationController extends Controller
         foreach($projectcall->submittedApplications as $application){
             $evaluations = $evaluations->merge($application->evaluations);
         }
+        $evaluations = $evaluations->reject(function($e){ return is_null($e->submitted_at); });
         $anonymized = boolval($request->input('anonymized', "0"));
 
         $title = implode(' - ', [config('app.name'), __('actions.evaluation.export_name'), __('vocabulary.calltype_short.'.$projectcall->typeLabel), $projectcall->year]);
@@ -73,6 +74,7 @@ class EvaluationController extends Controller
     public function exportForApplication(Application $application, Request $request)
     {
         $evaluations = $application->evaluations;
+        $evaluations = $evaluations->reject(function($e){ return is_null($e->submitted_at); });
         $projectcall = $application->projectcall;
         $anonymized = boolval($request->input('anonymized', "0"));
 

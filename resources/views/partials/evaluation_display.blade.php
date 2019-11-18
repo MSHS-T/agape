@@ -16,10 +16,10 @@
                 <div class="col-9">
                     <label class="form-check-label">
                         <span class="font-weight-bold">
-                            {{ $notation_grid[$grade]['grade'] }}
+                            {{ $grade ? $notation_grid[$grade]['grade'] : '?' }}
                         </span>
                         &nbsp;:&nbsp;
-                        {{ $notation_grid[$grade]['details'] }}
+                        {{ $grade ? $notation_grid[$grade]['details'] : '?' }}
                     </label>
                 </div>
             </div>
@@ -43,10 +43,10 @@
         <div class="col-9">
             <label class="form-check-label">
                 <span class="font-weight-bold">
-                    {{ $notation_grid[$evaluation->global_grade]['grade'] }}
+                    {{ $evaluation->global_grade ? $notation_grid[$evaluation->global_grade]['grade'] : '?' }}
                 </span>
                 &nbsp;:&nbsp;
-                {{ $notation_grid[$evaluation->global_grade]['details'] }}
+                {{ $evaluation->global_grade ? $notation_grid[$evaluation->global_grade]['details'] : '?' }}
             </label>
         </div>
     </div>
