@@ -77,8 +77,12 @@ class EvaluationOfferController extends Controller
             return redirect()->route('home')
                              ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
+        if($offer->accepted != null){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.evaluationoffers.already_answered')]);
+        }
         $offer->accepted = true;
-        $evaluation = $offer->evaluation()->create([]);
+        $evaluation = $offer->evaluation()->first() ?? $offer->evaluation()->save(new App\Evaluation);
         $offer->save();
         Notification::send(User::admins()->get(), new OfferAccepted($offer));
         return redirect()->route('evaluation.edit', ["evaluation" => $evaluation])
@@ -97,6 +101,10 @@ class EvaluationOfferController extends Controller
         if(!$offer->application->projectcall->canEvaluate()){
             return redirect()->route('home')
                              ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+        }
+        if($offer->accepted != null){
+            return redirect()->route('home')
+                             ->withErrors([__('actions.evaluationoffers.already_answered')]);
         }
         $offer->accepted = false;
         $offer->justification = $request->input('justification');

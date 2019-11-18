@@ -115,14 +115,15 @@ return [
     ],
 
     "evaluationoffers" => [
-        "offer_count"    => "Propositions d'évaluation (:count)",
-        "accepted_count" => "Évaluations à réaliser (:count)",
-        "done_count"     => "Évaluations terminées (:count)",
-        "accepted"       => "Proposition d'évaluation acceptée.",
-        "declined"       => "Proposition d'évaluation refusée.",
-        "retry"          => "Envoyer un rappel",
-        "reminder_sent"  => "Un rappel a été envoyé à l'expert",
-        "empty"          => "Aucune évaluation présente dans la base de données..."
+        "offer_count"      => "Propositions d'évaluation (:count)",
+        "accepted_count"   => "Évaluations à réaliser (:count)",
+        "done_count"       => "Évaluations terminées (:count)",
+        "accepted"         => "Proposition d'évaluation acceptée.",
+        "declined"         => "Proposition d'évaluation refusée.",
+        "retry"            => "Envoyer un rappel",
+        "reminder_sent"    => "Un rappel a été envoyé à l'expert",
+        "already_answered" => "Vous avez déjà donné votre réponse à cette proposition",
+        "empty"            => "Aucune évaluation présente dans la base de données..."
     ],
 
     "evaluation" => [
