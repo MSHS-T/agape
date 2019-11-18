@@ -84,7 +84,7 @@ class Application extends Model
     }
 
     public function files(){
-        return $this->hasMany('App\ApplicationFile');
+        return $this->hasMany('App\ApplicationFile')->orderBy('order', 'ASC');
     }
 
     public function offers(){
