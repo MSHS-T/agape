@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\Evaluation;
 use App\EvaluationOffer;
 use App\User;
 use App\Notifications\OfferAccepted;
@@ -82,7 +83,7 @@ class EvaluationOfferController extends Controller
                              ->withErrors([__('actions.evaluationoffers.already_answered')]);
         }
         $offer->accepted = true;
-        $evaluation = $offer->evaluation()->first() ?? $offer->evaluation()->save(new App\Evaluation);
+        $evaluation = $offer->evaluation()->first() ?? $offer->evaluation()->save(new Evaluation);
         $offer->save();
         Notification::send(User::admins()->get(), new OfferAccepted($offer));
         return redirect()->route('evaluation.edit', ["evaluation" => $evaluation])
