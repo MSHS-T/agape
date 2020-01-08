@@ -54,25 +54,25 @@
                     {{ $evaluation->offer->expert->name }}
                 </td>
                 <td data-order="{{ $evaluation->grade1 }}">
-                    {{ $evaluation->grade1 ? $notation_grid[$evaluation->grade1]['grade'] : '?' }}
+                    {{ $evaluation->grade1 !== null ? $notation_grid[$evaluation->grade1]['grade'] : '?' }}
                 </td>
                 <td>
                     {!! $evaluation->comment1 !!}
                 </td>
                 <td data-order="{{ $evaluation->grade2 }}">
-                    {{ $evaluation->grade2 ? $notation_grid[$evaluation->grade2]['grade'] : '?' }}
+                    {{ $evaluation->grade2 !== null ? $notation_grid[$evaluation->grade2]['grade'] : '?' }}
                 </td>
                 <td>
                     {!! $evaluation->comment2 !!}
                 </td>
                 <td data-order="{{ $evaluation->grade3 }}">
-                    {{ $evaluation->grade3 ? $notation_grid[$evaluation->grade3]['grade'] : '?' }}
+                    {{ $evaluation->grade3 !== null ? $notation_grid[$evaluation->grade3]['grade'] : '?' }}
                 </td>
                 <td>
                     {!! $evaluation->comment3 !!}
                 </td>
                 <td data-order="{{ $evaluation->global_grade }}">
-                    {{ $evaluation->global_grade ? $notation_grid[$evaluation->global_grade]['grade'] : '?' }}
+                    {{ $evaluation->global_grade !== null ? $notation_grid[$evaluation->global_grade]['grade'] : '?' }}
                 </td>
                 <td>
                     {!! $evaluation->global_comment !!}
