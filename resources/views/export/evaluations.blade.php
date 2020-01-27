@@ -51,7 +51,7 @@
             @if(!$anonymized)
             <h5 class="text-center">{{ __('fields.offer.expert')}} : {{ $evaluation->offer->expert->name }}</h5>
             @endif
-            @include('partials.evaluation_display', ["evaluation" => $evaluation])
+            @include('partials.evaluation_display', ["evaluation" => $evaluation, "anonymized" => $anonymized])
         </section>
         @if(!$loop->last)
             <div class="page-break"></div>

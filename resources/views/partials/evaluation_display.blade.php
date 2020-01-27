@@ -1,4 +1,6 @@
 @php($notation_grid = json_decode(\App\Setting::get('notation_grid'), true))
+@php($anonymized = $anonymized ?? false)
+
 <form id="evaluation_form">
     @foreach(range(1,3) as $iteration)
         @php($grade = $evaluation->{"grade".$iteration})
@@ -11,18 +13,20 @@
                     </p>
                 </div>
             </div>
-            <div class="form-group row">
-                <label class="col-3 col-form-label">{{ __('fields.evaluation.grade') }}</label>
-                <div class="col-9">
-                    <label class="form-check-label">
-                        <span class="font-weight-bold">
-                            {{ $grade !== null ? $notation_grid[$grade]['grade'] : '?' }}
-                        </span>
-                        &nbsp;:&nbsp;
-                        {{ $grade !== null ? $notation_grid[$grade]['details'] : '?' }}
-                    </label>
+            @if(!$anonymized)
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">{{ __('fields.evaluation.grade') }}</label>
+                    <div class="col-9">
+                        <label class="form-check-label">
+                            <span class="font-weight-bold">
+                                {{ $grade !== null ? $notation_grid[$grade]['grade'] : '?' }}
+                            </span>
+                            &nbsp;:&nbsp;
+                            {{ $grade !== null ? $notation_grid[$grade]['details'] : '?' }}
+                        </label>
+                    </div>
                 </div>
-            </div>
+            @endif
             <div class="form-group row">
                 <label class="col-3 col-form-label">{{ __('fields.comments') }}</label>
                 <div class="col-9">
@@ -38,18 +42,20 @@
             <h5 class="mb-0">{{ __('fields.evaluation.global_grade') }}</h5>
         </div>
     </div>
-    <div class="form-group row">
-        <label class="col-3 col-form-label">{{ __('fields.evaluation.grade') }}</label>
-        <div class="col-9">
-            <label class="form-check-label">
-                <span class="font-weight-bold">
-                    {{ $evaluation->global_grade !== null ? $notation_grid[$evaluation->global_grade]['grade'] : '?' }}
-                </span>
-                &nbsp;:&nbsp;
-                {{ $evaluation->global_grade !== null ? $notation_grid[$evaluation->global_grade]['details'] : '?' }}
-            </label>
+    @if(!$anonymized)
+        <div class="form-group row">
+            <label class="col-3 col-form-label">{{ __('fields.evaluation.grade') }}</label>
+            <div class="col-9">
+                <label class="form-check-label">
+                    <span class="font-weight-bold">
+                        {{ $evaluation->global_grade !== null ? $notation_grid[$evaluation->global_grade]['grade'] : '?' }}
+                    </span>
+                    &nbsp;:&nbsp;
+                    {{ $evaluation->global_grade !== null ? $notation_grid[$evaluation->global_grade]['details'] : '?' }}
+                </label>
+            </div>
         </div>
-    </div>
+    @endif
     <div class="form-group row">
         <label class="col-3 col-form-label">{{ __('fields.comments') }}</label>
         <div class="col-9">
