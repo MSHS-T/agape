@@ -19,10 +19,10 @@
         <table class="table table-striped table-hover table-bordered" id="application_list" style="width:100%;">
             <thead>
                 <tr>
-                    <th>{{ __('fields.id') }}</th>
                     <th>{{ __('fields.reference') }}</th>
+                    <th>{{ __('fields.application.acronym') }}</th>
                     <th>{{ __('fields.projectcall.applicant') }}</th>
-                    <th>{{ __('fields.creation_date') }}</th>
+                    <th>{{ __('fields.application.laboratory_1') }}</th>
                     <th>{{ __('fields.submission_date') }}</th>
                     <th>{{ __('fields.application.experts') }}</th>
                     <th data-orderable="false">{{ __('fields.actions') }}</th>
@@ -31,10 +31,10 @@
             <tbody>
                 @foreach($applications as $application)
                 <tr>
-                    <td>{{ $application->id}}</td>
                     <td>{{ $application->reference}}</td>
+                    <td>{{ $application->acronym}}</td>
                     <td>{{ $application->applicant->name }}</td>
-                    <td>@date(['datetime' => $application->created_at])</td>
+                    <td>{{ $application->carrierLaboratory->first()->name }}</td>
                     <td>@date(['datetime' => $application->submitted_at])</td>
                     <td>
                         @if(!empty($application->offers))
@@ -92,18 +92,19 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#application_list').DataTable({
-            autoWidth: false,
+            autoWidth   : false,
             lengthChange: true,
-            searching: true,
-            ordering: true,
-            order: [
-                [4, 'desc']
+            searching   : true,
+            ordering    : true,
+            language    : @json(__('datatable')),
+            pageLength  : 5,
+            order       : [
+                [3, 'desc']
             ],
-            columns: [null, null, null, null, null, null, {
+            columns: [null, null, null,  null, null, { width: 300 }, {
+                width     : 120,
                 searchable: false
             }],
-            language: @json(__('datatable')),
-            pageLength: 5,
             lengthMenu: [
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "@lang('datatable.all')"]

@@ -79,6 +79,10 @@ class Application extends Model
         return $this->belongsToMany('App\Laboratory', 'application_laboratory', 'application_id', 'laboratory_id')->withPivot('order', 'contact_name');
     }
 
+    public function carrierLaboratory(){
+        return $this->laboratories()->wherePivot('order', 1);
+    }
+
     public function studyFields(){
         return $this->belongsToMany('App\StudyField', 'application_study_field', 'application_id', 'study_field_id');
     }
