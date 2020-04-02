@@ -10,10 +10,12 @@ services:
         depends_on:
             - php
         volumes:
-            # Logs
-            - ./logs/nginx:/var/logs/nginx:cached
+            - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./.docker/nginx/sites/:/etc/nginx/sites-available
+            - ./.docker/nginx/conf.d/:/etc/nginx/conf.d
+            - ./logs/nginx:/var/log/nginx
             # Code
-            - .:/var/www/html:cached
+            - .:/var/www/html
         ports:
             - "80:80"
 
@@ -24,14 +26,10 @@ services:
         depends_on:
             - db
         volumes:
-            # Logs
-            - ./logs/symfony:/var/www/html/var/log:cached
             # Code
-            - .:/var/www/html:cached
-            # Vendor délégués au container
-            - ./vendor:/var/www/html/vendor:delegated
+            - .:/var/www/html:delegated
         ports:
-            - "9000:9001"
+            - "9000:9000"
 
     db:
         image: mysql:5.7
@@ -56,9 +54,6 @@ services:
         volumes:
             # Code
             - .:/var/www/html
-            # node_modules et build sont délégués au container
-            - ./node_modules:/var/www/html/node_modules:delegated
-            - ./public/build:/var/www/html/public/build:delegated
 
     adminer:
         image: adminer
