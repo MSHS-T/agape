@@ -10,6 +10,7 @@ return [
     "toggle_navigation"   => "Afficher le menu",
     "back"                => "Retour",
     "show"                => "Visualiser",
+    "show_more"           => "Voir plus",
     "create"              => "Créer",
     "save"                => "Enregistrer",
     "edit"                => "Modifier",
@@ -95,6 +96,7 @@ return [
     ],
 
     "application" => [
+        "one"                => "Candidature",
         "list"               => "Candidatures",
         "list_count"         => "Candidatures (:count)",
         "mylist"             => "Mes Candidatures",

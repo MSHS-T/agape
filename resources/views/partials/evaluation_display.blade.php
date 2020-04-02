@@ -1,16 +1,22 @@
 @php($notation_grid = json_decode(\App\Setting::get('notation_grid'), true))
 @php($anonymized = $anonymized ?? false)
+@php($noId = $noId ?? false)
+@php($criteriaDetails = $criteriaDetails ?? true)
 
-<form id="evaluation_form">
+<form @if(!$noId)
+    id="evaluation_form"
+@endif >
     @foreach(range(1,3) as $iteration)
         @php($grade = $evaluation->{"grade".$iteration})
         <div class="evaluation_criteria">
             <div class="jumbotron jumbotron-fluid px-1 py-2 mb-1">
                 <div class="container">
                     <h5>{{ \App\Setting::get("notation_{$iteration}_title") }}</h5>
-                    <p class="lead">
-                        {!! \App\Setting::get("notation_{$iteration}_description") !!}
-                    </p>
+                    @if($criteriaDetails)
+                        <p class="lead">
+                            {!! \App\Setting::get("notation_{$iteration}_description") !!}
+                        </p>
+                    @endif
                 </div>
             </div>
             @if(!$anonymized)
