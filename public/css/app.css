@@ -13509,3 +13509,7 @@ div.projectcall-display table {
   z-index: 1000;
 }
 
+.table {
+  width: 100% !important;
+}
+

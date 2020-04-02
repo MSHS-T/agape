@@ -176,7 +176,7 @@
             $(".modal#confirm-delete").modal();
         });
         $('#user_list').DataTable({
-            autoWidth: false,
+            autoWidth: true,
             lengthChange: true,
             searching: true,
             ordering: true,
