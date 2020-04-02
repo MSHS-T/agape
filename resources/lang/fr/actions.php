@@ -25,6 +25,7 @@ return [
     "decline"             => "Refuser",
     "download"            => "Télécharger",
     "send"                => "Envoyer",
+    "resend"              => "Renvoyer",
     "select_element"      => "Sélectionner un élément (taper du texte pour filtrer)",
     "select_elements"     => "Sélectionner des éléments (taper du texte pour filtrer)",
     "add_element"         => "Ajouter un nouvel élément",
@@ -67,6 +68,11 @@ return [
         "error" => "Erreur : la justification de votre refus est obligatoire"
     ],
 
+    "confirm_resend" => [
+        "title" => "Confirmer le renvoi de l'invitation",
+        "body"  => "Êtes-vous sûr de vouloir renvoyer une invitation à cet utilisateur ?"
+    ],
+
     "profile"        => "Mon profil",
     "administration" => "Administration",
     "laboratories"   => "Laboratoires",
@@ -107,7 +113,7 @@ return [
         "already_submitted"       => "Votre candidature :reference a déjà été soumise et ne peut plus être modifiée.",
         "experts"                 => "Experts",
         "evaluations"             => "Évaluations",
-        "assignations"           => "Affectation des experts",
+        "assignations"            => "Affectation des experts",
         "assign_expert"           => "Affecter un expert",
         "expert_assigned"         => "La demande d'évaluation a été transmise à l'expert",
         "expert_unassigned"       => "La demande d'évaluation a été annulée",
@@ -158,32 +164,35 @@ return [
     ],
 
     "laboratory" => [
-        "list" => "Laboratoires",
-        "create"   => "Nouveau Laboratoire",
-        "created"  => "Le Laboratoire a bien été créé.",
-        "edit"     => "Modifier le Laboratoire",
-        "edited"   => "Le Laboratoire a bien été modifié.",
-        "deleted"  => "Le Laboratoire a bien été supprimé.",
+        "list"    => "Laboratoires",
+        "create"  => "Nouveau Laboratoire",
+        "created" => "Le Laboratoire a bien été créé.",
+        "edit"    => "Modifier le Laboratoire",
+        "edited"  => "Le Laboratoire a bien été modifié.",
+        "deleted" => "Le Laboratoire a bien été supprimé.",
     ],
 
     "studyfield" => [
-        "list" => "Champs Disciplinaires",
-        "create"   => "Nouveau Champ Disciplinaire",
-        "created"  => "Le Champ Disciplinaire a bien été créé.",
-        "edit"     => "Modifier le Champ Disciplinaire",
-        "edited"   => "Le Champ Disciplinaire a bien été modifié.",
-        "deleted"  => "Le Champ Disciplinaire a bien été supprimé.",
+        "list"    => "Champs Disciplinaires",
+        "create"  => "Nouveau Champ Disciplinaire",
+        "created" => "Le Champ Disciplinaire a bien été créé.",
+        "edit"    => "Modifier le Champ Disciplinaire",
+        "edited"  => "Le Champ Disciplinaire a bien été modifié.",
+        "deleted" => "Le Champ Disciplinaire a bien été supprimé.",
     ],
 
     "user" => [
-        "list" => "Utilisateurs",
-        "invite" => "Inviter un Utilisateur",
-        "invited" => "L'invitation a bien été envoyée.",
-        "block" => "Bloquer",
-        "unblock" => "Débloquer",
-        "blocked" => "L'Utilisateur a bien été bloqué",
-        "unblocked" => "L'Utilisateur a bien été débloqué",
-        "deleted" => "L'Utilisateur a bien été supprimé"
+        "list"              => "Utilisateurs",
+        "invite"            => "Inviter un Utilisateur",
+        "invited"           => "L'invitation a bien été envoyée.",
+        "view_invites"      => "Voir les invitations en attente",
+        "invite_list"       => "Invitations en attente",
+        "invite_sent_again" => "L'invitation a bien été renvoyée",
+        "block"             => "Bloquer",
+        "unblock"           => "Débloquer",
+        "blocked"           => "L'Utilisateur a bien été bloqué",
+        "unblocked"         => "L'Utilisateur a bien été débloqué",
+        "deleted"           => "L'Utilisateur a bien été supprimé",
     ],
 
     "error" => [

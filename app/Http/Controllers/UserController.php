@@ -6,6 +6,7 @@ use App\Invitation;
 use App\User;
 use App\Enums\UserRole;
 use App\Notifications\UserInvitation;
+use App\Notifications\UserInvitationRetry;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -89,5 +90,34 @@ class UserController extends Controller
 
         return redirect()->route('user.index')
                          ->with('success', $message);
+    }
+
+    /**
+     * Display a listing of the invited users.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function invites()
+    {
+        $invitations = Invitation::orderBy('updated_at', 'desc')->get();
+        return view('user.invites', ['invitations' => $invitations]);
+    }
+
+    /**
+     * Send another invite
+     *
+     * @param  string $invitationCode
+     * @return \Illuminate\Http\Response
+     */
+    public function inviteRetry($invitationCode)
+    {
+        $invitation = Invitation::findOrFail($invitationCode);
+
+        $invitation->touch();
+
+        $invitation->notify(new UserInvitationRetry($invitation));
+
+        return redirect()->route('user.invites')
+                         ->with('success', __('actions.user.invite_sent_again'));
     }
 }

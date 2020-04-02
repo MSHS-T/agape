@@ -68,11 +68,17 @@ return [
         "action" => "Inscription"
     ],
 
+    "invitation_retry" => [
+        "title"  => "Rappel : Invitation à rejoindre la plateforme AGAPE",
+        "intro"  => "L'administrateur de la plateforme AGAPE vous invite à rejoindre l'application en tant que :role",
+        "action" => "Inscription"
+    ],
+
     "contact" => [
-        "title" => "Nouveau message via le formulaire de contact AGAPE",
-        "intro" => ":type :name (:email) vient d'envoyer le message suivant avec le formulaire de contact de la plateforme AGAPE: <br/>:message",
+        "title"        => "Nouveau message via le formulaire de contact AGAPE",
+        "intro"        => ":type :name (:email) vient d'envoyer le message suivant avec le formulaire de contact de la plateforme AGAPE: <br/>:message",
         "type_visitor" => "Le visiteur",
-        "type_user" => "L'utilisateur",
-        "action" => "Répondre"
+        "type_user"    => "L'utilisateur",
+        "action"       => "Répondre"
     ]
 ];

@@ -162,6 +162,7 @@ return [
     "user" => [
         "registration_date" => "Date d'inscription",
         "last_login_date" => "Date de dernière connexion",
+        "invitation_date" => "Date d'invitation",
         "blocked" => "Bloqué",
         "unblocked" => "Débloqué",
     ],

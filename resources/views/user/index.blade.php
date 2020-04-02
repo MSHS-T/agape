@@ -96,6 +96,9 @@
                 <button type="submit" name="save" class="btn btn-primary">@svg('solid/plus') {{ __('actions.add') }}</button>
             </p>
         </form>
+        <p class="text-center">
+            <a href="{{ route('user.invites') }}" class="btn btn-warning">@svg('solid/hourglass') {{ __('actions.user.view_invites') }}</a>
+        </p>
     </div>
 </div>
 

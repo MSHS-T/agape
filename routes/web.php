@@ -101,6 +101,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
         Route::resource('user', 'UserController')->only(['index', 'store', 'destroy']);
         Route::delete('user/{user}/block', 'UserController@block')->name('user.block');
+        Route::get('user/invites', 'UserController@invites')->name('user.invites');
+        Route::post('user/invite/{invitationCode}/retry', 'UserController@inviteRetry')->name('user.invite.retry');
     });
 });
 
