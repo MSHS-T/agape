@@ -8,6 +8,7 @@ use App\Enums\UserRole;
 use App\Notifications\UserInvitation;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use BenSampo\Enum\Rules\EnumValue;
 
 class UserController extends Controller
@@ -37,7 +38,7 @@ class UserController extends Controller
         ]);
 
         do {
-            $invitationCode = str_random(32);
+            $invitationCode = Str::random(32);
         } while(Invitation::find($invitationCode) !== null);
 
         $invitation = new Invitation([

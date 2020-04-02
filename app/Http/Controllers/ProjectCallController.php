@@ -11,6 +11,7 @@ use App\Exports\ApplicationsExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use BenSampo\Enum\Rules\EnumValue;
 use Maatwebsite\Excel\Facades\Excel;
@@ -109,7 +110,7 @@ class ProjectCallController extends Controller
                 )
             ){
                 $extension = $rFile->getClientOriginalExtension();
-                $uniqname = str_random(40).'.'.$extension;
+                $uniqname = Str::random(40).'.'.$extension;
                 $path = Storage::disk('public')->putFileAs('formulaires', $rFile, $uniqname);
                 $call->{$form_name."_filepath"} = $path;
             }
@@ -209,7 +210,7 @@ class ProjectCallController extends Controller
                     unlink(public_path('storage/'.$projectcall->{$form_name."_filepath"}));
                 }
                 $extension = $rFile->getClientOriginalExtension();
-                $uniqname = str_random(40).'.'.$extension;
+                $uniqname = Str::random(40).'.'.$extension;
                 $path = Storage::disk('public')->putFileAs('formulaires', $rFile, $uniqname);
                 $projectcall->{$form_name."_filepath"} = $path;
             }

@@ -56,7 +56,7 @@ class ProjectCall extends Model
             $call->reference = sprintf(
                 "%s-%s-%s",
                 substr(strval($call->year), -2),
-                Lang::trans('vocabulary.calltype_reference.'.CallType::getKey(intval($call->type))),
+                Lang::get('vocabulary.calltype_reference.'.CallType::getKey(intval($call->type))),
                 str_pad(strval(++$result), 2, "0", STR_PAD_LEFT)
             );
         });

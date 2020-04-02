@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ApplicationController extends Controller
 {
@@ -187,7 +188,7 @@ class ApplicationController extends Controller
                 $existingFile = $application->files()->where('order', $order)->delete();
                 $name = $rFile->getClientOriginalName();
                 $extension = $rFile->getClientOriginalExtension();
-                $uniqname = str_random(40).'.'.$extension;
+                $uniqname = Str::random(40).'.'.$extension;
                 $path = Storage::disk('public')->putFileAs('uploads', $rFile, $uniqname);
                 $application->files()->create([
                     'order' => $order,
@@ -215,7 +216,7 @@ class ApplicationController extends Controller
                 }
                 $name = $rFile->getClientOriginalName();
                 $extension = $rFile->getClientOriginalExtension();
-                $uniqname = str_random(40).'.'.$extension;
+                $uniqname = Str::random(40).'.'.$extension;
                 $path = Storage::disk('public')->putFileAs('uploads', $rFile, $uniqname);
                 $application->files()->create([
                     'order' => ++$order,
