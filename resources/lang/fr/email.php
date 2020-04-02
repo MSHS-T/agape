@@ -68,6 +68,11 @@ return [
         "action" => "Inscription"
     ],
 
+    "invitation_signup" => [
+        "title"  => "Inscription suite à invitation",
+        "intro"  => "L'utilisateur :user, invité en tant que :role, a confirmé son inscription"
+    ],
+
     "invitation_retry" => [
         "title"  => "Rappel : Invitation à rejoindre la plateforme AGAPE",
         "intro"  => "L'administrateur de la plateforme AGAPE vous invite à rejoindre l'application en tant que :role",

@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Invitation;
 use App\User;
 use App\Enums\UserRole;
+use App\Notifications\UserInvitationSignup;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -97,6 +99,8 @@ class RegisterController extends Controller
             'role' => ($invitation ? $invitation->role : UserRole::Candidate)
         ]);
         if($invitation !== null){
+            // Notify admins
+            Notification::send(User::admins()->get(), new UserInvitationSignup($invitation, $user));
             $invitation->delete();
         }
         return $user;
