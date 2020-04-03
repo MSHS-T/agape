@@ -104,11 +104,13 @@
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.keywords') }}</div>
         <div class="col-9">
-            <ul>
-                @foreach($application->keywords as $kw)
-                <li>{{ $kw }}</li>
-                @endforeach
-            </ul>
+            @if(!!count($application->keywords))
+                <ul>
+                    @foreach($application->keywords as $kw)
+                    <li>{{ $kw }}</li>
+                    @endforeach
+                </ul>
+            @endif
         </div>
     </div>
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-2">
@@ -144,18 +146,22 @@
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.template.prefix.application') }}</div>
         <div class="col-9">
-            {{ __('fields.download_link') }} :
-            <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => 1]) }}" target="_blank"
-                rel="noopener">{{ $application->files[0]->name }}</a>
+            @if($application->files[0] ?? false)
+                {{ __('fields.download_link') }} :
+                <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => 1]) }}" target="_blank"
+                    rel="noopener">{{ $application->files[0]->name }}</a>
+            @endif
         </div>
     </div>
     @if(!empty($application->projectcall->financial_form_filepath))
         <div class="row mb-3">
             <div class="col-3 font-weight-bold">{{ __('fields.application.template.prefix.financial') }}</div>
             <div class="col-9">
-                {{ __('fields.download_link') }} :
-                <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => 2]) }}" target="_blank"
-                    rel="noopener">{{ $application->files[1]->name }}</a>
+                @if($application->files[0] ?? false)
+                    {{ __('fields.download_link') }} :
+                    <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => 2]) }}" target="_blank"
+                        rel="noopener">{{ $application->files[1]->name }}</a>
+                @endif
             </div>
         </div>
     @endif
