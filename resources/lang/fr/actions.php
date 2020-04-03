@@ -150,22 +150,28 @@ return [
     ],
 
     "evaluation" => [
-        "evaluate"         => "Évaluer",
-        "list_count"       => "Évaluations (:count)",
-        "show_all"         => "Visualiser les evaluations (:count)",
-        "create"           => "Evaluer la candidature",
-        "show"             => "Visualiser l'évaluation",
-        "call_data"        => "Détails de l'appel à projets",
-        "application_data" => "Détails de la candidature",
-        "evaluation_form"  => "Formulaire d'évaluation",
-        "submit"           => "Soumettre l'évaluation",
-        "saved"                   => "Votre évaluation a été sauvegardée. Pensez à la soumettre avant la date limite.",
-        "submitted"               => "Votre évaluation a été soumise avec succès.",
-        "already_submitted"       => "Votre évaluation a déjà été soumise et ne peut plus être modifiée.",
+        "evaluate"           => "Évaluer",
+        "list_count"         => "Évaluations (:count)",
+        "show_all"           => "Visualiser les evaluations (:count)",
+        "create"             => "Evaluer la candidature",
+        "show"               => "Visualiser l'évaluation",
+        "call_data"          => "Détails de l'appel à projets",
+        "application_data"   => "Détails de la candidature",
+        "evaluation_form"    => "Formulaire d'évaluation",
+        "submit"             => "Soumettre l'évaluation",
+        "force_submit"       => "Soumettre manuellement",
+        "saved"              => "Votre évaluation a été sauvegardée. Pensez à la soumettre avant la date limite.",
+        "submitted"          => "Votre évaluation a été soumise avec succès.",
+        "already_submitted"  => "Votre évaluation a déjà été soumise et ne peut plus être modifiée.",
+        "force_submitted"    => "L'évaluation a été soumise avec succès.",
         "confirm_submission" => [
             "title"         => "Confirmer la soumission",
             "body"          => "Êtes-vous sur de vouloir soumettre cette évaluation ? Cette action est définitive",
             "error_unsaved" => "Vous devez d'abord sauvegarder cette évaluation avant de pouvoir la soumettre."
+        ],
+        "confirm_force_submission" => [
+            "title" => "Confirmer la soumission manuelle",
+            "body"  => "Êtes-vous sur de vouloir soumettre manuellement cette candidature ? L'expert sera notifié de cette action."
         ],
         "export_name"      => "Grille d'Évaluation"
     ],

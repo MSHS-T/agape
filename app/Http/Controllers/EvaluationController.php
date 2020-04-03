@@ -8,6 +8,7 @@ use App\EvaluationOffer;
 use App\ProjectCall;
 use App\User;
 use App\Notifications\EvaluationSubmitted;
+use App\Notifications\EvaluationForceSubmitted;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -183,5 +184,28 @@ class EvaluationController extends Controller
 
         return redirect()->route('home')
                          ->with('success', __('actions.evaluation.submitted'));
+    }
+
+    /**
+     * Forces evaluation submission
+     *
+     * @param  \App\Evaluation  $evaluation
+     * @return \Illuminate\Http\Response
+     */
+    public function forceSubmit(Evaluation $evaluation)
+    {
+        if(!empty($evaluation->submitted_at)){
+            return redirect()->route('projectcall.evaluations', ['projectcall' => $evaluation->projectcall])
+                             ->withErrors([__('actions.evaluation.already_submitted', ['reference' => $evaluation->reference])]);
+        }
+
+        $evaluation->submitted_at = \Carbon\Carbon::now();
+        $evaluation->save();
+
+        // Notify applicant
+        $evaluation->offer->expert->notify(new EvaluationForceSubmitted($evaluation));
+
+        return redirect()->back()
+                         ->with('success', __('actions.evaluation.force_submitted', ['reference' => $evaluation->reference]));
     }
 }

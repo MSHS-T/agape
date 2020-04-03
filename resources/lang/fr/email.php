@@ -76,6 +76,11 @@ return [
         "intro" => "L'expert :expert vient de finaliser l'évaluation de la candidature de :candidat pour l'appel à projets :call"
     ],
 
+    "evaluation_force_submitted" => [
+        "title" => "Soumission de votre Évaluation",
+        "intro" => "Votre évaluation de la candidature de :candidat pour l'appel à projets :call a été soumise manuellement par l'Administrateur de la plateforme AGAPE."
+    ],
+
     "invitation" => [
         "title"  => "Invitation à rejoindre la plateforme AGAPE",
         "intro"  => "L'administrateur de la plateforme AGAPE vous invite à rejoindre l'application en tant que :role",

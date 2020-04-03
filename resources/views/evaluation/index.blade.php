@@ -86,10 +86,14 @@
                     <button type="button" class="btn btn-sm btn-secondary btn-block viewmore-link" data-evaluation="{{ $evaluation->id }}">
                         @svg('solid/search-plus', 'icon-fw') {{ __('actions.show_more') }}
                     </button>
-                    <a href="
-                    {{ route('application.show',$evaluation->offer->application)}}" class="btn btn-sm btn-primary btn-block">
+                    <a href="{{ route('application.show',$evaluation->offer->application)}}" class="btn btn-sm btn-primary btn-block">
                         @svg('solid/link', 'icon-fw') {{ __('actions.application.one') }}
                     </a>
+                    @if($evaluation->submitted_at == null)
+                        <a href="{{ route('evaluation.forceSubmit',$evaluation)}}" class="btn btn-sm btn-warning btn-block force-submission-link">
+                            @svg('solid/check') {{ __('actions.evaluation.force_submit') }}
+                        </a>
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -103,12 +107,44 @@
         </div>
     @endforeach
 </div>
+<div class="modal fade" id="confirm-force-submission" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('actions.evaluation.confirm_force_submission.title') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('actions.evaluation.confirm_force_submission.body') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                <form id="confirmation-form" action="" method="post">
+                    @csrf @method('PUT')
+                    <button class="btn btn-warning" type="submit">
+                        @svg('solid/check') {{ __('actions.evaluation.force_submit') }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @include('partials.back_button', ['url' => route('projectcall.index')])
 @endsection
 
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
+        $('.force-submission-link').click(function (e) {
+            e.preventDefault();
+            var targetUrl = jQuery(this).attr('href');
+            $("form#confirmation-form").attr('action', targetUrl);
+            $(".modal#confirm-force-submission").modal();
+            return false;
+        });
+
         var dt = $('#evaluation_list').DataTable({
             lengthChange: true,
             searching: true,
