@@ -50,7 +50,7 @@ services:
             - php
         restart: always
         working_dir: /var/www/html/
-        command: sh -c "yarn install && yarn watch"
+        command: sh -c "npm install && npm run watch"
         volumes:
             # Code
             - .:/var/www/html
