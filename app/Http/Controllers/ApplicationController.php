@@ -12,8 +12,10 @@ use App\StudyField;
 use App\User;
 use App\Enums\CallType;
 use App\Notifications\ApplicationSubmitted;
+use App\Notifications\ApplicationForceSubmitted;
 use App\Notifications\NewApplicationSubmitted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -29,8 +31,8 @@ class ApplicationController extends Controller
      */
     public function show(Application $application)
     {
-        // Don't display non-submitted applications
-        if($application->submitted_at == null){
+        // Don't display non-submitted applications if user is not an admin
+        if($application->submitted_at == null && !Auth::user()->isAdmin()){
             abort(404);
         }
         return view('application.show', compact('application'));
@@ -357,6 +359,29 @@ class ApplicationController extends Controller
 
         return redirect()->route('home')
                          ->with('success', __('actions.application.submitted', ['reference' => $application->reference]));
+    }
+
+    /**
+     * Forces application submission
+     *
+     * @param  \App\Application  $application
+     * @return \Illuminate\Http\Response
+     */
+    public function forceSubmit(Application $application)
+    {
+        if(!empty($application->submitted_at)){
+            return redirect()->route('projectcall.applications', ['projectcall' => $application->projectcall])
+                             ->withErrors([__('actions.application.already_submitted', ['reference' => $application->reference])]);
+        }
+
+        $application->submitted_at = \Carbon\Carbon::now();
+        $application->save();
+
+        // Notify applicant
+        $application->applicant->notify(new ApplicationForceSubmitted($application));
+
+        return redirect()->route('projectcall.applications', ['projectcall' => $application->projectcall])
+                         ->with('success', __('actions.application.force_submitted', ['reference' => $application->reference]));
     }
 
     /**

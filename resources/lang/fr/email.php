@@ -33,6 +33,12 @@ return [
         "action" => "Visualiser la candidature",
     ],
 
+    "application_force_submitted" => [
+        "title"  => "Soumission de votre candidature",
+        "intro"  => "Votre candidature à l'appel à projets :call a été soumise manuellement par l'Administrateur de la plateforme AGAPE sous la référence :reference.",
+        "action" => "Visualiser la candidature",
+    ],
+
     "offer_created" => [
         "title"  => "Proposition d'évaluation",
         "intro"  => "L'administrateur de la plateforme AGAPE vous a proposé d'évaluer une nouvelle candidature pour l'AAP [AAP].",

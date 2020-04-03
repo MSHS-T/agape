@@ -34,8 +34,10 @@
                     <td>{{ $application->reference}}</td>
                     <td>{{ $application->acronym}}</td>
                     <td>{{ $application->applicant->name }}</td>
-                    <td>{{ $application->carrierLaboratory->first()->name }}</td>
-                    <td>@date(['datetime' => $application->submitted_at])</td>
+                    <td>{{ $application->carrierLaboratory->first()->name ?? '' }}</td>
+                    <td data-sort="{{$application->submitted_at ?? 0}}" >
+                        @date(['datetime' => $application->submitted_at])
+                    </td>
                     <td>
                         @if(!empty($application->offers))
                             <ul>
@@ -66,16 +68,18 @@
                         @endif
                     </td>
                     <td>
-                        <a href="
-                        {{ route('application.show',$application)}}" class="btn btn-sm btn-primary d-block">
+                        <a href="{{ route('application.show',$application)}}" class="btn btn-sm btn-primary d-block">
                             @svg('solid/search', 'icon-fw') {{ __('actions.show') }}
                         </a>
-                        <a href="
-                        {{ route('application.assignations',$application)}}" class="btn btn-sm btn-success d-block">
+                        @if($application->submitted_at == null)
+                            <a href="{{ route('application.forceSubmit',$application)}}" class="btn btn-sm btn-warning d-block force-submission-link">
+                                @svg('solid/check') {{ __('actions.application.force_submit') }}
+                            </a>
+                        @endif
+                        <a href="{{ route('application.assignations',$application)}}" class="btn btn-sm btn-success d-block">
                             @svg('solid/user-graduate', 'icon-fw') {{ __('actions.application.experts') }}
                         </a>
-                        <a href="
-                        {{ route('application.evaluations',$application)}}" class="btn btn-sm btn-light d-block">
+                        <a href="{{ route('application.evaluations',$application)}}" class="btn btn-sm btn-light d-block">
                             @svg('solid/graduation-cap', 'icon-fw') {{ __('actions.application.evaluations') }}
                         </a>
                     </td>
@@ -86,11 +90,45 @@
     </div>
 </div>
 @include('partials.back_button', ['url' => route('projectcall.index')])
+
+<div class="modal fade" id="confirm-force-submission" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('actions.application.confirm_force_submission.title') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('actions.application.confirm_force_submission.body') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                <form id="confirmation-form" action="" method="post">
+                    @csrf @method('PUT')
+                    <button class="btn btn-warning" type="submit">
+                        @svg('solid/check') {{ __('actions.application.force_submit') }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function () {
+        $('.force-submission-link').click(function (e) {
+            e.preventDefault();
+            var targetUrl = jQuery(this).attr('href');
+            $("form#confirmation-form").attr('action', targetUrl);
+            $(".modal#confirm-force-submission").modal();
+            return false;
+        });
+
         $('#application_list').DataTable({
             autoWidth   : false,
             lengthChange: true,
@@ -99,7 +137,7 @@
             language    : @json(__('datatable')),
             pageLength  : 5,
             order       : [
-                [3, 'desc']
+                [4, 'desc']
             ],
             columns: [null, null, null,  null, null, { width: 300 }, {
                 width     : 120,

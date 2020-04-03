@@ -105,14 +105,20 @@ return [
         "show_all"           => "Visualiser les candidatures (:count)",
         "edit"               => "Saisir ma candidature",
         "submit"             => "Soumettre ma candidature",
+        "force_submit"       => "Soumettre manuellement",
         "confirm_submission" => [
             "title"         => "Confirmer la soumission",
             "body"          => "Êtes-vous sur de vouloir soumettre votre candidature ? Cette action est définitive",
             "error_unsaved" => "Vous devez d'abord sauvegarder votre candidature avant de pouvoir la soumettre."
         ],
+        "confirm_force_submission" => [
+            "title"         => "Confirmer la soumission manuelle",
+            "body"          => "Êtes-vous sur de vouloir soumettre manuellement cette candidature ? Le candidat sera notifié de cette action."
+        ],
         "saved"                   => "Votre candidature :reference a été sauvegardée. Pensez à la soumettre avant la date limite.",
         "submitted"               => "Votre candidature :reference a été soumise avec succès.",
         "already_submitted"       => "Votre candidature :reference a déjà été soumise et ne peut plus être modifiée.",
+        "force_submitted"         => "La candidature :reference a été soumise avec succès.",
         "experts"                 => "Experts",
         "evaluations"             => "Évaluations",
         "assignations"            => "Affectation des experts",

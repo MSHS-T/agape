@@ -260,7 +260,7 @@ class ProjectCallController extends Controller
     public function applications(ProjectCall $projectcall)
     {
         $projectcall->load(['applications', 'applications.applicant']);
-        $applications = $projectcall->submittedApplications()->get();
+        $applications = $projectcall->applications()->get();
         return view('application.index', compact('projectcall', 'applications'));
     }
 

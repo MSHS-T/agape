@@ -58,6 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
         });
 
         Route::middleware('role:admin')->group(function(){
+            Route::put('{application}/forceSubmit', 'ApplicationController@forceSubmit')->name('forceSubmit');
             Route::get('{application}/assignations', 'ApplicationController@assignations')->name('assignations');
             Route::get('{application}/evaluations', 'EvaluationController@indexForApplication')->name('evaluations');
             Route::get('{application}/evaluations/export', 'EvaluationController@exportForApplication')->name('evaluationsExport');
