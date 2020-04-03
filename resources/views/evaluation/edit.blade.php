@@ -4,10 +4,14 @@
 <h2 class="mb-3 text-center">{{ __('actions.evaluation.create') }}</h2>
 
 <div id="accordion">
-    <div class="card">
-        <div class="card-header" id="evaluationCallTitle">
+    <div class="card border-0">
+        <div class="card-header border-bottom-0" id="evaluationCallTitle">
             <h4 class="mb-0">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#evaluationCall" aria-expanded="false" aria-controls="evaluationCall">
+                <button class="btn btn-info collapsed" data-toggle="collapse" data-target="#evaluationCall" aria-expanded="false" aria-controls="evaluationCall">
+                    <span class="collapsible-icon text-muted mr-2">
+                        <span class="d-inline">@svg('solid/plus')</span>
+                        <span class="d-none">@svg('solid/minus')</span>
+                    </span>
                     {{ __('actions.evaluation.call_data') }}
                 </button>
             </h4>
@@ -19,10 +23,14 @@
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header" id="evaluationApplicationTitle">
+    <div class="card border-0">
+        <div class="card-header border-bottom-0" id="evaluationApplicationTitle">
             <h4 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#evaluationApplication" aria-expanded="false" aria-controls="evaluationApplication">
+                <button class="btn btn-info collapsed" data-toggle="collapse" data-target="#evaluationApplication" aria-expanded="false" aria-controls="evaluationApplication">
+                    <span class="collapsible-icon text-muted mr-2">
+                        <span class="d-inline">@svg('solid/plus')</span>
+                        <span class="d-none">@svg('solid/minus')</span>
+                    </span>
                     {{ __('actions.evaluation.application_data') }}
                 </button>
             </h4>
@@ -33,10 +41,14 @@
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header" id="evaluationFormTitle">
+    <div class="card border-0">
+        <div class="card-header border-bottom-0" id="evaluationFormTitle">
             <h4 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#evaluationForm" aria-expanded="true" aria-controls="evaluationForm">
+                <button class="btn btn-info" data-toggle="collapse" data-target="#evaluationForm" aria-expanded="true" aria-controls="evaluationForm">
+                    <span class="collapsible-icon text-muted mr-2">
+                        <span class="d-none">@svg('solid/plus')</span>
+                        <span class="d-inline">@svg('solid/minus')</span>
+                    </span>
                     {{ __('actions.evaluation.evaluation_form') }}
                 </button>
             </h4>
@@ -197,6 +209,19 @@
                 $('.modal#error-submission').modal();
             }
         });
+
+        $('.collapse').on('show.bs.collapse', function () {
+            var id = $(this).prop('id');
+            var icons = $('button[data-target="#'+id+'"]').children('span.collapsible-icon').children('span');
+            $(icons.get(0)).removeClass('d-inline').addClass('d-none');
+            $(icons.get(1)).removeClass('d-none').addClass('d-inline');
+        })
+        $('.collapse').on('hide.bs.collapse', function () {
+            var id = $(this).prop('id');
+            var icons = $('button[data-target="#'+id+'"]').children('span.collapsible-icon').children('span');
+            $(icons.get(0)).removeClass('d-none').addClass('d-inline');
+            $(icons.get(1)).removeClass('d-inline').addClass('d-none');
+        })
     });
 
 </script>
