@@ -113,7 +113,7 @@
                     <div class="col-md-10">
                         @if ($errors->any())
                             @foreach ($errors->all() as $error)
-                                <div class="alert alter-dismissible fade show alert-danger" role="alert">
+                                <div class="alert alert-dismissible fade show alert-danger" role="alert">
                                     <u>{{ __('fields.error') }}</u> : {{ $error }}
                                     <button
                                         type="button"
