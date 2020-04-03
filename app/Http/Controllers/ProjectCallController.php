@@ -243,10 +243,10 @@ class ProjectCallController extends Controller
     public function apply(ProjectCall $projectcall)
     {
         $application = $projectcall->applications()
-                                   ->firstOrNew([
-                                       'applicant_id' => Auth::id(),
-                                       'keywords' => '[]'
-                                    ]);
+                                   ->firstOrNew(
+                                       ['applicant_id' => Auth::id() ],
+                                       ['keywords' => []]
+                                    );
         $application->save();
         return redirect()->route('application.edit', $application);
     }
