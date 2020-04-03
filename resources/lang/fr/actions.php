@@ -80,18 +80,19 @@ return [
     "study_fields"   => "Champs disciplinaires",
 
     "projectcall" => [
-        "show"                 => "Visualiser l'appel à Projets",
-        "list"                 => "Appels à Projets",
-        "listopen"             => "Appels à Projets en cours",
-        "listold"              => "Appels à Projets terminés",
-        "create"               => "Nouvel Appel à Projets",
-        "created"              => "L'appel à projets a bien été créé.",
-        "edit"                 => "Modifier l'Appel à Projets",
-        "edited"               => "L'appel à projets a bien été modifié.",
-        "deleted"              => "L'appel à projets a bien été supprimé.",
-        "apply"                => "Déposer une candidature",
-        "empty"                => "Aucun Appel à Projets à afficher",
-        "cannot_apply_anymore" => "Il n'est plus possible de candidater sur cet appel à projets",
+        "show"                    => "Visualiser l'appel à Projets",
+        "list"                    => "Appels à Projets",
+        "listopen"                => "Appels à Projets en cours",
+        "listold"                 => "Appels à Projets terminés",
+        "listunsubmitted"         => "Appels à Projets avec une candidature dévalidée",
+        "create"                  => "Nouvel Appel à Projets",
+        "created"                 => "L'appel à projets a bien été créé.",
+        "edit"                    => "Modifier l'Appel à Projets",
+        "edited"                  => "L'appel à projets a bien été modifié.",
+        "deleted"                 => "L'appel à projets a bien été supprimé.",
+        "apply"                   => "Déposer une candidature",
+        "empty"                   => "Aucun Appel à Projets à afficher",
+        "cannot_apply_anymore"    => "Il n'est plus possible de candidater sur cet appel à projets",
         "cannot_evaluate_anymore" => "Il n'est plus possible d'évaluer les candidatures de cet appel à projets"
     ],
 
@@ -105,7 +106,9 @@ return [
         "show_all"           => "Visualiser les candidatures (:count)",
         "edit"               => "Saisir ma candidature",
         "submit"             => "Soumettre ma candidature",
+        "correct"            => "Corriger ma candidature",
         "force_submit"       => "Soumettre manuellement",
+        "unsubmit"           => "Dévalider",
         "confirm_submission" => [
             "title"         => "Confirmer la soumission",
             "body"          => "Êtes-vous sur de vouloir soumettre votre candidature ? Cette action est définitive",
@@ -115,10 +118,16 @@ return [
             "title"         => "Confirmer la soumission manuelle",
             "body"          => "Êtes-vous sur de vouloir soumettre manuellement cette candidature ? Le candidat sera notifié de cette action."
         ],
+        "confirm_unsubmit" => [
+            "title" => "Confirmer la dévalidation de la candidature",
+            "body"  => "Veuillez saisir la justification, elle sera transmise au candidat.",
+            "error" => "Erreur : la justification est obligatoire"
+        ],    
         "saved"                   => "Votre candidature :reference a été sauvegardée. Pensez à la soumettre avant la date limite.",
         "submitted"               => "Votre candidature :reference a été soumise avec succès.",
         "already_submitted"       => "Votre candidature :reference a déjà été soumise et ne peut plus être modifiée.",
         "force_submitted"         => "La candidature :reference a été soumise avec succès.",
+        "unsubmitted"             => "La candidature :reference a été dévalidée.",
         "experts"                 => "Experts",
         "evaluations"             => "Évaluations",
         "assignations"            => "Affectation des experts",

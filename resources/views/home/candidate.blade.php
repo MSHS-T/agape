@@ -1,5 +1,7 @@
-@foreach(['open' => $open_calls, 'old' => $old_calls] as $type => $projectcalls)
-
+@foreach(['unsubmitted' => $unsubmitted_applications, 'open' => $open_calls, 'old' => $old_calls] as $type => $projectcalls)
+    @if($type == 'unsubmitted' && !count($projectcalls))
+        @continue
+    @endif
     <h2 class="mb-3 text-center">{{ __('actions.projectcall.list'.$type) }}</h2>
     @if(!count($projectcalls))
         <h5 class="mb-3 text-center">{{ __('actions.projectcall.empty') }}</h5>
@@ -31,6 +33,18 @@
                                 <a href="{{ route('application.edit',$call->applications[0]->id)}}" class="btn btn-warning d-inline-block my-1">
                                     @svg('solid/edit', 'icon-fw') {{ __('actions.application.edit') }}
                                 </a>
+                            @elseif($type == 'unsubmitted' && $application->devalidation_message !== null)
+                                <a href="{{ route('application.edit',$call->applications[0]->id)}}" class="btn btn-danger d-inline-block my-1">
+                                    @svg('solid/edit', 'icon-fw') {{ __('actions.application.correct') }}
+                                </a>
+                                <p class="text-justify">
+                                    {{ __('fields.application.devalidated_1') }}
+                                    <span class="font-weight-bold">
+                                        "{{ $application->devalidation_message }}"
+                                    </span>
+                                    <br/>
+                                    {{ __('fields.application.devalidated_2') }}
+                                </p>
                             @endif
                         @empty
                             @if($call->canApply())

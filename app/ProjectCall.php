@@ -140,6 +140,14 @@ class ProjectCall extends Model
         });
     }
 
+    public function scopeUserHasNotSubmitted($query)
+    {
+        return $query->whereHas('applications', function(Builder $query){
+                        $query->where('applicant_id', '=', Auth::id())
+                              ->whereNull('submitted_at');
+        });
+    }
+
     public function toString(){
         return (
             sprintf("%s %d", $this->typeLabel, $this->year)

@@ -24,6 +24,7 @@ return [
     "none"                      => "Aucun",
     "never"                     => "Jamais",
     "error"                     => "Erreur",
+    "warning"                   => "Avertissement",
     "status"                    => "Statut",
     "comments"                  => "Commentaires",
     "reference"                 => "Référence",
@@ -129,6 +130,8 @@ return [
         ],
         "other_attachments" => "Pièces complémentaires",
         "experts"           => "Experts",
+        "devalidated_1"     => "Votre candidature a été dévalidée par l'Administrateur de la plateforme AGAPE pour le motif suivant :",
+        "devalidated_2"     => "Merci de procéder aux rectifications et de soumettre votre candidature à nouveau dans les plus brefs délais."
     ],
 
     "carrier" => [

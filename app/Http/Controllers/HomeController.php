@@ -32,7 +32,12 @@ class HomeController extends Controller
                 $old_calls = ProjectCall::with(['applications' => function($query){
                     $query->where('applicant_id', Auth::id());
                 }])->old()->userApplied()->get();
-                $data = compact('open_calls', 'old_calls');
+                $unsubmitted_applications = ProjectCall::with(['applications' => function($query){
+                    $query->where('applicant_id', Auth::id());
+                }])->whereHas('applications', function($query){
+                    $query->whereNotNull('devalidation_message');
+                })->userHasNotSubmitted()->get();
+                $data = compact('open_calls', 'old_calls', 'unsubmitted_applications');
                 break;
             case UserRole::Admin:
                 $projectcalls = ProjectCall::with('applications')->open()->get();

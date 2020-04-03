@@ -12,6 +12,7 @@ use App\StudyField;
 use App\User;
 use App\Enums\CallType;
 use App\Notifications\ApplicationSubmitted;
+use App\Notifications\ApplicationUnsubmitted;
 use App\Notifications\ApplicationForceSubmitted;
 use App\Notifications\NewApplicationSubmitted;
 use Illuminate\Http\Request;
@@ -50,7 +51,7 @@ class ApplicationController extends Controller
             return redirect()->route('home')
                              ->withErrors([__('actions.application.already_submitted')]);
         }
-        if(!$application->projectcall->canApply()){
+        if(!$application->projectcall->canApply() && $application->devalidation_message == null){
             return redirect()->route('home')
                              ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
         }
@@ -73,7 +74,7 @@ class ApplicationController extends Controller
             return redirect()->route('home')
                              ->withErrors([__('actions.application.already_submitted')]);
         }
-        if(!$application->projectcall->canApply()){
+        if(!$application->projectcall->canApply() && $application->devalidation_message == null){
             return redirect()->route('home')
                              ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
         }
@@ -245,7 +246,7 @@ class ApplicationController extends Controller
             return redirect()->route('home')
                              ->withErrors([__('actions.application.already_submitted', ['reference' => $application->reference])]);
         }
-        if(!$application->projectcall->canApply()){
+        if(!$application->projectcall->canApply() && $application->devalidation_message == null){
             return redirect()->route('home')
                              ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
         }
@@ -382,6 +383,25 @@ class ApplicationController extends Controller
 
         return redirect()->route('projectcall.applications', ['projectcall' => $application->projectcall])
                          ->with('success', __('actions.application.force_submitted', ['reference' => $application->reference]));
+    }
+
+    /**
+     * Un-submit application
+     *
+     * @param  \App\Application  $application
+     * @return \Illuminate\Http\Response
+     */
+    public function unsubmit(Application $application, Request $request)
+    {
+        $application->submitted_at = null;
+        $application->devalidation_message = $request->input('justification');
+        $application->save();
+
+        // Notify applicant
+        $application->applicant->notify(new ApplicationUnsubmitted($application));
+
+        return redirect()->route('projectcall.applications', ['projectcall' => $application->projectcall])
+                         ->with('success', __('actions.application.unsubmitted', ['reference' => $application->reference]));
     }
 
     /**

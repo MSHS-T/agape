@@ -22,9 +22,10 @@ return [
     ],
 
     "new_application_submitted" => [
-        "title"  => "Ajout d'une nouvelle candidature",
-        "intro"  => "Le candidat :name vient de soumettre sa candidature à l'appel à projets :call.",
-        "action" => "Visualiser la candidature",
+        "title"             => "Ajout d'une nouvelle candidature",
+        "intro"             => "Le candidat :name vient de soumettre sa candidature à l'appel à projets :call.",
+        "devalidation_line" => "Cette candidature avait été dévalidée pour le motif suivant : :justification",
+        "action"            => "Visualiser la candidature",
     ],
 
     "application_submitted" => [
@@ -37,6 +38,13 @@ return [
         "title"  => "Soumission de votre candidature",
         "intro"  => "Votre candidature à l'appel à projets :call a été soumise manuellement par l'Administrateur de la plateforme AGAPE sous la référence :reference.",
         "action" => "Visualiser la candidature",
+    ],
+
+    "application_unsubmitted" => [
+        "title"  => "Dévalidation de votre candidature",
+        "intro"  => "Votre candidature à l'appel à projets :call (référence :reference) a été dévalidée par l'Administrateur de la plateforme AGAPE.",
+        "outro"  => "Justification : :justification",
+        "action" => "Modifier la candidature",
     ],
 
     "offer_created" => [

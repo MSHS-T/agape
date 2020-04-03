@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewApplicationSubmitted extends Notification
+class ApplicationUnsubmitted extends Notification
 {
     use Queueable;
 
@@ -43,20 +43,16 @@ class NewApplicationSubmitted extends Notification
     public function toMail($notifiable)
     {
         $call = $this->application->projectcall;
-        $message = (new MailMessage)
-                    ->subject(__('email.new_application_submitted.title'))
-                    ->line(__('email.new_application_submitted.intro', [
-                        'name' => $this->application->applicant->name,
-                        'call' => $call->toString()
-                    ]));
-        if($this->application->devalidation_message !== null)
-        {
-            $message->line(__('email.new_application_submitted.devalidation_line', [
-                'justification' => $this->application->devalidation_message
-            ]));
-        }
-
-        return $message->action(__('email.new_application_submitted.action'), url(config('app.url').route('application.show', $this->application->id, false)));
+        return (new MailMessage)
+                    ->subject(__('email.application_unsubmitted.title'))
+                    ->line(__('email.application_unsubmitted.intro', [
+                        'call'      => $call->toString(),
+                        'reference' => $this->application->reference
+                    ]))
+                    ->line(__('email.application_unsubmitted.outro', [
+                        'justification' => $this->application->devalidation_message
+                    ]))
+                    ->action(__('email.application_unsubmitted.action'), url(config('app.url').route('application.edit', $this->application->id, false)));
     }
 
     /**

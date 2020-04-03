@@ -10,6 +10,16 @@
     @include('partials.projectcall_dates', ['projectcall' => $application->projectcall])
 </p>
 
+@if($application->devalidation_message != null)
+    <div class="alert alter-dismissible fade show alert-danger font-weight-bold" role="alert">
+        <u>{{ __('fields.warning') }}</u> : {{ __('fields.application.devalidated_1') }}
+        <br/>
+        {{ $application->devalidation_message }}
+        <br/>
+        {{ __('fields.application.devalidated_2') }}
+    </div>
+@endif
+
 <form method="POST" action="{{ route('application.update', ["application" => $application]) }}" id="application_form" enctype="multipart/form-data">
     @csrf @method("PUT")
     {{-- SECTION 1 : Infos Générales --}}
