@@ -93,6 +93,10 @@
                         <a href="{{ route('evaluation.forceSubmit',$evaluation)}}" class="btn btn-sm btn-warning btn-block force-submission-link">
                             @svg('solid/check') {{ __('actions.evaluation.force_submit') }}
                         </a>
+                    @else
+                        <a href="{{ route('evaluation.unsubmit',$evaluation)}}" class="btn btn-sm btn-danger btn-block unsubmit-link">
+                            @svg('solid/backspace') {{ __('actions.evaluation.unsubmit') }}
+                        </a>
                     @endif
                 </td>
             </tr>
@@ -131,6 +135,36 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="confirm-unsubmit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('actions.evaluation.confirm_unsubmit.title') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="devalidation-form" action="" method="post">
+                @csrf @method('PUT')
+                <div class="modal-body">
+                    <p>
+                        {{ __('actions.evaluation.confirm_unsubmit.body') }}
+                        <br/>
+                        <textarea id="justification" name="justification" class="w-100" rows="3"></textarea>
+                        <br/>
+                        <small id="justificationHelpBlock" class="text-danger invisible">
+                            {{ __('actions.evaluation.confirm_unsubmit.error') }}
+                        </small>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                    <button class="btn btn-danger" type="submit">{{ __('actions.evaluation.unsubmit') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @include('partials.back_button', ['url' => route('projectcall.index')])
 @endsection
 
@@ -143,6 +177,22 @@
             $("form#confirmation-form").attr('action', targetUrl);
             $(".modal#confirm-force-submission").modal();
             return false;
+        });
+
+        $('.unsubmit-link').click(function (e) {
+            e.preventDefault();
+            var targetUrl = $(this).attr('href');
+            $("form#devalidation-form").attr('action', targetUrl);
+            $('#justification').val("");
+            $('#justificationHelpBlock').addClass("invisible").removeClass("visible");
+            $(".modal#confirm-unsubmit").modal();
+            $("form#devalidation-form").on('submit', function(e){
+                if($('#justification').val().trim() === ""){
+                    e.preventDefault();
+                    $('#justificationHelpBlock').addClass("visible").removeClass("invisible");
+                    return false;
+                }
+            });
         });
 
         var dt = $('#evaluation_list').DataTable({

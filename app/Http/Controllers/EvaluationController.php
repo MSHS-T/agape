@@ -7,8 +7,9 @@ use App\Evaluation;
 use App\EvaluationOffer;
 use App\ProjectCall;
 use App\User;
-use App\Notifications\EvaluationSubmitted;
 use App\Notifications\EvaluationForceSubmitted;
+use App\Notifications\EvaluationSubmitted;
+use App\Notifications\EvaluationUnsubmitted;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -109,7 +110,7 @@ class EvaluationController extends Controller
                              ->withErrors([__('actions.evaluation.already_submitted')]);
         }
         $evaluation->load(['offer', 'offer.application', 'offer.application.applicant']);
-        if(!$evaluation->offer->application->projectcall->canEvaluate()){
+        if(!$evaluation->offer->application->projectcall->canEvaluate() && $evaluation->devalidation_message == null){
             return redirect()->route('home')
                              ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
@@ -154,7 +155,7 @@ class EvaluationController extends Controller
             return redirect()->route('home')
                              ->withErrors([__('actions.evaluation.already_submitted')]);
         }
-        if(!$evaluation->offer->application->projectcall->canEvaluate()){
+        if(!$evaluation->offer->application->projectcall->canEvaluate() && $evaluation->devalidation_message == null){
             return redirect()->route('home')
                              ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
@@ -208,4 +209,25 @@ class EvaluationController extends Controller
         return redirect()->back()
                          ->with('success', __('actions.evaluation.force_submitted', ['reference' => $evaluation->reference]));
     }
+
+    /**
+     * Un-submit evaluation
+     *
+     * @param  \App\Evaluation  $evaluation
+     * @return \Illuminate\Http\Response
+     */
+    public function unsubmit(Evaluation $evaluation, Request $request)
+    {
+        $evaluation->submitted_at = null;
+        $evaluation->devalidation_message = $request->input('justification');
+        $evaluation->save();
+
+        // Notify expert
+        $evaluation->offer->expert->notify(new EvaluationUnsubmitted($evaluation));
+
+        return redirect()->back()
+                         ->with('success', __('actions.evaluation.unsubmitted', ['reference' => $evaluation->reference]));
+    }
+
+
 }

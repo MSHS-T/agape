@@ -7,20 +7,20 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class EvaluationSubmitted extends Notification
+class EvaluationUnsubmitted extends Notification
 {
     use Queueable;
 
-    private $offer;
+    private $evaluation;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($offer)
+    public function __construct($evaluation)
     {
-        $this->offer = $offer;
+        $this->evaluation = $evaluation;
     }
 
     /**
@@ -31,7 +31,7 @@ class EvaluationSubmitted extends Notification
      */
     public function via($notifiable)
     {
-      return ['mail'];
+        return ['mail'];
     }
 
     /**
@@ -42,21 +42,16 @@ class EvaluationSubmitted extends Notification
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
-                    ->subject(__('email.evaluation_submitted.title'))
-                    ->line(__('email.evaluation_submitted.intro', [
-                        'expert'   => $this->offer->expert->name,
-                        'candidat' => $this->offer->application->applicant->name,
-                        'call'     => $this->offer->application->projectcall->toString()
-                    ]));
-
-        if($this->offer->evaluation->devalidation_message !== null)
-        {
-            $message->line(__('email.evaluation_submitted.devalidation_line', [
-                'justification' => $this->offer->evaluation->devalidation_message
-            ]));
-        }
-        return $message;
+        return (new MailMessage)
+                    ->subject(__('email.evaluation_unsubmitted.title'))
+                    ->line(__('email.evaluation_unsubmitted.intro', [
+                        'call'     => $this->evaluation->offer->application->projectcall->toString(),
+                        'candidat' => $this->evaluation->offer->application->applicant->name,
+                    ]))
+                    ->line(__('email.evaluation_unsubmitted.outro', [
+                        'justification' => $this->evaluation->devalidation_message
+                    ]))
+                    ->action(__('email.evaluation_unsubmitted.action'), url(config('app.url').route('evaluation.edit', $this->evaluation->id, false)));
     }
 
     /**

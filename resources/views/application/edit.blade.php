@@ -11,7 +11,7 @@
 </p>
 
 @if($application->devalidation_message != null)
-    <div class="alert alter-dismissible fade show alert-danger font-weight-bold" role="alert">
+    <div class="alert fade show alert-danger font-weight-bold" role="alert">
         <u>{{ __('fields.warning') }}</u> : {{ __('fields.application.devalidated_1') }}
         <br/>
         {{ $application->devalidation_message }}

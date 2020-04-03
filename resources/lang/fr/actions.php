@@ -138,15 +138,16 @@ return [
     ],
 
     "evaluationoffers" => [
-        "offer_count"      => "Propositions d'évaluation (:count)",
-        "accepted_count"   => "Évaluations à réaliser (:count)",
-        "done_count"       => "Évaluations terminées (:count)",
-        "accepted"         => "Proposition d'évaluation acceptée.",
-        "declined"         => "Proposition d'évaluation refusée.",
-        "retry"            => "Envoyer un rappel",
-        "reminder_sent"    => "Un rappel a été envoyé à l'expert",
-        "already_answered" => "Vous avez déjà donné votre réponse à cette proposition",
-        "empty"            => "Aucune évaluation présente dans la base de données..."
+        "offer_count"       => "Propositions d'évaluation (:count)",
+        "accepted_count"    => "Évaluations à réaliser (:count)",
+        "done_count"        => "Évaluations terminées (:count)",
+        "unsubmitted_count" => "Évaluations à corriger (:count)",
+        "accepted"          => "Proposition d'évaluation acceptée.",
+        "declined"          => "Proposition d'évaluation refusée.",
+        "retry"             => "Envoyer un rappel",
+        "reminder_sent"     => "Un rappel a été envoyé à l'expert",
+        "already_answered"  => "Vous avez déjà donné votre réponse à cette proposition",
+        "empty"             => "Aucune évaluation présente dans la base de données..."
     ],
 
     "evaluation" => [
@@ -159,11 +160,14 @@ return [
         "application_data"   => "Détails de la candidature",
         "evaluation_form"    => "Formulaire d'évaluation",
         "submit"             => "Soumettre l'évaluation",
+        "correct"            => "Corriger l'évaluation",
         "force_submit"       => "Soumettre manuellement",
+        "unsubmit"           => "Dévalider",
         "saved"              => "Votre évaluation a été sauvegardée. Pensez à la soumettre avant la date limite.",
         "submitted"          => "Votre évaluation a été soumise avec succès.",
         "already_submitted"  => "Votre évaluation a déjà été soumise et ne peut plus être modifiée.",
         "force_submitted"    => "L'évaluation a été soumise avec succès.",
+        "unsubmitted"        => "L'évaluation a été dévalidée.",
         "confirm_submission" => [
             "title"         => "Confirmer la soumission",
             "body"          => "Êtes-vous sur de vouloir soumettre cette évaluation ? Cette action est définitive",
@@ -173,6 +177,11 @@ return [
             "title" => "Confirmer la soumission manuelle",
             "body"  => "Êtes-vous sur de vouloir soumettre manuellement cette candidature ? L'expert sera notifié de cette action."
         ],
+        "confirm_unsubmit" => [
+            "title" => "Confirmer la dévalidation de l'évaluation",
+            "body"  => "Veuillez saisir la justification, elle sera transmise au candidat.",
+            "error" => "Erreur : la justification est obligatoire"
+        ],    
         "export_name"      => "Grille d'Évaluation"
     ],
 

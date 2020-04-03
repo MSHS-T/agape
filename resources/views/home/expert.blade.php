@@ -1,3 +1,38 @@
+@if(count($unsubmitted))
+    <h2 class="mb-3 text-center">{{ __('actions.evaluationoffers.unsubmitted_count', ['count' => count($unsubmitted)]) }}</h2>
+    <div class="row mb-3 justify-content-center">
+        <div class="col-12">
+            @foreach ($unsubmitted as $offer)
+                <div class="row mb-1">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    {{ $offer->application->projectcall->toString() }} &rarr;
+                                    {{ $offer->application->applicant->name }}
+                                </h4>
+                                <p class="card-text">
+                                    <strong class="text-underline">{{ $offer->application->title }}</strong><br/>
+                                    {!! $offer->application->short_description !!}
+                                </p>
+                                <a href="{{ route('evaluation.edit', ['evaluation' => $offer->evaluation]) }}" class="btn btn-warning">{{ __('actions.evaluation.correct')}}</a>
+                            </div>
+                            <div class="card-footer">
+                                {{ __('fields.evaluation.devalidated_1') }}
+                                <span class="font-weight-bold">
+                                    "{{ $offer->evaluation->devalidation_message }}"
+                                </span>
+                                <br/>
+                                {{ __('fields.evaluation.devalidated_2') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+@endif
+
 @if(count($offers))
     <h2 class="mb-3 text-center">{{ __('actions.evaluationoffers.offer_count', ['count' => count($offers)]) }}</h2>
     <div class="row mb-3 justify-content-center">
@@ -70,7 +105,7 @@
                                     <strong class="text-underline">{{ $offer->application->title }}</strong><br/>
                                     {!! $offer->application->short_description !!}
                                 </p>
-                                <a href="{{ route('evaluation.show', ['id' => $offer->evaluation->id]) }}" class="btn btn-success">{{ __('actions.show')}}</a>
+                                <a href="{{ route('evaluation.show', ['evaluation' => $offer->evaluation]) }}" class="btn btn-success">{{ __('actions.show')}}</a>
                             </div>
                         </div>
                     </div>
@@ -80,7 +115,7 @@
     </div>
 @endif
 
-@if(!count($offers) && !count($accepted) && !count($done))
+@if(!count($offers) && !count($accepted) && !count($done) && !count($unsubmitted))
     <h2 class="mb-3 text-center">{{ __('actions.evaluationoffers.empty') }}</h2>
 @endif
 

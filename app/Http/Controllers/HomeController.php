@@ -62,7 +62,14 @@ class HomeController extends Controller
                         $query->whereNotNull('submitted_at');
                     })
                     ->get();
-                $data = compact('offers', 'accepted', 'done');
+                $unsubmitted = EvaluationOffer::with('evaluation')
+                    ->where('accepted', true)
+                    ->where('expert_id', Auth::id())
+                    ->whereHas('evaluation', function(Builder $query){
+                        $query->whereNull('submitted_at')->whereNotNull('devalidation_message');
+                    })
+                    ->get();
+                $data = compact('offers', 'accepted', 'done', 'unsubmitted');
         }
         return view('home', $data);
     }

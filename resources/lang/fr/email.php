@@ -72,13 +72,21 @@ return [
     ],
 
     "evaluation_submitted" => [
-        "title" => "Évaluation envoyée",
-        "intro" => "L'expert :expert vient de finaliser l'évaluation de la candidature de :candidat pour l'appel à projets :call"
+        "title"             => "Évaluation envoyée",
+        "intro"             => "L'expert :expert vient de finaliser l'évaluation de la candidature de :candidat pour l'appel à projets :call",
+        "devalidation_line" => "Cette évaluation avait été dévalidée pour le motif suivant : :justification",
     ],
 
     "evaluation_force_submitted" => [
         "title" => "Soumission de votre Évaluation",
         "intro" => "Votre évaluation de la candidature de :candidat pour l'appel à projets :call a été soumise manuellement par l'Administrateur de la plateforme AGAPE."
+    ],
+
+    "evaluation_unsubmitted" => [
+        "title"  => "Dévalidation de votre évaluation",
+        "intro"  => "Votre évaluation de la candidature de :candidat pour l'appel à projets :call a été dévalidée par l'Administrateur de la plateforme AGAPE.",
+        "outro"  => "Justification : :justification",
+        "action" => "Modifier l'évaluation",
     ],
 
     "invitation" => [

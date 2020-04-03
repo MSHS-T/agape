@@ -91,6 +91,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
         Route::get('{evaluation}', 'EvaluationController@show')->name('show')->middleware('role:admin,expert');
         Route::put('{evaluation}/forceSubmit', 'EvaluationController@forceSubmit')->name('forceSubmit')->middleware('role:admin');
+        Route::put('{evaluation}/unsubmit', 'EvaluationController@unsubmit')->name('unsubmit')->middleware('role:admin');
     });
 
     // Admin routes

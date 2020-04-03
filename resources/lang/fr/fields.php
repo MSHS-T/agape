@@ -159,7 +159,9 @@ return [
     "evaluation" => [
         "grade"          => "Note",
         "global_grade"   => "Note globale",
-        "global_comment" => "Commentaires globaux"
+        "global_comment" => "Commentaires globaux",
+        "devalidated_1"  => "Votre évaluation a été dévalidée par l'Administrateur de la plateforme AGAPE pour le motif suivant :",
+        "devalidated_2"  => "Merci de procéder aux rectifications et de soumettre votre évaluation à nouveau dans les plus brefs délais."
     ],
 
     "user" => [

@@ -2,7 +2,15 @@
 @php($notation_grid = json_decode(\App\Setting::get('notation_grid'), true))
 @section('content')
 <h2 class="mb-3 text-center">{{ __('actions.evaluation.create') }}</h2>
-
+@if($evaluation->devalidation_message != null)
+    <div class="alert fade show alert-danger font-weight-bold" role="alert">
+        <u>{{ __('fields.warning') }}</u> : {{ __('fields.evaluation.devalidated_1') }}
+        <br/>
+        {{ $evaluation->devalidation_message }}
+        <br/>
+        {{ __('fields.evaluation.devalidated_2') }}
+    </div>
+@endif
 <div id="accordion">
     <div class="card border-0">
         <div class="card-header border-bottom-0" id="evaluationCallTitle">
