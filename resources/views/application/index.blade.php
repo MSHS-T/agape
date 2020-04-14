@@ -44,7 +44,7 @@
                         <ul>
                             @foreach($application->offers as $offer)
                             <li>
-                                {{ $offer->expert->name }}
+                                {{ $offer->expert->name ?? $offer->invitedExpert->email }}
                                 @if(is_null($offer->accepted))
                                 @svg('solid/question', 'icon-fw text-info')
                                 @elseif($offer->accepted == true)

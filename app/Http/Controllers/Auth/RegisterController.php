@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\EvaluationOffer;
 use App\Invitation;
 use App\User;
 use App\Enums\UserRole;
@@ -100,8 +101,19 @@ class RegisterController extends Controller
         if ($invitation !== null) {
             // Notify admins
             Notification::send(User::admins()->get(), new UserInvitationSignup($invitation, $user));
+
+            // Check offers
+            $offers = EvaluationOffer::where('invitation_code', $invitation->invitation)->get();
+            foreach ($offers as $offer) {
+                $offer->expert()->associate($user);
+                $offer->invitedExpert()->dissociate();
+                $offer->save();
+            }
+
+            // Delete invitations
             $invitation->delete();
         }
+
         return $user;
     }
 }

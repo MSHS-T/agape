@@ -11,7 +11,8 @@ class EvaluationOffer extends Model
     public $fillable = [
         'accepted',
         'justification',
-        'expert_id'
+        'expert_id',
+        'invitation_code'
     ];
 
     public static function boot()
@@ -30,6 +31,11 @@ class EvaluationOffer extends Model
     public function expert()
     {
         return $this->belongsTo('App\User', 'expert_id');
+    }
+
+    public function invitedExpert()
+    {
+        return $this->belongsTo('App\Invitation', 'invitation_code');
     }
 
     public function application()

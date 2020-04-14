@@ -107,6 +107,13 @@ return [
         "action" => "Inscription"
     ],
 
+    "invitation_offer" => [
+        "title"  => "Invitation à rejoindre la plateforme AGAPE",
+        "intro"  => "L'administrateur de la plateforme AGAPE vous invite à rejoindre l'application en tant que :role, afin de participer à l'évaluation d'une candidature sur l'appel à projets :projectcall",
+        "action" => "Inscription",
+        "outro"  => "Merci de nous faire connaître votre choix dans les plus brefs délais."
+    ],
+
     "role_change" => [
         "title"  => "Modification de vos droits d'accès",
         "intro"  => "L'administrateur de la plateforme AGAPE a modifié vos droits d'accès. Vous possédez désormais le rôle :role."

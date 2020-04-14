@@ -3,6 +3,7 @@
 return [
     "yes"                       => "Oui",
     "no"                        => "Non",
+    "or"                        => "Ou",
     "first_name"                => "Prénom",
     "last_name"                 => "Nom",
     "name"                      => "Nom",
@@ -129,6 +130,9 @@ return [
             ]
         ],
         "other_attachments"        => "Pièces complémentaires",
+        "experts"                  => "Experts",
+        "experts_database"         => "Experts inscrits",
+        "experts_invite"           => "Inviter un nouvel expert",
         "experts"                  => "Experts",
         "devalidated_1"            => "Votre candidature a été dévalidée par l'Administrateur de la plateforme AGAPE pour le motif suivant :",
         "devalidated_2"            => "Merci de procéder aux rectifications et de soumettre votre candidature à nouveau dans les plus brefs délais.",

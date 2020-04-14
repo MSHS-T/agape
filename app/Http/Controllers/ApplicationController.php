@@ -434,8 +434,10 @@ class ApplicationController extends Controller
      */
     public function assignations(Application $application)
     {
-        $application->load(['projectcall', 'offers', 'offers.expert', 'offers.creator', 'offers.evaluation']);
-        $assigned_experts = $application->offers()->get()->pluck('expert.id')->all();
+        $application->load(['projectcall', 'offers', 'offers.expert', 'offers.invitedExpert', 'offers.creator', 'offers.evaluation']);
+        $assigned_experts = $application->offers()->get()->pluck('expert.id')->filter(function ($id) {
+            return !is_null($id);
+        })->all();
         $experts = User::experts()->whereNotIn('id', $assigned_experts)->get();
         return view('application.assignations', compact('application', 'experts'));
     }
