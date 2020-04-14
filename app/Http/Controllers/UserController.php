@@ -40,7 +40,7 @@ class UserController extends Controller
 
         do {
             $invitationCode = Str::random(32);
-        } while(Invitation::find($invitationCode) !== null);
+        } while (Invitation::find($invitationCode) !== null);
 
         $invitation = new Invitation([
             'invitation' => $invitationCode,
@@ -52,7 +52,7 @@ class UserController extends Controller
         $invitation->notify(new UserInvitation($invitation));
 
         return redirect()->route('user.index')
-                         ->with('success', __('actions.user.invited'));
+            ->with('success', __('actions.user.invited'));
     }
 
     /**
@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         $user = User::withTrashed()->where('id', $user)->firstOrFail();
 
-        if($user->trashed()){
+        if ($user->trashed()) {
             $user->restore();
             $message = __('actions.user.unblocked');
         } else {
@@ -73,7 +73,7 @@ class UserController extends Controller
             $message = __('actions.user.blocked');
         }
         return redirect()->route('user.index')
-                         ->with('success', $message);
+            ->with('success', $message);
     }
 
     /**
@@ -85,11 +85,17 @@ class UserController extends Controller
     public function destroy($user)
     {
         $user = User::withTrashed()->where('id', $user)->firstOrFail();
-        $user->forceDelete();
-        $message = __('actions.user.deleted');
+        try {
+            $user->forceDelete();
+            $message = __('actions.user.deleted');
+            $messageType = "success";
+        } catch (\Illuminate\Database\QueryException $e) {
+            $message = __('actions.user.cannot_be_deleted', ['name' => $user->name]);
+            $messageType = "error";
+        }
 
         return redirect()->route('user.index')
-                         ->with('success', $message);
+            ->with($messageType, $message);
     }
 
     /**
@@ -118,6 +124,6 @@ class UserController extends Controller
         $invitation->notify(new UserInvitationRetry($invitation));
 
         return redirect()->route('user.invites')
-                         ->with('success', __('actions.user.invite_sent_again'));
+            ->with('success', __('actions.user.invite_sent_again'));
     }
 }

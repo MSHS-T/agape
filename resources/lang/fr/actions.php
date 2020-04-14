@@ -122,7 +122,7 @@ return [
             "title" => "Confirmer la dévalidation de la candidature",
             "body"  => "Veuillez saisir la justification, elle sera transmise au candidat.",
             "error" => "Erreur : la justification est obligatoire"
-        ],    
+        ],
         "saved"                   => "Votre candidature :reference a été sauvegardée. Pensez à la soumettre avant la date limite.",
         "submitted"               => "Votre candidature :reference a été soumise avec succès.",
         "already_submitted"       => "Votre candidature :reference a déjà été soumise et ne peut plus être modifiée.",
@@ -181,7 +181,7 @@ return [
             "title" => "Confirmer la dévalidation de l'évaluation",
             "body"  => "Veuillez saisir la justification, elle sera transmise au candidat.",
             "error" => "Erreur : la justification est obligatoire"
-        ],    
+        ],
         "export_name"      => "Grille d'Évaluation"
     ],
 
@@ -225,6 +225,7 @@ return [
         "blocked"           => "L'Utilisateur a bien été bloqué",
         "unblocked"         => "L'Utilisateur a bien été débloqué",
         "deleted"           => "L'Utilisateur a bien été supprimé",
+        "cannot_be_deleted" => "L'Utilisateur :name ne peut pas être supprimé car il est lié à au moins une candidature ou expertise. Si vous souhaitez empêcher son accès à l'application, vous pouvez le bloquer."
     ],
 
     "error" => [
