@@ -31,7 +31,7 @@ class StudyFieldController extends Controller
             'mode'       => 'create',
             'method'     => 'POST',
             'action'     => route('studyfield.store'),
-            'studyfield' => (object)[
+            'studyfield' => (object) [
                 'name' => ''
             ]
         ]);
@@ -53,7 +53,7 @@ class StudyFieldController extends Controller
         $sf->save();
 
         return redirect()->route('studyfield.index')
-                         ->with('success', __('actions.studyfield.created'));
+            ->with('success', __('actions.studyfield.created'));
     }
 
     /**
@@ -89,13 +89,13 @@ class StudyFieldController extends Controller
             ]
         ]);
         $studyfield->name = $request->input('name');
-        if($request->has('make_public')){
+        if ($request->has('make_public')) {
             $studyfield->creator()->dissociate();
             $studyfield->creator()->associate(Auth::user());
         }
         $studyfield->save();
         return redirect()->route('studyfield.index')
-                         ->with('success', __('actions.studyfield.edited'));
+            ->with('success', __('actions.studyfield.edited'));
     }
 
     /**
@@ -109,6 +109,6 @@ class StudyFieldController extends Controller
         $studyfield->applications()->detach();
         $studyfield->delete();
         return redirect()->route('studyfield.index')
-                         ->with('success', __('actions.studyfield.deleted'));
+            ->with('success', __('actions.studyfield.deleted'));
     }
 }

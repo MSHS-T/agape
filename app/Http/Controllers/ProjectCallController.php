@@ -40,9 +40,9 @@ class ProjectCallController extends Controller
             'mode'        => 'create',
             'method'      => 'POST',
             'action'      => route('projectcall.store'),
-            'projectcall' => (object)[
+            'projectcall' => (object) [
                 'type'                   => 1,
-                'year'                   => intval(date('Y'))+1,
+                'year'                   => intval(date('Y')) + 1,
                 'title'                  => '',
                 'description'            => '',
                 'application_start_date' => '',
@@ -74,7 +74,7 @@ class ProjectCallController extends Controller
     {
         $request->validate([
             'type'                   => ['required', 'integer', new EnumValue(CallType::class, false)],
-            'year'                   => 'required|integer|min:'.(intval(date('Y')) - 1),
+            'year'                   => 'required|integer|min:' . (intval(date('Y')) - 1),
             'title'                  => 'nullable|string',
             'description'            => 'required',
             'application_start_date' => 'required|date',
@@ -98,27 +98,30 @@ class ProjectCallController extends Controller
         ]);
 
         $call = new ProjectCall($request->all());
-        foreach(['application_form', 'financial_form'] as $form_name){
-            if($request->hasFile($form_name)
-            && ($rFile = $request->file($form_name))->isValid()
+        foreach (['application_form', 'financial_form'] as $form_name) {
+            if (
+                $request->hasFile($form_name)
+                && ($rFile = $request->file($form_name))->isValid()
                 && in_array(
                     $rFile->getClientOriginalExtension(),
                     array_map(
-                        function($e){ return trim($e, '.'); },
+                        function ($e) {
+                            return trim($e, '.');
+                        },
                         explode(',', Setting::get("extensions_$form_name"))
                     )
                 )
-            ){
+            ) {
                 $extension = $rFile->getClientOriginalExtension();
-                $uniqname = Str::random(40).'.'.$extension;
+                $uniqname = Str::random(40) . '.' . $extension;
                 $path = Storage::disk('public')->putFileAs('formulaires', $rFile, $uniqname);
-                $call->{$form_name."_filepath"} = $path;
+                $call->{$form_name . "_filepath"} = $path;
             }
         }
         $call->save();
 
         return redirect()->route('projectcall.index')
-                         ->with('success', __('actions.projectcall.created'));
+            ->with('success', __('actions.projectcall.created'));
     }
 
     /**
@@ -129,7 +132,7 @@ class ProjectCallController extends Controller
      */
     public function show($id)
     {
-        if(Auth::user()->isAdmin()){
+        if (Auth::user()->isAdmin()) {
             $projectcall = ProjectCall::withTrashed()->where('id', $id)->firstOrFail();
         } else {
             $projectcall = ProjectCall::where('id', $id)->firstOrFail();
@@ -164,7 +167,7 @@ class ProjectCallController extends Controller
     {
         $request->validate([
             'type'                   => ['required', 'integer', new EnumValue(CallType::class, false)],
-            'year'                   => 'required|integer|min:'.(intval(date('Y')) - 1),
+            'year'                   => 'required|integer|min:' . (intval(date('Y')) - 1),
             'description'            => 'required',
             'application_start_date' => 'required|date',
             'application_end_date'   => 'required|date|after:application_start_date',
@@ -195,30 +198,33 @@ class ProjectCallController extends Controller
 
         $projectcall->fill($updatedData);
 
-        foreach(['application_form', 'financial_form'] as $form_name){
-            if($request->hasFile($form_name)
-            && ($rFile = $request->file($form_name))->isValid()
+        foreach (['application_form', 'financial_form'] as $form_name) {
+            if (
+                $request->hasFile($form_name)
+                && ($rFile = $request->file($form_name))->isValid()
                 && in_array(
                     $rFile->getClientOriginalExtension(),
                     array_map(
-                        function($e){ return trim($e, '.'); },
+                        function ($e) {
+                            return trim($e, '.');
+                        },
                         explode(',', Setting::get("extensions_$form_name"))
                     )
                 )
-            ){
-                if(!empty($projectcall->{$form_name."_filepath"})){
-                    unlink(public_path('storage/'.$projectcall->{$form_name."_filepath"}));
+            ) {
+                if (!empty($projectcall->{$form_name . "_filepath"})) {
+                    unlink(public_path('storage/' . $projectcall->{$form_name . "_filepath"}));
                 }
                 $extension = $rFile->getClientOriginalExtension();
-                $uniqname = Str::random(40).'.'.$extension;
+                $uniqname = Str::random(40) . '.' . $extension;
                 $path = Storage::disk('public')->putFileAs('formulaires', $rFile, $uniqname);
-                $projectcall->{$form_name."_filepath"} = $path;
+                $projectcall->{$form_name . "_filepath"} = $path;
             }
         }
 
         $projectcall->save();
         return redirect()->route('projectcall.index')
-                         ->with('success', __('actions.projectcall.edited'));
+            ->with('success', __('actions.projectcall.edited'));
     }
 
     /**
@@ -231,7 +237,7 @@ class ProjectCallController extends Controller
     {
         $projectcall->delete();
         return redirect()->route('projectcall.index')
-                         ->with('success', __('actions.projectcall.deleted'));
+            ->with('success', __('actions.projectcall.deleted'));
     }
 
     /**
@@ -243,10 +249,10 @@ class ProjectCallController extends Controller
     public function apply(ProjectCall $projectcall)
     {
         $application = $projectcall->applications()
-                                   ->firstOrNew(
-                                       ['applicant_id' => Auth::id() ],
-                                       ['keywords' => []]
-                                    );
+            ->firstOrNew(
+                ['applicant_id' => Auth::id()],
+                ['keywords' => []]
+            );
         $application->save();
         return redirect()->route('application.edit', $application);
     }
@@ -274,7 +280,7 @@ class ProjectCallController extends Controller
     {
         $projectcall->load(['applications', 'applications.applicant']);
         $export = new ApplicationsExport($projectcall);
-        return Excel::download($export, config('app.name').'-'.__('exports.applications.name').'.xlsx');
+        return Excel::download($export, config('app.name') . '-' . __('exports.applications.name') . '.xlsx');
     }
 
     /**
@@ -286,23 +292,19 @@ class ProjectCallController extends Controller
      */
     public function downloadTemplate(ProjectCall $projectcall, $template)
     {
-        $filepath = public_path('storage/'.$projectcall->{$template."_form_filepath"});
-        if (file_exists($filepath))
-        {
+        $filepath = public_path('storage/' . $projectcall->{$template . "_form_filepath"});
+        if (file_exists($filepath)) {
             $segments = explode('.', $filepath);
-            if($template == "application") {
-                $filename = "Formulaire_Candidature.".end($segments);
-            }
-            else if ($template == "financial") {
-                $filename = "Formulaire_Financier.".end($segments);
+            if ($template == "application") {
+                $filename = "Formulaire_Candidature." . end($segments);
+            } else if ($template == "financial") {
+                $filename = "Formulaire_Financier." . end($segments);
             }
             // Send Download
-            return response()->download($filepath, "Formulaire_".$filename, [
-                'Content-Length: '. filesize($filepath)
+            return response()->download($filepath, "Formulaire_" . $filename, [
+                'Content-Length: ' . filesize($filepath)
             ]);
-        }
-        else
-        {
+        } else {
             abort(404);
         }
     }

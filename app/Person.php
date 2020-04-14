@@ -28,11 +28,13 @@ class Person extends Model
         });
     }
 
-    public function applications(){
+    public function applications()
+    {
         return $this->hasMany('App\Application');
     }
 
-    public function getNameAttribute(){
+    public function getNameAttribute()
+    {
         return ucfirst($this->first_name) . " " . strtoupper($this->last_name);
     }
 }

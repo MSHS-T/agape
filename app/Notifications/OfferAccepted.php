@@ -44,12 +44,12 @@ class OfferAccepted extends Notification
     {
         $call = $this->offer->application->projectcall;
         return (new MailMessage)
-                    ->subject(__('email.offer_accepted.title'))
-                    ->line(__('email.offer_accepted.intro', [
-                        'expert' => $this->offer->expert->name,
-                        'candidat' => $this->offer->application->applicant->name,
-                        'call' => $call->toString()
-                    ]));
+            ->subject(__('email.offer_accepted.title'))
+            ->line(__('email.offer_accepted.intro', [
+                'expert' => $this->offer->expert->name,
+                'candidat' => $this->offer->application->applicant->name,
+                'call' => $call->toString()
+            ]));
     }
 
     /**

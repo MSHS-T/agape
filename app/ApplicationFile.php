@@ -25,7 +25,8 @@ class ApplicationFile extends Model
         // });
     }
 
-    public function application(){
+    public function application()
+    {
         return $this->belongsTo('App\Application');
     }
 }

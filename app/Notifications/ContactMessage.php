@@ -52,7 +52,7 @@ class ContactMessage extends Notification
                 'email' => $this->data->email,
                 'message' => $this->data->message,
             ]))
-            ->action(__('email.contact.action'), "mailto:".$this->data->email);
+            ->action(__('email.contact.action'), "mailto:" . $this->data->email);
     }
 
     /**

@@ -52,7 +52,7 @@ class Application extends Model
         parent::boot();
         static::creating(function ($application) {
             $result = DB::table('applications')
-                ->where('projectcall_id',$application->projectcall->id)
+                ->where('projectcall_id', $application->projectcall->id)
                 ->count();
 
             $application->reference = sprintf(
@@ -63,39 +63,48 @@ class Application extends Model
         });
     }
 
-    public function projectcall(){
+    public function projectcall()
+    {
         return $this->belongsTo('App\ProjectCall', 'projectcall_id');
     }
 
-    public function applicant(){
+    public function applicant()
+    {
         return $this->belongsTo('App\User', 'applicant_id');
     }
 
-    public function carrier(){
+    public function carrier()
+    {
         return $this->belongsTo('App\Person', 'carrier_id')->withDefault();
     }
 
-    public function laboratories(){
+    public function laboratories()
+    {
         return $this->belongsToMany('App\Laboratory', 'application_laboratory', 'application_id', 'laboratory_id')->withPivot('order', 'contact_name');
     }
 
-    public function carrierLaboratory(){
+    public function carrierLaboratory()
+    {
         return $this->laboratories()->wherePivot('order', 1);
     }
 
-    public function studyFields(){
+    public function studyFields()
+    {
         return $this->belongsToMany('App\StudyField', 'application_study_field', 'application_id', 'study_field_id');
     }
 
-    public function files(){
+    public function files()
+    {
         return $this->hasMany('App\ApplicationFile')->orderBy('order', 'ASC');
     }
 
-    public function offers(){
+    public function offers()
+    {
         return $this->hasMany('App\EvaluationOffer');
     }
 
-    public function evaluations(){
+    public function evaluations()
+    {
         return $this->hasManyThrough('App\Evaluation', 'App\EvaluationOffer', 'application_id', 'offer_id', 'id', 'id');
     }
 }

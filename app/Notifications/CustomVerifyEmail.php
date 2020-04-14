@@ -19,11 +19,12 @@ class CustomVerifyEmail extends VerifyEmail
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject(__('email.email_verification.title'))
-                    ->line(__('email.email_verification.intro'))
-                    ->action(
-                        __('email.email_verification.action'),
-                        $this->verificationUrl($notifiable))
-                    ->line(__('email.email_verification.outro'));
+            ->subject(__('email.email_verification.title'))
+            ->line(__('email.email_verification.intro'))
+            ->action(
+                __('email.email_verification.action'),
+                $this->verificationUrl($notifiable)
+            )
+            ->line(__('email.email_verification.outro'));
     }
 }

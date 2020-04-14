@@ -44,12 +44,12 @@ class OfferRetry extends Notification
     {
         $call = $this->offer->application->projectcall;
         return (new MailMessage)
-                    ->subject(__('email.offer_retry.title'))
-                    ->line(__('email.offer_retry.intro', [
-                        'candidat' => $this->offer->application->applicant->name,
-                        'call' => $call->toString()
-                    ]))
-                    ->action(__('email.offer_retry.action'), url('/'));
+            ->subject(__('email.offer_retry.title'))
+            ->line(__('email.offer_retry.intro', [
+                'candidat' => $this->offer->application->applicant->name,
+                'call' => $call->toString()
+            ]))
+            ->action(__('email.offer_retry.action'), url('/'));
     }
 
     /**

@@ -31,7 +31,7 @@ class EvaluationSubmitted extends Notification
      */
     public function via($notifiable)
     {
-      return ['mail'];
+        return ['mail'];
     }
 
     /**
@@ -43,15 +43,14 @@ class EvaluationSubmitted extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                    ->subject(__('email.evaluation_submitted.title'))
-                    ->line(__('email.evaluation_submitted.intro', [
-                        'expert'   => $this->offer->expert->name,
-                        'candidat' => $this->offer->application->applicant->name,
-                        'call'     => $this->offer->application->projectcall->toString()
-                    ]));
+            ->subject(__('email.evaluation_submitted.title'))
+            ->line(__('email.evaluation_submitted.intro', [
+                'expert'   => $this->offer->expert->name,
+                'candidat' => $this->offer->application->applicant->name,
+                'call'     => $this->offer->application->projectcall->toString()
+            ]));
 
-        if($this->offer->evaluation->devalidation_message !== null)
-        {
+        if ($this->offer->evaluation->devalidation_message !== null) {
             $message->line(__('email.evaluation_submitted.devalidation_line', [
                 'justification' => $this->offer->evaluation->devalidation_message
             ]));

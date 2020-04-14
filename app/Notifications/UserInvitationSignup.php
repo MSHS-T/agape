@@ -33,7 +33,7 @@ class UserInvitationSignup extends Notification
      */
     public function via($notifiable)
     {
-      return ['mail'];
+        return ['mail'];
     }
 
     /**
@@ -47,11 +47,11 @@ class UserInvitationSignup extends Notification
         $role = __('vocabulary.role.' . \App\Enums\UserRole::getKey($this->invitation->role));
         $user = sprintf("%s (%s)", $this->user->name, $this->user->email);
         return (new MailMessage)
-                    ->subject(__('email.invitation_signup.title'))
-                    ->line(__('email.invitation_signup.intro', [
-                        'user' => $user,
-                        'role' => $role
-                    ]));
+            ->subject(__('email.invitation_signup.title'))
+            ->line(__('email.invitation_signup.intro', [
+                'user' => $user,
+                'role' => $role
+            ]));
     }
 
     /**

@@ -21,7 +21,7 @@ class CustomResetPassword extends ResetPassword
         return (new MailMessage)
             ->subject(__('email.reset_password.title'))
             ->line(__('email.reset_password.intro'))
-            ->action(__('email.reset_password.action'), url(config('app.url').route('password.reset', $this->token, false)))
+            ->action(__('email.reset_password.action'), url(config('app.url') . route('password.reset', $this->token, false)))
             ->line(__('email.reset_password.outro'));
     }
 }

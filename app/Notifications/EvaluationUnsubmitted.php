@@ -43,15 +43,15 @@ class EvaluationUnsubmitted extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject(__('email.evaluation_unsubmitted.title'))
-                    ->line(__('email.evaluation_unsubmitted.intro', [
-                        'call'     => $this->evaluation->offer->application->projectcall->toString(),
-                        'candidat' => $this->evaluation->offer->application->applicant->name,
-                    ]))
-                    ->line(__('email.evaluation_unsubmitted.outro', [
-                        'justification' => $this->evaluation->devalidation_message
-                    ]))
-                    ->action(__('email.evaluation_unsubmitted.action'), url(config('app.url').route('evaluation.edit', $this->evaluation->id, false)));
+            ->subject(__('email.evaluation_unsubmitted.title'))
+            ->line(__('email.evaluation_unsubmitted.intro', [
+                'call'     => $this->evaluation->offer->application->projectcall->toString(),
+                'candidat' => $this->evaluation->offer->application->applicant->name,
+            ]))
+            ->line(__('email.evaluation_unsubmitted.outro', [
+                'justification' => $this->evaluation->devalidation_message
+            ]))
+            ->action(__('email.evaluation_unsubmitted.action'), url(config('app.url') . route('evaluation.edit', $this->evaluation->id, false)));
     }
 
     /**

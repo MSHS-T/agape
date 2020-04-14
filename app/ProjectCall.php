@@ -50,13 +50,13 @@ class ProjectCall extends Model
             $call->creator_id = Auth::id();
 
             $result = DB::table('project_calls')
-                ->where('type',$call->type)
-                ->where('year',$call->year)
+                ->where('type', $call->type)
+                ->where('year', $call->year)
                 ->count();
             $call->reference = sprintf(
                 "%s-%s-%s",
                 substr(strval($call->year), -2),
-                Lang::get('vocabulary.calltype_reference.'.CallType::getKey(intval($call->type))),
+                Lang::get('vocabulary.calltype_reference.' . CallType::getKey(intval($call->type))),
                 str_pad(strval(++$result), 2, "0", STR_PAD_LEFT)
             );
         });
@@ -65,26 +65,31 @@ class ProjectCall extends Model
         });
     }
 
-    public function creator(){
+    public function creator()
+    {
         return $this->belongsTo('App\User', 'creator_id');
     }
 
-    public function applications(){
+    public function applications()
+    {
         return $this->hasMany('App\Application', 'projectcall_id');
     }
 
-    public function submittedApplications(){
+    public function submittedApplications()
+    {
         return $this->applications()->where('submitted_at', '!=', null);
     }
 
-    public function getTypeLabelAttribute(){
+    public function getTypeLabelAttribute()
+    {
         return \App\Enums\CallType::getKey($this->type);
     }
 
-    public function getEvaluationCountAttribute(){
+    public function getEvaluationCountAttribute()
+    {
         $cpt = 0;
-        foreach($this->submittedApplications as $application){
-            $submittedEvaluations = $application->evaluations->filter(function($eval){
+        foreach ($this->submittedApplications as $application) {
+            $submittedEvaluations = $application->evaluations->filter(function ($eval) {
                 return !is_null($eval->submitted_at);
             });
             $cpt += count($submittedEvaluations);
@@ -92,17 +97,13 @@ class ProjectCall extends Model
         return $cpt;
     }
 
-    public function getStateAttribute(){
-        if(\Carbon\Carbon::parse('today')->format('Y-m-d') <= $this->evaluation_end_date)
-        {
+    public function getStateAttribute()
+    {
+        if (\Carbon\Carbon::parse('today')->format('Y-m-d') <= $this->evaluation_end_date) {
             return "open";
-        }
-        else if($this->trashed())
-        {
+        } else if ($this->trashed()) {
             return "archived";
-        }
-        else
-        {
+        } else {
             return "closed";
         }
     }
@@ -134,24 +135,23 @@ class ProjectCall extends Model
 
     public function scopeUserApplied($query)
     {
-        return $query->whereHas('applications', function(Builder $query){
-                        $query->where('applicant_id', '=', Auth::id())
-                              ->whereNotNull('submitted_at');
+        return $query->whereHas('applications', function (Builder $query) {
+            $query->where('applicant_id', '=', Auth::id())
+                ->whereNotNull('submitted_at');
         });
     }
 
     public function scopeUserHasNotSubmitted($query)
     {
-        return $query->whereHas('applications', function(Builder $query){
-                        $query->where('applicant_id', '=', Auth::id())
-                              ->whereNull('submitted_at');
+        return $query->whereHas('applications', function (Builder $query) {
+            $query->where('applicant_id', '=', Auth::id())
+                ->whereNull('submitted_at');
         });
     }
 
-    public function toString(){
-        return (
-            sprintf("%s %d", $this->typeLabel, $this->year)
-            . (!empty($this->title) ? " (".$this->title.")" : "")
-        );
+    public function toString()
+    {
+        return (sprintf("%s %d", $this->typeLabel, $this->year)
+            . (!empty($this->title) ? " (" . $this->title . ")" : ""));
     }
 }

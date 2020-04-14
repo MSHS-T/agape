@@ -18,11 +18,13 @@ class Evaluation extends Model
         'submitted_at'
     ];
 
-    public function offer(){
+    public function offer()
+    {
         return $this->belongsTo('App\EvaluationOffer', 'offer_id');
     }
 
-    public function toArray(){
+    public function toArray()
+    {
         return [
             'grade1'         => $this->grade1,
             'grade2'         => $this->grade2,

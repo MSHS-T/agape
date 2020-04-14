@@ -17,16 +17,15 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        $roleValues = array_map(function($r){
+        $roleValues = array_map(function ($r) {
             $r = ucfirst($r);
             return \App\Enums\UserRole::getValue($r);
         }, $roles);
-        $roleLabels = array_map(function($r){
+        $roleLabels = array_map(function ($r) {
             $r = ucfirst($r);
-            return __('vocabulary.role.'.$r);
+            return __('vocabulary.role.' . $r);
         }, $roles);
-        if ($request->user() && !in_array($request->user()->role, $roleValues))
-        {
+        if ($request->user() && !in_array($request->user()->role, $roleValues)) {
             return response()->view('errors.unauthorized', ['roles' => $roleLabels]);
         }
         return $next($request);

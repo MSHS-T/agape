@@ -66,12 +66,12 @@ class SettingsController extends Controller
             'extensions_application_form', 'extensions_financial_form',
             'extensions_other_attachments'
         ]);
-        foreach($data as $key => $value){
+        foreach ($data as $key => $value) {
             Setting::set($key, $value);
         }
 
         $notation_grid = [];
-        foreach(range(0,3) as $i){
+        foreach (range(0, 3) as $i) {
             $notation_grid[$i] = [
                 "grade" => $request->input("notation_grid_{$i}_grade"),
                 "details" => $request->input("notation_grid_{$i}_details")
@@ -80,5 +80,4 @@ class SettingsController extends Controller
         Setting::set('notation_grid', json_encode($notation_grid));
         return redirect()->route('settings')->with('success', __('actions.settings.saved'));
     }
-
 }

@@ -44,15 +44,15 @@ class OfferDeclined extends Notification
     {
         $call = $this->offer->application->projectcall;
         return (new MailMessage)
-                    ->subject(__('email.offer_declined.title'))
-                    ->line(__('email.offer_declined.intro', [
-                        'expert' => $this->offer->expert->name,
-                        'candidat' => $this->offer->application->applicant->name,
-                        'call' => $call->toString()
-                    ]))
-                    ->line(__('email.offer_declined.outro', [
-                        'justification' => $this->offer->justification
-                    ]));
+            ->subject(__('email.offer_declined.title'))
+            ->line(__('email.offer_declined.intro', [
+                'expert' => $this->offer->expert->name,
+                'candidat' => $this->offer->application->applicant->name,
+                'call' => $call->toString()
+            ]))
+            ->line(__('email.offer_declined.outro', [
+                'justification' => $this->offer->justification
+            ]));
     }
 
     /**

@@ -84,10 +84,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        if(array_key_exists('invitation', $data)) {
+        if (array_key_exists('invitation', $data)) {
             $invitation = Invitation::findOrFail($data['invitation']);
-        }
-        else {
+        } else {
             $invitation = Invitation::where('email', $data['email'])->first();
         }
         $user = User::create([
@@ -98,7 +97,7 @@ class RegisterController extends Controller
             'invited' => ($invitation !== null),
             'role' => ($invitation ? $invitation->role : UserRole::Candidate)
         ]);
-        if($invitation !== null){
+        if ($invitation !== null) {
             // Notify admins
             Notification::send(User::admins()->get(), new UserInvitationSignup($invitation, $user));
             $invitation->delete();

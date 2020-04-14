@@ -33,7 +33,7 @@ class ApplicationController extends Controller
     public function show(Application $application)
     {
         // Don't display non-submitted applications if user is not an admin
-        if($application->submitted_at == null && !Auth::user()->isAdmin()){
+        if ($application->submitted_at == null && !Auth::user()->isAdmin()) {
             abort(404);
         }
         return view('application.show', compact('application'));
@@ -47,13 +47,13 @@ class ApplicationController extends Controller
      */
     public function edit(Application $application)
     {
-        if(!empty($application->submitted_at)){
+        if (!empty($application->submitted_at)) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.application.already_submitted')]);
+                ->withErrors([__('actions.application.already_submitted')]);
         }
-        if(!$application->projectcall->canApply() && $application->devalidation_message == null){
+        if (!$application->projectcall->canApply() && $application->devalidation_message == null) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
+                ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
         }
         $laboratories = Laboratory::accessible()->get();
         $study_fields = StudyField::accessible()->get();
@@ -70,13 +70,13 @@ class ApplicationController extends Controller
      */
     public function update(Request $request, Application $application)
     {
-        if(!empty($application->submitted_at)){
+        if (!empty($application->submitted_at)) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.application.already_submitted')]);
+                ->withErrors([__('actions.application.already_submitted')]);
         }
-        if(!$application->projectcall->canApply() && $application->devalidation_message == null){
+        if (!$application->projectcall->canApply() && $application->devalidation_message == null) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
+                ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
         }
         $data = (object) $request->all();
 
@@ -85,9 +85,10 @@ class ApplicationController extends Controller
         $defaults = ['duration' => null, 'target_date' => [], 'theme' => null];
         $simple_data = array_merge(
             $defaults,
-            array_combine($simple_fields,
+            array_combine(
+                $simple_fields,
                 array_map(
-                    function($f) use ($data){
+                    function ($f) use ($data) {
                         return $data->{$f} ?? null;
                     },
                     $simple_fields
@@ -100,7 +101,7 @@ class ApplicationController extends Controller
         $carrier_fields = ['last_name', 'first_name', 'status', 'email', 'phone'];
         $carrier_data = array_combine(
             $carrier_fields,
-            array_map(function($f) use ($data) {
+            array_map(function ($f) use ($data) {
                 return $data->{"carrier_$f"};
             }, $carrier_fields)
         );
@@ -112,12 +113,12 @@ class ApplicationController extends Controller
 
         //Laboratories
         $application->laboratories()->detach();
-        foreach(range(1, $application->projectcall->number_of_laboratories) as $iteration){
-            $lab_id = $data->{'laboratory_id_'.$iteration};
-            $lab_contact = $data->{'laboratory_contact_name_'.$iteration};
-            if($lab_id === "none") {
+        foreach (range(1, $application->projectcall->number_of_laboratories) as $iteration) {
+            $lab_id = $data->{'laboratory_id_' . $iteration};
+            $lab_contact = $data->{'laboratory_contact_name_' . $iteration};
+            if ($lab_id === "none") {
                 continue;
-            } else if(is_numeric($lab_id)) {
+            } else if (is_numeric($lab_id)) {
                 $application->laboratories()->attach(
                     Laboratory::find($lab_id),
                     [
@@ -125,12 +126,12 @@ class ApplicationController extends Controller
                         'order' => $iteration
                     ]
                 );
-            } else if($lab_id === "new") {
+            } else if ($lab_id === "new") {
                 $lab_fields = ['name', 'unit_code', 'director_email', 'regency'];
                 $lab_data = array_combine(
                     $lab_fields,
-                    array_map(function($f) use ($data, $iteration) {
-                        return $data->{"laboratory_".$f."_".$iteration};
+                    array_map(function ($f) use ($data, $iteration) {
+                        return $data->{"laboratory_" . $f . "_" . $iteration};
                     }, $lab_fields)
                 );
                 $lab = new Laboratory($lab_data);
@@ -144,9 +145,9 @@ class ApplicationController extends Controller
 
         //Study fields
         $application->studyFields()->detach();
-        if(isset($data->study_fields)){
-            foreach($data->study_fields as $sfValue){
-                if(is_numeric($sfValue)){
+        if (isset($data->study_fields)) {
+            foreach ($data->study_fields as $sfValue) {
+                if (is_numeric($sfValue)) {
                     $sf = StudyField::find($sfValue);
                 } else {
                     $sf = new StudyField([
@@ -160,16 +161,16 @@ class ApplicationController extends Controller
 
         //Target dates
         $target_dates = [];
-        foreach(range(1, $application->projectcall->number_of_target_dates) as $iteration){
-            $target_dates[] = $data->{"target_date_".$iteration} ?? null;
+        foreach (range(1, $application->projectcall->number_of_target_dates) as $iteration) {
+            $target_dates[] = $data->{"target_date_" . $iteration} ?? null;
         }
         $application->target_date = array_filter($target_dates);
 
         //Keywords
         $keywords = [];
-        foreach(range(1, $application->projectcall->number_of_keywords) as $iteration){
-            if(!is_null($data->{'keyword_'.$iteration})){
-                $keywords[] = $data->{'keyword_'.$iteration};
+        foreach (range(1, $application->projectcall->number_of_keywords) as $iteration) {
+            if (!is_null($data->{'keyword_' . $iteration})) {
+                $keywords[] = $data->{'keyword_' . $iteration};
             }
         }
         $application->keywords = $keywords;
@@ -177,21 +178,24 @@ class ApplicationController extends Controller
         // Files
         // Replace only if a file has been sent
         $specific_files = ['application_form' => 1, 'financial_form' => 2];
-        foreach($specific_files as $form_name => $order){
-            if($request->hasFile($form_name)
-            && ($rFile = $request->file($form_name))->isValid()
+        foreach ($specific_files as $form_name => $order) {
+            if (
+                $request->hasFile($form_name)
+                && ($rFile = $request->file($form_name))->isValid()
                 && in_array(
                     $rFile->getClientOriginalExtension(),
                     array_map(
-                        function($e){ return trim($e, '.'); },
+                        function ($e) {
+                            return trim($e, '.');
+                        },
                         explode(',', Setting::get("extensions_$form_name"))
                     )
                 )
-            ){
+            ) {
                 $existingFile = $application->files()->where('order', $order)->delete();
                 $name = $rFile->getClientOriginalName();
                 $extension = $rFile->getClientOriginalExtension();
-                $uniqname = Str::random(40).'.'.$extension;
+                $uniqname = Str::random(40) . '.' . $extension;
                 $path = Storage::disk('public')->putFileAs('uploads', $rFile, $uniqname);
                 $application->files()->create([
                     'order' => $order,
@@ -201,25 +205,28 @@ class ApplicationController extends Controller
             }
         }
         $order = max(array_values($specific_files));
-        if($request->hasFile('other_attachments')){
+        if ($request->hasFile('other_attachments')) {
             $existingFiles = $application->files()
-                                         ->whereNotIn('order', array_values($specific_files))
-                                         ->delete();
-            foreach($request->file('other_attachments') as $rFile){
-                if(!$rFile->isValid()
-                || !in_array(
+                ->whereNotIn('order', array_values($specific_files))
+                ->delete();
+            foreach ($request->file('other_attachments') as $rFile) {
+                if (
+                    !$rFile->isValid()
+                    || !in_array(
                         $rFile->getClientOriginalExtension(),
                         array_map(
-                            function($e){ return trim($e, '.'); },
+                            function ($e) {
+                                return trim($e, '.');
+                            },
                             explode(',', Setting::get("extensions_other_attachments"))
                         )
                     )
-                ){
+                ) {
                     continue;
                 }
                 $name = $rFile->getClientOriginalName();
                 $extension = $rFile->getClientOriginalExtension();
-                $uniqname = Str::random(40).'.'.$extension;
+                $uniqname = Str::random(40) . '.' . $extension;
                 $path = Storage::disk('public')->putFileAs('uploads', $rFile, $uniqname);
                 $application->files()->create([
                     'order' => ++$order,
@@ -231,7 +238,7 @@ class ApplicationController extends Controller
 
         $application->save();
         return redirect()->route('application.edit', ["application" => $application])
-                         ->with('success', __('actions.application.saved', ['reference' => $application->reference]));
+            ->with('success', __('actions.application.saved', ['reference' => $application->reference]));
     }
 
     /**
@@ -242,26 +249,26 @@ class ApplicationController extends Controller
      */
     public function submit(Application $application)
     {
-        if(!empty($application->submitted_at)){
+        if (!empty($application->submitted_at)) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.application.already_submitted', ['reference' => $application->reference])]);
+                ->withErrors([__('actions.application.already_submitted', ['reference' => $application->reference])]);
         }
-        if(!$application->projectcall->canApply() && $application->devalidation_message == null){
+        if (!$application->projectcall->canApply() && $application->devalidation_message == null) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
+                ->withErrors([__('actions.projectcall.cannot_apply_anymore')]);
         }
         $data = $application->toArray();
         $validator = Validator::make($data, [
             'title'                             => 'required|max:255',
             'acronym'                           => [
-                function($attribute, $value, $fail) use ($application) {
-                    if($application->projectcall->type != CallType::Workshop){
-                        if(empty($value)){
+                function ($attribute, $value, $fail) use ($application) {
+                    if ($application->projectcall->type != CallType::Workshop) {
+                        if (empty($value)) {
                             $fail(__('validation.required_if', [
-                            'attribute' => __('fields.application.acronym'),
-                            'other' => __('fields.projectcall.type'),
-                            'value' => $application->projectcall->typeLabel,
-                        ]));
+                                'attribute' => __('fields.application.acronym'),
+                                'other' => __('fields.projectcall.type'),
+                                'value' => $application->projectcall->typeLabel,
+                            ]));
                         }
                     }
                 },
@@ -279,8 +286,8 @@ class ApplicationController extends Controller
             'laboratories.*.unit_code'          => 'required|max:255',
             'laboratories.*.director_email'     => 'required|max:255|email',
             'laboratories.*.pivot.contact_name' => [
-                function($attribute, $value, $fail){
-                    if(empty($value)){
+                function ($attribute, $value, $fail) {
+                    if (empty($value)) {
                         $fail(__('validation.required', [
                             'attribute' => __('fields.laboratory.contact_name')
                         ]));
@@ -289,28 +296,28 @@ class ApplicationController extends Controller
             ],
             'laboratories.*.regency'            => 'required|max:255',
             'duration'                          => [
-                function($attribute, $value, $fail) use ($application) {
-                    if($application->projectcall->type != CallType::Workshop){
-                        if(empty($value)){
+                function ($attribute, $value, $fail) use ($application) {
+                    if ($application->projectcall->type != CallType::Workshop) {
+                        if (empty($value)) {
                             $fail(__('validation.required_if', [
-                            'attribute' => __('fields.application.duration'),
-                            'other' => __('fields.projectcall.type'),
-                            'value' => $application->projectcall->typeLabel,
-                        ]));
+                                'attribute' => __('fields.application.duration'),
+                                'other' => __('fields.projectcall.type'),
+                                'value' => $application->projectcall->typeLabel,
+                            ]));
                         }
                     }
                 },
                 'max:255'
             ],
             'target_date'                      => [
-                function($attribute, $value, $fail) use ($application) {
-                    if($application->projectcall->type == CallType::Workshop){
-                        if(empty($value)){
+                function ($attribute, $value, $fail) use ($application) {
+                    if ($application->projectcall->type == CallType::Workshop) {
+                        if (empty($value)) {
                             $fail(__('validation.required_if', [
-                            'attribute' => __('fields.application.target_date'),
-                            'other' => __('fields.projectcall.type'),
-                            'value' => $application->projectcall->typeLabel,
-                        ]));
+                                'attribute' => __('fields.application.target_date'),
+                                'other' => __('fields.projectcall.type'),
+                                'value' => $application->projectcall->typeLabel,
+                            ]));
                         }
                     }
                 }
@@ -327,14 +334,14 @@ class ApplicationController extends Controller
             'other_fundings'                => 'required|numeric|min:0',
             'total_expected_income'         => 'required|numeric|min:0',
             'total_expected_outcome'        => 'required|numeric|min:0',
-            'files'                         => [function($attribute, $value, $fail) use ($application) {
+            'files'                         => [function ($attribute, $value, $fail) use ($application) {
                 $orders = array_column($value, 'order');
-                if(!in_array(1, $orders)){
+                if (!in_array(1, $orders)) {
                     $fail(__('validation.required', [
                         'attribute' => __('fields.application.template.prefix.application')
                     ]));
                 }
-                if(!empty($application->projectcall->financial_form_filepath) && !in_array(2, $orders)){
+                if (!empty($application->projectcall->financial_form_filepath) && !in_array(2, $orders)) {
                     $fail(__('validation.required', [
                         'attribute' => __('fields.application.template.prefix.financial')
                     ]));
@@ -346,9 +353,9 @@ class ApplicationController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                        ->route('application.edit', ["application" => $application])
-                        ->withErrors($validator)
-                        ->withInput();
+                ->route('application.edit', ["application" => $application])
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $application->submitted_at = \Carbon\Carbon::now();
@@ -359,7 +366,7 @@ class ApplicationController extends Controller
         $application->applicant->notify(new ApplicationSubmitted($application));
 
         return redirect()->route('home')
-                         ->with('success', __('actions.application.submitted', ['reference' => $application->reference]));
+            ->with('success', __('actions.application.submitted', ['reference' => $application->reference]));
     }
 
     /**
@@ -370,9 +377,9 @@ class ApplicationController extends Controller
      */
     public function forceSubmit(Application $application)
     {
-        if(!empty($application->submitted_at)){
+        if (!empty($application->submitted_at)) {
             return redirect()->route('projectcall.applications', ['projectcall' => $application->projectcall])
-                             ->withErrors([__('actions.application.already_submitted', ['reference' => $application->reference])]);
+                ->withErrors([__('actions.application.already_submitted', ['reference' => $application->reference])]);
         }
 
         $application->submitted_at = \Carbon\Carbon::now();
@@ -382,7 +389,7 @@ class ApplicationController extends Controller
         $application->applicant->notify(new ApplicationForceSubmitted($application));
 
         return redirect()->route('projectcall.applications', ['projectcall' => $application->projectcall])
-                         ->with('success', __('actions.application.force_submitted', ['reference' => $application->reference]));
+            ->with('success', __('actions.application.force_submitted', ['reference' => $application->reference]));
     }
 
     /**
@@ -401,7 +408,7 @@ class ApplicationController extends Controller
         $application->applicant->notify(new ApplicationUnsubmitted($application));
 
         return redirect()->route('projectcall.applications', ['projectcall' => $application->projectcall])
-                         ->with('success', __('actions.application.unsubmitted', ['reference' => $application->reference]));
+            ->with('success', __('actions.application.unsubmitted', ['reference' => $application->reference]));
     }
 
     /**

@@ -44,12 +44,12 @@ class ApplicationForceSubmitted extends Notification
     {
         $call = $this->application->projectcall;
         return (new MailMessage)
-                    ->subject(__('email.application_force_submitted.title'))
-                    ->line(__('email.application_force_submitted.intro', [
-                        'call'      => $call->toString(),
-                        'reference' => $this->application->reference
-                    ]))
-                    ->action(__('email.application_force_submitted.action'), url(config('app.url').route('application.show', $this->application->id, false)));
+            ->subject(__('email.application_force_submitted.title'))
+            ->line(__('email.application_force_submitted.intro', [
+                'call'      => $call->toString(),
+                'reference' => $this->application->reference
+            ]))
+            ->action(__('email.application_force_submitted.action'), url(config('app.url') . route('application.show', $this->application->id, false)));
     }
 
     /**

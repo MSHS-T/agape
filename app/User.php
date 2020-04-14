@@ -32,7 +32,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
-    public function getNameAttribute(){
+    public function getNameAttribute()
+    {
         return ucfirst($this->first_name) . " " . strtoupper($this->last_name);
     }
 

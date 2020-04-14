@@ -44,19 +44,18 @@ class NewApplicationSubmitted extends Notification
     {
         $call = $this->application->projectcall;
         $message = (new MailMessage)
-                    ->subject(__('email.new_application_submitted.title'))
-                    ->line(__('email.new_application_submitted.intro', [
-                        'name' => $this->application->applicant->name,
-                        'call' => $call->toString()
-                    ]));
-        if($this->application->devalidation_message !== null)
-        {
+            ->subject(__('email.new_application_submitted.title'))
+            ->line(__('email.new_application_submitted.intro', [
+                'name' => $this->application->applicant->name,
+                'call' => $call->toString()
+            ]));
+        if ($this->application->devalidation_message !== null) {
             $message->line(__('email.new_application_submitted.devalidation_line', [
                 'justification' => $this->application->devalidation_message
             ]));
         }
 
-        return $message->action(__('email.new_application_submitted.action'), url(config('app.url').route('application.show', $this->application->id, false)));
+        return $message->action(__('email.new_application_submitted.action'), url(config('app.url') . route('application.show', $this->application->id, false)));
     }
 
     /**

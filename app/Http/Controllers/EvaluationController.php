@@ -28,7 +28,7 @@ class EvaluationController extends Controller
     public function indexForProjectCall(ProjectCall $projectcall)
     {
         $evaluations = collect([]);
-        foreach($projectcall->submittedApplications as $application){
+        foreach ($projectcall->submittedApplications as $application) {
             $evaluations = $evaluations->merge($application->evaluations);
         }
         return view('evaluation.index', compact('evaluations', 'projectcall'));
@@ -55,13 +55,15 @@ class EvaluationController extends Controller
     public function exportForProjectCall(ProjectCall $projectcall, Request $request)
     {
         $evaluations = collect([]);
-        foreach($projectcall->submittedApplications as $application){
+        foreach ($projectcall->submittedApplications as $application) {
             $evaluations = $evaluations->merge($application->evaluations);
         }
-        $evaluations = $evaluations->reject(function($e){ return is_null($e->submitted_at); });
+        $evaluations = $evaluations->reject(function ($e) {
+            return is_null($e->submitted_at);
+        });
         $anonymized = boolval($request->input('anonymized', "0"));
 
-        $title = implode(' - ', [config('app.name'), __('actions.evaluation.export_name'), __('vocabulary.calltype_short.'.$projectcall->typeLabel), $projectcall->year]);
+        $title = implode(' - ', [config('app.name'), __('actions.evaluation.export_name'), __('vocabulary.calltype_short.' . $projectcall->typeLabel), $projectcall->year]);
 
         $pdf = PDF::loadView('export.evaluations', compact('evaluations', 'projectcall', 'anonymized'));
         return $pdf->download($title . '.pdf');
@@ -76,11 +78,13 @@ class EvaluationController extends Controller
     public function exportForApplication(Application $application, Request $request)
     {
         $evaluations = $application->evaluations;
-        $evaluations = $evaluations->reject(function($e){ return is_null($e->submitted_at); });
+        $evaluations = $evaluations->reject(function ($e) {
+            return is_null($e->submitted_at);
+        });
         $projectcall = $application->projectcall;
         $anonymized = boolval($request->input('anonymized', "0"));
 
-        $title = implode(' - ', [config('app.name'), __('actions.evaluation.export_name'), __('vocabulary.calltype_short.'.$projectcall->typeLabel), $projectcall->year]);
+        $title = implode(' - ', [config('app.name'), __('actions.evaluation.export_name'), __('vocabulary.calltype_short.' . $projectcall->typeLabel), $projectcall->year]);
 
         $pdf = PDF::loadView('export.evaluations', compact('evaluations', 'projectcall', 'anonymized'));
         return $pdf->download($title . '.pdf');
@@ -105,14 +109,14 @@ class EvaluationController extends Controller
      */
     public function edit(Evaluation $evaluation)
     {
-        if(!empty($evaluation->submitted_at)){
+        if (!empty($evaluation->submitted_at)) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.evaluation.already_submitted')]);
+                ->withErrors([__('actions.evaluation.already_submitted')]);
         }
         $evaluation->load(['offer', 'offer.application', 'offer.application.applicant']);
-        if(!$evaluation->offer->application->projectcall->canEvaluate() && $evaluation->devalidation_message == null){
+        if (!$evaluation->offer->application->projectcall->canEvaluate() && $evaluation->devalidation_message == null) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+                ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
         return view('evaluation.edit', compact('evaluation'));
     }
@@ -126,20 +130,20 @@ class EvaluationController extends Controller
      */
     public function update(Evaluation $evaluation, Request $request)
     {
-        if(!empty($evaluation->submitted_at)){
+        if (!empty($evaluation->submitted_at)) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.evaluation.already_submitted')]);
+                ->withErrors([__('actions.evaluation.already_submitted')]);
         }
-        if(!$evaluation->offer->application->projectcall->canEvaluate()){
+        if (!$evaluation->offer->application->projectcall->canEvaluate()) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+                ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
         $data = $request->all();
         $evaluation->fill($data);
         $evaluation->save();
 
         return redirect()->route('home')
-                         ->with('success', __('actions.evaluation.saved'));
+            ->with('success', __('actions.evaluation.saved'));
     }
 
     /**
@@ -151,13 +155,13 @@ class EvaluationController extends Controller
      */
     public function submit(Evaluation $evaluation, Request $request)
     {
-        if(!empty($evaluation->submitted_at)){
+        if (!empty($evaluation->submitted_at)) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.evaluation.already_submitted')]);
+                ->withErrors([__('actions.evaluation.already_submitted')]);
         }
-        if(!$evaluation->offer->application->projectcall->canEvaluate() && $evaluation->devalidation_message == null){
+        if (!$evaluation->offer->application->projectcall->canEvaluate() && $evaluation->devalidation_message == null) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+                ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
         $data = $evaluation->attributesToArray();
         $validator = Validator::make($data, [
@@ -173,9 +177,9 @@ class EvaluationController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                        ->route('evaluation.edit', ["evaluation" => $evaluation])
-                        ->withErrors($validator)
-                        ->withInput();
+                ->route('evaluation.edit', ["evaluation" => $evaluation])
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $evaluation->submitted_at = \Carbon\Carbon::now();
@@ -184,7 +188,7 @@ class EvaluationController extends Controller
         Notification::send(User::admins()->get(), new EvaluationSubmitted($evaluation->offer));
 
         return redirect()->route('home')
-                         ->with('success', __('actions.evaluation.submitted'));
+            ->with('success', __('actions.evaluation.submitted'));
     }
 
     /**
@@ -195,9 +199,9 @@ class EvaluationController extends Controller
      */
     public function forceSubmit(Evaluation $evaluation)
     {
-        if(!empty($evaluation->submitted_at)){
+        if (!empty($evaluation->submitted_at)) {
             return redirect()->route('projectcall.evaluations', ['projectcall' => $evaluation->projectcall])
-                             ->withErrors([__('actions.evaluation.already_submitted', ['reference' => $evaluation->reference])]);
+                ->withErrors([__('actions.evaluation.already_submitted', ['reference' => $evaluation->reference])]);
         }
 
         $evaluation->submitted_at = \Carbon\Carbon::now();
@@ -207,7 +211,7 @@ class EvaluationController extends Controller
         $evaluation->offer->expert->notify(new EvaluationForceSubmitted($evaluation));
 
         return redirect()->back()
-                         ->with('success', __('actions.evaluation.force_submitted', ['reference' => $evaluation->reference]));
+            ->with('success', __('actions.evaluation.force_submitted', ['reference' => $evaluation->reference]));
     }
 
     /**
@@ -226,8 +230,6 @@ class EvaluationController extends Controller
         $evaluation->offer->expert->notify(new EvaluationUnsubmitted($evaluation));
 
         return redirect()->back()
-                         ->with('success', __('actions.evaluation.unsubmitted', ['reference' => $evaluation->reference]));
+            ->with('success', __('actions.evaluation.unsubmitted', ['reference' => $evaluation->reference]));
     }
-
-
 }

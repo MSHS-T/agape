@@ -31,7 +31,7 @@ class EvaluationForceSubmitted extends Notification
      */
     public function via($notifiable)
     {
-      return ['mail'];
+        return ['mail'];
     }
 
     /**
@@ -44,12 +44,12 @@ class EvaluationForceSubmitted extends Notification
     {
         $call = $this->evaluation->offer->application->projectcall;
         return (new MailMessage)
-                    ->subject(__('email.evaluation_force_submitted.title'))
-                    ->line(__('email.evaluation_force_submitted.intro', [
-                        'expert' => $this->evaluation->offer->expert->name,
-                        'candidat' => $this->evaluation->offer->application->applicant->name,
-                        'call' => $call->toString()
-                    ]));
+            ->subject(__('email.evaluation_force_submitted.title'))
+            ->line(__('email.evaluation_force_submitted.intro', [
+                'expert' => $this->evaluation->offer->expert->name,
+                'candidat' => $this->evaluation->offer->application->applicant->name,
+                'call' => $call->toString()
+            ]));
     }
 
     /**

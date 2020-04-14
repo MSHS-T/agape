@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\EvaluationOffer;
 use App\ProjectCall;
 use App\User;
@@ -24,17 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        switch(Auth::user()->role){
+        switch (Auth::user()->role) {
             case UserRole::Candidate:
-                $open_calls = ProjectCall::with(['applications' => function($query){
+                $open_calls = ProjectCall::with(['applications' => function ($query) {
                     $query->where('applicant_id', Auth::id());
                 }])->open()->get();
-                $old_calls = ProjectCall::with(['applications' => function($query){
+                $old_calls = ProjectCall::with(['applications' => function ($query) {
                     $query->where('applicant_id', Auth::id());
                 }])->old()->userApplied()->get();
-                $unsubmitted_applications = ProjectCall::with(['applications' => function($query){
+                $unsubmitted_applications = ProjectCall::with(['applications' => function ($query) {
                     $query->where('applicant_id', Auth::id());
-                }])->whereHas('applications', function($query){
+                }])->whereHas('applications', function ($query) {
                     $query->whereNotNull('devalidation_message');
                 })->userHasNotSubmitted()->get();
                 $data = compact('open_calls', 'old_calls', 'unsubmitted_applications');
@@ -51,21 +52,21 @@ class HomeController extends Controller
                 $accepted = EvaluationOffer::where('accepted', true)
                     ->openCalls()
                     ->where('expert_id', Auth::id())
-                    ->whereDoesntHave('evaluation', function(Builder $query){
+                    ->whereDoesntHave('evaluation', function (Builder $query) {
                         $query->whereNotNull('submitted_at');
                     })
                     ->get();
                 $done = EvaluationOffer::with('evaluation')
                     ->where('accepted', true)
                     ->where('expert_id', Auth::id())
-                    ->whereHas('evaluation', function(Builder $query){
+                    ->whereHas('evaluation', function (Builder $query) {
                         $query->whereNotNull('submitted_at');
                     })
                     ->get();
                 $unsubmitted = EvaluationOffer::with('evaluation')
                     ->where('accepted', true)
                     ->where('expert_id', Auth::id())
-                    ->whereHas('evaluation', function(Builder $query){
+                    ->whereHas('evaluation', function (Builder $query) {
                         $query->whereNull('submitted_at')->whereNotNull('devalidation_message');
                     })
                     ->get();
@@ -107,20 +108,20 @@ class HomeController extends Controller
         ]);
         if ($validator->fails()) {
             return redirect()
-                        ->route('profile')
-                        ->withErrors($validator)
-                        ->withInput();
+                ->route('profile')
+                ->withErrors($validator)
+                ->withInput();
         }
         $data = $request->only(['first_name', 'last_name', 'email', 'phone']);
         $user->fill($data);
 
-        if($request->filled(['password', 'password_confirmation'])) {
+        if ($request->filled(['password', 'password_confirmation'])) {
             $user->password = Hash::make($request->input('password'));
         }
         $user->save();
 
         return redirect()->route('home')
-                         ->with('success', __('actions.profile_edited'));
+            ->with('success', __('actions.profile_edited'));
     }
 
     /**
@@ -164,16 +165,16 @@ class HomeController extends Controller
         ]);
         if ($validator->fails()) {
             return redirect()
-                        ->route('contact')
-                        ->withErrors($validator)
-                        ->withInput();
+                ->route('contact')
+                ->withErrors($validator)
+                ->withInput();
         }
         $data = (object) $request->only(['name', 'email', 'message']);
         $data->visitor = !Auth::check();
         Notification::send(User::admins()->get(), new ContactMessage($data));
 
         return redirect()->route(Auth::check() ? 'home' : 'login')
-                         ->with('success', __('actions.contact_sent'));
+            ->with('success', __('actions.contact_sent'));
     }
 
     public function globalExport()

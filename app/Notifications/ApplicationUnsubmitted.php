@@ -44,15 +44,15 @@ class ApplicationUnsubmitted extends Notification
     {
         $call = $this->application->projectcall;
         return (new MailMessage)
-                    ->subject(__('email.application_unsubmitted.title'))
-                    ->line(__('email.application_unsubmitted.intro', [
-                        'call'      => $call->toString(),
-                        'reference' => $this->application->reference
-                    ]))
-                    ->line(__('email.application_unsubmitted.outro', [
-                        'justification' => $this->application->devalidation_message
-                    ]))
-                    ->action(__('email.application_unsubmitted.action'), url(config('app.url').route('application.edit', $this->application->id, false)));
+            ->subject(__('email.application_unsubmitted.title'))
+            ->line(__('email.application_unsubmitted.intro', [
+                'call'      => $call->toString(),
+                'reference' => $this->application->reference
+            ]))
+            ->line(__('email.application_unsubmitted.outro', [
+                'justification' => $this->application->devalidation_message
+            ]))
+            ->action(__('email.application_unsubmitted.action'), url(config('app.url') . route('application.edit', $this->application->id, false)));
     }
 
     /**

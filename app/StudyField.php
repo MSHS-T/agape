@@ -19,11 +19,13 @@ class StudyField extends Model
         });
     }
 
-    public function applications(){
+    public function applications()
+    {
         return $this->belongsToMany('App\Application');
     }
 
-    public function creator(){
+    public function creator()
+    {
         return $this->belongsTo('App\User', 'creator_id');
     }
 

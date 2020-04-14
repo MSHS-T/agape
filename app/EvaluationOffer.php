@@ -22,24 +22,29 @@ class EvaluationOffer extends Model
         });
     }
 
-    public function creator(){
+    public function creator()
+    {
         return $this->belongsTo('App\User', 'creator_id');
     }
 
-    public function expert(){
+    public function expert()
+    {
         return $this->belongsTo('App\User', 'expert_id');
     }
 
-    public function application(){
+    public function application()
+    {
         return $this->belongsTo('App\Application');
     }
 
-    public function evaluation(){
+    public function evaluation()
+    {
         return $this->hasOne('App\Evaluation', 'offer_id');
     }
 
-    public function scopeOpenCalls($query){
-        return $query->whereHas('application.projectcall', function($q){
+    public function scopeOpenCalls($query)
+    {
+        return $query->whereHas('application.projectcall', function ($q) {
             $q->where([
                 ['evaluation_start_date', '<=', \Carbon\Carbon::parse('today')->format('Y-m-d')],
                 ['evaluation_end_date', '>=', \Carbon\Carbon::parse('today')->format('Y-m-d')]

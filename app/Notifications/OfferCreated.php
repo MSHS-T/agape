@@ -44,7 +44,7 @@ class OfferCreated extends Notification
     {
         $message = (new MailMessage)->subject(__('email.offer_created.title'));
 
-        if(empty($this->projectcall->invite_email_fr) && empty($this->projectcall->invite_email_en)){
+        if (empty($this->projectcall->invite_email_fr) && empty($this->projectcall->invite_email_en)) {
             $text = str_replace("[AAP]", $this->projectcall->toString(), __('email.offer_created.intro'));
             $message = $message->line($text);
         } else {
@@ -52,11 +52,11 @@ class OfferCreated extends Notification
             $text = implode("<hr/>", array_filter($text));
             $text = str_replace("[AAP]", $this->projectcall->toString(), $text);
             $message = $message->greeting(null)
-                               ->line($text);
+                ->line($text);
         }
 
         return $message->action(__('email.offer_created.action'), url('/'))
-                    ->line(__('email.offer_created.outro'));
+            ->line(__('email.offer_created.outro'));
     }
 
     /**

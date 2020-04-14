@@ -24,11 +24,13 @@ class Laboratory extends Model
         });
     }
 
-    public function applications(){
+    public function applications()
+    {
         return $this->belongsToMany('App\Application', 'application_laboratory', 'laboratory_id', 'application_id')->withPivot('order', 'contact_name');
     }
 
-    public function creator(){
+    public function creator()
+    {
         return $this->belongsTo('App\User', 'creator_id');
     }
 

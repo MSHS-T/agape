@@ -30,7 +30,7 @@ class LaboratoryController extends Controller
             'mode'       => 'create',
             'method'     => 'POST',
             'action'     => route('laboratory.store'),
-            'laboratory' => (object)[
+            'laboratory' => (object) [
                 'name'           => '',
                 'unit_code'      => '',
                 'director_email' => '',
@@ -58,7 +58,7 @@ class LaboratoryController extends Controller
         $lab->save();
 
         return redirect()->route('laboratory.index')
-                         ->with('success', __('actions.laboratory.created'));
+            ->with('success', __('actions.laboratory.created'));
     }
 
     /**
@@ -94,13 +94,13 @@ class LaboratoryController extends Controller
             'regency'        => 'required'
         ]);
         $laboratory->fill($request->only(['name', 'unit_code', 'director_email', 'regency']));
-        if($request->has('make_public')){
+        if ($request->has('make_public')) {
             $laboratory->creator()->dissociate();
             $laboratory->creator()->associate(Auth::user());
         }
         $laboratory->save();
         return redirect()->route('laboratory.index')
-                         ->with('success', __('actions.laboratory.edited'));
+            ->with('success', __('actions.laboratory.edited'));
     }
 
     /**
@@ -113,6 +113,6 @@ class LaboratoryController extends Controller
     {
         $laboratory->delete();
         return redirect()->route('laboratory.index')
-                         ->with('success', __('actions.laboratory.deleted'));
+            ->with('success', __('actions.laboratory.deleted'));
     }
 }

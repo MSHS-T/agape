@@ -33,7 +33,7 @@ class EvaluationOfferController extends Controller
         $expert->notify(new OfferCreated($application->projectcall));
 
         return redirect()->route('application.assignations', ['application' => $application])
-                         ->with('success', __('actions.application.expert_assigned'));
+            ->with('success', __('actions.application.expert_assigned'));
     }
 
     /**
@@ -47,7 +47,7 @@ class EvaluationOfferController extends Controller
         $application = $offer->application;
         $offer->delete();
         return redirect()->route('application.assignations', ['application' => $application])
-                         ->with('success', __('actions.application.expert_unassigned'));
+            ->with('success', __('actions.application.expert_unassigned'));
     }
 
     /**
@@ -62,7 +62,7 @@ class EvaluationOfferController extends Controller
         $offer->expert->notify(new OfferRetry($offer));
 
         return redirect()->route('application.assignations', ['application' => $offer->application])
-                         ->with('success', __('actions.evaluationoffers.reminder_sent'));
+            ->with('success', __('actions.evaluationoffers.reminder_sent'));
     }
 
     /**
@@ -74,20 +74,20 @@ class EvaluationOfferController extends Controller
      */
     public function accept(EvaluationOffer $offer, Request $request)
     {
-        if(!$offer->application->projectcall->canEvaluate()){
+        if (!$offer->application->projectcall->canEvaluate()) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+                ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
-        if($offer->accepted != null){
+        if ($offer->accepted != null) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.evaluationoffers.already_answered')]);
+                ->withErrors([__('actions.evaluationoffers.already_answered')]);
         }
         $offer->accepted = true;
         $evaluation = $offer->evaluation()->first() ?? $offer->evaluation()->save(new Evaluation);
         $offer->save();
         Notification::send(User::admins()->get(), new OfferAccepted($offer));
         return redirect()->route('evaluation.edit', ["evaluation" => $evaluation])
-                         ->with('success', __('actions.evaluationoffers.accepted'));
+            ->with('success', __('actions.evaluationoffers.accepted'));
     }
 
     /**
@@ -99,19 +99,19 @@ class EvaluationOfferController extends Controller
      */
     public function decline(EvaluationOffer $offer, Request $request)
     {
-        if(!$offer->application->projectcall->canEvaluate()){
+        if (!$offer->application->projectcall->canEvaluate()) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
+                ->withErrors([__('actions.projectcall.cannot_evaluate_anymore')]);
         }
-        if($offer->accepted != null){
+        if ($offer->accepted != null) {
             return redirect()->route('home')
-                             ->withErrors([__('actions.evaluationoffers.already_answered')]);
+                ->withErrors([__('actions.evaluationoffers.already_answered')]);
         }
         $offer->accepted = false;
         $offer->justification = $request->input('justification');
         $offer->save();
         Notification::send(User::admins()->get(), new OfferDeclined($offer));
         return redirect()->route('home')
-                         ->with('success', __('actions.evaluationoffers.declined'));
+            ->with('success', __('actions.evaluationoffers.declined'));
     }
 }

@@ -31,7 +31,7 @@ class UserInvitationRetry extends Notification
      */
     public function via($notifiable)
     {
-      return ['mail'];
+        return ['mail'];
     }
 
     /**
@@ -44,13 +44,13 @@ class UserInvitationRetry extends Notification
     {
         $role = __('vocabulary.role.' . \App\Enums\UserRole::getKey($this->invitation->role));
         return (new MailMessage)
-                    ->subject(__('email.invitation_retry.title'))
-                    ->line(__('email.invitation_retry.intro', [
-                        'role' => $role
-                    ]))
-                    ->action(__('email.invitation_retry.action'), url(
-                        route('register') . "?invitation=" . $this->invitation->invitation
-                    ));
+            ->subject(__('email.invitation_retry.title'))
+            ->line(__('email.invitation_retry.intro', [
+                'role' => $role
+            ]))
+            ->action(__('email.invitation_retry.action'), url(
+                route('register') . "?invitation=" . $this->invitation->invitation
+            ));
     }
 
     /**
