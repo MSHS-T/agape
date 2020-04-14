@@ -46,12 +46,17 @@ class UserInvitationSignup extends Notification
     {
         $role = __('vocabulary.role.' . \App\Enums\UserRole::getKey($this->invitation->role));
         $user = sprintf("%s (%s)", $this->user->name, $this->user->email);
-        return (new MailMessage)
+
+        $message = (new MailMessage)
             ->subject(__('email.invitation_signup.title'))
             ->line(__('email.invitation_signup.intro', [
                 'user' => $user,
                 'role' => $role
             ]));
+        if ($this->user->email !== $this->invitation->email) {
+            $message->line(__('email.invitation_signup.outro', ['email' => $this->invitation->email]));
+        }
+        return $message;
     }
 
     /**

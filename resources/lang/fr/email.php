@@ -97,7 +97,8 @@ return [
 
     "invitation_signup" => [
         "title"  => "Inscription suite à invitation",
-        "intro"  => "L'utilisateur :user, invité en tant que :role, a confirmé son inscription"
+        "intro"  => "L'utilisateur :user, invité en tant que :role, a confirmé son inscription",
+        "outro"  => "Attention : L'invitation avait été envoyée sur une adresse différente (:email)."
     ],
 
     "invitation_retry" => [
