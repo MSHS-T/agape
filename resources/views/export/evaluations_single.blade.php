@@ -7,7 +7,6 @@
 
     @page {
         size: A4 portrait;
-        margin: 5mm;
     }
 
     img {
@@ -71,42 +70,7 @@
 <h1 class="text-center">
     {{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }} - {{ $projectcall->year }}
 </h1>
-{{-- Table of contents --}}
-<ol>
-    @foreach ($applications as $application)
-    <li>
-        <a href="#application-{{$application->reference}}">
-            {{ $application->applicant->name }} - {{ $application->title }}
-            @if(!empty($application->acronym))
-            ({{ $application->acronym }})
-            @endif</a>
 
-        <ul>
-            @foreach($application->evaluations as $evaluation)
-            <li>
-                <a href="#evaluation-{{$evaluation->id}}">
-                    {{ __('fields.projectcall.evaluation')}} #{{$loop->iteration}}
-                    @if(!$anonymized)
-                    : {{ $evaluation->offer->expert->name }}
-                    @endif
-                </a>
-            </li>
-            @endforeach
-            @if($application->selection_comity_opinion !== null)
-            <li>
-                <a href="#application-{{$application->reference}}-comity">
-                    {{ __('fields.application.selection_comity_opinion') }}
-                </a>
-            </li>
-            @endif
-        </ul>
-    </li>
-    @endforeach
-</ol>
-
-@foreach($applications as $application)
-{{-- Start a new page for each application --}}
-<div class="page-break"></div>
 <section>
     {{-- Display application data in a table --}}
     <table>
@@ -164,9 +128,6 @@
     </p>
     @endif
 </section>
-
-
-@endforeach
 
 <script type="text/php">
     if (isset($pdf)) {

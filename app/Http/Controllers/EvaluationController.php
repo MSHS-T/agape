@@ -54,18 +54,22 @@ class EvaluationController extends Controller
      */
     public function exportForProjectCall(ProjectCall $projectcall, Request $request)
     {
-        $evaluations = collect([]);
-        foreach ($projectcall->submittedApplications as $application) {
-            $evaluations = $evaluations->merge($application->evaluations);
-        }
-        $evaluations = $evaluations->reject(function ($e) {
-            return is_null($e->submitted_at);
-        });
-        $anonymized = boolval($request->input('anonymized', "0"));
+        $projectcall->load('submittedApplications')->load(['submittedApplications.evaluations' => function ($query) {
+            $query->whereNotNull('submitted_at');
+        }]);
 
-        $title = implode(' - ', [config('app.name'), __('actions.evaluation.export_name'), __('vocabulary.calltype_short.' . $projectcall->typeLabel), $projectcall->year]);
+        $title = implode(' - ', [
+            config('app.name'),
+            __('actions.evaluation.export_name'),
+            __('vocabulary.calltype_short.' . $projectcall->typeLabel),
+            $projectcall->year
+        ]);
 
-        $pdf = PDF::loadView('export.evaluations', compact('evaluations', 'projectcall', 'anonymized'));
+        $pdf = PDF::loadView('export.evaluations', [
+            'applications' => $projectcall->submittedApplications()->get(),
+            'projectcall' => $projectcall,
+            'anonymized' => boolval($request->input('anonymized', "0")),
+        ]);
         return $pdf->download($title . '.pdf');
     }
 
@@ -77,16 +81,22 @@ class EvaluationController extends Controller
      */
     public function exportForApplication(Application $application, Request $request)
     {
-        $evaluations = $application->evaluations;
-        $evaluations = $evaluations->reject(function ($e) {
-            return is_null($e->submitted_at);
-        });
-        $projectcall = $application->projectcall;
-        $anonymized = boolval($request->input('anonymized', "0"));
+        $application->load('projectcall')->load(['evaluations' => function ($query) {
+            $query->whereNotNull('submitted_at');
+        }]);
 
-        $title = implode(' - ', [config('app.name'), __('actions.evaluation.export_name'), __('vocabulary.calltype_short.' . $projectcall->typeLabel), $projectcall->year]);
+        $title = implode(' - ', [
+            config('app.name'),
+            __('actions.evaluation.export_name'),
+            __('vocabulary.calltype_short.' . $application->projectcall->typeLabel),
+            $application->projectcall->year
+        ]);
 
-        $pdf = PDF::loadView('export.evaluations', compact('evaluations', 'projectcall', 'anonymized'));
+        $pdf = PDF::loadView('export.evaluations_single', [
+            'application' => $application,
+            'projectcall' => $application->projectcall,
+            'anonymized' => boolval($request->input('anonymized', "0"))
+        ]);
         return $pdf->download($title . '.pdf');
     }
 
