@@ -165,6 +165,8 @@
     </div>
 </footer>
 
+@include('cookieConsent::index')
+
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
 @stack('scripts')
