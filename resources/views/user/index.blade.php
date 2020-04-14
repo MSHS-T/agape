@@ -45,6 +45,10 @@
                     @endif
                 </td>
                 <td>
+                    <a href="{{ route('user.changeRole', $user)}}"
+                        class="btn btn-sm btn-secondary btn-block change-role-link">
+                        @svg("solid/user-tag", 'icon-fw') {{ __('actions.user.change_role') }}
+                    </a>
                     @php
                     if(!is_null($user->deleted_at)) {
                     $icon = "solid/lock-open";
@@ -117,7 +121,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
-                <form id="confirmation-form" action="" method="post">
+                <form id="confirm-block-form" action="" method="post">
                     @csrf @method('DELETE')
                     <button class="btn btn-danger" type="submit">{{ __('actions.block') }}</button>
                 </form>
@@ -140,11 +144,44 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
-                <form id="confirmation-form" action="" method="post">
+                <form id="confirm-delete-form" action="" method="post">
                     @csrf @method('DELETE')
                     <button class="btn btn-danger" type="submit">{{ __('actions.delete') }}</button>
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirm-change-role" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('actions.user.choose_new_role') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="confirm-change-role-form" action="" method="post">
+                @csrf @method('PUT')
+                <div class="modal-body">
+                    @include('forms.select', [
+                    'name' => 'role',
+                    'label' => __('fields.role'),
+                    'allowedValues' => \App\Enums\UserRole::toSelectArray(),
+                    'allowNone' => false,
+                    'allowNew' => false,
+                    'multiple' => false,
+                    'displayField' => 'label',
+                    'valueField' => 'value'
+                    ])
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                    <button class="btn btn-danger" type="submit">{{ __('actions.edit') }}</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -158,8 +195,8 @@
             var targetUrl = jQuery(this).attr('href');
             var text = jQuery(this).attr('data-buttontext');
             var color = jQuery(this).attr('data-buttoncolor');
-            $("form#confirmation-form").attr('action', targetUrl);
-            $("form#confirmation-form").find('button[type=submit]')
+            $("form#confirm-block-form").attr('action', targetUrl);
+            $("form#confirm-block-form").find('button[type=submit]')
                                        .text(text)
                                        .removeClass()
                                        .addClass('btn btn-'+color);
@@ -171,13 +208,20 @@
             var targetUrl = jQuery(this).attr('href');
             var text = jQuery(this).attr('data-buttontext');
             var color = jQuery(this).attr('data-buttoncolor');
-            $("form#confirmation-form").attr('action', targetUrl);
-            $("form#confirmation-form").find('button[type=submit]')
+            $("form#confirm-delete-form").attr('action', targetUrl);
+            $("form#confirm-delete-form").find('button[type=submit]')
                                        .text(text)
                                        .removeClass()
                                        .addClass('btn btn-'+color);
 
             $(".modal#confirm-delete").modal();
+        });
+        $('.change-role-link').click(function (e) {
+            e.preventDefault();
+            var targetUrl = jQuery(this).attr('href');
+            $("form#confirm-change-role-form").attr('action', targetUrl);
+
+            $(".modal#confirm-change-role").modal();
         });
         $('#user_list').DataTable({
             autoWidth: true,
@@ -187,9 +231,9 @@
             order: [
                 [6, 'desc']
             ],
-            columns: [null, null, null, null, null, null, null, null, null, {
+            columns: [null, null, null, null, {width: 100}, {width: 100}, {width: 100}, {width: 100}, null, {
                 searchable: false,
-                width: 100
+                width: 140
             }],
             language: @json(__('datatable')),
             pageLength: 5,

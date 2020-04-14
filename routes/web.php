@@ -105,6 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('studyfield', 'StudyFieldController')->except(['show']);
 
         Route::resource('user', 'UserController')->only(['index', 'store', 'destroy']);
+        Route::put('user/{user}/changeRole', 'UserController@changeRole')->name('user.changeRole');
         Route::delete('user/{user}/block', 'UserController@block')->name('user.block');
         Route::get('user/invites', 'UserController@invites')->name('user.invites');
         Route::post('user/invite/{invitationCode}/retry', 'UserController@inviteRetry')->name('user.invite.retry');

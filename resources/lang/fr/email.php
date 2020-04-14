@@ -106,6 +106,11 @@ return [
         "action" => "Inscription"
     ],
 
+    "role_change" => [
+        "title"  => "Modification de vos droits d'accès",
+        "intro"  => "L'administrateur de la plateforme AGAPE a modifié vos droits d'accès. Vous possédez désormais le rôle :role."
+    ],
+
     "contact" => [
         "title"        => "Nouveau message via le formulaire de contact AGAPE",
         "intro"        => ":type :name (:email) vient d'envoyer le message suivant avec le formulaire de contact de la plateforme AGAPE: <br/>:message",

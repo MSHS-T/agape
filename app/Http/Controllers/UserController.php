@@ -7,6 +7,7 @@ use App\User;
 use App\Enums\UserRole;
 use App\Notifications\UserInvitation;
 use App\Notifications\UserInvitationRetry;
+use App\Notifications\UserRoleChange;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -53,6 +54,28 @@ class UserController extends Controller
 
         return redirect()->route('user.index')
             ->with('success', __('actions.user.invited'));
+    }
+
+    /**
+     * Changes user role.
+     *
+     * @param  string  $user
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changeRole($user, Request $request)
+    {
+        $newRole = $request->input('role');
+        $user = User::where('id', $user)->firstOrFail();
+        $user->role = intval($newRole);
+        $user->save();
+
+        $newRoleLabel = __('vocabulary.role.' . \App\Enums\UserRole::getKey($user->role));
+
+        $user->notify(new UserRoleChange($user));
+
+        return redirect()->route('user.index')
+            ->with('success', __('actions.user.role_changed', ['name' => $user->name, 'role' => $newRoleLabel]));
     }
 
     /**
