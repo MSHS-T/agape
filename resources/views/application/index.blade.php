@@ -9,8 +9,8 @@
 </p>
 <div class="row mb-3">
     <div class="col-12 table-buttons">
-        <a class="btn btn-secondary"
-            href="{{ route('projectcall.applicationsExport', ['projectcall' => $projectcall]) }}">
+        <a class="btn btn-info" href="{{ route('projectcall.applicationsExport', ['projectcall' => $projectcall]) }}">
+            @svg('solid/file-excel', 'icon-fw')
             {{ __('exports.buttons.excel') }}
         </a>
     </div>

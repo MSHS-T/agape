@@ -65,7 +65,7 @@ class EvaluationController extends Controller
             $projectcall->year
         ]);
 
-        $pdf = PDF::loadView('export.evaluations', [
+        $pdf = PDF::loadView('export.evaluations_projectcall', [
             'applications' => $projectcall->submittedApplications()->get(),
             'projectcall' => $projectcall,
             'anonymized' => boolval($request->input('anonymized', "0")),
@@ -92,9 +92,32 @@ class EvaluationController extends Controller
             $application->projectcall->year
         ]);
 
-        $pdf = PDF::loadView('export.evaluations_single', [
+        $pdf = PDF::loadView('export.evaluations_application', [
             'application' => $application,
             'projectcall' => $application->projectcall,
+            'anonymized' => boolval($request->input('anonymized', "0"))
+        ]);
+        return $pdf->download($title . '.pdf');
+    }
+
+    /**
+     * Export a single evaluation
+     *
+     * @param  Evaluation  $evaluation
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Evaluation $evaluation, Request $request)
+    {
+        $title = implode(' - ', [
+            config('app.name'),
+            __('actions.evaluation.export_name'),
+            __('vocabulary.calltype_short.' . $evaluation->offer->application->projectcall->typeLabel),
+            $evaluation->offer->application->projectcall->year
+        ]);
+
+        $pdf = PDF::loadView('export.evaluation', [
+            'evaluation' => $evaluation,
+            'projectcall' => $evaluation->offer->application->projectcall,
             'anonymized' => boolval($request->input('anonymized', "0"))
         ]);
         return $pdf->download($title . '.pdf');

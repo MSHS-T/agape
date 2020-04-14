@@ -6,22 +6,28 @@
 <h3 class="text-center">{{
     __('vocabulary.calltype_short.'.$projectcall->typeLabel) }} :
     {{$projectcall->year}}
-    <br/>
+    <br />
     <small>{{ $projectcall->title }}</small>
 </h3>
 @if(isset($application))
-    <h4 class="text-center">{{ __('fields.projectcall.applicant') }} : {{ $application->applicant->name }}</h4>
-    <h4 class="text-center">{{ __('fields.application.acronym') }} : {{ $application->acronym }}</h4>
+<h4 class="text-center">{{ __('fields.projectcall.applicant') }} : {{ $application->applicant->name }}</h4>
+<h4 class="text-center">{{ __('fields.application.acronym') }} : {{ $application->acronym }}</h4>
 @endif
 <div class="row mb-3">
     <div class="col-12 table-buttons">
         @if(isset($application))
-            @php($link=route('application.evaluationsExport', ['application'=>$application]))
+        @php($link=route('application.evaluationsExport', ['application'=>$application]))
         @else
-            @php($link=route('projectcall.evaluationsExport', ['projectcall'=>$projectcall]))
+        @php($link=route('projectcall.evaluationsExport', ['projectcall'=>$projectcall]))
         @endif
-        <a href="{{$link}}" class="btn btn-secondary">{{ __('actions.export_pdf') }}</a>
-        <a href="{{$link}}?anonymized=1" class="btn btn-secondary">{{ __('actions.export_pdf_anon') }}</a>
+        <a href="{{$link}}" class="btn btn-info">
+            @svg('solid/file-pdf', 'icon-fw')
+            {{ __('actions.export_pdf') }}
+        </a>
+        <a href="{{$link}}?anonymized=1" class="btn btn-info">
+            @svg('solid/file-pdf', 'icon-fw')
+            {{ __('actions.export_pdf_anon') }}
+        </a>
     </div>
 </div>
 <div class="row d-flex flex-column align-content-stretch">
@@ -30,8 +36,8 @@
             <tr>
                 <th>{{ __('fields.id') }}</th>
                 @if(!isset($application))
-                    <th>{{ __('fields.application.acronym') }}</th>
-                    <th>{{ __('fields.projectcall.applicant') }}</th>
+                <th>{{ __('fields.application.acronym') }}</th>
+                <th>{{ __('fields.projectcall.applicant') }}</th>
                 @endif
                 <th>{{ __('fields.offer.expert') }}</th>
                 <th>{{ __('fields.evaluation.grade') }} 1</th>
@@ -51,8 +57,8 @@
             <tr>
                 <td>{{ $evaluation->id }}</td>
                 @if(!isset($application))
-                    <td>{{ $evaluation->offer->application->acronym }}</td>
-                    <td>{{ $evaluation->offer->application->applicant->name }}</td>
+                <td>{{ $evaluation->offer->application->acronym }}</td>
+                <td>{{ $evaluation->offer->application->applicant->name }}</td>
                 @endif
                 <td>
                     {{ $evaluation->offer->expert->name }}
@@ -83,20 +89,27 @@
                 </td>
                 <td>@date(['datetime' => $evaluation->submitted_at])</td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-secondary btn-block viewmore-link" data-evaluation="{{ $evaluation->id }}">
+                    <button type="button" class="btn btn-sm btn-secondary btn-block viewmore-link"
+                        data-evaluation="{{ $evaluation->id }}">
                         @svg('solid/search-plus', 'icon-fw') {{ __('actions.show_more') }}
                     </button>
-                    <a href="{{ route('application.show',$evaluation->offer->application)}}" class="btn btn-sm btn-primary btn-block">
+                    <a href="{{ route('application.show',$evaluation->offer->application)}}"
+                        class="btn btn-sm btn-primary btn-block">
                         @svg('solid/link', 'icon-fw') {{ __('actions.application.one') }}
                     </a>
                     @if($evaluation->submitted_at == null)
-                        <a href="{{ route('evaluation.forceSubmit',$evaluation)}}" class="btn btn-sm btn-warning btn-block force-submission-link">
-                            @svg('solid/check') {{ __('actions.evaluation.force_submit') }}
-                        </a>
+                    <a href="{{ route('evaluation.forceSubmit',$evaluation)}}"
+                        class="btn btn-sm btn-warning btn-block force-submission-link">
+                        @svg('solid/check') {{ __('actions.evaluation.force_submit') }}
+                    </a>
                     @else
-                        <a href="{{ route('evaluation.unsubmit',$evaluation)}}" class="btn btn-sm btn-danger btn-block unsubmit-link">
-                            @svg('solid/backspace') {{ __('actions.evaluation.unsubmit') }}
-                        </a>
+                    <a href="{{ route('evaluation.unsubmit',$evaluation)}}"
+                        class="btn btn-sm btn-danger btn-block unsubmit-link">
+                        @svg('solid/backspace') {{ __('actions.evaluation.unsubmit') }}
+                    </a>
+                    <a href="{{ route('evaluation.export',$evaluation)}}" class="btn btn-sm btn-info btn-block">
+                        @svg('solid/download') {{ __('actions.export_pdf') }}
+                    </a>
                     @endif
                 </td>
             </tr>
@@ -106,9 +119,10 @@
 </div>
 <div class="d-none">
     @foreach($evaluations as $evaluation)
-        <div id="evaluation-{{ $evaluation->id }}">
-            @include('partials.evaluation_display', ["evaluation" => $evaluation, "anonymized" => false, "noId" => true, "criteriaDetails" => false])
-        </div>
+    <div id="evaluation-{{ $evaluation->id }}">
+        @include('partials.evaluation_display', ["evaluation" => $evaluation, "anonymized" => false, "noId" => true,
+        "criteriaDetails" => false])
+    </div>
     @endforeach
 </div>
 <div class="modal fade" id="confirm-force-submission" tabindex="-1" role="dialog" aria-hidden="true">
@@ -149,16 +163,17 @@
                 <div class="modal-body">
                     <p>
                         {{ __('actions.evaluation.confirm_unsubmit.body') }}
-                        <br/>
+                        <br />
                         <textarea id="justification" name="justification" class="w-100" rows="3"></textarea>
-                        <br/>
+                        <br />
                         <small id="justificationHelpBlock" class="text-danger invisible">
                             {{ __('actions.evaluation.confirm_unsubmit.error') }}
                         </small>
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">{{ __('actions.cancel') }}</button>
                     <button class="btn btn-danger" type="submit">{{ __('actions.evaluation.unsubmit') }}</button>
                 </div>
             </form>
