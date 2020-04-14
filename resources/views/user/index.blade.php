@@ -19,55 +19,54 @@
         </thead>
         <tbody>
             @foreach($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->last_name }}</td>
-                    <td>{{ $user->first_name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->phone }}</td>
-                    <td>
-                        {{ __('vocabulary.role.' . App\Enums\UserRole::getKey($user->role)) }}
-                    </td>
-                    <td data-order="{{ $user->created_at }}">
-                        @date(['datetime' => $user->created_at])
-                    </td>
-                    <td data-order="{{ $user->updated_at ?? 0 }}">
-                        @date(['datetime' => $user->updated_at])
-                    </td>
-                    <td
-                        class="text-center"
-                        data-search="{{ __('fields.user.'.($user->deleted_at ? 'blocked' : 'unblocked')) }}"
-                        data-toggle="tooltip"
-                        data-placement="right"
-                        title="{{ __('fields.user.'.($user->deleted_at ? 'blocked' : 'unblocked')) }}"
-                    >
-                        @if(!is_null($user->deleted_at))
-                            @svg('solid/lock', 'icon-fw text-danger')
-                        @else
-                            @svg('solid/lock-open', 'icon-fw')
-                        @endif
-                    </td>
-                    <td>
-                         @php
-                            if(!is_null($user->deleted_at)) {
-                                $icon = "solid/lock-open";
-                                $text = __('actions.user.unblock');
-                                $color = "success";
-                            }
-                            else {
-                                $icon = "solid/lock";
-                                $text = __('actions.user.block');
-                                $color = "warning";
-                            }
-                        @endphp
-                        <a href="{{ route('user.block', $user)}}" class="btn btn-sm btn-{{ $color }} d-block block-link" data-buttontext="{{ $text }}" data-buttoncolor="{{ $color }}">
-                            @svg($icon, 'icon-fw') {{ $text }}
-                        </a>
-                        <a href="{{ route('user.destroy', $user)}}" class="btn btn-sm btn-danger d-block delete-link" data-buttontext="{{ __('actions.delete') }}" data-buttoncolor="danger">
-                            @svg('solid/trash', 'icon-fw') {{ __('actions.delete') }}
-                        </a>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ $user->id }}</td>
+                <td>{{ $user->last_name }}</td>
+                <td>{{ $user->first_name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->phone }}</td>
+                <td>
+                    {{ __('vocabulary.role.' . App\Enums\UserRole::getKey($user->role)) }}
+                </td>
+                <td data-order="{{ $user->created_at }}">
+                    @date(['datetime' => $user->created_at])
+                </td>
+                <td data-order="{{ $user->updated_at ?? 0 }}">
+                    @date(['datetime' => $user->updated_at])
+                </td>
+                <td class="text-center"
+                    data-search="{{ __('fields.user.'.($user->deleted_at ? 'blocked' : 'unblocked')) }}"
+                    data-toggle="tooltip" data-placement="right"
+                    title="{{ __('fields.user.'.($user->deleted_at ? 'blocked' : 'unblocked')) }}">
+                    @if(!is_null($user->deleted_at))
+                    @svg('solid/lock', 'icon-fw text-danger')
+                    @else
+                    @svg('solid/lock-open', 'icon-fw')
+                    @endif
+                </td>
+                <td>
+                    @php
+                    if(!is_null($user->deleted_at)) {
+                    $icon = "solid/lock-open";
+                    $text = __('actions.user.unblock');
+                    $color = "success";
+                    }
+                    else {
+                    $icon = "solid/lock";
+                    $text = __('actions.user.block');
+                    $color = "warning";
+                    }
+                    @endphp
+                    <a href="{{ route('user.block', $user)}}" class="btn btn-sm btn-{{ $color }} btn-block block-link"
+                        data-buttontext="{{ $text }}" data-buttoncolor="{{ $color }}">
+                        @svg($icon, 'icon-fw') {{ $text }}
+                    </a>
+                    <a href="{{ route('user.destroy', $user)}}" class="btn btn-sm btn-danger btn-block delete-link"
+                        data-buttontext="{{ __('actions.delete') }}" data-buttoncolor="danger">
+                        @svg('solid/trash', 'icon-fw') {{ __('actions.delete') }}
+                    </a>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>
@@ -78,26 +77,28 @@
         <form method="POST" action="{{ route('user.store') }}" id="invitation_form">
             @csrf @method("POST")
             @include('forms.textinput', [
-                'name'  => 'email',
-                'label' => __('fields.email'),
-                'value' => old('email', '')
+            'name' => 'email',
+            'label' => __('fields.email'),
+            'value' => old('email', '')
             ])
             @include('forms.select', [
-                'name' => 'role',
-                'label' => __('fields.role'),
-                'allowedValues' => \App\Enums\UserRole::toSelectArray(),
-                'allowNone' => false,
-                'allowNew' => false,
-                'multiple' => false,
-                'displayField' => 'label',
-                'valueField' => 'value'
+            'name' => 'role',
+            'label' => __('fields.role'),
+            'allowedValues' => \App\Enums\UserRole::toSelectArray(),
+            'allowNone' => false,
+            'allowNew' => false,
+            'multiple' => false,
+            'displayField' => 'label',
+            'valueField' => 'value'
             ])
             <p class="text-center">
-                <button type="submit" name="save" class="btn btn-primary">@svg('solid/plus') {{ __('actions.add') }}</button>
+                <button type="submit" name="save" class="btn btn-primary">@svg('solid/plus')
+                    {{ __('actions.add') }}</button>
             </p>
         </form>
         <p class="text-center">
-            <a href="{{ route('user.invites') }}" class="btn btn-warning">@svg('solid/hourglass') {{ __('actions.user.view_invites') }}</a>
+            <a href="{{ route('user.invites') }}" class="btn btn-warning">@svg('solid/hourglass')
+                {{ __('actions.user.view_invites') }}</a>
         </p>
     </div>
 </div>
@@ -187,7 +188,8 @@
                 [6, 'desc']
             ],
             columns: [null, null, null, null, null, null, null, null, null, {
-                searchable: false
+                searchable: false,
+                width: 100
             }],
             language: @json(__('datatable')),
             pageLength: 5,
