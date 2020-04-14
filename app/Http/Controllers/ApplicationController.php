@@ -412,6 +412,21 @@ class ApplicationController extends Controller
     }
 
     /**
+     * Add selection comity opinion to application
+     *
+     * @param  \App\Application  $application
+     * @return \Illuminate\Http\Response
+     */
+    public function comityOpinion(Application $application, Request $request)
+    {
+        $application->selection_comity_opinion = nl2br(trim($request->input('comity_opinion')));
+        $application->save();
+
+        return redirect()->back()
+            ->with('success', __('actions.application.comity_opinion_added'));
+    }
+
+    /**
      * List assignations between experts and application
      *
      * @param  Application  $application

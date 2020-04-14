@@ -15,17 +15,17 @@ Auth::routes(['verify' => true]);
 Route::redirect('/', '/home');
 
 
-Route::middleware(['auth', 'verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('profile', 'HomeController@profile')->name('profile');
     Route::post('profile', 'HomeController@saveProfile')->name('profile.save');
 
     Route::get('download/attachment/{application_id}/{index}', 'DownloadController@attachment')
-         ->name('download.attachment');
+        ->name('download.attachment');
 
     // Projectcalls
-    Route::name('projectcall.')->prefix('projectcall')->group(function(){
-        Route::middleware('role:admin')->group(function(){
+    Route::name('projectcall.')->prefix('projectcall')->group(function () {
+        Route::middleware('role:admin')->group(function () {
             Route::get('/', 'ProjectCallController@index')->name('index');
             Route::get('create', 'ProjectCallController@create')->name('create');
             Route::post('create', 'ProjectCallController@store')->name('store');
@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
             Route::get('{projectcall}/evaluations/export', 'EvaluationController@exportForProjectCall')->name('evaluationsExport');
         });
 
-        Route::middleware('role:admin,candidate')->group(function(){
+        Route::middleware('role:admin,candidate')->group(function () {
             Route::get('{projectcall}', 'ProjectCallController@show')->name('show');
             Route::get('{projectcall}/template/{template}', 'ProjectCallController@downloadTemplate')->name('template')->where(['template' => '(application|financial)']);
         });
@@ -48,42 +48,42 @@ Route::middleware(['auth', 'verified'])->group(function(){
     });
 
     // Applications
-    Route::name('application.')->prefix('application')->group(function(){
+    Route::name('application.')->prefix('application')->group(function () {
         Route::get('{application}', 'ApplicationController@show')->name('show');
 
-        Route::middleware('role:candidate')->group(function(){
+        Route::middleware('role:candidate')->group(function () {
             Route::get('{application}/edit', 'ApplicationController@edit')->name('edit');
             Route::put('{application}', 'ApplicationController@update')->name('update');
             Route::put('{application}/submit', 'ApplicationController@submit')->name('submit');
         });
 
-        Route::middleware('role:admin')->group(function(){
+        Route::middleware('role:admin')->group(function () {
             Route::put('{application}/forceSubmit', 'ApplicationController@forceSubmit')->name('forceSubmit');
             Route::put('{application}/unsubmit', 'ApplicationController@unsubmit')->name('unsubmit');
             Route::get('{application}/assignations', 'ApplicationController@assignations')->name('assignations');
+            Route::put('{application}/comityOpinion', 'ApplicationController@comityOpinion')->name('comityOpinion');
             Route::get('{application}/evaluations', 'EvaluationController@indexForApplication')->name('evaluations');
             Route::get('{application}/evaluations/export', 'EvaluationController@exportForApplication')->name('evaluationsExport');
         });
-
     });
 
     // Evaluation Offers
-    Route::name('offer.')->prefix('offer')->group(function(){
-        Route::middleware('role:admin')->group(function(){
+    Route::name('offer.')->prefix('offer')->group(function () {
+        Route::middleware('role:admin')->group(function () {
             Route::post('create/{application}', 'EvaluationOfferController@store')->name('store');
             Route::delete('{offer}', 'EvaluationOfferController@destroy')->name('destroy');
             Route::get('{offer}/retry', 'EvaluationOfferController@retry')->name('retry');
         });
 
-        Route::middleware('role:expert')->group(function(){
+        Route::middleware('role:expert')->group(function () {
             Route::get('{offer}/accept/', 'EvaluationOfferController@accept')->name('accept');
             Route::post('{offer}/decline/', 'EvaluationOfferController@decline')->name('decline');
         });
     });
 
     // Evaluations
-    Route::name('evaluation.')->prefix('evaluation')->group(function(){
-        Route::middleware('role:expert')->group(function(){
+    Route::name('evaluation.')->prefix('evaluation')->group(function () {
+        Route::middleware('role:expert')->group(function () {
             Route::get('{evaluation}/edit/', 'EvaluationController@edit')->name('edit');
             Route::put('{evaluation}', 'EvaluationController@update')->name('update');
             Route::put('{evaluation}/submit', 'EvaluationController@submit')->name('submit');

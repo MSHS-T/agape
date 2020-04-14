@@ -123,6 +123,10 @@ return [
             "body"  => "Veuillez saisir la justification, elle sera transmise au candidat.",
             "error" => "Erreur : la justification est obligatoire"
         ],
+        "confirm_comity_opinion" => [
+            "title_add"  => "Ajouter l'avis du comité de sélection",
+            "title_edit" => "Modifier l'avis du comité de sélection",
+        ],
         "saved"                   => "Votre candidature :reference a été sauvegardée. Pensez à la soumettre avant la date limite.",
         "submitted"               => "Votre candidature :reference a été soumise avec succès.",
         "already_submitted"       => "Votre candidature :reference a déjà été soumise et ne peut plus être modifiée.",
@@ -135,6 +139,8 @@ return [
         "expert_assigned"         => "La demande d'évaluation a été transmise à l'expert",
         "expert_unassigned"       => "La demande d'évaluation a été annulée",
         "expert_already_assigned" => "L'expert est déjà affecté à cette candidature",
+        "comity_opinion"          => "Comité de Sélection",
+        "comity_opinion_added"    => "L'avis du comité de sélection a bien été enregistré",
     ],
 
     "evaluationoffers" => [
