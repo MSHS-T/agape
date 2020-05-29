@@ -6,7 +6,6 @@ volumes:
 services:
     nginx:
         build: ./.docker/nginx
-        restart: always
         depends_on:
             - php
         volumes:
@@ -21,7 +20,6 @@ services:
 
     php:
         build: ./.docker/php
-        restart: always
         working_dir: /var/www/html/
         depends_on:
             - db
@@ -35,7 +33,6 @@ services:
         image: mysql:5.7
         volumes:
         - db_data:/var/lib/mysql
-        restart: unless-stopped
         ports:
         - "3306:3306"
         environment:
@@ -48,7 +45,6 @@ services:
         image: node:current-alpine
         depends_on:
             - php
-        restart: always
         working_dir: /var/www/html/
         command: sh -c "npm install && npm run watch"
         volumes:
@@ -60,7 +56,6 @@ services:
         depends_on:
             - php
             - db
-        restart: always
         ports:
             # local 8080:8080 remote
             - 8080:8080
