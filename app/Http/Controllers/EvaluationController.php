@@ -22,11 +22,12 @@ class EvaluationController extends Controller
     /**
      * Display the evaluations for a specific projectcall.
      *
-     * @param  ProjectCall $projectcall
+     * @param  int $projectcall
      * @return \Illuminate\Http\Response
      */
-    public function indexForProjectCall(ProjectCall $projectcall)
+    public function indexForProjectCall(int $projectcall)
     {
+        $projectcall = ProjectCall::withTrashed()->findOrFail($projectcall);
         $evaluations = collect([]);
         foreach ($projectcall->submittedApplications as $application) {
             $evaluations = $evaluations->merge($application->evaluations);
@@ -49,11 +50,12 @@ class EvaluationController extends Controller
     /**
      * Export the evaluations for a specific projectcall.
      *
-     * @param  ProjectCall $projectcall
+     * @param  int $projectcall
      * @return \Illuminate\Http\Response
      */
-    public function exportForProjectCall(ProjectCall $projectcall, Request $request)
+    public function exportForProjectCall(int $projectcall, Request $request)
     {
+        $projectcall = ProjectCall::withTrashed()->findOrFail($projectcall);
         $projectcall->load('submittedApplications')->load(['submittedApplications.evaluations' => function ($query) {
             $query->whereNotNull('submitted_at');
         }]);

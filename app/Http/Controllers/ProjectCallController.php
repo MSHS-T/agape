@@ -260,12 +260,12 @@ class ProjectCallController extends Controller
     /**
      * Lists applications for the given project call
      *
-     * @param  ProjectCall  $projectcall
+     * @param  int  $projectcall
      * @return \Illuminate\Http\Response
      */
-    public function applications(ProjectCall $projectcall)
+    public function applications($projectcall)
     {
-        $projectcall->load(['applications', 'applications.applicant']);
+        $projectcall = ProjectCall::withTrashed()->with(['applications', 'applications.applicant'])->findOrFail($projectcall);
         $applications = $projectcall->applications()->get();
         return view('application.index', compact('projectcall', 'applications'));
     }
@@ -273,12 +273,12 @@ class ProjectCallController extends Controller
     /**
      * Export applications for the given project call
      *
-     * @param  ProjectCall  $projectcall
+     * @param  int  $projectcall
      * @return \Illuminate\Http\Response
      */
-    public function applicationsExport(ProjectCall $projectcall)
+    public function applicationsExport($projectcall)
     {
-        $projectcall->load(['applications', 'applications.applicant']);
+        $projectcall = ProjectCall::withTrashed()->with(['applications', 'applications.applicant'])->findOrFail($projectcall);
         $export = new ApplicationsExport($projectcall);
         return Excel::download($export, config('app.name') . '-' . __('exports.applications.name') . '.xlsx');
     }
