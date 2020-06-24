@@ -65,6 +65,9 @@ class UserController extends Controller
      */
     public function changeRole($user, Request $request)
     {
+        if (intval($user) === 1) {
+            throw new \Illuminate\Validation\UnauthorizedException("Le compte administrateur ne peut pas être changé de rôle");
+        }
         $newRole = $request->input('role');
         $user = User::where('id', $user)->firstOrFail();
         $user->role = intval($newRole);
@@ -86,6 +89,9 @@ class UserController extends Controller
      */
     public function block($user)
     {
+        if (intval($user) === 1) {
+            throw new \Illuminate\Validation\UnauthorizedException("Le compte administrateur ne peut pas être bloqué");
+        }
         $user = User::withTrashed()->where('id', $user)->firstOrFail();
 
         if ($user->trashed()) {
@@ -107,6 +113,9 @@ class UserController extends Controller
      */
     public function destroy($user)
     {
+        if (intval($user) === 1) {
+            throw new \Illuminate\Validation\UnauthorizedException("Le compte administrateur ne peut pas être supprimé");
+        }
         $user = User::withTrashed()->where('id', $user)->firstOrFail();
         try {
             $user->forceDelete();

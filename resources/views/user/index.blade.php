@@ -45,6 +45,7 @@
                     @endif
                 </td>
                 <td>
+                    @if ($user->id > 1)
                     <a href="{{ route('user.changeRole', $user)}}"
                         class="btn btn-sm btn-secondary btn-block change-role-link">
                         @svg("solid/user-tag", 'icon-fw') {{ __('actions.user.change_role') }}
@@ -69,6 +70,7 @@
                         data-buttontext="{{ __('actions.delete') }}" data-buttoncolor="danger">
                         @svg('solid/trash', 'icon-fw') {{ __('actions.delete') }}
                     </a>
+                    @endif
                 </td>
             </tr>
             @endforeach
