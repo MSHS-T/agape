@@ -119,8 +119,21 @@ class ApplicationController extends Controller
             if ($lab_id === "none") {
                 continue;
             } else if (is_numeric($lab_id)) {
+                $lab = Laboratory::find($lab_id);
+                // If user created the lab, allow him to change it
+                if ($lab->creator_id === Auth::id()) {
+                    $lab_fields = ['name', 'unit_code', 'director_email', 'regency'];
+                    $lab_data = array_combine(
+                        $lab_fields,
+                        array_map(function ($f) use ($data, $iteration) {
+                            return $data->{"laboratory_" . $f . "_" . $iteration};
+                        }, $lab_fields)
+                    );
+                    $lab->fill($lab_data);
+                    $lab->save();
+                }
                 $application->laboratories()->attach(
-                    Laboratory::find($lab_id),
+                    $lab,
                     [
                         'contact_name' => $lab_contact,
                         'order' => $iteration
