@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Broadcast;
+
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels
@@ -10,4 +12,3 @@
 | used to check if an authenticated user can listen to the channel.
 |
 */
-

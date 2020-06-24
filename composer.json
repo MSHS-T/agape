@@ -11,12 +11,12 @@
         "php": "^7.1.3",
         "barryvdh/laravel-dompdf": "^0.8.4",
         "bensampo/laravel-enum": "^1.16",
-        "biscolab/laravel-recaptcha": "^3.4",
+        "biscolab/laravel-recaptcha": "^4.1.0",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
-        "laravel/framework": "^6.0",
+        "laravel/framework": "^7.0",
         "laravel/helpers": "^1.2",
-        "laravel/tinker": "^1.0",
+        "laravel/ui": "^2.0",
         "maatwebsite/excel": "^3.1",
         "nothingworks/blade-svg": "^0.3.0",
         "spatie/laravel-cookie-consent": "^2.12"
@@ -25,9 +25,10 @@
         "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
+        "laravel/tinker": "^2.0",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.0"
+        "nunomaduro/collision": "^4.1",
+        "phpunit/phpunit": "^8.5"
     },
     "config": {
         "optimize-autoloader": true,
@@ -57,8 +58,7 @@
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -66,7 +66,7 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "clear-cache": [
+        "clear-all-cache": [
             "@php artisan cache:clear",
             "@php artisan route:clear",
             "@php artisan config:clear",
