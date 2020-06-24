@@ -65,7 +65,7 @@ class Application extends Model
 
     public function projectcall()
     {
-        return $this->belongsTo('App\ProjectCall', 'projectcall_id');
+        return $this->belongsTo('App\ProjectCall', 'projectcall_id')->withTrashed();
     }
 
     public function applicant()

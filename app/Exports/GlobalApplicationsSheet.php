@@ -16,8 +16,8 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 class GlobalApplicationsSheet implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithHeadings, WithMapping, WithStrictNullComparison, WithTitle
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return Application::with('projectcall', 'applicant', 'carrier', 'laboratories', 'studyFields')->get();
@@ -36,21 +36,19 @@ class GlobalApplicationsSheet implements FromCollection, ShouldAutoSize, WithCol
             $application->carrier->name,
             !empty($application->laboratories)
                 ? implode(', ', $application->laboratories->pluck('name')->all())
-                : ""
-            ,
+                : "",
             !empty($application->keywords)
                 ? implode(
                     ', ',
                     is_array($application->keywords)
                         ? $application->keywords
-                        : json_decode($application->keywords, true))
-                : ""
-            ,
+                        : json_decode($application->keywords, true)
+                )
+                : "",
             !empty($application->studyFields)
                 ? implode(', ', $application->studyFields->pluck('name')->all())
-                : ""
-            ,
-            count($application->evaluations->filter(function($eval){
+                : "",
+            count($application->evaluations->filter(function ($eval) {
                 return !is_null($eval->submitted_at);
             })),
             $application->applicant->name,

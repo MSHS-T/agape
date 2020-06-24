@@ -16,8 +16,8 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 class GlobalEvaluationsSheet implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithHeadings, WithMapping, WithStrictNullComparison, WithTitle
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return EvaluationOffer::with('application', 'application.projectcall', 'expert', 'evaluation')->get();
@@ -29,12 +29,13 @@ class GlobalEvaluationsSheet implements FromCollection, ShouldAutoSize, WithColu
     public function map($offer): array
     {
         $notation_grid = json_decode(\App\Setting::get('notation_grid'), true);
-        if(is_null($offer->accepted))
-            $status = __('fields.offer.pending');
-        else if($offer->accepted === false)
+        if ($offer->accepted === false || $offer->accepted === 0)
             $status = __('fields.offer.declined');
-        else {
-            if(is_null($offer->evaluation->submitted_at))
+        else if (is_null($offer->accepted) || is_null($offer->evaluation)) {
+            $status          = __('fields.offer.pending');
+            $offer->accepted = null;
+        } else {
+            if (is_null($offer->evaluation->submitted_at))
                 $status = __('fields.offer.accepted');
             else
                 $status = __('fields.offer.done');
@@ -43,42 +44,31 @@ class GlobalEvaluationsSheet implements FromCollection, ShouldAutoSize, WithColu
             $offer->id,
             $offer->application->projectcall->toString(),
             $offer->application->acronym,
-            $offer->expert->name,
+            $offer->expert->name ?? '?',
             $status,
             $offer->justification ?? "",
-            $offer->accepted ? (
-                !is_null($offer->evaluation->grade1)
-                    ? $notation_grid[$offer->evaluation->grade1]['grade']
-                    : ""
-            ) : "",
+            $offer->accepted ? (!is_null($offer->evaluation->grade1)
+                ? $notation_grid[$offer->evaluation->grade1]['grade']
+                : "") : "",
             $offer->accepted ? ($offer->evaluation->comment1 ?? "") : "",
-            $offer->accepted ? (
-                !is_null($offer->evaluation->grade2)
-                    ? $notation_grid[$offer->evaluation->grade2]['grade']
-                    : ""
-            ) : "",
+            $offer->accepted ? (!is_null($offer->evaluation->grade2)
+                ? $notation_grid[$offer->evaluation->grade2]['grade']
+                : "") : "",
             $offer->accepted ? ($offer->evaluation->comment2 ?? "") : "",
-            $offer->accepted ? (
-                !is_null($offer->evaluation->grade3)
-                    ? $notation_grid[$offer->evaluation->grade3]['grade']
-                    : ""
-            ) : "",
+            $offer->accepted ? (!is_null($offer->evaluation->grade3)
+                ? $notation_grid[$offer->evaluation->grade3]['grade']
+                : "") : "",
             $offer->accepted ? ($offer->evaluation->comment3 ?? "") : "",
-            $offer->accepted ? (
-                !is_null($offer->evaluation->global_grade)
-                    ? $notation_grid[$offer->evaluation->global_grade]['grade']
-                    : ""
-            ) : "",
+            $offer->accepted ? (!is_null($offer->evaluation->global_grade)
+                ? $notation_grid[$offer->evaluation->global_grade]['grade']
+                : "") : "",
             $offer->accepted ? ($offer->evaluation->global_comment ?? "") : "",
             $offer->accepted
                 ? (Date::dateTimeToExcel(\Carbon\Carbon::parse($offer->evaluation->created_at)))
-                : ""
-            ,
-            $offer->accepted ? (
-                !is_null($offer->evaluation->submitted_at)
-                    ? Date::dateTimeToExcel(\Carbon\Carbon::parse($offer->evaluation->submitted_at))
-                    : ""
-            ) : "",
+                : "",
+            $offer->accepted ? (!is_null($offer->evaluation->submitted_at)
+                ? Date::dateTimeToExcel(\Carbon\Carbon::parse($offer->evaluation->submitted_at))
+                : "") : "",
         ];
     }
 
