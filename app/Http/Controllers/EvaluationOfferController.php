@@ -32,7 +32,7 @@ class EvaluationOfferController extends Controller
     {
         $application->load(['projectcall', 'offers', 'offers.expert']);
         if (!is_null($expert_id = $request->input('expert_id', null))) {
-            $expert = User::findOrFail();
+            $expert = User::findOrFail($expert_id);
             $offer = $application->offers()->firstOrNew(['expert_id' => $expert->id]);
             $offer->save();
             $expert->notify(new OfferCreated($application->projectcall));
@@ -65,7 +65,7 @@ class EvaluationOfferController extends Controller
                     $invitation->notify(new UserInvitationOffer($invitation, $application->projectcall));
                     $success = __('actions.application.expert_invited_assigned');
                 } else if ($existingInvite->role == UserRole::Expert) {
-                    // User has already been invited as expert (on another offer), assign and send notification 
+                    // User has already been invited as expert (on another offer), assign and send notification
                     $existingInvite->touch();
                     $existingInvite->notify(new UserInvitationRetry($existingInvite));
 
