@@ -161,7 +161,7 @@
     </div>
 </div>
 <div class="modal fade" id="confirm-comity-opinion" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-add">{{ __('actions.application.confirm_comity_opinion.title_add') }}</h5>
@@ -174,7 +174,7 @@
                 @csrf @method('PUT')
                 <div class="modal-body">
                     <p>
-                        <textarea id="comityOpinion" name="comity_opinion" class="w-100" rows="3"></textarea>
+                        <textarea id="comityOpinion" name="comity_opinion" class="w-100" rows="8"></textarea>
                     </p>
                 </div>
                 <div class="modal-footer">
