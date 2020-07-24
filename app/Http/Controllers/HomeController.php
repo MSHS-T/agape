@@ -29,7 +29,9 @@ class HomeController extends Controller
             case UserRole::Candidate:
                 $open_calls = ProjectCall::with(['applications' => function ($query) {
                     $query->where('applicant_id', Auth::id());
-                }])->open()->get();
+                }])->whereDoesntHave('applications', function ($query) {
+                    $query->whereNotNull('devalidation_message');
+                })->open()->get();
                 $old_calls = ProjectCall::with(['applications' => function ($query) {
                     $query->where('applicant_id', Auth::id());
                 }])->old()->userApplied()->get();
@@ -53,7 +55,8 @@ class HomeController extends Controller
                     ->openCalls()
                     ->where('expert_id', Auth::id())
                     ->whereDoesntHave('evaluation', function (Builder $query) {
-                        $query->whereNotNull('submitted_at');
+                        $query->whereNotNull('submitted_at')
+                            ->orWhereNotNull('devalidation_message');
                     })
                     ->get();
                 $done = EvaluationOffer::with('evaluation')
