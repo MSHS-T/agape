@@ -68,4 +68,8 @@
     .evaluation {
         font-size: 10pt;
     }
+
+    .evaluation .evaluation_criteria h5 {
+        font-size: 110%;
+    }
 </style>
