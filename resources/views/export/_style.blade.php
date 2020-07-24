@@ -63,6 +63,10 @@
         width: 70%;
     }
 
+    .reference-table {
+        width: 100%;
+    }
+
     .reference-table th,
     .reference-table td,
     .evaluation {
