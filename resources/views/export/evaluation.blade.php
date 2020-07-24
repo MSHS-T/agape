@@ -2,7 +2,7 @@
 @section('head_content')
 <style>
     * {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: Helvetica, Arial, sans-serif;
     }
 
     @page {
@@ -60,22 +60,38 @@
     .col-9>* {
         text-align: justify;
     }
+
+    #agape-logo-wrapper {
+        text-align: center;
+    }
+
+    #agape-logo {
+        width: 50%;
+    }
+
+    .reference-table th,
+    .reference-table td,
+    .evaluation {
+        font-size: 10pt;
+    }
 </style>
 @endsection
 @section('body')
-<img src="{{ base_path() }}/public/logo_ligne.png" alt="{{ config('app.name') }}">
-<h1 class="text-center">
+<div id="agape-logo-wrapper">
+    <img src="{{ base_path() }}/public/logo_ligne.png" alt="{{ config('app.name') }}" id="agape-logo">
+</div>
+<h3 class="text-center">
     {!! __('actions.evaluation.export_name') !!}
-</h1>
-<h1 class="text-center">
+</h3>
+<h3 class="text-center">
     {{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }} - {{ $projectcall->year }}
-</h1>
+</h3>
 
 @php ($application = $evaluation->offer->application)
 
 <section>
     {{-- Display application data in a table --}}
-    <table>
+    <table class="reference-table">
         <tr>
             <th>{{ __('fields.reference') }}</th>
             <td>
@@ -103,15 +119,16 @@
         </tr>
     </table>
 
-    <h2 class="text-center title-bordered">
+    <h4 class="text-center title-bordered">
         <a name="evaluation-{{$evaluation->id}}">
             {{ __('fields.projectcall.evaluation')}} : {{ $evaluation->offer->expert->name }}
         </a>
 
-    </h2>
+    </h4>
 
-    @include('partials.evaluation_display', ["evaluation" => $evaluation, "anonymized" =>
-    $anonymized])
+    <div class="evaluation">
+        @include('partials.evaluation_display', ["evaluation" => $evaluation, "anonymized" => $anonymized])
+    </div>
 
 </section>
 
