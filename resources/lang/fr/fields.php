@@ -158,7 +158,8 @@ return [
         "pending"       => "En attente",
         "done"          => "Terminée",
         "justification" => "Justification",
-        "no_experts"    => "Aucun expert disponible"
+        "no_experts"    => "Aucun expert disponible",
+        "retries"       => "Rappels envoyés"
     ],
 
     "evaluation" => [

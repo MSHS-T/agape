@@ -12,7 +12,12 @@ class EvaluationOffer extends Model
         'accepted',
         'justification',
         'expert_id',
-        'invitation_code'
+        'invitation_code',
+        'retry_history'
+    ];
+
+    protected $casts = [
+        'retry_history' => 'array'
     ];
 
     public static function boot()
@@ -56,5 +61,13 @@ class EvaluationOffer extends Model
                 ['evaluation_end_date', '>=', \Carbon\Carbon::parse('today')->format('Y-m-d')]
             ]);
         });
+    }
+
+    public function retry()
+    {
+        $rh = $this->retry_history;
+        $rh[] = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
+        $this->retry_history = $rh;
+        $this->save();
     }
 }

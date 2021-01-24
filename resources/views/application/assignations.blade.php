@@ -22,6 +22,7 @@
                 <th>{{ __('fields.offer.expert') }}</th>
                 <th>{{ __('fields.status') }}</th>
                 <th>{{ __('fields.creation_date') }}</th>
+                <th>{{ __('fields.offer.retries') }}</th>
                 @if($application->projectcall->canEvaluate())
                 <th data-orderable="false">{{ __('fields.actions') }}</th>
                 @endif
@@ -57,6 +58,14 @@
                 <td>
                     {{ $offer->creator->name}}<br />
                     @date(['datetime' => $offer->created_at])
+                </td>
+                <td>
+                    @foreach ($offer->retry_history as $r)
+                    @date(['datetime' => $r])
+                    @if (!$loop->last)
+                    <br />
+                    @endif
+                    @endforeach
                 </td>
                 @if($application->projectcall->canEvaluate())
                 <td>
