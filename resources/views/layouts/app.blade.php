@@ -61,8 +61,11 @@
                                 {{ __('actions.settings.list') }}
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ route('globalExport') }}">
-                                {{ __('actions.globalExport') }}
+                            <a class="dropdown-item" href="{{ route('globalExcelExport') }}">
+                                {{ __('actions.globalExcelExport') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('globalZipExport') }}">
+                                {{ __('actions.globalZipExport') }}
                             </a>
                         </div>
                     </li>

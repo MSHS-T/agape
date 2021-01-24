@@ -17,6 +17,10 @@ return [
             "Téléphone"
         ]
     ],
+    "evaluations" => [
+        "list"           => "Évaluations",
+        "list_anonymous" => "Évaluations Anonymisées"
+    ],
     "global" => [
         "name" => "Export_Global",
         "projectcalls" => [

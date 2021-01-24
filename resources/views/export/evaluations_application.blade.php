@@ -39,7 +39,7 @@
         </tr>
         <tr>
             <th>{{ __('fields.application.laboratory_1')}}</th>
-            <td>{{ $application->laboratories->first()->name }}</td>
+            <td>{{ $application->laboratories->first()->name ?? '?' }}</td>
         </tr>
     </table>
 

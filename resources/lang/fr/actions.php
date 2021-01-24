@@ -39,7 +39,8 @@ return [
     "make_public"         => "Rendre public",
     "contact"             => "Contact",
     "contact_sent"        => "Votre message a bien été envoyé aux administrateurs.",
-    "globalExport"        => "Export Global",
+    "globalExcelExport"   => "Export Excel Global",
+    "globalZipExport"     => "Export Zip Global",
     "legal"               => "Mentions Légales",
     "credits"             => "Crédits : Danièle DATTAS (CNRS) - Maison des Sciences de l'Homme et de la Société de Toulouse - CNRS/UFT",
 

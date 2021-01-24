@@ -6,15 +6,23 @@ use App\EvaluationOffer;
 use App\ProjectCall;
 use App\User;
 use App\Enums\UserRole;
+use App\Exports\ApplicationsExport;
+use App\Exports\ProjectCallsExport;
+use App\Exports\UsersExport;
 use App\Notifications\ContactMessage;
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
+
+use PDF;
+use RecursiveIteratorIterator;
+use ZipArchive;
 
 class HomeController extends Controller
 {
@@ -180,9 +188,97 @@ class HomeController extends Controller
             ->with('success', __('actions.contact_sent'));
     }
 
-    public function globalExport()
+    public function globalExcelExport()
     {
         return new \App\Exports\GlobalExport();
+    }
+
+    public function globalZipExport()
+    {
+        set_time_limit(3600);
+
+        $dirname = 'export_' . date('YmdHis');
+        Storage::disk('public')->makeDirectory($dirname);
+
+        Excel::store(
+            new ProjectCallsExport(),
+            $dirname . '/' . __('actions.projectcall.list') . '.xlsx',
+            'public'
+        );
+        Excel::store(
+            new UsersExport(),
+            $dirname . '/' . __('actions.user.list') . '.xlsx',
+            'public'
+        );
+
+        $projectcalls = ProjectCall::all();
+        foreach ($projectcalls as $projectcall) {
+            Storage::disk('public')->makeDirectory($dirname . '/' . $projectcall->reference);
+
+            Excel::store(
+                new ApplicationsExport($projectcall),
+                $dirname . '/' . $projectcall->reference . '/' . __('actions.application.list') . '.xlsx',
+                'public'
+            );
+
+            foreach ($projectcall->applications as $application) {
+                Storage::disk('public')->makeDirectory($dirname . '/' . $projectcall->reference . '/' . $application->reference);
+
+                if ($application->files->isNotEmpty()) {
+                    Storage::disk('public')->makeDirectory($dirname . '/' . $projectcall->reference . '/' . $application->reference . '/attachments');
+
+                    foreach ($application->files as $file) {
+                        Storage::disk('public')->copy(
+                            $file->filepath,
+                            $dirname . '/' . $projectcall->reference . '/' . $application->reference . '/attachments/' . $file->order . ' - ' . $file->name
+                        );
+                    }
+                }
+
+                Storage::disk('public')->put(
+                    $dirname . '/' . $projectcall->reference . '/' . $application->reference . '/' . __('exports.evaluations.list') . '.pdf',
+                    PDF::loadView('export.evaluations_application', [
+                        'application' => $application,
+                        'projectcall' => $projectcall,
+                        'anonymized' => false
+                    ])->output()
+                );
+                Storage::disk('public')->put(
+                    $dirname . '/' . $projectcall->reference . '/' . $application->reference . '/' . __('exports.evaluations.list_anonymous') . '.pdf',
+                    PDF::loadView('export.evaluations_application', [
+                        'application' => $application,
+                        'projectcall' => $projectcall,
+                        'anonymized' => true
+                    ])->output()
+                );
+            }
+        }
+
+        if (Storage::disk('public')->exists('export_zip')) {
+            Storage::disk('public')->deleteDirectory('export_zip');
+        }
+        Storage::disk('public')->makeDirectory('export_zip');
+
+        $filename = config('app.name') . '-' . __('exports.global.name') . '-' . date('Ymd-His') . '.zip';
+        $filepath = Storage::disk('public')->path('export_zip/' . $filename);
+        touch($filepath);
+
+        $zip = new \ZipArchive();
+
+        if ($zip->open($filepath, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+            $files = Storage::disk('public')->allFiles($dirname);
+            foreach ($files as $file) {
+                $zip->addFile(Storage::disk('public')->path($file), $file);
+            }
+            $zip->close();
+        }
+
+        Storage::disk('public')->deleteDirectory($dirname);
+
+        return response()->download($filepath, $filename, [
+            'Content-Length' => filesize($filepath),
+            'Content-Type' => 'application/zip'
+        ]);
     }
 
     public function error()
