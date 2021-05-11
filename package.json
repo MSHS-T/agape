@@ -16,7 +16,7 @@
         "datatables.net-buttons-bs4": "^1.6.2",
         "jquery": "^3.5.1",
         "laravel-mix": "^4.1.4",
-        "lodash": "^4.17.5",
+        "lodash": "^4.17.21",
         "pdfmake": "^0.1.54",
         "popper.js": "^1.12",
         "quill": "^1.3.7",
