@@ -110,14 +110,19 @@ return [
         "correct"            => "Corriger ma candidature",
         "force_submit"       => "Soumettre manuellement",
         "unsubmit"           => "Dévalider",
+        "destroy"            => "Supprimer",
         "confirm_submission" => [
             "title"         => "Confirmer la soumission",
-            "body"          => "Êtes-vous sur de vouloir soumettre votre candidature ? Cette action est définitive",
+            "body"          => "Êtes-vous sur de vouloir soumettre votre candidature ? Cette action est définitive.",
             "error_unsaved" => "Vous devez d'abord sauvegarder votre candidature avant de pouvoir la soumettre."
         ],
         "confirm_force_submission" => [
             "title"         => "Confirmer la soumission manuelle",
             "body"          => "Êtes-vous sur de vouloir soumettre manuellement cette candidature ? Le candidat sera notifié de cette action."
+        ],
+        "confirm_destroy" => [
+            "title"         => "Confirmer la suppression",
+            "body"          => "Êtes-vous sur de vouloir supprimer cette candidature ? Cette action est définitive."
         ],
         "confirm_unsubmit" => [
             "title" => "Confirmer la dévalidation de la candidature",
@@ -131,8 +136,10 @@ return [
         "saved"                            => "Votre candidature :reference a été sauvegardée. Pensez à la soumettre avant la date limite.",
         "submitted"                        => "Votre candidature :reference a été soumise avec succès.",
         "already_submitted"                => "Votre candidature :reference a déjà été soumise et ne peut plus être modifiée.",
+        "cannot_be_deleted"                => "La candidature :reference ne peut pas être supprimée car elle a été soumise par le candidat.",
         "force_submitted"                  => "La candidature :reference a été soumise avec succès.",
         "unsubmitted"                      => "La candidature :reference a été dévalidée.",
+        "destroyed"                        => "La candidature :reference a été supprimée.",
         "experts"                          => "Experts",
         "evaluations"                      => "Évaluations",
         "assignations"                     => "Affectation des experts",

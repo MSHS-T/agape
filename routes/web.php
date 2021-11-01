@@ -64,6 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::middleware('role:admin')->group(function () {
             Route::put('{application}/forceSubmit', 'ApplicationController@forceSubmit')->name('forceSubmit');
             Route::put('{application}/unsubmit', 'ApplicationController@unsubmit')->name('unsubmit');
+            Route::put('{application}/destroy', 'ApplicationController@destroy')->name('destroy');
             Route::get('{application}/assignations', 'ApplicationController@assignations')->name('assignations');
             Route::put('{application}/comityOpinion', 'ApplicationController@comityOpinion')->name('comityOpinion');
             Route::get('{application}/evaluations', 'EvaluationController@indexForApplication')->name('evaluations');
