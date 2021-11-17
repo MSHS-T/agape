@@ -66,6 +66,13 @@ class Application extends Model
                 str_pad(strval($last_reference + 1), 3, "0", STR_PAD_LEFT)
             );
         });
+        static::deleting(function ($application) {
+            foreach ($application->files as $file) {
+                $file->delete();
+            }
+            $application->laboratories()->detach();
+            $application->studyFields()->detach();
+        });
     }
 
     public function projectcall()
