@@ -38,7 +38,8 @@ class HomeController extends Controller
                 $open_calls = ProjectCall::with(['applications' => function ($query) {
                     $query->where('applicant_id', Auth::id());
                 }])->whereDoesntHave('applications', function ($query) {
-                    $query->whereNotNull('devalidation_message');
+                    $query->where('applicant_id', Auth::id())
+                        ->whereNotNull('devalidation_message');
                 })->open()->get();
                 $old_calls = ProjectCall::with(['applications' => function ($query) {
                     $query->where('applicant_id', Auth::id());
@@ -46,7 +47,8 @@ class HomeController extends Controller
                 $unsubmitted_applications = ProjectCall::with(['applications' => function ($query) {
                     $query->where('applicant_id', Auth::id());
                 }])->whereHas('applications', function ($query) {
-                    $query->whereNotNull('devalidation_message');
+                    $query->where('applicant_id', Auth::id())
+                        ->whereNotNull('devalidation_message');
                 })->userHasNotSubmitted()->get();
                 $data = compact('open_calls', 'old_calls', 'unsubmitted_applications');
                 break;
