@@ -72,9 +72,11 @@
         <div class="row mb-3">
             <div class="col-3 font-weight-bold">{{ __('fields.application.target_date') }}</div>
             <div class="col-9">
-                @foreach ($application->target_date as $date)
-                    @date(['date' => $date])<br />
-                @endforeach
+                @if ($application->target_date !== null)
+                    @foreach ($application->target_date as $date)
+                        @date(['date' => $date])<br />
+                    @endforeach
+                @endif
             </div>
         </div>
     @else

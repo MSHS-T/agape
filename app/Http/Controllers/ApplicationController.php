@@ -421,6 +421,25 @@ class ApplicationController extends Controller
     }
 
     /**
+     * Destroy unsubmitted application
+     *
+     * @param  \App\Application  $application
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Application $application, Request $request)
+    {
+        if ($application->submitted_at === null) {
+            $application->delete();
+        } else {
+            return redirect()->route('projectcall.applications', ['projectcall' => $application->projectcall])
+                ->withErrors([__('actions.application.cannot_be_deleted', ['reference' => $application->reference])]);
+        }
+
+        return redirect()->route('projectcall.applications', ['projectcall' => $application->projectcall])
+            ->with('success', __('actions.application.destroyed', ['reference' => $application->reference]));
+    }
+
+    /**
      * Add selection comity opinion to application
      *
      * @param  \App\Application  $application

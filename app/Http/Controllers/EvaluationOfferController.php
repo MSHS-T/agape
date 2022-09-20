@@ -110,6 +110,8 @@ class EvaluationOfferController extends Controller
      */
     public function retry(EvaluationOffer $offer, Request $request)
     {
+        $offer->retry();
+
         if ($offer->expert) {
             $offer->expert->notify(new OfferRetry($offer));
         } else if ($offer->invitedExpert) {

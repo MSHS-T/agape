@@ -73,6 +73,10 @@
                             class="btn btn-sm btn-warning d-block force-submission-link">
                             @svg('solid/check') {{ __('actions.application.force_submit') }}
                         </a>
+                        <a href="{{ route('application.destroy',$application)}}"
+                            class="btn btn-sm btn-danger d-block destroy-link">
+                            @svg('solid/trash') {{ __('actions.application.destroy') }}
+                        </a>
                         @else
                         <a href="{{ route('application.unsubmit',$application)}}"
                             class="btn btn-sm btn-danger d-block unsubmit-link">
@@ -129,6 +133,30 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="confirm-destroy" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('actions.application.confirm_destroy.title') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{__('actions.close')}}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('actions.application.confirm_destroy.body') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                <form id="confirmation-form" action="" method="post">
+                    @csrf @method('PUT')
+                    <button class="btn btn-danger" type="submit">
+                        @svg('solid/check') {{ __('actions.application.destroy') }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="confirm-unsubmit" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -152,8 +180,8 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel')
+                        }}</button>
                     <button class="btn btn-danger" type="submit">{{ __('actions.application.unsubmit') }}</button>
                 </div>
             </form>
@@ -178,8 +206,8 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        data-dismiss="modal">{{ __('actions.cancel') }}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('actions.cancel')
+                        }}</button>
                     <button class="btn btn-danger" type="submit">
                         <span class="text-add">
                             {{ __('actions.save') }}
@@ -204,6 +232,13 @@
             var targetUrl = jQuery(this).attr('href');
             $("form#confirmation-form").attr('action', targetUrl);
             $(".modal#confirm-force-submission").modal();
+            return false;
+        });
+        $('.destroy-link').click(function (e) {
+            e.preventDefault();
+            var targetUrl = jQuery(this).attr('href');
+            $("form#confirmation-form").attr('action', targetUrl);
+            $(".modal#confirm-destroy").modal();
             return false;
         });
 

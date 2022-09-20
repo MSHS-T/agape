@@ -51,15 +51,27 @@ class Application extends Model
     {
         parent::boot();
         static::creating(function ($application) {
-            $result = DB::table('applications')
+            $result = DB::table('applications')->select('reference')
                 ->where('projectcall_id', $application->projectcall->id)
-                ->count();
+                ->get();
+
+            $last_reference = $result->pluck('reference')->map(function ($r) {
+                list(,,, $ref) = explode('-', $r);
+                return intval($ref);
+            })->max();
 
             $application->reference = sprintf(
                 "%s-%s",
                 $application->projectcall->reference,
-                str_pad(strval(++$result), 3, "0", STR_PAD_LEFT)
+                str_pad(strval($last_reference + 1), 3, "0", STR_PAD_LEFT)
             );
+        });
+        static::deleting(function ($application) {
+            foreach ($application->files as $file) {
+                $file->delete();
+            }
+            $application->laboratories()->detach();
+            $application->studyFields()->detach();
         });
     }
 

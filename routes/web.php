@@ -64,6 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::middleware('role:admin')->group(function () {
             Route::put('{application}/forceSubmit', 'ApplicationController@forceSubmit')->name('forceSubmit');
             Route::put('{application}/unsubmit', 'ApplicationController@unsubmit')->name('unsubmit');
+            Route::put('{application}/destroy', 'ApplicationController@destroy')->name('destroy');
             Route::get('{application}/assignations', 'ApplicationController@assignations')->name('assignations');
             Route::put('{application}/comityOpinion', 'ApplicationController@comityOpinion')->name('comityOpinion');
             Route::get('{application}/evaluations', 'EvaluationController@indexForApplication')->name('evaluations');
@@ -101,7 +102,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Admin routes
     Route::prefix('admin')->middleware('role:admin')->group(function () {
-        Route::get('export', 'HomeController@globalExport')->name('globalExport');
+        Route::get('export', 'HomeController@globalExcelExport')->name('globalExcelExport');
+        Route::get('fullexport', 'HomeController@globalZipExport')->name('globalZipExport');
         Route::get('settings', 'SettingsController@edit')->name('settings');
         Route::post('settings', 'SettingsController@update')->name('settings.update');
 

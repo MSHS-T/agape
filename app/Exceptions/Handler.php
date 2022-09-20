@@ -4,6 +4,11 @@ namespace App\Exceptions;
 
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,6 +39,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        if ($this->shouldReport($exception)) {
+            $this->sendEmail($exception); // sends an email
+        }
+
         parent::report($exception);
     }
 
@@ -49,5 +58,29 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Sends an email to the developer about the exception.
+     *
+     * @param  \Throwable  $exception
+     * @return void
+     */
+    public function sendEmail(Throwable $exception)
+    {
+        try {
+            $e = FlattenException::createFromThrowable($exception);
+            $handler = new HtmlErrorRenderer(true); // boolean, true raises debug flag...
+            $css = $handler->getStylesheet();
+            $content = $handler->getBody($e);
+
+            Mail::send('emails.exception', compact('css', 'content'), function ($message) use ($exception) {
+                $message
+                    ->to('romain@3rgo.tech')
+                    ->subject('[AGAPE] Exception : ' . $exception->getMessage());
+            });
+        } catch (Throwable $ex) {
+            Log::error($ex);
+        }
     }
 }

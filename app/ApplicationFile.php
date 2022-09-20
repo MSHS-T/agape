@@ -16,7 +16,9 @@ class ApplicationFile extends Model
     {
         parent::boot();
         static::deleting(function ($file) {
-            unlink(base_path($file->filepath));
+            if (file_exists($file->filepath)) {
+                unlink(base_path($file->filepath));
+            }
         });
         // static::creating(function($file){
         //     if(starts_with($file->filepath, 'public/uploads/')){

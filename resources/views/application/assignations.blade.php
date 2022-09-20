@@ -1,8 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <h2 class="text-center mb-3">{{ __('actions.application.assignations') }}</h2>
-    <h3 class="text-center">
-        {{ $application->projectcall->type->label_short }} :
+    <h3 class="text-center">{{ __('vocabulary.calltype_short.' . $application->projectcall->typeLabel) }} :
         {{ $application->projectcall->year }}
     </h3>
     <h4 class="text-center">{{ $application->projectcall->title }}</h4>
@@ -22,6 +21,7 @@
                     <th>{{ __('fields.offer.expert') }}</th>
                     <th>{{ __('fields.status') }}</th>
                     <th>{{ __('fields.creation_date') }}</th>
+                    <th>{{ __('fields.offer.retries') }}</th>
                     @if ($application->projectcall->canEvaluate())
                         <th data-orderable="false">{{ __('fields.actions') }}</th>
                     @endif
@@ -57,6 +57,14 @@
                         <td>
                             {{ $offer->creator->name }}<br />
                             @date(['datetime' => $offer->created_at])
+                        </td>
+                        <td>
+                            @foreach ($offer->retry_history as $r)
+                                @date(['datetime' => $r])
+                                @if (!$loop->last)
+                                    <br />
+                                @endif
+                            @endforeach
                         </td>
                         @if ($application->projectcall->canEvaluate())
                             <td>
