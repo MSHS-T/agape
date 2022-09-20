@@ -107,6 +107,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::resource('laboratory', 'LaboratoryController')->except(['show']);
         Route::resource('studyfield', 'StudyFieldController')->except(['show']);
+        Route::resource('projectcalltype', 'ProjectCallTypeController')->except(['show', 'destroy']);
 
         Route::resource('user', 'UserController')->only(['index', 'store', 'destroy']);
         Route::put('user/{user}/changeRole', 'UserController@changeRole')->name('user.changeRole');

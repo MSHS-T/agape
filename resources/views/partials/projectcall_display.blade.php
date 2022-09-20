@@ -2,14 +2,14 @@
     <div class="row mb-3">
         <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.type') }}</div>
         <div class="col-9">
-            {{ __('vocabulary.calltype_short.'.$projectcall->typeLabel) }}
+            {{ $projectcall->type->label_short }}
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.year') }}</div>
         <div class="col-9">{{ $projectcall->year }}</div>
     </div>
-    @if(!empty($projectcall->title))
+    @if (!empty($projectcall->title))
         <div class="row mb-3">
             <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.title') }}</div>
             <div class="col-9">{{ $projectcall->title }}</div>
@@ -33,7 +33,7 @@
             </p>
         </div>
     </div>
-    @if(Auth::user()->role == \App\Enums\UserRole::Admin)
+    @if (Auth::user()->role == \App\Enums\UserRole::Admin)
         <div class="row mb-3">
             <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.number_of_experts') }}</div>
             <div class="col-9">{{ $projectcall->number_of_experts }}</div>
@@ -59,7 +59,7 @@
             <div class="col-9">{{ $projectcall->number_of_target_dates }}</div>
         </div>
     @endif
-    @if(Auth::user()->role == \App\Enums\UserRole::Admin)
+    @if (Auth::user()->role == \App\Enums\UserRole::Admin)
         <div class="row mb-3">
             <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.invite_email_fr') }}</div>
             <div class="col-9">{!! $projectcall->invite_email_fr !!}</div>
@@ -69,7 +69,7 @@
             <div class="col-9">{!! $projectcall->invite_email_en !!}</div>
         </div>
     @endif
-    @if(in_array(Auth::user()->role, [\App\Enums\UserRole::Admin, \App\Enums\UserRole::Expert]))
+    @if (in_array(Auth::user()->role, [\App\Enums\UserRole::Admin, \App\Enums\UserRole::Expert]))
         <div class="row mb-3">
             <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.privacy_clause') }}</div>
             <div class="col-9">{!! $projectcall->privacy_clause !!}</div>
@@ -79,7 +79,7 @@
             <div class="col-9">{!! $projectcall->help_experts !!}</div>
         </div>
     @endif
-    @if(in_array(Auth::user()->role, [\App\Enums\UserRole::Admin, \App\Enums\UserRole::Candidate]))
+    @if (in_array(Auth::user()->role, [\App\Enums\UserRole::Admin, \App\Enums\UserRole::Candidate]))
         <div class="row mb-3">
             <div class="col-3 font-weight-bolder">{{ __('fields.projectcall.help_candidates') }}</div>
             <div class="col-9">{!! $projectcall->help_candidates !!}</div>

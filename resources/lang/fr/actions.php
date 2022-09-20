@@ -78,6 +78,7 @@ return [
     "administration" => "Administration",
     "laboratories"   => "Laboratoires",
     "study_fields"   => "Champs disciplinaires",
+    "call_types"     => "Types d'AAP",
 
     "projectcall" => [
         "show"                    => "Visualiser l'appel à Projets",
@@ -220,6 +221,14 @@ return [
         "edit"    => "Modifier le Champ Disciplinaire",
         "edited"  => "Le Champ Disciplinaire a bien été modifié.",
         "deleted" => "Le Champ Disciplinaire a bien été supprimé.",
+    ],
+
+    "project_call_type" => [
+        "list"    => "Types d'AAP",
+        "create"  => "Nouveau Type",
+        "created" => "Le Type a bien été créé.",
+        "edit"    => "Modifier le Type",
+        "edited"  => "Le Type a bien été modifié.",
     ],
 
     "user" => [

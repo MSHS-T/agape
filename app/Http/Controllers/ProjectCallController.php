@@ -5,15 +5,13 @@ namespace App\Http\Controllers;
 use App\ProjectCall;
 use App\Setting;
 
-use App\Enums\CallType;
 use App\Exports\ApplicationsExport;
-
+use App\ProjectCallType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use BenSampo\Enum\Rules\EnumValue;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProjectCallController extends Controller
@@ -41,7 +39,7 @@ class ProjectCallController extends Controller
             'method'      => 'POST',
             'action'      => route('projectcall.store'),
             'projectcall' => (object) [
-                'type'                   => 1,
+                'project_call_type_id'   => 1,
                 'year'                   => intval(date('Y')) + 1,
                 'title'                  => '',
                 'description'            => '',
@@ -73,7 +71,7 @@ class ProjectCallController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'type'                   => ['required', 'integer', new EnumValue(CallType::class, false)],
+            'project_call_type_id'   => ['required', 'integer', 'in:' . ProjectCallType::all()->pluck('id')->join(',')],
             'year'                   => 'required|integer|min:' . (intval(date('Y')) - 1),
             'title'                  => 'nullable|string',
             'description'            => 'required',
@@ -166,7 +164,7 @@ class ProjectCallController extends Controller
     public function update(Request $request, ProjectCall $projectcall)
     {
         $request->validate([
-            'type'                   => ['required', 'integer', new EnumValue(CallType::class, false)],
+            'type'                   => ['required', 'integer', 'in:' . ProjectCallType::all()->pluck('id')->join(',')],
             'year'                   => 'required|integer|min:' . (intval(date('Y')) - 1),
             'description'            => 'required',
             'application_start_date' => 'required|date',

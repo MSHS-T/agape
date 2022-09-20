@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-use App\Enums\CallType;
-
 class CreateProjectCallsTable extends Migration
 {
     /**
@@ -17,7 +15,7 @@ class CreateProjectCallsTable extends Migration
     {
         Schema::create('project_calls', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedTinyInteger('type')->default(CallType::Unknown);
+            $table->unsignedTinyInteger('type')->nullable(false);
             $table->unsignedSmallInteger('year');
             $table->string('title');
             $table->text('description');

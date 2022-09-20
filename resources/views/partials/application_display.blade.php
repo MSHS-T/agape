@@ -10,11 +10,11 @@
     </div>
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">
-            {{ __('fields.application.title.' . $application->projectcall->typeLabel) }}
+            {{ __('fields.application.title.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
         </div>
         <div class="col-9">{{ $application->title }}</div>
     </div>
-    @if(!empty($application->acronym))
+    @if (!empty($application->acronym))
         <div class="row mb-3">
             <div class="col-3 font-weight-bold">{{ __('fields.application.acronym') }}</div>
             <div class="col-9">{{ $application->acronym }}</div>
@@ -22,19 +22,19 @@
     @endif
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">
-            {{ __('fields.application.carrier.' . $application->projectcall->typeLabel) }}
+            {{ __('fields.application.carrier.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
         </div>
         <div class="col-9">
             <div class="row">
-                <div class="col-2"><b>{{ __('fields.name')}} : </b></div>
+                <div class="col-2"><b>{{ __('fields.name') }} : </b></div>
                 <div class="col-4">{{ $application->carrier->name }}</div>
                 <div class="col-2"><b>{{ __('fields.status') }} : </b></div>
                 <div class="col-4">{{ $application->carrier->status }}</div>
             </div>
             <div class="row">
-                <div class="col-2"><b>{{ __('fields.email')}} : </b></div>
+                <div class="col-2"><b>{{ __('fields.email') }} : </b></div>
                 <div class="col-4">{{ $application->carrier->email }}</div>
-                <div class="col-2"><b>{{ __('fields.phone')}} : </b></div>
+                <div class="col-2"><b>{{ __('fields.phone') }} : </b></div>
                 <div class="col-4">{{ $application->carrier->phone }}</div>
             </div>
         </div>
@@ -55,40 +55,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($application->laboratories as $laboratory)
-                    <tr>
-                        <th scope="row">{{ $laboratory->name }}</th>
-                        <td>{{ $laboratory->unit_code }}</td>
-                        <td>{{ $laboratory->directory_email }}</td>
-                        <td>{{ $laboratory->regency }}</td>
-                        <td>{{ $laboratory->pivot->contact_name }}</td>
-                    </tr>
+                    @foreach ($application->laboratories as $laboratory)
+                        <tr>
+                            <th scope="row">{{ $laboratory->name }}</th>
+                            <td>{{ $laboratory->unit_code }}</td>
+                            <td>{{ $laboratory->directory_email }}</td>
+                            <td>{{ $laboratory->regency }}</td>
+                            <td>{{ $laboratory->pivot->contact_name }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-    @if($application->projectcall->typeLabel == "Workshop")
-    <div class="row mb-3">
-        <div class="col-3 font-weight-bold">{{ __('fields.application.target_date') }}</div>
-        <div class="col-9">
-            @foreach($application->target_date as $date)
-                @date(['date' => $date])<br/>
-            @endforeach
+    @if ($application->projectcall->type->is_workshop)
+        <div class="row mb-3">
+            <div class="col-3 font-weight-bold">{{ __('fields.application.target_date') }}</div>
+            <div class="col-9">
+                @foreach ($application->target_date as $date)
+                    @date(['date' => $date])<br />
+                @endforeach
+            </div>
         </div>
-    </div>
     @else
-    <div class="row mb-3">
-        <div class="col-3 font-weight-bold">{{ __('fields.application.duration') }}</div>
-        <div class="col-9">{{ $application->duration }}</div>
-    </div>
+        <div class="row mb-3">
+            <div class="col-3 font-weight-bold">{{ __('fields.application.duration') }}</div>
+            <div class="col-9">{{ $application->duration }}</div>
+        </div>
     @endif
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.study_fields') }}</div>
         <div class="col-9">
             <ul>
-                @foreach($application->studyFields as $sf)
-                <li>{{ $sf->name }}</li>
+                @foreach ($application->studyFields as $sf)
+                    <li>{{ $sf->name }}</li>
                 @endforeach
             </ul>
         </div>
@@ -104,41 +104,42 @@
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.keywords') }}</div>
         <div class="col-9">
-            @if(!!count($application->keywords))
+            @if (!!count($application->keywords))
                 <ul>
-                    @foreach($application->keywords as $kw)
-                    <li>{{ $kw }}</li>
+                    @foreach ($application->keywords as $kw)
+                        <li>{{ $kw }}</li>
                     @endforeach
                 </ul>
             @endif
         </div>
     </div>
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-2">
-        {{ __('fields.application.form.section_2.'.$application->projectcall->typeLabel) }}
+        {{ __('fields.application.form.section_2.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
     </h2>
     <div class="row mb-3">
-        <div class="col-3 font-weight-bold">{{ __('fields.application.short_description.' .
-            $application->projectcall->typeLabel) }}</div>
+        <div class="col-3 font-weight-bold">
+            {{ __('fields.application.short_description.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
+        </div>
         <div class="col-9">{!! $application->short_description !!}</div>
     </div>
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-3">
-        {{ __('fields.application.form.section_3.'.$application->projectcall->typeLabel) }}
+        {{ __('fields.application.form.section_3.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
     </h2>
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.amount_requested') }}</div>
-        <div class="col-9">{{ $application->amount_requested . " " . __('locale.currency') }}</div>
+        <div class="col-9">{{ $application->amount_requested . ' ' . __('locale.currency') }}</div>
     </div>
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.other_fundings') }}</div>
-        <div class="col-9">{{ $application->other_fundings . " " . __('locale.currency') }}</div>
+        <div class="col-9">{{ $application->other_fundings . ' ' . __('locale.currency') }}</div>
     </div>
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.total_expected_income') }}</div>
-        <div class="col-9">{{ $application->total_expected_income . " " . __('locale.currency') }}</div>
+        <div class="col-9">{{ $application->total_expected_income . ' ' . __('locale.currency') }}</div>
     </div>
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.total_expected_outcome') }}</div>
-        <div class="col-9">{{ $application->total_expected_outcome . " " . __('locale.currency') }}</div>
+        <div class="col-9">{{ $application->total_expected_outcome . ' ' . __('locale.currency') }}</div>
     </div>
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-4">
         {{ __('fields.application.form.section_4') }}
@@ -146,18 +147,18 @@
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.template.prefix.application') }}</div>
         <div class="col-9">
-            @if($application->files[0] ?? false)
+            @if ($application->files[0] ?? false)
                 {{ __('fields.download_link') }} :
                 <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => 1]) }}" target="_blank"
                     rel="noopener">{{ $application->files[0]->name }}</a>
             @endif
         </div>
     </div>
-    @if(!empty($application->projectcall->financial_form_filepath))
+    @if (!empty($application->projectcall->financial_form_filepath))
         <div class="row mb-3">
             <div class="col-3 font-weight-bold">{{ __('fields.application.template.prefix.financial') }}</div>
             <div class="col-9">
-                @if($application->files[0] ?? false)
+                @if ($application->files[0] ?? false)
                     {{ __('fields.download_link') }} :
                     <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => 2]) }}" target="_blank"
                         rel="noopener">{{ $application->files[1]->name }}</a>
@@ -168,11 +169,14 @@
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.other_attachments') }}</div>
         <div class="col-9">
-            @foreach($application->files as $f)
+            @foreach ($application->files as $f)
                 @continue($f->order <= 2)
-                {{ __('fields.download_link') }} : <a href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => $f->order]) }}"
-                    target="_blank" rel="noopener">{{ $f->name }}</a>
-                @if(!$loop->last) <br /> @endif
+                {{ __('fields.download_link') }} : <a
+                    href="{{ route('download.attachment', ['application_id' => $application->id, 'index' => $f->order]) }}" target="_blank"
+                    rel="noopener">{{ $f->name }}</a>
+                @if (!$loop->last)
+                    <br />
+                @endif
             @endforeach
         </div>
     </div>
