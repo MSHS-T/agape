@@ -10,7 +10,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">
-            {{ __('fields.application.title.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
+            {{ __('fields.application.title.' . ($application->projectcall->type->is_workshop ? 'workshop' : 'default')) }}
         </div>
         <div class="col-9">{{ $application->title }}</div>
     </div>
@@ -22,7 +22,7 @@
     @endif
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">
-            {{ __('fields.application.carrier.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
+            {{ __('fields.application.carrier.' . ($application->projectcall->type->is_workshop ? 'workshop' : 'default')) }}
         </div>
         <div class="col-9">
             <div class="row">
@@ -116,16 +116,16 @@
         </div>
     </div>
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-2">
-        {{ __('fields.application.form.section_2.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
+        {{ __('fields.application.form.section_2.' . ($application->projectcall->type->is_workshop ? 'workshop' : 'default')) }}
     </h2>
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">
-            {{ __('fields.application.short_description.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
+            {{ __('fields.application.short_description.' . ($application->projectcall->type->is_workshop ? 'workshop' : 'default')) }}
         </div>
         <div class="col-9">{!! $application->short_description !!}</div>
     </div>
     <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-3">
-        {{ __('fields.application.form.section_3.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
+        {{ __('fields.application.form.section_3.' . ($application->projectcall->type->is_workshop ? 'workshop' : 'default')) }}
     </h2>
     <div class="row mb-3">
         <div class="col-3 font-weight-bold">{{ __('fields.application.amount_requested') }}</div>
