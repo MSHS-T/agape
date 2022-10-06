@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -71,7 +72,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name'           => ['required', 'string', 'max:255'],
             'last_name'            => ['required', 'string', 'max:255'],
-            'email'                => ['required', 'string', 'email', 'max:255'],
+            'email'                => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')],
             'password'             => ['required', 'string', 'min:6', 'confirmed'],
             'invitation'           => ['nullable', 'string', 'exists:invitations'],
             'g-recaptcha-response' => 'recaptcha',
