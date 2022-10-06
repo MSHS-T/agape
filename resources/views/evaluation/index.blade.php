@@ -107,6 +107,9 @@
                                 <a href="{{ route('evaluation.export', $evaluation) }}" class="btn btn-sm btn-info btn-block">
                                     @svg('solid/download') {{ __('actions.export_pdf') }}
                                 </a>
+                                <a href="{{ route('evaluation.export', $evaluation) }}?anonymized=1" class="btn btn-sm btn-info btn-block">
+                                    @svg('solid/download') {{ __('actions.export_pdf_anon') }}
+                                </a>
                             @endif
                         </td>
                     </tr>

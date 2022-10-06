@@ -47,8 +47,11 @@
 
         <h4 class="text-center title-bordered">
             <a name="evaluation-{{ $evaluation->id }}">
-                {{ __('fields.projectcall.evaluation') }} : {{ $evaluation->offer->expert->name }}
+                {{ __('fields.projectcall.evaluation') }}
             </a>
+            @if (!$anonymized)
+                : {{ $evaluation->offer->expert->name }}
+            @endif
 
         </h4>
 
