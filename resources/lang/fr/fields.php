@@ -35,6 +35,13 @@ return [
     "upload_overwrite_multiple" => "Ce champ accepte plusieurs fichiers : pressez la touche Control (sous Windows/Linux) ou Command (sous Mac) pour sélectionner plusieurs fichiers lorsque vous y êtes invités.<br/>Si vous avez déjà soumis un ou plusieurs fichiers pour ce champ, vous pouvez les contrôler à l'aide des liens ci dessus.<br/>Si vous envoyez un ou plusieurs nouveaux fichiers, ils remplaceront <b>l'ensemble des fichiers existants</b>. Laissez ce champ vide pour conserver les fichiers déjà présents",
     "upload_extensions"         => "Extensions acceptées",
 
+    "projectcalltype" => [
+        "reference"   => "Référence Unique",
+        "label_short" => "Label Court",
+        "label_long"  => "Label Long",
+        "is_workshop" => "Workshop ?",
+    ],
+
     "projectcall" => [
         "type"                   => "Type d'appel",
         "year"                   => "Année",
@@ -71,27 +78,23 @@ return [
         "form" => [
             "section_1" => "1. Informations générales",
             "section_2" => [
-                "Exploratoire" => "2. Présentation scientifique du projet",
-                "Region"       => "2. Présentation scientifique du projet",
-                "Workshop"     => "2. Présentation scientifique du workshop",
+                "default"  => "2. Présentation scientifique du projet",
+                "workshop" => "2. Présentation scientifique du workshop",
             ],
             "section_3" => [
-                "Exploratoire" => "3. Budget/Financement du projet",
-                "Region"       => "3. Budget/Financement du projet",
-                "Workshop"     => "3. Budget/Financement du workshop",
+                "default"  => "3. Budget/Financement du projet",
+                "workshop" => "3. Budget/Financement du workshop",
             ],
             "section_4" => "4. Pièces complémentaires"
         ],
         "title" => [
-            "Exploratoire" => "Intitulé du projet",
-            "Region"       => "Intitulé du projet",
-            "Workshop"     => "Intitulé du workshop",
+            "default"  => "Intitulé du projet",
+            "workshop" => "Intitulé du workshop",
         ],
         "acronym" => "Acronyme du projet",
         "carrier" => [
-            "Exploratoire" => "Porteur/Coordinateur du projet",
-            "Region"       => "Porteur/Coordinateur du projet",
-            "Workshop"     => "Responsable du workshop",
+            "default"  => "Porteur/Coordinateur du projet",
+            "workshop" => "Responsable du workshop",
         ],
         "laboratory_1"       => "Laboratoire porteur",
         "laboratory_n"       => "Laboratoire :index",
@@ -107,9 +110,8 @@ return [
         "keyword_n"          => "Mot-clé :index",
         "keywords"           => "Mots-clés",
         "short_description"  => [
-            "Exploratoire" => "Description courte du projet",
-            "Region"       => "Description courte du projet",
-            "Workshop"     => "Description courte des objectifs du workshop",
+            "default"  => "Description courte du projet",
+            "workshop" => "Description courte des objectifs du workshop",
         ],
         "short_description_help" => "Vous devrez joindre une description détaillée dans le formulaire de candidature à attacher dans la section 4",
         "amount_requested"       => "Montant demandé à la MSHS-T",

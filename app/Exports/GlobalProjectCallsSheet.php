@@ -16,8 +16,8 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 class GlobalProjectCallsSheet implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithHeadings, WithMapping, WithStrictNullComparison, WithTitle
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return ProjectCall::withTrashed()->get();
@@ -30,7 +30,7 @@ class GlobalProjectCallsSheet implements FromCollection, ShouldAutoSize, WithCol
     {
         return [
             $projectcall->id,
-            $projectcall->typeLabel,
+            $projectcall->type->label_short,
             $projectcall->year,
             $projectcall->title ?? "",
             Date::dateTimeToExcel(\Carbon\Carbon::parse($projectcall->application_start_date)),

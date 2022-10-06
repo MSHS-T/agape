@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'first_name', 'last_name', 'role', 'invited', 'phone'
+        'email', 'password', 'first_name', 'last_name', 'role', 'role_type_id', 'invited', 'phone'
     ];
 
     protected $appends = array('name');
@@ -31,6 +31,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function roleType()
+    {
+        return $this->belongsTo('App\ProjectCallType', 'role_type_id', 'id');
+    }
 
     public function getNameAttribute()
     {

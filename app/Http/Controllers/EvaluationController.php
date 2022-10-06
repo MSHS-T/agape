@@ -63,7 +63,7 @@ class EvaluationController extends Controller
         $title = implode(' - ', [
             config('app.name'),
             __('actions.evaluation.export_name'),
-            __('vocabulary.calltype_short.' . $projectcall->typeLabel),
+            $projectcall->type->label_short,
             $projectcall->year
         ]);
 
@@ -90,7 +90,7 @@ class EvaluationController extends Controller
         $title = implode(' - ', [
             config('app.name'),
             __('actions.evaluation.export_name'),
-            __('vocabulary.calltype_short.' . $application->projectcall->typeLabel),
+            $application->projectcall->type->label_short,
             $application->projectcall->year
         ]);
 
@@ -113,7 +113,7 @@ class EvaluationController extends Controller
         $title = implode(' - ', [
             config('app.name'),
             __('actions.evaluation.export_name'),
-            __('vocabulary.calltype_short.' . $evaluation->offer->application->projectcall->typeLabel),
+            $evaluation->offer->application->projectcall->type->label_short,
             $evaluation->offer->application->projectcall->year
         ]);
 

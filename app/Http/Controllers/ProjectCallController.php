@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\ProjectCall;
 use App\Setting;
 
-use App\Enums\CallType;
 use App\Exports\ApplicationsExport;
-
+use App\ProjectCallType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use BenSampo\Enum\Rules\EnumValue;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProjectCallController extends Controller
@@ -25,7 +24,13 @@ class ProjectCallController extends Controller
      */
     public function index()
     {
-        $projectcalls = ProjectCall::withTrashed()->with('creator')->get();
+        if (Auth::user()->role === UserRole::Manager) {
+            $projectcalls = ProjectCall::withTrashed()->with('creator')->mine()->get();
+        } else if (Auth::user()->role === UserRole::Admin) {
+            $projectcalls = ProjectCall::withTrashed()->with('creator')->get();
+        } else {
+            $projectcalls = [];
+        }
         return view('projectcall.index', compact('projectcalls'));
     }
 
@@ -36,12 +41,18 @@ class ProjectCallController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->role === UserRole::Manager) {
+            $allowedTypes = collect([Auth::user()->roleType->id => Auth::user()->roleType->label_long]);
+        } else if (Auth::user()->role === UserRole::Admin) {
+            $allowedTypes = ProjectCallType::all()->pluck('label_long', 'id');
+        }
         return view('projectcall.edit', [
-            'mode'        => 'create',
-            'method'      => 'POST',
-            'action'      => route('projectcall.store'),
-            'projectcall' => (object) [
-                'type'                   => 1,
+            'mode'         => 'create',
+            'method'       => 'POST',
+            'action'       => route('projectcall.store'),
+            'allowedTypes' => $allowedTypes,
+            'projectcall'  => (object) [
+                'project_call_type_id'   => $allowedTypes->keys()->first(),
                 'year'                   => intval(date('Y')) + 1,
                 'title'                  => '',
                 'description'            => '',
@@ -72,8 +83,13 @@ class ProjectCallController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->role === UserRole::Manager) {
+            $allowedTypes = collect([Auth::user()->roleType->id]);
+        } else if (Auth::user()->role === UserRole::Admin) {
+            $allowedTypes = ProjectCallType::all()->pluck('id');
+        }
         $request->validate([
-            'type'                   => ['required', 'integer', new EnumValue(CallType::class, false)],
+            'project_call_type_id'   => ['required', 'integer', 'in:' . $allowedTypes->join(',')],
             'year'                   => 'required|integer|min:' . (intval(date('Y')) - 1),
             'title'                  => 'nullable|string',
             'description'            => 'required',
@@ -148,11 +164,17 @@ class ProjectCallController extends Controller
      */
     public function edit(ProjectCall $projectcall)
     {
+        if (Auth::user()->role === UserRole::Manager) {
+            $allowedTypes = collect([Auth::user()->roleType->id => Auth::user()->roleType->label_long]);
+        } else if (Auth::user()->role === UserRole::Admin) {
+            $allowedTypes = ProjectCallType::all()->pluck('label_long', 'id');
+        }
         return view('projectcall.edit', [
-            'mode'        => 'edit',
-            'method'      => 'PUT',
-            'action'      => route('projectcall.update', $projectcall),
-            'projectcall' => $projectcall
+            'mode'         => 'edit',
+            'method'       => 'PUT',
+            'action'       => route('projectcall.update', $projectcall),
+            'allowedTypes' => $allowedTypes,
+            'projectcall'  => $projectcall
         ]);
     }
 
@@ -165,8 +187,13 @@ class ProjectCallController extends Controller
      */
     public function update(Request $request, ProjectCall $projectcall)
     {
+        if (Auth::user()->role === UserRole::Manager) {
+            $allowedTypes = collect([Auth::user()->roleType->id]);
+        } else if (Auth::user()->role === UserRole::Admin) {
+            $allowedTypes = ProjectCallType::all()->pluck('id');
+        }
         $request->validate([
-            'type'                   => ['required', 'integer', new EnumValue(CallType::class, false)],
+            'project_call_type_id'   => ['required', 'integer', 'in:' . $allowedTypes->join(',')],
             'year'                   => 'required|integer|min:' . (intval(date('Y')) - 1),
             'description'            => 'required',
             'application_start_date' => 'required|date',

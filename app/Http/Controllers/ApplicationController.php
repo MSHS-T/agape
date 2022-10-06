@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Application;
-use App\ApplicationFile;
-use App\EvaluationOffer;
 use App\Laboratory;
-use App\Person;
 use App\Setting;
 use App\StudyField;
 use App\User;
-use App\Enums\CallType;
 use App\Notifications\ApplicationSubmitted;
 use App\Notifications\ApplicationUnsubmitted;
 use App\Notifications\ApplicationForceSubmitted;
@@ -105,7 +101,7 @@ class ApplicationController extends Controller
                 return $data->{"carrier_$f"};
             }, $carrier_fields)
         );
-        $carrier_data['is_workshop'] = $application->projectcall->type == CallType::Workshop;
+        $carrier_data['is_workshop'] = $application->projectcall->type->is_workshop;
         $carrier = $application->carrier;
         $carrier->fill($carrier_data);
         $carrier->save();
@@ -275,12 +271,12 @@ class ApplicationController extends Controller
             'title'                             => 'required|max:255',
             'acronym'                           => [
                 function ($attribute, $value, $fail) use ($application) {
-                    if ($application->projectcall->type != CallType::Workshop) {
+                    if (!$application->projectcall->type->is_workshop) {
                         if (empty($value)) {
                             $fail(__('validation.required_if', [
                                 'attribute' => __('fields.application.acronym'),
                                 'other' => __('fields.projectcall.type'),
-                                'value' => $application->projectcall->typeLabel,
+                                'value' => $application->projectcall->type->label_short,
                             ]));
                         }
                     }
@@ -310,12 +306,12 @@ class ApplicationController extends Controller
             'laboratories.*.regency'            => 'required|max:255',
             'duration'                          => [
                 function ($attribute, $value, $fail) use ($application) {
-                    if ($application->projectcall->type != CallType::Workshop) {
+                    if (!$application->projectcall->type->is_workshop) {
                         if (empty($value)) {
                             $fail(__('validation.required_if', [
                                 'attribute' => __('fields.application.duration'),
                                 'other' => __('fields.projectcall.type'),
-                                'value' => $application->projectcall->typeLabel,
+                                'value' => $application->projectcall->type->label_short,
                             ]));
                         }
                     }
@@ -324,12 +320,12 @@ class ApplicationController extends Controller
             ],
             'target_date'                      => [
                 function ($attribute, $value, $fail) use ($application) {
-                    if ($application->projectcall->type == CallType::Workshop) {
+                    if ($application->projectcall->type->is_workshop) {
                         if (empty($value)) {
                             $fail(__('validation.required_if', [
                                 'attribute' => __('fields.application.target_date'),
                                 'other' => __('fields.projectcall.type'),
-                                'value' => $application->projectcall->typeLabel,
+                                'value' => $application->projectcall->type->label_short,
                             ]));
                         }
                     }

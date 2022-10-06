@@ -79,6 +79,7 @@ return [
     "administration" => "Administration",
     "laboratories"   => "Laboratoires",
     "study_fields"   => "Champs disciplinaires",
+    "call_types"     => "Types d'AAP",
 
     "projectcall" => [
         "show"                    => "Visualiser l'appel à Projets",
@@ -230,6 +231,14 @@ return [
         "deleted" => "Le Champ Disciplinaire a bien été supprimé.",
     ],
 
+    "project_call_type" => [
+        "list"    => "Types d'AAP",
+        "create"  => "Nouveau Type",
+        "created" => "Le Type a bien été créé.",
+        "edit"    => "Modifier le Type",
+        "edited"  => "Le Type a bien été modifié.",
+    ],
+
     "user" => [
         "list"              => "Utilisateurs",
         "invite"            => "Inviter un Utilisateur",
@@ -245,7 +254,8 @@ return [
         "blocked"           => "L'Utilisateur a bien été bloqué",
         "unblocked"         => "L'Utilisateur a bien été débloqué",
         "deleted"           => "L'Utilisateur a bien été supprimé",
-        "cannot_be_deleted" => "L'Utilisateur :name ne peut pas être supprimé car il est lié à au moins une candidature ou expertise. Si vous souhaitez empêcher son accès à l'application, vous pouvez le bloquer."
+        "cannot_be_deleted" => "L'Utilisateur :name ne peut pas être supprimé car il est lié à au moins une candidature ou expertise. Si vous souhaitez empêcher son accès à l'application, vous pouvez le bloquer.",
+        "unknown_role_type" => "Valeur de rôle inconnue",
     ],
 
     "error" => [

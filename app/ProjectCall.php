@@ -16,7 +16,7 @@ class ProjectCall extends Model
     use SoftDeletes;
 
     public $fillable = [
-        'type',
+        'project_call_type_id',
         'year',
         'title',
         'description',
@@ -39,7 +39,7 @@ class ProjectCall extends Model
         'financial_form_filepath',
     ];
 
-    protected $appends = array('typeLabel', 'evaluationCount');
+    protected $appends = array('evaluationCount');
 
     protected $dates = ['deleted_at'];
 
@@ -50,19 +50,24 @@ class ProjectCall extends Model
             $call->creator_id = Auth::id();
 
             $result = DB::table('project_calls')
-                ->where('type', $call->type)
+                ->where('project_call_type_id', $call->project_call_type_id)
                 ->where('year', $call->year)
                 ->count();
             $call->reference = sprintf(
                 "%s-%s-%s",
                 substr(strval($call->year), -2),
-                Lang::get('vocabulary.calltype_reference.' . CallType::getKey(intval($call->type))),
+                ProjectCallType::find($call->project_call_type_id)->reference,
                 str_pad(strval(++$result), 2, "0", STR_PAD_LEFT)
             );
         });
         static::addGlobalScope('creation_date', function (Builder $builder) {
             $builder->orderBy('created_at', 'desc');
         });
+    }
+
+    public function type()
+    {
+        return $this->belongsTo('App\ProjectCallType', 'project_call_type_id', 'id');
     }
 
     public function creator()
@@ -127,6 +132,11 @@ class ProjectCall extends Model
             ['evaluation_end_date', '>=', \Carbon\Carbon::parse('today')->format('Y-m-d')]
         ]);
     }
+    public function scopeMine($query)
+    {
+        $type_id = Auth::user()->role_type_id;
+        return $query->where('project_call_type_id', '=', $type_id);
+    }
 
     public function scopeOld($query)
     {
@@ -151,7 +161,7 @@ class ProjectCall extends Model
 
     public function toString()
     {
-        return (sprintf("%s %d", $this->typeLabel, $this->year)
+        return (sprintf("%s %d", $this->type->label_short, $this->year)
             . (!empty($this->title) ? " (" . $this->title . ")" : ""));
     }
 }
