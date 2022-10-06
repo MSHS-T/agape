@@ -38,6 +38,10 @@
                         @else
                             <a class="nav-link" href="{{ route('home') }}">{{ __('actions.home') }}</a>
                             @switch(Auth::user()->role)
+                                @case(\App\Enums\UserRole::Manager)
+                                    <a class="nav-link" href="{{ route('projectcall.index') }}">{{ __('actions.projectcall.list') }}</a>
+                                @break
+
                                 @case(\App\Enums\UserRole::Admin)
                                     <a class="nav-link" href="{{ route('projectcall.index') }}">{{ __('actions.projectcall.list') }}</a>
                                     <li class="nav-item dropdown">

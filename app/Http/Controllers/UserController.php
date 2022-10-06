@@ -36,7 +36,11 @@ class UserController extends Controller
     {
         $request->validate([
             'email' => 'required|email|unique:users|unique:invitations',
-            'role'  => ['required', 'integer', new EnumValue(UserRole::class, false)]
+            'role'  => ['required', function ($attribute, $value, $fail) {
+                if (!UserRole::isValid($value)) {
+                    $fail(__('actions.user.unknown_role_type'));
+                }
+            }]
         ]);
 
         do {
@@ -46,7 +50,7 @@ class UserController extends Controller
         $invitation = new Invitation([
             'invitation' => $invitationCode,
             'email'      => $request->input('email'),
-            'role'       => (int) $request->input('role'),
+            'role'       => $request->input('role'),
         ]);
         $invitation->save();
 

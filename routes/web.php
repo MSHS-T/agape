@@ -29,7 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Projectcalls
     Route::name('projectcall.')->prefix('projectcall')->group(function () {
-        Route::middleware('role:admin')->group(function () {
+        Route::middleware('role:admin,manager')->group(function () {
             Route::get('/', 'ProjectCallController@index')->name('index');
             Route::get('create', 'ProjectCallController@create')->name('create');
             Route::post('create', 'ProjectCallController@store')->name('store');
@@ -42,7 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('{projectcall}/evaluations/export', 'EvaluationController@exportForProjectCall')->name('evaluationsExport');
         });
 
-        Route::middleware('role:admin,candidate')->group(function () {
+        Route::middleware('role:admin,manager,candidate')->group(function () {
             Route::get('{projectcall}', 'ProjectCallController@show')->name('show');
             Route::get('{projectcall}/template/{template}', 'ProjectCallController@downloadTemplate')->name('template')->where(['template' => '(application|financial)']);
         });
@@ -61,7 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('{application}/submit', 'ApplicationController@submit')->name('submit');
         });
 
-        Route::middleware('role:admin')->group(function () {
+        Route::middleware('role:admin,manager')->group(function () {
             Route::put('{application}/forceSubmit', 'ApplicationController@forceSubmit')->name('forceSubmit');
             Route::put('{application}/unsubmit', 'ApplicationController@unsubmit')->name('unsubmit');
             Route::put('{application}/destroy', 'ApplicationController@destroy')->name('destroy');
@@ -74,7 +74,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Evaluation Offers
     Route::name('offer.')->prefix('offer')->group(function () {
-        Route::middleware('role:admin')->group(function () {
+        Route::middleware('role:admin,manager')->group(function () {
             Route::post('create/{application}', 'EvaluationOfferController@store')->name('store');
             Route::delete('{offer}', 'EvaluationOfferController@destroy')->name('destroy');
             Route::get('{offer}/retry', 'EvaluationOfferController@retry')->name('retry');
@@ -101,21 +101,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Admin routes
-    Route::prefix('admin')->middleware('role:admin')->group(function () {
-        Route::get('export', 'HomeController@globalExcelExport')->name('globalExcelExport');
-        Route::get('fullexport', 'HomeController@globalZipExport')->name('globalZipExport');
-        Route::get('settings', 'SettingsController@edit')->name('settings');
-        Route::post('settings', 'SettingsController@update')->name('settings.update');
+    Route::prefix('admin')->group(function () {
+        Route::middleware('role:admin')->group(function () {
+            Route::get('export', 'HomeController@globalExcelExport')->name('globalExcelExport');
+            Route::get('fullexport', 'HomeController@globalZipExport')->name('globalZipExport');
+            Route::get('settings', 'SettingsController@edit')->name('settings');
+            Route::post('settings', 'SettingsController@update')->name('settings.update');
 
-        Route::resource('laboratory', 'LaboratoryController')->except(['show']);
-        Route::resource('studyfield', 'StudyFieldController')->except(['show']);
-        Route::resource('projectcalltype', 'ProjectCallTypeController')->except(['show', 'destroy']);
+            Route::resource('laboratory', 'LaboratoryController')->except(['show']);
+            Route::resource('studyfield', 'StudyFieldController')->except(['show']);
+            Route::resource('projectcalltype', 'ProjectCallTypeController')->except(['show', 'destroy']);
+        });
 
-        Route::resource('user', 'UserController')->only(['index', 'store', 'destroy']);
-        Route::put('user/{user}/changeRole', 'UserController@changeRole')->name('user.changeRole');
-        Route::delete('user/{user}/block', 'UserController@block')->name('user.block');
-        Route::get('user/invites', 'UserController@invites')->name('user.invites');
-        Route::post('user/invite/{invitationCode}/retry', 'UserController@inviteRetry')->name('user.invite.retry');
+        Route::middleware('role:admin,manager')->group(function () {
+            Route::resource('user', 'UserController')->only(['index', 'store', 'destroy']);
+            Route::put('user/{user}/changeRole', 'UserController@changeRole')->name('user.changeRole');
+            Route::delete('user/{user}/block', 'UserController@block')->name('user.block');
+            Route::get('user/invites', 'UserController@invites')->name('user.invites');
+            Route::post('user/invite/{invitationCode}/retry', 'UserController@inviteRetry')->name('user.invite.retry');
+        });
     });
 });
 

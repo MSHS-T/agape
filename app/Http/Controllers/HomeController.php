@@ -56,6 +56,10 @@ class HomeController extends Controller
                 $projectcalls = ProjectCall::with('applications')->open()->get();
                 $data = compact('projectcalls');
                 break;
+            case UserRole::Manager:
+                $projectcalls = ProjectCall::with('applications')->open()->mine()->get();
+                $data = compact('projectcalls');
+                break;
             case UserRole::Expert:
                 $offers = EvaluationOffer::where('accepted', null)
                     ->where('expert_id', Auth::id())

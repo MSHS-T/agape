@@ -7,12 +7,12 @@
         <div class="form-group row">
             <label for="type" class="col-sm-3 col-form-label">{{ __('fields.projectcall.type') }}</label>
             <div class="col-sm-9">
-                @foreach (App\ProjectCallType::all() as $type)
+                @foreach ($allowedTypes as $typeId => $typeLabel)
                     <div class="form-check">
-                        <input type="radio" name="project_call_type_id" id="type{{ $type->id }}" value="{{ $type->id }}" autocomplete="off"
-                            {{ $type->id == old('type', $projectcall->type->id ?? null) ? 'checked' : ($mode == 'edit' ? 'disabled' : '') }}
+                        <input type="radio" name="project_call_type_id" id="type{{ $typeId }}" value="{{ $typeId }}" autocomplete="off"
+                            {{ $typeId == old('type', $projectcall->project_call_type_id ?? null) ? 'checked' : ($mode == 'edit' ? 'disabled' : '') }}
                             tabindex="{{ ++$tabindex }}">
-                        <label class="form-check-label" for="type{{ $type->id }}">{{ $type->label_long }}</label>
+                        <label class="form-check-label" for="type{{ $typeId }}">{{ $typeLabel }}</label>
                     </div>
                 @endforeach
             </div>

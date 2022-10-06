@@ -17,8 +17,10 @@ return [
     //     "Workshop"     => "WS"
     // ],
     "role" => [
-        "Admin"     => "Administrateur",
-        "Candidate" => "Candidat",
-        "Expert"    => "Expert"
+        "Admin"       => "Administrateur",
+        "Candidate"   => "Candidat",
+        "Expert"      => "Expert",
+        "Manager"     => "Gestionnaire",
+        "ManagerType" => "Gestionnaire :type",
     ]
 ];

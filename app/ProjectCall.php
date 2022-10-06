@@ -132,6 +132,11 @@ class ProjectCall extends Model
             ['evaluation_end_date', '>=', \Carbon\Carbon::parse('today')->format('Y-m-d')]
         ]);
     }
+    public function scopeMine($query)
+    {
+        $type_id = Auth::user()->role_type_id;
+        return $query->where('project_call_type_id', '=', $type_id);
+    }
 
     public function scopeOld($query)
     {

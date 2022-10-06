@@ -254,7 +254,8 @@ return [
         "blocked"           => "L'Utilisateur a bien été bloqué",
         "unblocked"         => "L'Utilisateur a bien été débloqué",
         "deleted"           => "L'Utilisateur a bien été supprimé",
-        "cannot_be_deleted" => "L'Utilisateur :name ne peut pas être supprimé car il est lié à au moins une candidature ou expertise. Si vous souhaitez empêcher son accès à l'application, vous pouvez le bloquer."
+        "cannot_be_deleted" => "L'Utilisateur :name ne peut pas être supprimé car il est lié à au moins une candidature ou expertise. Si vous souhaitez empêcher son accès à l'application, vous pouvez le bloquer.",
+        "unknown_role_type" => "Valeur de rôle inconnue",
     ],
 
     "error" => [

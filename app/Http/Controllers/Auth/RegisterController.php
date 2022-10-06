@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -90,13 +91,19 @@ class RegisterController extends Controller
         } else {
             $invitation = Invitation::where('email', $data['email'])->first();
         }
+        $role = ($invitation ? $invitation->role : UserRole::Candidate);
+        $role_type_id = null;
+        if (Str::startsWith($role, '3-')) {
+            list($role, $role_type_id) = array_map('intval', explode('-', $role));
+        }
         $user = User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'invited' => ($invitation !== null),
-            'role' => ($invitation ? $invitation->role : UserRole::Candidate)
+            'first_name'   => $data['first_name'],
+            'last_name'    => $data['last_name'],
+            'email'        => $data['email'],
+            'password'     => Hash::make($data['password']),
+            'invited'      => ($invitation !== null),
+            'role'         => $role,
+            'role_type_id' => $role_type_id
         ]);
         if ($invitation !== null) {
             // Notify admins
