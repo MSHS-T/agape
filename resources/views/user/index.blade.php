@@ -26,7 +26,7 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->phone }}</td>
                         <td>
-                            {{ __('vocabulary.role.' . App\Enums\UserRole::getKey($user->role)) }}
+                            {{ $user->roleLabel }}
                         </td>
                         <td data-order="{{ $user->created_at }}">
                             @date(['datetime' => $user->created_at])
@@ -166,7 +166,7 @@
                         @include('forms.select', [
                             'name' => 'role',
                             'label' => __('fields.role'),
-                            'allowedValues' => \App\Enums\UserRole::toSelectArray(),
+                            'allowedValues' => \App\Enums\UserRole::toSelectArrayWithTypes(),
                             'allowNone' => false,
                             'allowNew' => false,
                             'multiple' => false,

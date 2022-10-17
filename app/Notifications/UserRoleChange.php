@@ -42,11 +42,10 @@ class UserRoleChange extends Notification
      */
     public function toMail($notifiable)
     {
-        $role = \App\Enums\UserRole::getLabel($this->invitation->role);
         return (new MailMessage)
             ->subject(__('email.role_change.title'))
             ->line(__('email.role_change.intro', [
-                'role' => $role
+                'role' => $this->user->roleLabel
             ]));
     }
 
