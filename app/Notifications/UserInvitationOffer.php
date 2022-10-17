@@ -44,7 +44,7 @@ class UserInvitationOffer extends Notification
      */
     public function toMail($notifiable)
     {
-        $role = __('vocabulary.role.' . \App\Enums\UserRole::getKey($this->invitation->role));
+        $role = \App\Enums\UserRole::getLabel($this->invitation->role);
         return (new MailMessage)
             ->subject(__('email.invitation_offer.title'))
             ->line(__('email.invitation_offer.intro', [

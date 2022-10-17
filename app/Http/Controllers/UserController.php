@@ -77,7 +77,7 @@ class UserController extends Controller
         $user->role = intval($newRole);
         $user->save();
 
-        $newRoleLabel = __('vocabulary.role.' . \App\Enums\UserRole::getKey($user->role));
+        $newRoleLabel = \App\Enums\UserRole::getLabel($user->role);
 
         $user->notify(new UserRoleChange($user));
 
