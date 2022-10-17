@@ -32,12 +32,15 @@ final class UserRole extends Enum
         return $resp;
     }
 
-    public static function toSelectArrayWithTypes(): array
+    public static function toSelectArrayWithTypes($limited = false): array
     {
         $parent = parent::toArray();
         $types = ProjectCallType::all();
         $resp = [];
         foreach ($parent as $label => $value) {
+            if ($limited === true && !in_array($value, [self::Candidate, self::Expert])) {
+                continue;
+            }
             if ($value === self::Manager) {
                 $originalValue = intval($value);
                 foreach ($types as $type) {

@@ -43,7 +43,11 @@
                             @endif
                         </td>
                         <td>
-                            @if ($user->id > 1)
+                            @if ($user->id > 1 &&
+                                $user->id !== Auth::id() &&
+                                (Auth::user()->role === \App\Enums\UserRole::Admin ||
+                                    $user->role === \App\Enums\UserRole::Candidate ||
+                                    $user->role === \App\Enums\UserRole::Expert))
                                 <a href="{{ route('user.changeRole', $user) }}" class="btn btn-sm btn-secondary btn-block change-role-link">
                                     @svg('solid/user-tag', 'icon-fw') {{ __('actions.user.change_role') }}
                                 </a>
@@ -86,7 +90,7 @@
                 @include('forms.select', [
                     'name' => 'role',
                     'label' => __('fields.role'),
-                    'allowedValues' => \App\Enums\UserRole::toSelectArrayWithTypes(),
+                    'allowedValues' => \App\Enums\UserRole::toSelectArrayWithTypes(Auth::user()->role !== \App\Enums\UserRole::Admin),
                     'allowNone' => false,
                     'allowNew' => false,
                     'multiple' => false,
@@ -166,7 +170,7 @@
                         @include('forms.select', [
                             'name' => 'role',
                             'label' => __('fields.role'),
-                            'allowedValues' => \App\Enums\UserRole::toSelectArrayWithTypes(),
+                            'allowedValues' => \App\Enums\UserRole::toSelectArrayWithTypes(Auth::user()->role !== \App\Enums\UserRole::Admin),
                             'allowNone' => false,
                             'allowNew' => false,
                             'multiple' => false,
