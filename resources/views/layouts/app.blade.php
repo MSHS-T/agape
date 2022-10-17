@@ -44,6 +44,7 @@
                             @switch(Auth::user()->role)
                                 @case(\App\Enums\UserRole::Manager)
                                     <a class="nav-link" href="{{ route('projectcall.index') }}">{{ __('actions.projectcall.list') }}</a>
+                                    <a class="nav-link" href="{{ route('user.index') }}"> {{ __('actions.user.list') }} </a>
                                 @break
 
                                 @case(\App\Enums\UserRole::Admin)

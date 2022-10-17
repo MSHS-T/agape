@@ -74,10 +74,17 @@ class UserController extends Controller
         }
         $newRole = $request->input('role');
         $user = User::where('id', $user)->firstOrFail();
-        $user->role = intval($newRole);
+        if (Str::startsWith($newRole, '3-')) {
+            list($role, $roleType) = explode('-', $newRole);
+        } else {
+            $role = $newRole;
+            $roleType = null;
+        }
+        $user->role = intval($role);
+        $user->role_type_id = $roleType ? intval($roleType) : null;
         $user->save();
 
-        $newRoleLabel = __('vocabulary.role.' . \App\Enums\UserRole::getKey($user->role));
+        $newRoleLabel = $user->roleLabel;
 
         $user->notify(new UserRoleChange($user));
 

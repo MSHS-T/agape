@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Enums\UserRole;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -35,6 +36,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function roleType()
     {
         return $this->belongsTo('App\ProjectCallType', 'role_type_id', 'id');
+    }
+
+    public function getRoleLabelAttribute()
+    {
+        return UserRole::getLabel(
+            $this->role === UserRole::Manager
+                ? $this->role . '-' . $this->role_type_id
+                : $this->role
+        );
     }
 
     public function getNameAttribute()

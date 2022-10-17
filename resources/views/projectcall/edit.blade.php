@@ -183,6 +183,24 @@
             </div>
         </div>
 
+        <h2 class="text-center font-weight-bold border border-secondary rounded">
+            {{ __('actions.settings.sections.notation_guide') }}
+        </h2>
+        @foreach (range(1, 3) as $index => $iteration)
+            @include('forms.textinput', [
+                'name' => 'notation_' . $iteration . '_title',
+                'label' => __('fields.setting.notation_title', ['index' => $iteration]),
+                'value' => old('notation_' . $iteration . '_title', $settings->{'notation_' . $iteration . '_title'}),
+                'tabindex' => ++$tabindex,
+            ])
+            @include('forms.textarea', [
+                'name' => 'notation_' . $iteration . '_description',
+                'label' => __('fields.setting.notation_description', ['index' => $iteration]),
+                'value' => old('notation_' . $iteration . '_description', $settings->{'notation_' . $iteration . '_description'}),
+                'tabindex' => ++$tabindex,
+            ])
+        @endforeach
+
         <hr />
         <div class="form-group row">
             <div class="col-sm-9 offset-sm-3">
