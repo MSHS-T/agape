@@ -26,7 +26,7 @@
         <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-1">{{ __('fields.application.form.section_1') }}</h2>
         @include('forms.textinput', [
             'name' => 'title',
-            'label' => __('fields.application.title.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default'),
+            'label' => __('fields.application.title.' . ($application->projectcall->type->is_workshop ? 'workshop' : 'default')),
             'value' => old('title', $application->title),
         ])
 
@@ -40,7 +40,7 @@
 
         @include('forms.subform', [
             'name' => 'carrier_id',
-            'label' => __('fields.application.carrier.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default'),
+            'label' => __('fields.application.carrier.' . ($application->projectcall->type->is_workshop ? 'workshop' : 'default')),
             'value' => old('carrier', $application->carrier),
             'fields' => [
                 [
@@ -197,18 +197,18 @@
 
         {{-- SECTION 2 : Présentation scientifique --}}
         <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-2">
-            {{ __('fields.application.form.section_2.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
+            {{ __('fields.application.form.section_2.' . ($application->projectcall->type->is_workshop ? 'workshop' : 'default')) }}
         </h2>
         @include('forms.textarea', [
             'name' => 'short_description',
-            'label' => __('fields.application.short_description.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default'),
+            'label' => __('fields.application.short_description.' . ($application->projectcall->type->is_workshop ? 'workshop' : 'default')),
             'value' => old('short_description', $application->short_description),
             'help' => __('fields.application.short_description_help'),
         ])
 
         {{-- SECTION 3 : Budget --}}
         <h2 class="text-center font-weight-bold border border-secondary rounded" id="form-section-3">
-            {{ __('fields.application.form.section_3.' . $application->projectcall->type->is_workshop ? 'workshop' : 'default') }}
+            {{ __('fields.application.form.section_3.' . ($application->projectcall->type->is_workshop ? 'workshop' : 'default')) }}
         </h2>
         @include('forms.textinput', [
             'name' => 'amount_requested',
