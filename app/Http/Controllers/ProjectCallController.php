@@ -51,6 +51,7 @@ class ProjectCallController extends Controller
             'method'       => 'POST',
             'action'       => route('projectcall.store'),
             'allowedTypes' => $allowedTypes,
+            'settings'     => Setting::all(),
             'projectcall'  => (object) [
                 'project_call_type_id'   => $allowedTypes->keys()->first(),
                 'year'                   => intval(date('Y')) + 1,
@@ -104,6 +105,12 @@ class ProjectCallController extends Controller
             'number_of_study_fields' => 'required|integer|min:0',
             'application_form'       => 'required|file',
             'financial_form'         => 'nullable|file',
+            'notation_1_title'       => 'required|string',
+            'notation_2_title'       => 'required|string',
+            'notation_3_title'       => 'required|string',
+            'notation_1_description' => 'required|string',
+            'notation_2_description' => 'required|string',
+            'notation_3_description' => 'required|string',
             // Optional fields
             // 'number_of_target_dates' => '',
             // 'privacy_clause' => '',
@@ -174,6 +181,7 @@ class ProjectCallController extends Controller
             'method'       => 'PUT',
             'action'       => route('projectcall.update', $projectcall),
             'allowedTypes' => $allowedTypes,
+            'settings'     => Setting::all(),
             'projectcall'  => $projectcall
         ]);
     }
@@ -210,6 +218,12 @@ class ProjectCallController extends Controller
                 'file',
             ],
             'financial_form'         => 'nullable|file',
+            'notation_1_title'       => 'required|string',
+            'notation_2_title'       => 'required|string',
+            'notation_3_title'       => 'required|string',
+            'notation_1_description' => 'required|string',
+            'notation_2_description' => 'required|string',
+            'notation_3_description' => 'required|string',
             // Optional fields
             // 'number_of_target_dates' => '',
             // 'privacy_clause' => '',

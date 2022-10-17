@@ -3,23 +3,21 @@
 @php($noId = $noId ?? false)
 @php($criteriaDetails = $criteriaDetails ?? true)
 
-<form @if(!$noId)
-    id="evaluation_form"
-@endif >
-    @foreach(range(1,3) as $iteration)
-        @php($grade = $evaluation->{"grade".$iteration})
+<form @if (!$noId) id="evaluation_form" @endif>
+    @foreach (range(1, 3) as $iteration)
+        @php($grade = $evaluation->{'grade' . $iteration})
         <div class="evaluation_criteria">
             <div class="jumbotron jumbotron-fluid px-1 py-2 mb-1">
                 <div class="container">
-                    <h5>{{ \App\Setting::get("notation_{$iteration}_title") }}</h5>
-                    @if($criteriaDetails)
+                    <h5>{{ $evaluation->offer->application->projectcall->{"notation_{$iteration}_title"} }}</h5>
+                    @if ($criteriaDetails)
                         <p class="lead">
-                            {!! \App\Setting::get("notation_{$iteration}_description") !!}
+                            {!! $evaluation->offer->application->projectcall->{"notation_{$iteration}_title"} !!}
                         </p>
                     @endif
                 </div>
             </div>
-            @if(!$anonymized)
+            @if (!$anonymized)
                 <div class="form-group row">
                     <label class="col-3 col-form-label">{{ __('fields.evaluation.grade') }}</label>
                     <div class="col-9">
@@ -36,11 +34,11 @@
             <div class="form-group row">
                 <label class="col-3 col-form-label">{{ __('fields.comments') }}</label>
                 <div class="col-9">
-                    {!! $evaluation->{"comment".$iteration} !!}
+                    {!! $evaluation->{'comment' . $iteration} !!}
                 </div>
             </div>
         </div>
-        <hr/>
+        <hr />
     @endforeach
 
     <div class="jumbotron jumbotron-fluid px-1 py-2 mb-1">
@@ -48,7 +46,7 @@
             <h5 class="mb-0">{{ __('fields.evaluation.global_grade') }}</h5>
         </div>
     </div>
-    @if(!$anonymized)
+    @if (!$anonymized)
         <div class="form-group row">
             <label class="col-3 col-form-label">{{ __('fields.evaluation.grade') }}</label>
             <div class="col-9">
