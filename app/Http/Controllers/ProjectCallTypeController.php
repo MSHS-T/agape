@@ -104,7 +104,7 @@ class ProjectCallTypeController extends Controller
         $projectcalltype->reference   = $request->input('reference');
         $projectcalltype->label_short = $request->input('label_short');
         $projectcalltype->label_long  = $request->input('label_long');
-        $projectcalltype->is_workshop = $request->input('is_workshop');
+        $projectcalltype->is_workshop = $request->input('is_workshop') ?? false;
         $projectcalltype->save();
         return redirect()->route('projectcalltype.index')
             ->with('success', __('actions.project_call_type.edited'));
