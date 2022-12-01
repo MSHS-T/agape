@@ -5,7 +5,7 @@
             <div class="col-md-8">
 
                 <div class="text-center">
-                    <img class="mb-4" src="{{ URL::asset('/bandeau.jpg') }}" alt="" width="306" height="126">
+                    <img class="mb-4" src="{{ URL::asset('/bandeau.jpg') }}" alt="" width="600">
 
                     <h1 class="h3 mb-3 font-weight-normal">{{ __('auth.reset_password1') }}</h1>
                     <h1 class="h3 mb-3 font-weight-normal">{{ __('auth.reset_password3') }}</h1>
