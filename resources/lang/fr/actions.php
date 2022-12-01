@@ -61,7 +61,7 @@ return [
 
     "confirm_delete" => [
         "title" => "Confirmer la suppression",
-        "body"  => "Êtes-vous sûr de vouloir supprimer cet utilisateur ?"
+        "body"  => "Êtes-vous sûr de vouloir supprimer cette ligne ?"
     ],
 
     "confirm_decline" => [

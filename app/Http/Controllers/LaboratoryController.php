@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Application;
 use App\Laboratory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -111,6 +113,7 @@ class LaboratoryController extends Controller
      */
     public function destroy(Laboratory $laboratory)
     {
+        $laboratory->applications()->detach();
         $laboratory->delete();
         return redirect()->route('laboratory.index')
             ->with('success', __('actions.laboratory.deleted'));
