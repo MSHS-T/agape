@@ -156,15 +156,18 @@ class ApplicationController extends Controller
         $application->studyFields()->detach();
         if (isset($data->study_fields)) {
             foreach ($data->study_fields as $sfValue) {
+                $sf = null;
                 if (is_numeric($sfValue)) {
                     $sf = StudyField::find($sfValue);
-                } else {
+                } else if (filled($sfValue)) {
                     $sf = new StudyField([
                         'name' => $sfValue
                     ]);
                     $sf->save();
                 }
-                $application->studyFields()->attach($sf);
+                if (filled($sf)) {
+                    $application->studyFields()->attach($sf);
+                }
             }
         }
 
