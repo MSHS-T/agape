@@ -78,8 +78,10 @@ final class UserRole extends Enum
         if (Str::startsWith($value, '3-')) {
             list($role, $type) = array_map('intval', explode('-', $value));
             return ProjectCallType::find($type) !== null;
+        } else if (strval($value) === "3") {
+            return false;
         } else {
-            return in_array($value, self::getKeys());
+            return in_array($value, self::getValues());
         }
     }
 }
