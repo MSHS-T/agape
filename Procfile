@@ -1,1 +1,0 @@
-postdeploy: php artisan migrate
