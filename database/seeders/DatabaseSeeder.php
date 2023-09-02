@@ -2,8 +2,13 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Console\View\Components\Task;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +17,85 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $this->write(
+            Task::class,
+            'Creation roles and permissions',
+            function () {
+                $roles = [];
+                foreach (config('agape.roles') as $roleName) {
+                    $roles[$roleName] = Role::firstOrCreate(['name' => $roleName]);
+                }
+                foreach (config('agape.permissions') as $permissionGroup => $permissions) {
+                    foreach ($permissions as $permissionName => $allowedRoles) {
+                        $p = Permission::firstOrCreate([
+                            'name' => implode('.', [$permissionGroup, $permissionName]),
+                        ]);
+                        if (!empty($allowedRoles)) {
+                            $p->syncRoles(
+                                array_map(fn ($r) => $roles[$r], $allowedRoles)
+                            );
+                        }
+                    }
+                }
+            }
+        );
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->write(
+            Task::class,
+            'Creating users',
+            function () {
+                User::create([
+                    'first_name'            => 'Administrateur',
+                    'last_name'             => 'AGAPE',
+                    'email'                 => 'admin@univ-tlse2.fr',
+                    'email_verified_at'     => Carbon::now(),
+                    'password'              => Hash::make('password'),
+                ])->assignRole('administrator');
+
+                User::create([
+                    'first_name'            => 'Gestionnaire',
+                    'last_name'             => 'AGAPE',
+                    'email'                 => 'gestionnaire@univ-tlse2.fr',
+                    'email_verified_at'     => Carbon::now(),
+                    'password'              => Hash::make('password'),
+                ])->assignRole('manager');
+
+                User::create([
+                    'first_name'            => 'Expert',
+                    'last_name'             => 'AGAPE',
+                    'email'                 => 'expert@univ-tlse2.fr',
+                    'email_verified_at'     => Carbon::now(),
+                    'password'              => Hash::make('password'),
+                ])->assignRole('expert');
+
+                User::create([
+                    'first_name'            => 'Candidat',
+                    'last_name'             => 'AGAPE',
+                    'email'                 => 'candidat@univ-tlse2.fr',
+                    'email_verified_at'     => Carbon::now(),
+                    'password'              => Hash::make('password'),
+                ])->assignRole('applicant');
+            }
+        );
+    }
+
+    /**
+     * Write to the console's output.
+     *
+     * @param  string  $component
+     * @param  array<int, string>|string  $arguments
+     * @return void
+     */
+    protected function write($component, ...$arguments)
+    {
+        if ($this->command->getOutput() && class_exists($component)) {
+            (new $component($this->command->getOutput()))->render(...$arguments);
+        } else {
+            foreach ($arguments as $argument) {
+                if (is_callable($argument)) {
+                    $argument();
+                }
+            }
+        }
     }
 }
