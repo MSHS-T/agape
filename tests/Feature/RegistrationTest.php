@@ -38,6 +38,26 @@ class RegistrationTest extends TestCase
         $response->assertStatus(404);
     }
 
+    public function test_new_users_cannot_register_if_password_is_too_weak(): void
+    {
+        if (!Features::enabled(Features::registration())) {
+            $this->markTestSkipped('Registration support is not enabled.');
+
+            return;
+        }
+
+        $response = $this->post('/register', [
+            'first_name'            => 'Test',
+            'last_name'             => 'User',
+            'email'                 => 'test@example.com',
+            'password'              => 'password',
+            'password_confirmation' => 'password',
+            'terms'                 => Jetstream::hasTermsAndPrivacyPolicyFeature(),
+        ]);
+
+        $response->assertSessionHasErrors(['password']);
+    }
+
     public function test_new_users_can_register(): void
     {
         if (!Features::enabled(Features::registration())) {
@@ -50,8 +70,8 @@ class RegistrationTest extends TestCase
             'first_name' => 'Test',
             'last_name' => 'User',
             'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password'              => 'Password123',
+            'password_confirmation' => 'Password123',
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature(),
         ]);
 

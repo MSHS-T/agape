@@ -13,7 +13,7 @@ class UpdatePasswordTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_password_can_be_updated(): void
+    public function test_password_cannot_be_updated_if_too_weak(): void
     {
         $this->actingAs($user = User::factory()->create());
 
@@ -25,7 +25,22 @@ class UpdatePasswordTest extends TestCase
             ])
             ->call('updatePassword');
 
-        $this->assertTrue(Hash::check('new-password', $user->fresh()->password));
+        $this->assertFalse(Hash::check('new-password', $user->fresh()->password));
+    }
+
+    public function test_password_can_be_updated(): void
+    {
+        $this->actingAs($user = User::factory()->create());
+
+        Livewire::test(UpdatePasswordForm::class)
+            ->set('state', [
+                'current_password' => 'password',
+                'password' => 'New-password1234',
+                'password_confirmation' => 'New-password1234',
+            ])
+            ->call('updatePassword');
+
+        $this->assertTrue(Hash::check('New-password1234', $user->fresh()->password));
     }
 
     public function test_current_password_must_be_correct(): void

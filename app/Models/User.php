@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasRoles;
     use HasFactory;
+    // use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -55,6 +57,6 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_url',
+        // 'profile_photo_url',
     ];
 }

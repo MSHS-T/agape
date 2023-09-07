@@ -13,7 +13,9 @@ class DeleteUser implements DeletesUsers
      */
     public function delete(User $user): void
     {
-        $user->deleteProfilePhoto();
+        if (Features::managesProfilePhotos()) {
+            $user->deleteProfilePhoto();
+        }
         if (Features::hasApiFeatures()) {
             $user->tokens->each->delete();
         }
