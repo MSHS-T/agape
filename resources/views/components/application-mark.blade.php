@@ -1,1 +1,1 @@
-<img src="/logo_ligne.png" class="w-96" alt="Logo AGAPE" />
+<img src="/logo_ligne.png" {{ $attributes->class(['w-[500px]'])->merge() }} alt="Logo AGAPE" />

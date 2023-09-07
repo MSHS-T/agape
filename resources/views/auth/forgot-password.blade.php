@@ -4,8 +4,12 @@
             <x-authentication-card-logo />
         </x-slot>
 
+        <x-slot name="title">
+            {!! __('pages.forgot_password.title') !!}
+        </x-slot>
+
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+            {{ __('pages.forgot_password.text') }}
         </div>
 
         @if (session('status'))
@@ -20,13 +24,18 @@
             @csrf
 
             <div class="block">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                <x-label for="email" value="{{ __('fields.user.email') }}" />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                    autofocus autocomplete="username" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Email Password Reset Link') }}
+                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                    href="{{ route('login') }}">
+                    {{ __('pages.generic.back') }}
+                </a>
+                <x-button type="submit" class="ml-4">
+                    {{ __('pages.forgot_password.send_link') }}
                 </x-button>
             </div>
         </form>

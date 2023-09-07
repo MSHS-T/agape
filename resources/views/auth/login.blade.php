@@ -4,6 +4,10 @@
             <x-authentication-card-logo />
         </x-slot>
 
+        <x-slot name="title">
+            {!! __('pages.login.title') !!}
+        </x-slot>
+
         <x-validation-errors class="mb-4" />
 
         @if (session('status'))
@@ -16,33 +20,58 @@
             @csrf
 
             <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                <x-label for="email" value="{{ __('fields.user.email') }}" />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                    autofocus autocomplete="username" />
             </div>
 
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+            <div class="mt-6">
+                <x-label for="password" value="{{ __('fields.user.password') }}" />
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                    autocomplete="current-password" />
             </div>
 
-            <div class="block mt-4">
+            <div class="mt-6 flex items-center justify-between">
                 <label for="remember_me" class="flex items-center">
                     <x-checkbox id="remember_me" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
+                    <span
+                        class="ml-3 text-sm font-semibold text-gray-900 dark:text-gray-100">{{ __('pages.login.remember_me') }}</span>
                 </label>
+                @if (Route::has('password.request'))
+                    <div class="text-sm leading-6">
+                        <a href="{{ route('password.request') }}"
+                            class="font-semibold text-indigo-600 hover:text-indigo-500">
+                            {{ __('pages.forgot_password.title') }}
+                        </a>
+                    </div>
+                @endif
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ml-4">
-                    {{ __('Log in') }}
+            <div class="mt-6 flex justify-center items-center">
+                <x-button type="submit" color="primary" class="w-full">
+                    {{ __('pages.login.login') }}
                 </x-button>
             </div>
         </form>
+
+        @if (Route::has('register'))
+            <div>
+                <div class="relative mt-10">
+                    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                        <div class="w-full border-t border-gray-200"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm font-medium leading-6">
+                        <span class="bg-white px-6 text-gray-900 uppercase">{{ __('or') }}</span>
+                    </div>
+                </div>
+
+
+                <div class="mt-6 flex justify-center">
+                    <x-button tag="a" href="{{ route('register') }}" color="info" class="w-full">
+                        {{ __('pages.login.register') }}
+                    </x-button>
+                </div>
+            </div>
+        @endif
     </x-authentication-card>
 </x-guest-layout>
