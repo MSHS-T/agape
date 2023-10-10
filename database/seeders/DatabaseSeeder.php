@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -27,6 +28,12 @@ class DatabaseSeeder extends Seeder
             }
         );
 
+        /**
+         * Instructions below are not to be executed in production
+         */
+        if (!App::isProduction()) {
+            return;
+        }
         $this->write(
             Task::class,
             'Creating users',
