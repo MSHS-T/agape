@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             Task::class,
             'Creating roles and permissions',
             function () {
-                $this->run([
+                $this->callSilent([
                     RolesPermissionsSeeder::class
                 ]);
             }
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         /**
          * Instructions below are not to be executed in production
          */
-        if (!App::isProduction()) {
+        if (App::isProduction()) {
             return;
         }
         $this->write(
