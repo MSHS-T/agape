@@ -1,0 +1,106 @@
+models:
+  StudyField:
+    name: json
+    creator_id: id nullable foreign:users.id
+
+  Laboratory:
+    name: string
+    unit_code: string
+    director_email: string
+    regency: string
+    creator_id: id nullable foreign:users.id
+
+  Carrier:
+    first_name: string
+    last_name: string
+    email: string
+    phone: string
+    status: string
+
+  Invitation:
+    invitation: string unique
+    email: string
+    extra_attributes: json
+
+  ProjectCallType:
+    reference: string unique
+    label_long: json
+    label_short: json
+    extra_attributes: json
+    relationships:
+      belongsToMany: Media
+
+  ProjectCall:
+    reference: string unique
+    year: number
+    title: json
+    description: json
+    application_start_date: date
+    application_end_date: date
+    evaluation_start_date: date
+    evaluation_end_date: date
+    privacy_clause: json
+    invite_email: json
+    help_experts: json
+    help_candidates: json
+    devalidation_message: string
+    notation_1_title: json
+    notation_1_description: json
+    notation_2_title: json
+    notation_2_description: json
+    notation_3_title: json
+    notation_3_description: json
+    extra_attributes: json
+    creator_id: id nullable foreign:users.id
+    softDeletes
+    relationships:
+      belongsTo: ProjectCallType
+      hasMany: Application
+
+  Application:
+    title: string
+    acronym: string
+    theme: text
+    short_description: text
+    summary: json
+    keywords: json
+    other_laboratories: text
+    amount_requested: float
+    other_fundings: float
+    total_expected_income: float
+    total_expected_outcome: float
+    selection_comity_opinion: text
+    devalidation_message: string
+    extra_attributes: json
+    applicant_id: id nullable foreign:users.id
+    submitted_at: datetime
+    relationships:
+      belongsTo: ProjectCall, Carrier
+      belongsToMany: StudyField, Laboratory
+      hasMany: EvaluationOffer
+
+  EvaluationOffer:
+    accepted: boolean nullable
+    justification: text
+    extra_attributes: json
+    creator_id: id nullable foreign:users.id
+    expert_id: id nullable foreign:users.id
+    invitation_id: id nullable foreign:invitations.id
+    relationships:
+      belongsTo: Application
+      hasOne: Evaluation
+
+  Evaluation:
+    grade1: tinyint unsigned
+    grade2: tinyint unsigned
+    grade3: tinyint unsigned
+    global_grade: tinyint unsigned
+    comment1: text
+    comment2: text
+    comment3: text
+    global_comment: text
+    relationships:
+      belongsTo: EvaluationOffer
+
+controllers:
+  # ...

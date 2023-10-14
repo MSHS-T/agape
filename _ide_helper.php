@@ -7313,6 +7313,17 @@
         {
                         \Illuminate\Filesystem\Filesystem::flushMacros();
         }
+                    /**
+         * 
+         *
+         * @see \Blueprint\FileMixins::stub()
+         * @param mixed $path
+         * @static 
+         */ 
+        public static function stub($path)
+        {
+                        return \Illuminate\Filesystem\Filesystem::stub($path);
+        }
          
     }
             /**
@@ -18914,6 +18925,70 @@
      
 }
 
+    namespace Intervention\Image\Facades { 
+            /**
+     * 
+     *
+     */ 
+        class Image {
+                    /**
+         * Overrides configuration settings
+         *
+         * @param array $config
+         * @return self 
+         * @static 
+         */ 
+        public static function configure($config = [])
+        {
+                        /** @var \Intervention\Image\ImageManager $instance */
+                        return $instance->configure($config);
+        }
+                    /**
+         * Initiates an Image instance from different input types
+         *
+         * @param mixed $data
+         * @return \Intervention\Image\Image 
+         * @static 
+         */ 
+        public static function make($data)
+        {
+                        /** @var \Intervention\Image\ImageManager $instance */
+                        return $instance->make($data);
+        }
+                    /**
+         * Creates an empty image canvas
+         *
+         * @param int $width
+         * @param int $height
+         * @param mixed $background
+         * @return \Intervention\Image\Image 
+         * @static 
+         */ 
+        public static function canvas($width, $height, $background = null)
+        {
+                        /** @var \Intervention\Image\ImageManager $instance */
+                        return $instance->canvas($width, $height, $background);
+        }
+                    /**
+         * Create new cached image and run callback
+         * (requires additional package intervention/imagecache)
+         *
+         * @param \Closure $callback
+         * @param int $lifetime
+         * @param boolean $returnObj
+         * @return \Image 
+         * @static 
+         */ 
+        public static function cache($callback, $lifetime = null, $returnObj = false)
+        {
+                        /** @var \Intervention\Image\ImageManager $instance */
+                        return $instance->cache($callback, $lifetime, $returnObj);
+        }
+         
+    }
+     
+}
+
     namespace Jenssegers\Agent\Facades { 
             /**
      * 
@@ -20243,6 +20318,28 @@
      
 }
 
+    namespace Illuminate\Filesystem { 
+            /**
+     * 
+     *
+     */ 
+        class Filesystem {
+                    /**
+         * 
+         *
+         * @see \Blueprint\FileMixins::stub()
+         * @param mixed $path
+         * @static 
+         */ 
+        public static function stub($path)
+        {
+                        return \Illuminate\Filesystem\Filesystem::stub($path);
+        }
+         
+    }
+     
+}
+
     namespace Illuminate\Http { 
             /**
      * 
@@ -20335,6 +20432,76 @@
         public static function dangerBanner($message)
         {
                         return \Illuminate\Http\RedirectResponse::dangerBanner($message);
+        }
+         
+    }
+     
+}
+
+    namespace Illuminate\Testing { 
+            /**
+     * 
+     *
+     * @mixin \Illuminate\Http\Response
+     */ 
+        class TestResponse {
+                    /**
+         * 
+         *
+         * @see \JMac\Testing\AdditionalAssertionsServiceProvider::register()
+         * @param array $structure
+         * @static 
+         */ 
+        public static function assertJsonTypedStructure($structure)
+        {
+                        return \Illuminate\Testing\TestResponse::assertJsonTypedStructure($structure);
+        }
+         
+    }
+     
+}
+
+    namespace Illuminate\Database\Schema { 
+            /**
+     * 
+     *
+     */ 
+        class Blueprint {
+                    /**
+         * 
+         *
+         * @see \Spatie\SchemalessAttributes\SchemalessAttributesServiceProvider::registeringPackage()
+         * @param string $columnName
+         * @static 
+         */ 
+        public static function schemalessAttributes($columnName = 'schemaless_attributes')
+        {
+                        return \Illuminate\Database\Schema\Blueprint::schemalessAttributes($columnName);
+        }
+         
+    }
+     
+}
+
+    namespace Illuminate\Database\Eloquent\Factories { 
+            /**
+     * 
+     *
+     * @template TModel of \Illuminate\Database\Eloquent\Model
+     * @method $this trashed()
+     */ 
+        class Factory {
+                    /**
+         * 
+         *
+         * @see \Spatie\Translatable\TranslatableServiceProvider::packageRegistered()
+         * @param array|string $locales
+         * @param mixed|null $value
+         * @static 
+         */ 
+        public static function translations($locales, $value)
+        {
+                        return \Illuminate\Database\Eloquent\Factories\Factory::translations($locales, $value);
         }
          
     }
@@ -24409,6 +24576,7 @@ namespace  {
             class View extends \Illuminate\Support\Facades\View {}
             class Vite extends \Illuminate\Support\Facades\Vite {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
+            class Image extends \Intervention\Image\Facades\Image {}
             class Agent extends \Jenssegers\Agent\Facades\Agent {}
             class Livewire extends \Livewire\Livewire {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
