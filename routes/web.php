@@ -22,6 +22,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    'redirect_admins'
 ])->group(function () {
     Route::get('/', HomeController::class)->name('home');
 });

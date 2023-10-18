@@ -15,7 +15,7 @@ class RolesPermissionsSeeder extends Seeder
     public function run(): void
     {
         $roles = [];
-        foreach (config('agape.roles') as $roleName) {
+        foreach (array_keys(config('agape.roles')) as $roleName) {
             $roles[$roleName] = Role::firstOrCreate(['name' => $roleName]);
         }
         foreach (config('agape.permissions') as $permissionGroup => $permissions) {

@@ -12,10 +12,6 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
-        // TODO : redirect admins from all front-end pages instead
-        if (Auth::user()->hasRole('administrator')) {
-            return redirect()->route('filament.admin.pages.dashboard');
-        }
         return view('home');
     }
 }

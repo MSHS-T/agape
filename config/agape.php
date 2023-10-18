@@ -2,11 +2,13 @@
 
 return [
     /**
-     * Role list
+     * Role list :
+     *   key = name
+     *   value = can access back-office ?
      */
     'roles' => [
-        'administrator',
-        'manager',
+        'administrator' => true,
+        'manager' => true,
         'expert',
         'applicant',
     ],
