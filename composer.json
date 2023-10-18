@@ -28,6 +28,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
         "barryvdh/laravel-ide-helper": "^2.13",
+        "benholmen/defrag": "^0.1.4",
         "fakerphp/faker": "^1.9.1",
         "jasonmccreary/laravel-test-assertions": "^2.3",
         "laravel-lang/common": "^4.0",

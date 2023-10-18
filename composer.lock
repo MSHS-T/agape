@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b28480722e5f31d609c24ad336727ce9",
+    "content-hash": "3b6fe489b0008a624ea31667f01de1da",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -9553,6 +9553,66 @@
                 "source": "https://github.com/barryvdh/ReflectionDocBlock/tree/v2.1.1"
             },
             "time": "2023-06-14T05:06:27+00:00"
+        },
+        {
+            "name": "benholmen/defrag",
+            "version": "0.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/benholmen/defrag.git",
+                "reference": "ee64335712f81d0e9231664494321f2e1ba3e887"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/benholmen/defrag/zipball/ee64335712f81d0e9231664494321f2e1ba3e887",
+                "reference": "ee64335712f81d0e9231664494321f2e1ba3e887",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "illuminate/collections": "^10.0|^11.0",
+                "laravel/pint": "^1.0",
+                "laravel/prompts": "^0.1",
+                "phpunit/phpunit": "^10.3",
+                "symfony/console": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BenHolmen\\Defrag\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Holmen",
+                    "email": "ben@benholmen.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "MS-DOS defrag output for your PHPUnit test suite",
+            "homepage": "https://github.com/benholmen/defrag",
+            "keywords": [
+                "defrag",
+                "phpunit",
+                "testing"
+            ],
+            "support": {
+                "issues": "https://github.com/benholmen/defrag/issues",
+                "source": "https://github.com/benholmen/defrag/tree/0.1.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/benholmen",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-10-17T14:18:08+00:00"
         },
         {
             "name": "composer/class-map-generator",
