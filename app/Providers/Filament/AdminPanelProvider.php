@@ -3,7 +3,10 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Dashboard;
-use Filament\Http\Middleware\Authenticate;
+use App\Http\Middleware\Authenticate;
+use App\Livewire\FilamentProfilePersonalInfo;
+use App\Livewire\FilamentProfileTwoFactor;
+// use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationGroup;
@@ -18,6 +21,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -27,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            // ->login()
             ->colors([
                 'primary' => Color::Blue,
                 'danger'  => Color::Red,
@@ -69,6 +73,24 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->authGuard('web')
+            ->plugins([
+                BreezyCore::make()
+                    ->myProfile(
+                        shouldRegisterUserMenu: true, // Sets the 'account' link in the panel User Menu (default = true)
+                        shouldRegisterNavigation: false, // Adds a main navigation item for the My Profile page (default = false)
+                        hasAvatars: false, // Enables the avatar upload form component (default = false)
+                        slug: 'profile' // Sets the slug for the profile page (default = 'my-profile')
+                    )
+                    ->myProfileComponents([
+                        'personal_info' => FilamentProfilePersonalInfo::class,
+                        'two_factor_authentication' => FilamentProfileTwoFactor::class // optionally, use a custom 2FA page
+                    ])
+                    ->enableTwoFactorAuthentication(false)
+                //     force: false, // force the user to enable 2FA before they can use the application (default = false)
+                //     action: FilamentProfileTwoFactor::class // optionally, use a custom 2FA page
+                // )
             ]);
     }
 }
