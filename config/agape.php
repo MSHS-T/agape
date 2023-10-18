@@ -56,22 +56,30 @@ return [
      */
     'project_types' => [
         'generic' => [
-            'label'            => ['fr' => 'Générique', 'en' => 'Generic'],
+            'label'            => 'Générique',
             'extra_attributes' => [
-                'duration' => ['fr' => 'Durée', 'en' => 'Duration'],
+                'duration' => [
+                    'label'      => ['fr' => 'Durée', 'en' => 'Duration'],
+                    'type'       => 'text',
+                    'repeatable' => false,
+                ],
             ],
             'rules'            => [
                 'duration' => ['required', 'string']
             ]
         ],
         'workshop' => [
-            'label'            => ['fr' => 'Workshop', 'en' => 'Workshop'],
+            'label'            => 'Workshop',
             'extra_attributes' => [
-                'target_date' => ['fr' => 'Dates Prévisionnelles', 'en' => 'Target Dates'],
+                'target_date' => [
+                    'label'      => ['fr' => 'Dates Prévisionnelles', 'en' => 'Target Dates'],
+                    'type'       => 'number',
+                    'repeatable' => true,
+                ],
             ],
             'rules'            => [
-                'target_date'   => ['required', 'array', 'min:0'],
-                'target_date.*' => ['date'],
+                'target_date'   => ['required', 'array'],
+                'target_date.*' => ['date', 'min:now'],
             ]
         ]
     ]

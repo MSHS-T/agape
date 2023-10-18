@@ -42,12 +42,12 @@ class AdminPanelProvider extends PanelProvider
                 Dashboard::class,
             ])
             ->navigationGroups([
-                NavigationGroup::make('projectcalls')
+                NavigationGroup::make()
                     ->label(fn (): string => __('admin.sections.projectcalls')),
-                NavigationGroup::make('data')
+                NavigationGroup::make()
                     ->label(fn (): string => __('admin.sections.data')),
-                NavigationGroup::make('users')
-                    ->label(fn (): string => __('admin.sections.users')),
+                NavigationGroup::make()
+                    ->label(fn (): string => __('admin.sections.admin')),
             ])
             ->brandLogo(fn () => asset('bandeau.png'))
             ->brandLogoHeight('2.5rem')

@@ -2,18 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Translatable\HasTranslations;
 
 class ProjectCallType extends Model
 {
     use HasFactory;
-    use HasSchemalessAttributes;
     use HasTranslations;
-
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +20,7 @@ class ProjectCallType extends Model
         'reference',
         'label_long',
         'label_short',
+        'dynamic_attributes'
     ];
 
     /**
@@ -36,9 +33,4 @@ class ProjectCallType extends Model
     ];
 
     public $translatable = ['label_long', 'label_short'];
-
-    public function media(): BelongsToMany
-    {
-        return $this->belongsToMany(Media::class);
-    }
 }
