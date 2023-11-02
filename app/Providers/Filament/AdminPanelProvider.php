@@ -6,6 +6,7 @@ use App\Filament\Pages\Dashboard;
 use App\Http\Middleware\Authenticate;
 use App\Livewire\FilamentProfilePersonalInfo;
 use App\Livewire\FilamentProfileTwoFactor;
+use BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin;
 // use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -76,6 +77,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authGuard('web')
             ->plugins([
+                FilamentLanguageSwitchPlugin::make()
+                    ->renderHookName('panels::user-menu.before'),
                 BreezyCore::make()
                     ->myProfile(
                         shouldRegisterUserMenu: true, // Sets the 'account' link in the panel User Menu (default = true)
