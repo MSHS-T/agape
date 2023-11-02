@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\AgapeForm;
 use App\Filament\Resources\ProjectCallTypeResource\Pages;
 use App\Models\ProjectCallType;
 use Filament\Forms;
@@ -31,23 +32,14 @@ class ProjectCallTypeResource extends Resource
                     ->label(__('attributes.dynamic_attributes'))
                     ->options($dynamicAttributes)
                     ->required(),
-                Forms\Components\Tabs::make(__('admin.translatable_fields'))
-                    ->columnSpanFull()
-                    ->columns($form->getColumnsConfig())
-                    ->tabs(
-                        collect(config('agape.languages'))->map(
-                            fn ($lang) =>
-                            Forms\Components\Tabs\Tab::make(Str::upper($lang))
-                                ->schema([
-                                    Forms\Components\TextInput::make('label_long.' . $lang)
-                                        ->label(__('attributes.label_long'))
-                                        ->required(),
-                                    Forms\Components\TextInput::make('label_short.' . $lang)
-                                        ->label(__('attributes.label_short'))
-                                        ->required(),
-                                ])
-                        )->all()
-                    )
+                AgapeForm::translatableFields($form, fn ($lang) => [
+                    Forms\Components\TextInput::make('label_long.' . $lang)
+                        ->label(__('attributes.label_long'))
+                        ->required(),
+                    Forms\Components\TextInput::make('label_short.' . $lang)
+                        ->label(__('attributes.label_short'))
+                        ->required(),
+                ])
             ]);
     }
 
