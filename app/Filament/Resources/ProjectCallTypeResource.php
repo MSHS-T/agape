@@ -3,21 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectCallTypeResource\Pages;
-use App\Filament\Resources\ProjectCallTypeResource\RelationManagers;
 use App\Models\ProjectCallType;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class ProjectCallTypeResource extends Resource
 {
-    use Translatable;
-
     protected static ?string $model = ProjectCallType::class;
 
     protected static ?string $navigationIcon = 'fas-tags';
@@ -32,16 +27,27 @@ class ProjectCallTypeResource extends Resource
                     ->label(__('attributes.reference'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('label_long')
-                    ->label(__('attributes.label_long'))
-                    ->required(),
-                Forms\Components\TextInput::make('label_short')
-                    ->label(__('attributes.label_short'))
-                    ->required(),
                 Forms\Components\Select::make('dynamic_attributes')
                     ->label(__('attributes.dynamic_attributes'))
                     ->options($dynamicAttributes)
                     ->required(),
+                Forms\Components\Tabs::make(__('admin.translatable_fields'))
+                    ->columnSpanFull()
+                    ->columns($form->getColumnsConfig())
+                    ->tabs(
+                        collect(config('agape.languages'))->map(
+                            fn ($lang) =>
+                            Forms\Components\Tabs\Tab::make(Str::upper($lang))
+                                ->schema([
+                                    Forms\Components\TextInput::make('label_long.' . $lang)
+                                        ->label(__('attributes.label_long'))
+                                        ->required(),
+                                    Forms\Components\TextInput::make('label_short.' . $lang)
+                                        ->label(__('attributes.label_short'))
+                                        ->required(),
+                                ])
+                        )->all()
+                    )
             ]);
     }
 

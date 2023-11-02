@@ -25,6 +25,7 @@ return [
         'blocked'        => 'Bloqués',
     ],
 
+    'translatable_fields' => 'Champs multilingues',
 
     'settings' => [
         'title'    => 'Paramètres',
