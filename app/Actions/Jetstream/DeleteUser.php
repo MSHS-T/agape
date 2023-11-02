@@ -19,6 +19,6 @@ class DeleteUser implements DeletesUsers
         if (Features::hasApiFeatures()) {
             $user->tokens->each->delete();
         }
-        $user->delete();
+        $user->forceDelete();
     }
 }
