@@ -71,6 +71,9 @@ class DatabaseSeeder extends Seeder
                 ])->assignRole('applicant');
             }
         );
+        $this->call([
+            ProjectCallTypeSeeder::class,
+        ]);
     }
 
     /**

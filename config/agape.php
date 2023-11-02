@@ -8,9 +8,9 @@ return [
      */
     'roles' => [
         'administrator' => true,
-        'manager' => true,
-        'expert',
-        'applicant',
+        'manager'       => true,
+        'expert'        => false,
+        'applicant'     => false,
     ],
 
     /**
