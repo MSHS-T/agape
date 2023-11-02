@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
 class ManageGeneralSettings extends SettingsPage
 {
     protected static ?string $navigationIcon = 'fas-cogs';
-    protected static ?int $navigationSort    = 30;
+    protected static ?int $navigationSort    = 50;
 
     protected static string $settings = GeneralSettings::class;
 

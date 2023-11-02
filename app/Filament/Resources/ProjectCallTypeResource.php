@@ -93,9 +93,9 @@ class ProjectCallTypeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProjectCallTypes::route('/'),
+            'index'  => Pages\ListProjectCallTypes::route('/'),
             'create' => Pages\CreateProjectCallType::route('/create'),
-            'edit' => Pages\EditProjectCallType::route('/{record}/edit'),
+            'edit'   => Pages\EditProjectCallType::route('/{record}/edit'),
         ];
     }
 

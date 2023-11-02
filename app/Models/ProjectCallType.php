@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Translatable\HasTranslations;
 
 class ProjectCallType extends Model
@@ -33,4 +34,9 @@ class ProjectCallType extends Model
     ];
 
     public $translatable = ['label_long', 'label_short'];
+
+    public function managers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

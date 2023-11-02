@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ProjectCallType;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -24,7 +25,7 @@ class ProjectCallTypeSeeder extends Seeder
                 'en' => 'Coordinated Call MSHST-Occitanie Region',
             ],
             'dynamic_attributes' => 'generic',
-        ]);
+        ])->managers()->attach(User::role('manager')->first());
         ProjectCallType::create([
             'reference' => 'EX',
             'label_short' => [
@@ -36,7 +37,7 @@ class ProjectCallTypeSeeder extends Seeder
                 'en' => 'Exploratory Project Call',
             ],
             'dynamic_attributes' => 'generic',
-        ]);
+        ])->managers()->attach(User::role('manager')->first());
         ProjectCallType::create([
             'reference' => 'WS',
             'label_short' => [

@@ -11,6 +11,20 @@ return [
         'title' => 'Tableau de bord',
     ],
 
+    'roles' => [
+        'administrator' => 'Administrateur',
+        'manager'       => 'Gestionnaire',
+        'applicant'     => 'Candidat',
+        'expert'        => 'Expert',
+    ],
+
+    'users' => [
+        'blocked_filter' => 'Etat de blocage',
+        'all'            => 'Tous',
+        'unblocked'      => 'Non Bloqués',
+        'blocked'        => 'Bloqués',
+    ],
+
 
     'settings' => [
         'title'    => 'Paramètres',
