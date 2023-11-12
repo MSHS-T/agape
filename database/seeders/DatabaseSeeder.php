@@ -73,6 +73,7 @@ class DatabaseSeeder extends Seeder
         );
         $this->call([
             ProjectCallTypeSeeder::class,
+            StudyFieldSeeder::class,
         ]);
     }
 

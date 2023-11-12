@@ -26,6 +26,7 @@ return [
     ],
 
     'translatable_fields' => 'Champs multilingues',
+    'public'              => 'Public',
 
     'settings' => [
         'title'    => 'Paramètres',

@@ -23,9 +23,10 @@ trait HasCreator
     {
         static::creating(function ($model) {
             if (blank($model->creator_id)) {
+                $user = Auth::user();
                 // Adds logged in user as creator
                 $model->creator()->associate(
-                    App::runningInConsole()
+                    (App::runningInConsole() || $user->hasAnyRole(['administrator', 'manager']))
                         ? null
                         : Auth::user()
                 );

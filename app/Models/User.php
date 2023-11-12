@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable as BreezyTwoFactorAuthenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -88,6 +89,16 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     public function hasConfirmedTwoFactor(): bool
     {
         return !is_null($this->two_factor_confirmed_at);
+    }
+
+    /**
+     * Get the user's name.
+     */
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->first_name . ' ' . Str::upper($this->last_name)
+        );
     }
 
     /**

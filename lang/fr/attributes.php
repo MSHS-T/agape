@@ -17,7 +17,9 @@ return [
     'managed_types'  => 'Types d\'AAP gérés',
 
     // Generic
+    'name'       => 'Nom',
     'reference'  => 'Référence',
+    'creator'    => 'Créateur',
     'created_at' => 'Date de création',
     'updated_at' => 'Date de mise à jour',
 ];
