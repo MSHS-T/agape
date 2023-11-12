@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Contracts\WithCreator;
 use App\Models\Traits\HasCreator;
 use App\Models\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class EvaluationOffer extends Model
+class EvaluationOffer extends Model implements WithCreator
 {
     use HasFactory;
     use HasCreator;

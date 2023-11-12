@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Contracts\WithCreator;
 use App\Models\Traits\HasCreator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
-class StudyField extends Model
+class StudyField extends Model implements WithCreator
 {
     use HasFactory;
     use HasCreator;

@@ -6,6 +6,11 @@ return [
     'label_short'        => 'Label court',
     'dynamic_attributes' => 'Propriétés dynamiques',
 
+    // Laboratory
+    'unit_code'      => 'Code Unité',
+    'director_email' => 'Email du directeur',
+    'regency'        => 'Tutelle du laboratoire (CNRS, Université ou Autre)',
+
     // User
     'first_name'     => 'Prénom',
     'last_name'      => 'Nom',

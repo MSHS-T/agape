@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\StudyFieldResource\Pages;
+namespace App\Filament\Resources\LaboratoryResource\Pages;
 
-use App\Filament\Resources\StudyFieldResource;
+use App\Filament\Resources\LaboratoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditStudyField extends EditRecord
+class EditLaboratory extends EditRecord
 {
-    protected static string $resource = StudyFieldResource::class;
+    protected static string $resource = LaboratoryResource::class;
 
     protected function getHeaderActions(): array
     {

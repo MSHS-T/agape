@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\AgapeForm;
+use App\Filament\AgapeTable;
 use App\Filament\Resources\ProjectCallTypeResource\Pages;
 use App\Models\ProjectCallType;
 use Filament\Forms;
@@ -57,16 +58,7 @@ class ProjectCallTypeResource extends Resource
                     ->label(__('attributes.label_long'))
                     ->searchable(),
                 // TODO : count project calls and link to filtered list
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label(__('attributes.created_at'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label(__('attributes.updated_at'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...AgapeTable::timestampColumns()
             ])
             ->filters([
                 //

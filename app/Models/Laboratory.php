@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Contracts\WithCreator;
 use App\Models\Traits\HasCreator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Laboratory extends Model
+class Laboratory extends Model implements WithCreator
 {
     use HasFactory;
     use HasCreator;
