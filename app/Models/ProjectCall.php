@@ -6,6 +6,8 @@ use App\Enums\ProjectCallStatus;
 use App\Models\Contracts\WithCreator;
 use App\Models\Traits\HasCreator;
 use App\Models\Traits\HasSchemalessAttributes;
+use Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -116,5 +118,34 @@ class ProjectCall extends Model implements HasMedia, WithCreator
     public function evaluationOffers(): HasManyThrough
     {
         return $this->hasManyThrough(EvaluationOffers::class, Application::class);
+    }
+
+    public function canApply(): bool
+    {
+        return Auth::user()->hasRole('candidate')
+            && $this->application_start_date <= now()
+            && $this->application_end_date >= now();
+    }
+
+    public function getApplication(): ?Application
+    {
+        return $this->applications->firstWhere('applicant_id', Auth::id());
+    }
+
+    public function scopeOpen(Builder $query)
+    {
+        return $query->where('application_start_date', '<=', now());
+    }
+
+    public function scopeOld(Builder $query)
+    {
+        return $query->where('evaluation_end_date', '<', \Carbon\Carbon::parse('today')->format('Y-m-d'));
+    }
+
+    public function scopeUserApplied(Builder $query)
+    {
+        return $query->whereHas('applications', function (Builder $query) {
+            $query->where('applicant_id', '=', Auth::id());
+        });
     }
 }

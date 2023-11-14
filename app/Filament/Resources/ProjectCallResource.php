@@ -70,7 +70,6 @@ class ProjectCallResource extends Resource
                     ->schema([
                         Forms\Components\DatePicker::make('application_start_date')
                             ->label(__('attributes.application_start_date'))
-                            ->afterOrEqual(now())
                             ->required(),
                         Forms\Components\DatePicker::make('application_end_date')
                             ->label(__('attributes.application_end_date'))

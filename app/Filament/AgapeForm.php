@@ -39,6 +39,7 @@ class AgapeForm
         return SpatieMediaLibraryFileUpload::make($fileName)
             ->label(__('attributes.files.' . $fileName))
             ->helperText(__('attributes.accepted_extensions', ['extensions' => $generalSettings->{'extensions' . ucfirst($fileName)}]))
+            ->preserveFilenames()
             ->collection($fileName);
     }
 

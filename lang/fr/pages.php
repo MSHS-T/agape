@@ -27,4 +27,12 @@ return [
         'title' => 'Réinitialiser le mot de passe',
         'reset' => 'Enregistrer le nouveau mot de passe'
     ],
+
+    'dashboard' => [
+        'title'     => 'Tableau de bord',
+        'planning'  => 'Calendrier',
+        'candidate' => [
+            'subtitle' => 'Appels à projets en cours',
+        ]
+    ],
 ];
