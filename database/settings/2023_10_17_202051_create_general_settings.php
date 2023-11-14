@@ -6,8 +6,6 @@ return new class extends SettingsMigration
 {
     public function up(): void
     {
-        $this->migrator->add('general.defaultNumberOfWorkshopDates', 4);
-        $this->migrator->add('general.defaultNumberOfExperts', 5);
         $this->migrator->add('general.defaultNumberOfDocuments', 10);
         $this->migrator->add('general.defaultNumberOfLaboratories', 5);
         $this->migrator->add('general.defaultNumberOfStudyFields', 4);

@@ -6,8 +6,6 @@ use Spatie\LaravelSettings\Settings;
 
 class GeneralSettings extends Settings
 {
-    public int $defaultNumberOfWorkshopDates;
-    public int $defaultNumberOfExperts;
     public int $defaultNumberOfDocuments;
     public int $defaultNumberOfLaboratories;
     public int $defaultNumberOfStudyFields;

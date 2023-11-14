@@ -15,6 +15,7 @@ return new class extends Migration
 
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_call_id')->constrained('project_calls')->cascadeOnDelete();
             $table->string('reference')->unique();
             $table->string('title');
             $table->string('acronym');

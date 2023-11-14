@@ -93,6 +93,7 @@ class AdminPanelProvider extends PanelProvider
                 //     force: false, // force the user to enable 2FA before they can use the application (default = false)
                 //     action: FilamentProfileTwoFactor::class // optionally, use a custom 2FA page
                 // )
-            ]);
+            ])
+            ->viteTheme('resources/css/filament/admin/theme.css');
     }
 }

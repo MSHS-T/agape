@@ -41,4 +41,42 @@ class ApplicationFactory extends Factory
             'submitted_at' => $this->faker->dateTime(),
         ];
     }
+
+    /**
+     * Indicate that the model's extra attributes should be those of a generic project call
+     */
+    public function generic(): static
+    {
+        $dates = [];
+        foreach (range(1, 3) as $i) {
+            $dates[] = fake()->dateTimeBetween('now', '+6 months')->format('Y-m-d');
+        }
+        return $this->state(function (array $attributes) use ($dates) {
+            return [
+                'extra_attributes' => array_merge(
+                    $attributes['extra_attributes'],
+                    ['target_date' => $dates]
+                ),
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the model's extra attributes should be those of a workshop project call
+     */
+    public function workshop(): static
+    {
+        $dates = [];
+        foreach (range(1, 3) as $i) {
+            $dates[] = fake()->dateTimeBetween('now', '+6 months')->format('Y-m-d');
+        }
+        return $this->state(function (array $attributes) use ($dates) {
+            return [
+                'extra_attributes' => array_merge(
+                    $attributes['extra_attributes'],
+                    ['target_date' => $dates]
+                ),
+            ];
+        });
+    }
 }

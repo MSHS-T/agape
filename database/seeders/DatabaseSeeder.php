@@ -75,6 +75,7 @@ class DatabaseSeeder extends Seeder
             ProjectCallTypeSeeder::class,
             StudyFieldSeeder::class,
             LaboratorySeeder::class,
+            ProjectCallSeeder::class,
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\AgapeForm;
 use App\Settings\GeneralSettings;
 use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
@@ -52,13 +53,12 @@ class ManageGeneralSettings extends SettingsPage
                     ->schema([
                         Fieldset::make('defaultNumbers')
                             ->label(__('admin.settings.sections.defaultNumbers'))
-                            ->columns(['sm' => 1, 'lg' => 3])
+                            ->columns([
+                                'sm' => 1,
+                                'md' => 2,
+                                'lg' => 4
+                            ])
                             ->schema([
-                                TextInput::make('defaultNumberOfExperts')
-                                    ->label(__('admin.settings.fields.defaultNumberOfExperts'))
-                                    ->required()
-                                    ->integer()
-                                    ->minValue(1),
                                 TextInput::make('defaultNumberOfDocuments')
                                     ->label(__('admin.settings.fields.defaultNumberOfDocuments'))
                                     ->required()
@@ -103,7 +103,17 @@ class ManageGeneralSettings extends SettingsPage
                         Repeater::make('grades')
                             ->hiddenLabel()
                             ->addActionLabel(__('admin.settings.actions.addGrade'))
-                            ->itemLabel(fn (array $state): ?string => $state['grade'] ?? null)
+                            ->itemLabel(function (array $state): ?string {
+                                if (blank($state['grade'] ?? null)) {
+                                    return null;
+                                }
+                                $label = $state['grade'];
+                                if (filled($state['label'][app()->getLocale()])) {
+                                    $label .= ' - ' . $state['label'][app()->getLocale()];
+                                }
+                                return $label;
+                            })
+                            ->minItems(2)
                             ->columns(['sm' => 1, 'md' => 3])
                             ->schema([
                                 TextInput::make('grade')
@@ -127,51 +137,9 @@ class ManageGeneralSettings extends SettingsPage
                                     )
                             ])
                     ]),
-                Section::make('evaluation')
-                    ->heading(__('admin.settings.fields.notation'))
+                AgapeForm::notationSection()
                     ->description(__('admin.settings.description.notation'))
                     ->collapsible()
-                    ->columns(1)
-                    ->schema([
-                        Repeater::make('notation')
-                            ->hiddenLabel()
-                            ->addActionLabel(__('admin.settings.actions.addNotation'))
-                            ->itemLabel(fn (array $state): ?string => (($state['title'] ?? [])['fr']) ?? null)
-                            ->columns(['sm' => 1])
-                            ->collapsible()
-                            ->collapsed()
-                            ->schema([
-                                Fieldset::make('title')
-                                    ->label(__('admin.settings.fields.notationTitle'))
-                                    ->columnSpan(['sm' => 'full', 'md' => 1])
-                                    ->columns(min(3, count(config('agape.languages'))))
-                                    ->schema(
-                                        collect(config('agape.languages'))
-                                            ->map(
-                                                fn (string $lang) => TextInput::make('title.' . $lang)
-                                                    ->label(Str::upper($lang))
-                                                    ->validationAttribute(Str::upper($lang))
-                                                    ->required()
-                                            )
-                                            ->all()
-                                    ),
-                                Fieldset::make('description')
-                                    ->label(__('admin.settings.fields.notationDescription'))
-                                    ->columnSpan(['sm' => 'full', 'md' => 1])
-                                    ->columns(min(3, count(config('agape.languages'))))
-                                    ->schema(
-                                        collect(config('agape.languages'))
-                                            ->map(
-                                                fn (string $lang) => RichEditor::make('description.' . $lang)
-                                                    ->label(Str::upper($lang))
-                                                    ->validationAttribute(Str::upper($lang))
-                                                    ->required()
-                                                    ->toolbarButtons(['bold', 'italic', 'underline', 'strike', 'link', 'bulletList', 'orderedList'])
-                                            )
-                                            ->all()
-                                    )
-                            ])
-                    ])
             ]);
     }
 }

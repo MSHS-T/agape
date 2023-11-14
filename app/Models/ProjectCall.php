@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
@@ -28,6 +30,7 @@ class ProjectCall extends Model implements HasMedia, WithCreator
      * @var array
      */
     protected $fillable = [
+        'project_call_type_id',
         'reference',
         'year',
         'title',
@@ -40,7 +43,6 @@ class ProjectCall extends Model implements HasMedia, WithCreator
         'invite_email',
         'help_experts',
         'help_candidates',
-        'devalidation_message',
         'notation',
     ];
 
@@ -67,6 +69,22 @@ class ProjectCall extends Model implements HasMedia, WithCreator
         'notation',
     ];
 
+    public static function booted()
+    {
+        static::creating(function ($projectCall) {
+            $result = DB::table('project_calls')
+                ->where('project_call_type_id', $projectCall->project_call_type_id)
+                ->where('year', $projectCall->year)
+                ->count();
+            $projectCall->reference = sprintf(
+                "%s-%s-%s",
+                substr(strval($projectCall->year), -2),
+                ProjectCallType::find($projectCall->project_call_type_id)->reference,
+                str_pad(strval(++$result), 2, "0", STR_PAD_LEFT)
+            );
+        });
+    }
+
     public function projectCallType(): BelongsTo
     {
         return $this->belongsTo(ProjectCallType::class);
@@ -75,5 +93,10 @@ class ProjectCall extends Model implements HasMedia, WithCreator
     public function applications(): HasMany
     {
         return $this->hasMany(Application::class);
+    }
+
+    public function evaluationOffers(): HasManyThrough
+    {
+        return $this->hasManyThrough(EvaluationOffers::class, Application::class);
     }
 }

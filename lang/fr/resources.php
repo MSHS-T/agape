@@ -2,8 +2,20 @@
 
 return [
     // Project Call Type
+    'project_call'        => 'Appel à Projets',
+    'project_call_plural' => 'Appels à Projets',
+
+    // Project Call Type
     'project_call_type'        => 'Type d\'Appel à Projets',
     'project_call_type_plural' => 'Types d\'Appel à Projets',
+
+    // Application
+    'application'        => 'Candidature',
+    'application_plural' => 'Candidatures',
+
+    // Evaluation
+    'evaluation'        => 'Expertise',
+    'evaluation_plural' => 'Expertises',
 
     // Laboratory
     'laboratory'        => 'Laboratoire',

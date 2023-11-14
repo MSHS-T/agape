@@ -15,6 +15,7 @@ return new class extends Migration
 
         Schema::create('project_calls', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_call_type_id')->nullable()->constrained('project_call_types');
             $table->string('reference')->unique();
             $table->string('year');
             $table->json('title');
@@ -27,7 +28,6 @@ return new class extends Migration
             $table->json('invite_email');
             $table->json('help_experts');
             $table->json('help_candidates');
-            $table->string('devalidation_message');
             $table->json('notation');
             $table->schemalessAttributes('extra_attributes');
             $table->foreignId('creator_id')->nullable()->constrained('users');

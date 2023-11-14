@@ -25,10 +25,18 @@ return [
         'blocked'        => 'Bloqués',
     ],
 
-    'translatable_fields' => 'Champs multilingues',
+    'translatable_fields' => [
+        'title'       => 'Champs multilingues',
+        'description' => 'Les valeurs affichées pour ces champs seront celles dans la langue choisie par l\'utilisateur.<br/>Attention de bien saisir les valeurs pour toutes les langues configurées dans l\'application !',
+    ],
 
     'public'      => 'Public',
     'make_public' => 'Rendre public',
+
+    'dates'                => 'Calendrier',
+    'notation_description' => 'Les critères seront présentés aux experts dans l\'ordre indiqué.',
+    'files'                => 'Modèles de fichiers',
+    'files_description'    => 'Ces modèles seront proposés au téléchargement aux candidats.',
 
     'settings' => [
         'title'    => 'Paramètres',
@@ -62,7 +70,7 @@ return [
 
         'description' => [
             'grades'   => 'La première note est la plus basse, la dernière la plus haute',
-            'notation' => 'Ces critères de notation sont les valeurs par défaut de chaque Appel à Projet. Ils seront présentés dans l\'ordre indiqué aux experts.'
+            'notation' => 'Ces critères de notation sont les valeurs par défaut de chaque Appel à Projet. Ils seront présentés aux experts dans l\'ordre indiqué.'
         ],
         'actions' => [
             'addGrade'    => 'Ajouter une note',

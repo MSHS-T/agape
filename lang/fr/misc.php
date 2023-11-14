@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'date_format'     => 'd/m/Y',
+    'datetime_format' => 'd/m/Y H:i',
+
     'theme' => [
         'title' => 'Thème',
         'light' => 'Clair',
