@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocaleChangeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,6 @@ Route::middleware([
 ])->group(function () {
     Route::get('/', HomeController::class)->name('home');
 });
+
+
+Route::get('/locale/{locale}', LocaleChangeController::class)->name('locale-change');

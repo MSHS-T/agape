@@ -32,8 +32,8 @@ return [
 
     'archived_records' => [
         'label' => 'Enregistrements archivés',
-        'with'  => 'Non Archivés',
-        'only'  => 'Archivés',
+        'with'  => 'Non Archivés uniquement',
+        'only'  => 'Archivés uniquement',
         'all'   => 'Tous',
     ],
 

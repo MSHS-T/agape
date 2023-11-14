@@ -37,8 +37,9 @@
 <body>
     <div class="font-sans text-gray-900 dark:text-gray-100 antialiased relative">
         {{ $slot }}
-        <div class="absolute top-2 right-2 w-fit">
+        <div class="absolute top-2 right-2 w-fit flex flex-col items-end">
             <x-dark-mode-switcher />
+            <x-language-switcher />
         </div>
     </div>
 
