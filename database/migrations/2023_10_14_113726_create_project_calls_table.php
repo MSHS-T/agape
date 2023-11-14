@@ -28,12 +28,7 @@ return new class extends Migration
             $table->json('help_experts');
             $table->json('help_candidates');
             $table->string('devalidation_message');
-            $table->json('notation_1_title');
-            $table->json('notation_1_description');
-            $table->json('notation_2_title');
-            $table->json('notation_2_description');
-            $table->json('notation_3_title');
-            $table->json('notation_3_description');
+            $table->json('notation');
             $table->schemalessAttributes('extra_attributes');
             $table->foreignId('creator_id')->nullable()->constrained('users');
             $table->timestamps();

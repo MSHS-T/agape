@@ -41,12 +41,7 @@ class ProjectCall extends Model implements HasMedia, WithCreator
         'help_experts',
         'help_candidates',
         'devalidation_message',
-        'notation_1_title',
-        'notation_1_description',
-        'notation_2_title',
-        'notation_2_description',
-        'notation_3_title',
-        'notation_3_description',
+        'notation',
     ];
 
     /**
@@ -69,12 +64,7 @@ class ProjectCall extends Model implements HasMedia, WithCreator
         'invite_email',
         'help_experts',
         'help_candidates',
-        'notation_1_title',
-        'notation_1_description',
-        'notation_2_title',
-        'notation_2_description',
-        'notation_3_title',
-        'notation_3_description',
+        'notation',
     ];
 
     public function projectCallType(): BelongsTo

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\ProjectCall;
 use App\Models\User;
+use App\Settings\GeneralSettings;
+use Illuminate\Support\Carbon;
 
 class ProjectCallFactory extends Factory
 {
@@ -22,28 +24,24 @@ class ProjectCallFactory extends Factory
     public function definition(): array
     {
         // TODO : review the factory
+        $applicationStart = new Carbon(fake()->dateTimeBetween('now', '+3 months'));
         return [
-            'reference' => $this->faker->word,
-            'year' => $this->faker->word,
-            'title' => '{}',
-            'description' => '{}',
-            'application_start_date' => $this->faker->date(),
-            'application_end_date' => $this->faker->date(),
-            'evaluation_start_date' => $this->faker->date(),
-            'evaluation_end_date' => $this->faker->date(),
-            'privacy_clause' => '{}',
-            'invite_email' => '{}',
-            'help_experts' => '{}',
-            'help_candidates' => '{}',
-            'devalidation_message' => $this->faker->word,
-            'notation_1_title' => '{}',
-            'notation_1_description' => '{}',
-            'notation_2_title' => '{}',
-            'notation_2_description' => '{}',
-            'notation_3_title' => '{}',
-            'notation_3_description' => '{}',
-            'extra_attributes' => '{}',
-            'creator_id' => User::factory(),
+            'reference'              => $this->faker->word,
+            'year'                   => $this->faker->word,
+            'title'                  => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->words(3, true)]),
+            'description'            => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)]),
+            'application_start_date' => $applicationStart,
+            'application_end_date'   => $applicationStart->copy()->addMonths(1),
+            'evaluation_start_date'  => $applicationStart->copy()->addMonths(2),
+            'evaluation_end_date'    => $applicationStart->copy()->addMonths(3),
+            'privacy_clause'         => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)]),
+            'invite_email'           => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)]),
+            'help_experts'           => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)]),
+            'help_candidates'        => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)]),
+            'devalidation_message'   => $this->faker->word,
+            'notation'               => app(GeneralSettings::class)->notation,
+            'extra_attributes'       => '{}',
+            'creator_id'             => User::factory(),
         ];
     }
 
