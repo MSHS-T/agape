@@ -25,17 +25,19 @@ class ProjectCallFactory extends Factory
     public function definition(): array
     {
         $generalSettings = app(GeneralSettings::class);
-        $applicationStart = new Carbon(fake()->dateTimeBetween('now', '+3 months'));
+        $applicationStart = new Carbon(fake()->dateTimeBetween('-1 month', '+1 months'));
 
         return [
             'project_call_type_id'   => ProjectCallType::all()->pluck('id')->random(),
             'year'                   => $applicationStart->format('Y'),
-            'title'                  => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->words(3, true)])->toArray(),
+            'title'                  => fake()->boolean()
+                ? collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->words(3, true)])->toArray()
+                : array_fill_keys(config('agape.languages'), null),
             'description'            => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)])->toArray(),
             'application_start_date' => $applicationStart,
-            'application_end_date'   => $applicationStart->copy()->addMonths(1),
-            'evaluation_start_date'  => $applicationStart->copy()->addMonths(2),
-            'evaluation_end_date'    => $applicationStart->copy()->addMonths(3),
+            'application_end_date'   => $applicationStart->copy()->addWeeks(2),
+            'evaluation_start_date'  => $applicationStart->copy()->addWeeks(4),
+            'evaluation_end_date'    => $applicationStart->copy()->addWeeks(6),
             'privacy_clause'         => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)])->toArray(),
             'invite_email'           => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)])->toArray(),
             'help_experts'           => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)])->toArray(),

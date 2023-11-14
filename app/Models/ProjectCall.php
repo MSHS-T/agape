@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\ProjectCallStatus;
 use App\Models\Contracts\WithCreator;
 use App\Models\Traits\HasCreator;
 use App\Models\Traits\HasSchemalessAttributes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -83,6 +85,22 @@ class ProjectCall extends Model implements HasMedia, WithCreator
                 str_pad(strval(++$result), 2, "0", STR_PAD_LEFT)
             );
         });
+    }
+
+    public function status(): Attribute
+    {
+        $applicationsHaveOpinion = $this->applications->some(fn (Application $application) => filled($application->selection_comity_opinion));
+        return Attribute::make(
+            get: fn () => match (true) {
+                ($this->application_start_date > now()) => ProjectCallStatus::PLANNED,
+                ($this->application_end_date > now())   => ProjectCallStatus::APPLICATION,
+                ($this->evaluation_start_date > now())  => ProjectCallStatus::WAITING_FOR_EVALUATION,
+                ($this->evaluation_end_date > now())    => ProjectCallStatus::EVALUATION,
+                !$applicationsHaveOpinion               => ProjectCallStatus::WAITING_FOR_DECISION,
+                $this->trashed()                        => ProjectCallStatus::ARCHIVED,
+                default                                 => ProjectCallStatus::FINISHED,
+            }
+        );
     }
 
     public function projectCallType(): BelongsTo

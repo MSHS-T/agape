@@ -30,6 +30,13 @@ return [
         'description' => 'Les valeurs affichées pour ces champs seront celles dans la langue choisie par l\'utilisateur.<br/>Attention de bien saisir les valeurs pour toutes les langues configurées dans l\'application !',
     ],
 
+    'archived_records' => [
+        'label' => 'Enregistrements archivés',
+        'with'  => 'Non Archivés',
+        'only'  => 'Archivés',
+        'all'   => 'Tous',
+    ],
+
     'public'      => 'Public',
     'make_public' => 'Rendre public',
 

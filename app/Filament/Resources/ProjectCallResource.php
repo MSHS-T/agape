@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\ProjectCallStatus;
 use App\Filament\AgapeForm;
 use App\Filament\AgapeTable;
 use App\Filament\Resources\ProjectCallResource\Pages;
@@ -12,6 +13,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -86,8 +88,7 @@ class ProjectCallResource extends Resource
                 AgapeForm::translatableFields($form, fn ($lang) => [
                     Forms\Components\TextInput::make('title.' . $lang)
                         ->label(__('attributes.title'))
-                        ->columnSpanFull()
-                        ->required(),
+                        ->columnSpanFull(),
                     Forms\Components\RichEditor::make('description.' . $lang)
                         ->label(__('attributes.description'))
                         ->columnSpanFull()
@@ -196,7 +197,11 @@ class ProjectCallResource extends Resource
                 Tables\Columns\TextColumn::make('year')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('title')
+                Tables\Columns\TextColumn::make('status')
+                    ->label(__('attributes.status'))
+                    ->badge()
+                    ->color(fn (ProjectCallStatus $state) => $state->color())
+                    ->formatStateUsing(fn (ProjectCallStatus $state): string => __($state->label()))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ViewColumn::make('application_start_date')
@@ -212,8 +217,25 @@ class ProjectCallResource extends Resource
                 ...AgapeTable::timestampColumns()
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
-            ])
+                Tables\Filters\SelectFilter::make('year')
+                    ->label(__('attributes.year'))
+                    ->options(
+                        ProjectCall::all()->pluck('year', 'year')->unique()->all()
+                    ),
+                Tables\Filters\SelectFilter::make('status')
+                    ->label(__('attributes.status'))
+                    ->options(
+                        collect(ProjectCallStatus::cases())
+                            ->mapWithKeys(fn (ProjectCallStatus $status) => [$status->value => __($status->label())])
+                            ->all()
+                    ),
+                Tables\Filters\TrashedFilter::make()
+                    ->label(__('admin.archived_records.label'))
+                    ->trueLabel(__('admin.archived_records.with'))
+                    ->falseLabel(__('admin.archived_records.only'))
+                    ->placeholder(__('admin.archived_records.all'))
+                    ->default(null)
+            ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),

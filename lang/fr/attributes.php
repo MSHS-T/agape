@@ -26,7 +26,15 @@ return [
         'additionalInformation'  => 'Informations complémentaires',
         'otherAttachments'       => 'Autres Fichiers',
     ],
-    // 'extra_attributes'       => 'Extra attributes',
+    'project_call_status' => [
+        'planned'                => 'Prévu',
+        'application'            => 'Candidature',
+        'waiting_for_evaluation' => 'Pré-expertise',
+        'evaluation'             => 'Expertise',
+        'waiting_for_decision'   => 'Comité d\'Attribution',
+        'finished'               => 'Terminé',
+        'archived'               => 'Archivé',
+    ],
 
 
     // Project Call Type
@@ -51,6 +59,7 @@ return [
 
     // Generic
     'name'       => 'Nom',
+    'status'     => 'Statut',
     'reference'  => 'Référence',
     'creator'    => 'Créateur',
     'created_at' => 'Date de création',
