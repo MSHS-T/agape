@@ -4,24 +4,27 @@
     $application = $projectCall->getApplication();
 @endphp
 
-<div class="mx-auto my-8 max-w-2xl rounded-3xl ring-1 ring-gray-200 lg:mx-0 lg:flex lg:max-w-none lg:items-stretch">
-    <div class="p-8 sm:p-10 lg:flex-auto">
-        <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
-            {{ $projectCall->projectCallType->label_long }} - {{ $projectCall->year }}
-        </h3>
-        @if (filled($projectCall->title))
-            <p class="mt-6 text-base leading-7 text-gray-600 dark:text-gray-400 text-center">
-                {{ $projectCall->title }}
-            </p>
-        @endif
-        <div class="mt-6 mx-16 flex items-center gap-x-4">
+<div class="call-card-candidate max-w-2xl rounded-3xl ring-1 ring-gray-200 flex flex-col items-stretch p-2">
+    <div class="flex-1 p-8 flex flex-col items-stretch">
+        <div class="flex-1 flex flex-col justify-center">
+            <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
+                {{ $projectCall->projectCallType->label_long }} - {{ $projectCall->year }}
+            </h3>
+            @if (filled($projectCall->title))
+                <p class="mt-6 text-base leading-7 text-gray-600 dark:text-gray-400 text-center">
+                    {{ $projectCall->title }}
+                </p>
+            @endif
+        </div>
+        <div class="mt-6 flex items-center gap-x-4">
+            <div class="h-px flex-auto bg-gray-100 dark:bg-gray-700"></div>
             <h4 class="flex-none text-sm font-semibold leading-6 text-indigo-600">
                 {{ __('pages.dashboard.planning') }}
             </h4>
             <div class="h-px flex-auto bg-gray-100 dark:bg-gray-700"></div>
         </div>
         <ul role="list"
-            class="mt-6 mx-32 grid grid-cols-4 gap-4 text-sm leading-6 text-gray-600 dark:text-gray-300 sm:gap-x-6 sm:gap-y-4 items-center">
+            class="mt-6 mx-8 grid grid-cols-4 gap-4 text-sm leading-6 text-gray-600 dark:text-gray-300 sm:gap-x-6 sm:gap-y-4 items-center">
             <span class="text-indigo-600">
                 {{ __('resources.application') }}
             </span>
@@ -44,40 +47,40 @@
             </span>
         </ul>
     </div>
-    <div class="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
-        <div
-            class="h-full rounded-2xl bg-gray-50 dark:bg-gray-700 py-5 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-8">
-            <div class="mx-auto max-w-xs px-8">
-                @if ($projectCall->canApply())
-                    @if (blank($application))
-                        <a href="#"
-                            class="block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                            Create application
-                        </a>
-                    @elseif(blank($application->submitted_at))
-                        @if (filled($application->devalidation_message))
-                            <p class="mt-6 text-xs leading-5 text-gray-600">
-                                {{ $application->devalidation_message }}
-                            </p>
-                            <a href="#"
-                                class="mt-10 block w-full rounded-md bg-orange-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                                Fix application
-                            </a>
-                        @else
-                            <a href="#"
-                                class="mt-10 block w-full rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                                Edit application
-                            </a>
-                        @endif
-                    @endif
-                @endif
-                @if (filled($application))
+    <div
+        class="h-24 w-full rounded-2xl bg-gray-50 dark:bg-gray-700 text-center ring-1 ring-inset ring-gray-900/5 flex justify-center items-center space-x-4">
+        @if ($projectCall->canApply())
+            <a href="#"
+                class="block rounded-md bg-zinc-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-zinc-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600">
+                {{ __('pages.dashboard.view_project_call') }}
+            </a>
+            @if (blank($application))
+                <a href="#"
+                    class="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                    {{ __('pages.dashboard.candidate.create_application') }}
+                </a>
+            @elseif(blank($application->submitted_at))
+                @if (filled($application->devalidation_message))
+                    <p class="mt-6 text-xs leading-5 text-gray-600">
+                        {{ $application->devalidation_message }}
+                    </p>
                     <a href="#"
-                        class="block w-full rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
-                        View application
+                        class="mt-10 block rounded-md bg-orange-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                        {{ __('pages.dashboard.candidate.correct_application') }}
+                    </a>
+                @else
+                    <a href="#"
+                        class="mt-10 block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                        {{ __('pages.dashboard.candidate.edit_application') }}
                     </a>
                 @endif
-            </div>
-        </div>
+            @endif
+        @endif
+        @if (filled($application))
+            <a href="#"
+                class="block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                {{ __('pages.dashboard.candidate.view_application') }}
+            </a>
+        @endif
     </div>
 </div>

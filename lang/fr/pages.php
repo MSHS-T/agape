@@ -29,10 +29,16 @@ return [
     ],
 
     'dashboard' => [
-        'title'     => 'Tableau de bord',
-        'planning'  => 'Calendrier',
-        'candidate' => [
-            'subtitle' => 'Appels à projets en cours',
+        'title'             => 'Tableau de bord',
+        'planning'          => 'Calendrier',
+        'view_project_call' => 'Voir l\'Appel à Projets',
+        'candidate'         => [
+            'subtitle'            => 'Appels à projets en cours',
+            'no_open_calls'       => 'Aucun appel en cours',
+            'create_application'  => 'Candidater',
+            'edit_application'    => 'Modifier ma candidature',
+            'view_application'    => 'Visualiser ma candidature',
+            'correct_application' => 'Corriger ma candidature',
         ]
     ],
 ];

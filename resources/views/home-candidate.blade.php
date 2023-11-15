@@ -17,9 +17,20 @@
                             {{ __('pages.dashboard.candidate.description') }}
                         </p> --}}
                     </div>
-                    @foreach ($open_calls as $projectCall)
-                        <x-project-call-card-candidate :projectCall="$projectCall" />
-                    @endforeach
+                    <div @class([
+                        'my-8 gap-x-4 gap-y-8',
+                        'grid grid-cols-1 md:grid-cols-2' => count($open_calls) > 1,
+                        'flex justify-center' => count($open_calls) <= 1,
+                    ]) id="open-calls">
+                        @forelse ($open_calls as $projectCall)
+                            <x-project-call-card-candidate :projectCall="$projectCall" />
+                        @empty
+                            <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center pt-8"
+                                id="no-open-calls">
+                                {{ __('pages.dashboard.candidate.no_open_calls') }}
+                            </h3>
+                        @endforelse
+                    </div>
                 </div>
             </div>
 </x-app-layout>

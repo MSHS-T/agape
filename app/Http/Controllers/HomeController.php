@@ -50,8 +50,11 @@ class HomeController extends Controller
         } else {
             $open_calls = ProjectCall::with(['projectCallType', 'applications' => function ($query) {
                 $query->where('applicant_id', Auth::id());
-            }])->open()->get();
-            ray($open_calls);
+            }])
+                ->open()
+                ->get()
+                ->filter(fn (ProjectCall $projectCall) => $projectCall->canApply() || $projectCall->applications->isNotEmpty());
+
             // $old_calls = ProjectCall::with(['applications' => function ($query) {
             //     $query->where('applicant_id', Auth::id());
             // }])->old()->userApplied()->get();
