@@ -20,6 +20,73 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 
+/**
+ * App\Models\ProjectCall
+ *
+ * @property int $id
+ * @property int|null $project_call_type_id
+ * @property string $reference
+ * @property string $year
+ * @property array $title
+ * @property array $description
+ * @property \Illuminate\Support\Carbon $application_start_date
+ * @property \Illuminate\Support\Carbon $application_end_date
+ * @property \Illuminate\Support\Carbon $evaluation_start_date
+ * @property \Illuminate\Support\Carbon $evaluation_end_date
+ * @property array $privacy_clause
+ * @property array $invite_email
+ * @property array $help_experts
+ * @property array $help_candidates
+ * @property array $notation
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
+ * @property int|null $creator_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Application> $applications
+ * @property-read int|null $applications_count
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @property-read \App\Models\ProjectCallType|null $projectCallType
+ * @method static \Database\Factories\ProjectCallFactory factory($count = null, $state = [])
+ * @method static Builder|ProjectCall mine()
+ * @method static Builder|ProjectCall newModelQuery()
+ * @method static Builder|ProjectCall newQuery()
+ * @method static Builder|ProjectCall old()
+ * @method static Builder|ProjectCall onlyTrashed()
+ * @method static Builder|ProjectCall open()
+ * @method static Builder|ProjectCall query()
+ * @method static Builder|ProjectCall userApplied()
+ * @method static Builder|ProjectCall whereApplicationEndDate($value)
+ * @method static Builder|ProjectCall whereApplicationStartDate($value)
+ * @method static Builder|ProjectCall whereCreatedAt($value)
+ * @method static Builder|ProjectCall whereCreatorId($value)
+ * @method static Builder|ProjectCall whereDeletedAt($value)
+ * @method static Builder|ProjectCall whereDescription($value)
+ * @method static Builder|ProjectCall whereEvaluationEndDate($value)
+ * @method static Builder|ProjectCall whereEvaluationStartDate($value)
+ * @method static Builder|ProjectCall whereExtraAttributes($value)
+ * @method static Builder|ProjectCall whereHelpCandidates($value)
+ * @method static Builder|ProjectCall whereHelpExperts($value)
+ * @method static Builder|ProjectCall whereId($value)
+ * @method static Builder|ProjectCall whereInviteEmail($value)
+ * @method static Builder|ProjectCall whereLocale(string $column, string $locale)
+ * @method static Builder|ProjectCall whereLocales(string $column, array $locales)
+ * @method static Builder|ProjectCall whereNotation($value)
+ * @method static Builder|ProjectCall wherePrivacyClause($value)
+ * @method static Builder|ProjectCall whereProjectCallTypeId($value)
+ * @method static Builder|ProjectCall whereReference($value)
+ * @method static Builder|ProjectCall whereTitle($value)
+ * @method static Builder|ProjectCall whereUpdatedAt($value)
+ * @method static Builder|ProjectCall whereYear($value)
+ * @method static Builder|ProjectCall withExtraAttributes()
+ * @method static Builder|ProjectCall withTrashed()
+ * @method static Builder|ProjectCall withoutTrashed()
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\EvaluationOffer> $evaluationOffers
+ * @property-read int|null $evaluation_offers_count
+ * @mixin \Eloquent
+ */
 class ProjectCall extends Model implements HasMedia, WithCreator
 {
     use HasFactory, SoftDeletes;
@@ -117,14 +184,14 @@ class ProjectCall extends Model implements HasMedia, WithCreator
 
     public function evaluationOffers(): HasManyThrough
     {
-        return $this->hasManyThrough(EvaluationOffers::class, Application::class);
+        return $this->hasManyThrough(EvaluationOffer::class, Application::class);
     }
 
     public function canApply(): bool
     {
-        return Auth::user()->hasRole('candidate')
-            && $this->application_start_date <= now()
-            && $this->application_end_date >= now();
+        return Auth::user()->hasRole('applicant')
+            && $this->application_start_date->isPast()
+            && $this->application_end_date->isFuture();
     }
 
     public function getApplication(): ?Application
