@@ -43,7 +43,7 @@ class ProjectCallFactory extends Factory
             'help_experts'           => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)])->toArray(),
             'help_candidates'        => collect(config('agape.languages'))->mapWithKeys(fn ($lang) => [$lang => $this->faker->sentences(3, true)])->toArray(),
             'notation'               => $generalSettings->notation,
-            'creator_id'             => User::role('administrator')->first()->id,
+            'creator_id'             => User::role('administrator')->first()?->id ?? null,
             'extra_attributes'       => [
                 'number_of_documents'    => $generalSettings->defaultNumberOfDocuments,
                 'number_of_laboratories' => $generalSettings->defaultNumberOfLaboratories,

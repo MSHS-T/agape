@@ -1,10 +1,12 @@
 @props(['projectCall'])
 
 @php
+    $id = 'projectcall-' . md5($projectCall->id);
     $application = $projectCall->getApplication();
 @endphp
 
-<div class="call-card-candidate max-w-2xl rounded-3xl ring-1 ring-gray-200 flex flex-col items-stretch p-2">
+<div class="projectcall-card-candidate max-w-2xl rounded-3xl ring-1 ring-gray-200 flex flex-col items-stretch p-2"
+    id="{{ $id }}">
     <div class="flex-1 p-8 flex flex-col items-stretch">
         <div class="flex-1 flex flex-col justify-center">
             <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">

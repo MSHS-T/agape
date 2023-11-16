@@ -22,10 +22,10 @@ class ProjectCallTypeFactory extends Factory
     {
         $acronym = Str::upper(fake()->lexify('???'));
         return [
-            'reference'        => $this->faker->word,
-            'label_long'       => ['fr' => fake()->words(3, true), 'en' => fake('en_GB')->words(3, true)],
-            'label_short'      => ['fr' => $acronym, 'en' => $acronym],
-            'extra_attributes' => [],
+            'reference'          => $this->faker->word,
+            'label_long'         => ['fr' => fake()->words(3, true), 'en' => fake('en_GB')->words(3, true)],
+            'label_short'        => ['fr' => $acronym, 'en' => $acronym],
+            'dynamic_attributes' => '',
         ];
     }
 
@@ -34,13 +34,8 @@ class ProjectCallTypeFactory extends Factory
      */
     public function type(string $type): static
     {
-        return $this->state(function (array $attributes) use ($type) {
-            return [
-                'extra_attributes' => array_merge(
-                    $attributes['extra_attributes'],
-                    ['type' => $type]
-                ),
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'dynamic_attributes' => $type
+        ]);
     }
 }
