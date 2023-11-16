@@ -52,4 +52,66 @@ class ProjectCallFactory extends Factory
             ],
         ];
     }
+
+    public function planned(): static
+    {
+        $applicationStart = new Carbon(fake()->dateTimeBetween('+3 days', '+1 month'));
+        return $this->state(fn (array $attributes) => [
+            'application_start_date' => $applicationStart,
+            'application_end_date'   => $applicationStart->copy()->addWeeks(2),
+            'evaluation_start_date'  => $applicationStart->copy()->addWeeks(4),
+            'evaluation_end_date'    => $applicationStart->copy()->addWeeks(6),
+        ]);
+    }
+    public function application(): static
+    {
+        $applicationStart = new Carbon(fake()->dateTimeBetween('-10 days', 'now'));
+        return $this->state(fn (array $attributes) => [
+            'application_start_date' => $applicationStart,
+            'application_end_date'   => $applicationStart->copy()->addWeeks(2),
+            'evaluation_start_date'  => $applicationStart->copy()->addWeeks(4),
+            'evaluation_end_date'    => $applicationStart->copy()->addWeeks(6),
+        ]);
+    }
+    public function betweenApplicationAndEvaluation(): static
+    {
+        $applicationStart = new Carbon(fake()->dateTimeBetween('-30 days', '-20 days'));
+        return $this->state(fn (array $attributes) => [
+            'application_start_date' => $applicationStart,
+            'application_end_date'   => $applicationStart->copy()->addWeeks(2),
+            'evaluation_start_date'  => $applicationStart->copy()->addWeeks(4),
+            'evaluation_end_date'    => $applicationStart->copy()->addWeeks(6),
+        ]);
+    }
+    public function evaluation(): static
+    {
+        $applicationStart = new Carbon(fake()->dateTimeBetween('-40 days', '-30 days'));
+        return $this->state(fn (array $attributes) => [
+            'application_start_date' => $applicationStart,
+            'application_end_date'   => $applicationStart->copy()->addWeeks(2),
+            'evaluation_start_date'  => $applicationStart->copy()->addWeeks(4),
+            'evaluation_end_date'    => $applicationStart->copy()->addWeeks(6),
+        ]);
+    }
+    public function finished(): static
+    {
+        $applicationStart = new Carbon(fake()->dateTimeBetween('-10 weeks', '-7 weeks'));
+        return $this->state(fn (array $attributes) => [
+            'application_start_date' => $applicationStart,
+            'application_end_date'   => $applicationStart->copy()->addWeeks(2),
+            'evaluation_start_date'  => $applicationStart->copy()->addWeeks(4),
+            'evaluation_end_date'    => $applicationStart->copy()->addWeeks(6),
+        ]);
+    }
+    public function archived(): static
+    {
+        $applicationStart = new Carbon(fake()->dateTimeBetween('-10 weeks', '-7 weeks'));
+        return $this->state(fn (array $attributes) => [
+            'application_start_date' => $applicationStart,
+            'application_end_date'   => $applicationStart->copy()->addWeeks(2),
+            'evaluation_start_date'  => $applicationStart->copy()->addWeeks(4),
+            'evaluation_end_date'    => $applicationStart->copy()->addWeeks(6),
+            'deleted_at'             => fake()->dateTimeBetween('-1 week', 'now'),
+        ]);
+    }
 }
