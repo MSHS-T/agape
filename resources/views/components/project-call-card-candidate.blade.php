@@ -50,10 +50,7 @@
     <div
         class="h-24 w-full rounded-2xl bg-gray-50 dark:bg-gray-700 text-center ring-1 ring-inset ring-gray-900/5 flex justify-center items-center space-x-4">
         @if ($projectCall->canApply())
-            <a href="#"
-                class="block rounded-md bg-zinc-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-zinc-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600">
-                {{ __('pages.dashboard.view_project_call') }}
-            </a>
+            <x-project-call-display-modal :projectCall="$projectCall" />
             @if (blank($application))
                 <a href="#"
                     class="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">

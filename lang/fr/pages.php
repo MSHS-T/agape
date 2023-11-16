@@ -41,4 +41,8 @@ return [
             'correct_application' => 'Corriger ma candidature',
         ]
     ],
+
+    'view_project_call' => [
+        'title' => 'Détails de l\'Appel à Projets',
+    ]
 ];
