@@ -51,8 +51,6 @@
             </div>
         @endif
 
-        <div class="sm:col-span-2"></div>
-
         <!-- First Name -->
         <div class="col-span-3 sm:col-span-2">
             <x-label for="first_name" value="{{ __('First Name') }}" />
