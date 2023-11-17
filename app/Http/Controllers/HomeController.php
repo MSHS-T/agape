@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EvaluationOffer;
-use App\Models\ProjectCall;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,24 +45,7 @@ class HomeController extends Controller
             // $data = compact('offers', 'accepted', 'done', 'unsubmitted');
             $data = [];
         } else {
-            $open_calls = ProjectCall::with(['projectCallType', 'applications' => function ($query) {
-                $query->where('applicant_id', Auth::id());
-            }])
-                ->open()
-                ->get()
-                ->filter(fn (ProjectCall $projectCall) => $projectCall->canApply() || $projectCall->applications->isNotEmpty());
-
-            // $old_calls = ProjectCall::with(['applications' => function ($query) {
-            //     $query->where('applicant_id', Auth::id());
-            // }])->old()->userApplied()->get();
-
-            // $unsubmitted_applications = ProjectCall::with(['applications' => function ($query) {
-            //     $query->where('applicant_id', Auth::id());
-            // }])->whereHas('applications', function ($query) {
-            //     $query->where('applicant_id', Auth::id())
-            //         ->whereNotNull('devalidation_message');
-            // })->userHasNotSubmitted()->get();
-            return view('home-candidate', compact('open_calls'));
+            return redirect()->route('filament.applicant.pages.dashboard');
         }
     }
 }
