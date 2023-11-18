@@ -8,8 +8,6 @@ return [
     'application_end_date'   => 'Fin de candidature',
     'evaluation_start_date'  => 'Début d\'expertise',
     'evaluation_end_date'    => 'Fin d\'expertise',
-    'title'                  => 'Titre',
-    'description'            => 'Description',
     'privacy_clause'         => 'Clause de confidentialité',
     'invite_email'           => 'Email d\'invitation',
     'help_experts'           => 'Aide en ligne Experts',
@@ -36,6 +34,18 @@ return [
         'archived'               => 'Archivé',
     ],
 
+    // Application
+    'acronym'                => 'Acronyme',
+    'short_description'      => 'Description courte',
+    'summary_fr'             => 'Résumé public (FR)',
+    'summary_en'             => 'Résumé public (EN)',
+    'carrier'                => 'Porteur/Coordinateur du projet',
+    'other_laboratories'     => 'Autres Laboratoires et Partenaires',
+    'keywords'               => 'Mots-clés',
+    'amount_requested'       => 'Montant demandé à la MSHS-T',
+    'other_fundings'         => 'Total des co-financements',
+    'total_expected_income'  => 'Budget prévisionnel total (recettes)',
+    'total_expected_outcome' => 'Budget prévisionnel total (dépenses)',
 
     // Project Call Type
     'label_long'         => 'Label long',
@@ -58,10 +68,12 @@ return [
     'managed_types'  => 'Types d\'AAP gérés',
 
     // Generic
-    'name'       => 'Nom',
-    'status'     => 'Statut',
-    'reference'  => 'Référence',
-    'creator'    => 'Créateur',
-    'created_at' => 'Date de création',
-    'updated_at' => 'Date de mise à jour',
+    'name'        => 'Nom',
+    'title'       => 'Titre',
+    'description' => 'Description',
+    'status'      => 'Statut',
+    'reference'   => 'Référence',
+    'creator'     => 'Créateur',
+    'created_at'  => 'Date de création',
+    'updated_at'  => 'Date de mise à jour',
 ];

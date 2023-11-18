@@ -156,6 +156,9 @@ class ProjectCall extends Model implements HasMedia, WithCreator
         });
     }
 
+    /**
+     * CUSTOM ATTRIBUTES
+     */
     public function status(): Attribute
     {
         $applicationsHaveOpinion = $this->applications->some(fn (Application $application) => filled($application->selection_comity_opinion));
@@ -172,6 +175,9 @@ class ProjectCall extends Model implements HasMedia, WithCreator
         );
     }
 
+    /**
+     * RELATIONS
+     */
     public function projectCallType(): BelongsTo
     {
         return $this->belongsTo(ProjectCallType::class);
@@ -187,18 +193,35 @@ class ProjectCall extends Model implements HasMedia, WithCreator
         return $this->hasManyThrough(EvaluationOffer::class, Application::class);
     }
 
-    public function canApply(): bool
-    {
-        return Auth::user()->hasRole('applicant')
-            && $this->application_start_date->isPast()
-            && $this->application_end_date->isFuture();
-    }
-
+    /**
+     * HELPER FUNCTIONS
+     */
     public function getApplication(): ?Application
     {
         return $this->applications->firstWhere('applicant_id', Auth::id());
     }
 
+    public function canApply(): bool
+    {
+        return $this->application_start_date->isPast()
+            && $this->application_end_date->isFuture();
+    }
+
+    public function canEvaluate(): bool
+    {
+        return $this->evaluation_start_date->isPast()
+            && $this->evaluation_end_date->isFuture();
+    }
+
+    public function showForApplicant(): bool
+    {
+        return $this->application_start_date->isPast()
+            && $this->evaluation_end_date->isFuture();
+    }
+
+    /**
+     * SCOPES
+     */
     public function scopeOpen(Builder $query)
     {
         return $query->where('application_start_date', '<=', now());

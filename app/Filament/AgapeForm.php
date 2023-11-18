@@ -33,21 +33,22 @@ class AgapeForm
             ->disabled(fn (?Model $record) => $record !== null);
     }
 
-    public static function projectCallFileField(string $fileName): SpatieMediaLibraryFileUpload
+    public static function fileField(string $fileName): SpatieMediaLibraryFileUpload
     {
         $generalSettings = app(GeneralSettings::class);
         return SpatieMediaLibraryFileUpload::make($fileName)
             ->label(__('attributes.files.' . $fileName))
             ->helperText(__('attributes.accepted_extensions', ['extensions' => $generalSettings->{'extensions' . ucfirst($fileName)}]))
             ->preserveFilenames()
-            ->collection($fileName);
+            ->collection($fileName)
+            ->maxSize(10240);
     }
 
-    public static function translatableFields(Form $form, Closure $fields): TitledTabs
+    public static function translatableFields(Form $form, Closure $fields, $descriptionLabel = 'admin.translatable_fields.description'): TitledTabs
     {
         return TitledTabs::make('translatable_fields')
             ->heading(__('admin.translatable_fields.title'))
-            ->description(__('admin.translatable_fields.description'))
+            ->description(__($descriptionLabel))
             ->collapsible()
             ->icon('fas-language')
             ->columnSpanFull()
@@ -60,6 +61,12 @@ class AgapeForm
                         ->schema($fields($lang))
                 )->all()
             );
+    }
+
+    public static function richTextEditor($name): RichEditor
+    {
+        return RichEditor::make($name)
+            ->toolbarButtons(['bold', 'italic', 'underline', 'strike', 'link', 'bulletList', 'orderedList']);
     }
 
     public static function notationSection(array $default = []): Section
@@ -99,11 +106,10 @@ class AgapeForm
                             ->schema(
                                 collect(config('agape.languages'))
                                     ->map(
-                                        fn (string $lang) => RichEditor::make('description.' . $lang)
+                                        fn (string $lang) => static::richTextEditor('description.' . $lang)
                                             ->label(Str::upper($lang))
                                             ->validationAttribute(Str::upper($lang))
                                             ->required()
-                                            ->toolbarButtons(['bold', 'italic', 'underline', 'strike', 'link', 'bulletList', 'orderedList'])
                                     )
                                     ->all()
                             )

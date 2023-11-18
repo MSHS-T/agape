@@ -125,7 +125,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasRole('administrator');
+        return ($panel->getId() === 'admin' && $this->hasAnyRole(['administrator', 'manager']))
+            || ($panel->getId() === 'applicant' && $this->hasRole('applicant'));
     }
 
     public function getFilamentName(): string

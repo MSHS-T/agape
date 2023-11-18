@@ -90,6 +90,7 @@ class Application extends Model implements HasMedia
      * @var array
      */
     protected $fillable = [
+        'project_call_id',
         'title',
         'acronym',
         'theme',
@@ -144,9 +145,19 @@ class Application extends Model implements HasMedia
         return $this->belongsTo(User::class, 'applicant_id');
     }
 
+    public function applicationStudyFields(): HasMany
+    {
+        return $this->hasMany(ApplicationStudyField::class);
+    }
+
     public function studyFields(): BelongsToMany
     {
         return $this->belongsToMany(StudyField::class);
+    }
+
+    public function applicationLaboratories(): HasMany
+    {
+        return $this->hasMany(ApplicationLaboratory::class);
     }
 
     public function laboratories(): BelongsToMany

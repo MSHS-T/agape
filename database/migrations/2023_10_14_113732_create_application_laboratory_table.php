@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('application_laboratory', function (Blueprint $table) {
             $table->foreignId('application_id');
             $table->foreignId('laboratory_id');
+            $table->unsignedTinyInteger('order');
         });
 
         Schema::enableForeignKeyConstraints();

@@ -73,6 +73,11 @@ return [
         'workshop' => [
             'label'            => 'Workshop',
             'extra_attributes' => [
+                'theme' => [
+                    'label'      => ['fr' => 'Thème', 'en' => 'Theme'],
+                    'type'       => 'richtext',
+                    'repeatable' => false,
+                ],
                 'target_date' => [
                     'label'      => ['fr' => 'Dates Prévisionnelles', 'en' => 'Target Dates'],
                     'type'       => 'number',

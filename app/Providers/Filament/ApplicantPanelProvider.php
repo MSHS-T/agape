@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Applicant\Pages\Dashboard;
 use App\Livewire\FilamentProfilePersonalInfo;
 use App\Livewire\FilamentProfileTwoFactor;
 use BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin;
@@ -38,9 +37,6 @@ class ApplicantPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: app_path('Filament/Applicant/Resources'), for: 'App\\Filament\\Applicant\\Resources')
             ->discoverPages(in: app_path('Filament/Applicant/Pages'), for: 'App\\Filament\\Applicant\\Pages')
-            ->pages([
-                Dashboard::class,
-            ])
             ->brandLogo(fn () => asset('bandeau.png'))
             ->brandLogoHeight('2.5rem')
             ->discoverWidgets(in: app_path('Filament/Applicant/Widgets'), for: 'App\\Filament\\Applicant\\Widgets')

@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Page
 {
-    protected static string $view = 'filament.applicant.pages.dashboard';
-
+    protected static string $view            = 'filament.applicant.pages.dashboard';
     protected static ?string $navigationIcon = 'fas-home';
+    protected static ?int $navigationSort    = 10;
 
     public array $openCalls = [];
 

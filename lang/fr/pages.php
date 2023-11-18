@@ -44,5 +44,35 @@ return [
 
     'view_project_call' => [
         'title' => 'Détails de l\'Appel à Projets',
+    ],
+
+    'apply' => [
+        'title_create'  => 'Candidater à l\'Appel à Projets',
+        'title_edit'    => 'Modifier ma candidature',
+        'title_correct' => 'Corriger ma candidature',
+
+        'sections'      => [
+            'general'    => '1. Informations Générales',
+            'scientific' => '2. Présentation scientifique du projet',
+            'budget'     => '3. Budget/Financement du projet',
+            'files'      => '4. Pièces complémentaires',
+        ],
+
+        'add_laboratory'          => 'Ajouter un Laboratoire',
+        'create_laboratory'       => 'Créer un Laboratoire',
+        'edit_laboratory'         => 'Modifier un Laboratoire existant',
+        'laboratories_help'       => 'Le premier laboratoire de la liste doit être le porteur du projet. Utilisez les boutons pour réordonner les choix.',
+        'add_keyword'             => 'Ajouter un mot-clé',
+        'short_description_help'  => 'Vous devrez joindre une description détaillée dans le formulaire de candidature à attacher dans la section 4',
+        'study_fields_help'       => 'Vous pouvez choisir et/ou saisir jusqu\'à 3 éléments',
+        'create_study_field'      => 'Créer un Champ Disciplinaire',
+        'create_study_field_help' => 'Vous devez traduire l\'intitulé dans toutes les langues de l\'application',
+        'amount_requested_help'   => 'Vous devrez joindre un budget précis et détaillé dans le formulaire financier à attacher dans la section 4',
+        'other_fundings_help'     => '(ou autres soutiens financiers)',
+        'other_attachments_help'  => ':count fichiers maximum',
+
+        'back'   => 'Retour',
+        'save'   => 'Enregistrer le brouillon',
+        'submit' => 'Soumettre la candidature',
     ]
 ];

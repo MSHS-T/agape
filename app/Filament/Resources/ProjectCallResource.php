@@ -140,7 +140,7 @@ class ProjectCallResource extends Resource
                     ])
                     ->schema(
                         $files
-                            ->map(fn ($fileName) => AgapeForm::projectCallFileField($fileName))
+                            ->map(fn ($fileName) => AgapeForm::fileField($fileName))
                             ->all()
                     ),
                 Forms\Components\Section::make('settings')

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocaleChangeController;
+use App\Livewire\ProjectCallApplication;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+Route::get('/locale/{locale}', LocaleChangeController::class)->name('locale-change');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -27,6 +30,3 @@ Route::middleware([
 ])->group(function () {
     Route::get('/', HomeController::class)->name('home');
 });
-
-
-Route::get('/locale/{locale}', LocaleChangeController::class)->name('locale-change');
