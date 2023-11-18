@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('reference')->unique();
             $table->json('label_long');
             $table->json('label_short');
-            $table->string('dynamic_attributes');
+            $table->json('dynamic_attributes');
             $table->timestamps();
         });
 

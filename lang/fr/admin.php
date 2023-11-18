@@ -40,6 +40,11 @@ return [
     'public'      => 'Public',
     'make_public' => 'Rendre public',
 
+    'dynamic_attributes' => [
+        'create'           => 'Ajouter un Champ Dynamique',
+        'after_field_help' => 'Laisser vide pour ajouter le champ à la fin de la section',
+    ],
+
     'dates'                => 'Calendrier',
     'notation_description' => 'Les critères seront présentés aux experts dans l\'ordre indiqué.',
     'files'                => 'Modèles de fichiers',

@@ -11,14 +11,13 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ApplicationResource extends Resource
 {
     protected static ?string $model = Application::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'fas-file-lines';
+    protected static ?int $navigationSort    = 20;
 
     public static function form(Form $form): Form
     {
@@ -155,5 +154,25 @@ class ApplicationResource extends Resource
             'view' => Pages\ViewApplication::route('/{record}'),
             'edit' => Pages\EditApplication::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('resources.application_plural');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('resources.application');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('resources.application_plural');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('admin.sections.projectcalls');
     }
 }

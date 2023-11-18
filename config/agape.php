@@ -56,38 +56,74 @@ return [
     /**
      * List of project types specific to this instance
      */
-    'project_types' => [
+    'dynamic_fields' => [
         'generic' => [
-            'label'            => 'Générique',
-            'extra_attributes' => [
-                'duration' => [
-                    'label'      => ['fr' => 'Durée', 'en' => 'Duration'],
-                    'type'       => 'text',
-                    'repeatable' => false,
-                ],
+            [
+                'slug'        => 'duration',
+                'label'       => ['fr' => 'Durée', 'en' => 'Duration'],
+                'section'     => 'general',
+                'after_field' => null,
+                'type'        => 'text',
+                'required'    => true,
+                'repeatable'  => false,
             ],
-            'rules'            => [
-                'duration' => ['required', 'string']
-            ]
         ],
         'workshop' => [
-            'label'            => 'Workshop',
-            'extra_attributes' => [
-                'theme' => [
-                    'label'      => ['fr' => 'Thème', 'en' => 'Theme'],
-                    'type'       => 'richtext',
-                    'repeatable' => false,
-                ],
-                'target_date' => [
-                    'label'      => ['fr' => 'Dates Prévisionnelles', 'en' => 'Target Dates'],
-                    'type'       => 'number',
-                    'repeatable' => true,
-                ],
+            [
+                'slug'        => 'theme',
+                'label'       => ['fr' => 'Thème', 'en' => 'Theme'],
+                'section'     => 'general',
+                'after_field' => null,
+                'type'        => 'richtext',
+                'required'    => true,
+                'repeatable'  => false,
             ],
-            'rules'            => [
-                'target_date'   => ['required', 'array'],
-                'target_date.*' => ['date', 'min:now'],
-            ]
+            [
+                'slug'        => 'target_date',
+                'label'       => ['fr' => 'Dates Prévisionnelles', 'en' => 'Target Dates'],
+                'section'     => 'general',
+                'after_field' => null,
+                'type'        => 'date',
+                'repeatable'  => true,
+                'minItems'    => 1,
+                'maxItems'    => 5,
+                'minValue'    => 'now'
+            ],
+        ],
+        'ut' => [
+            [
+                'slug'        => 'thematic_pillars',
+                'label'       => ['fr' => 'Pilier(s) Thématiques', 'en' => 'Thematic Pillars'],
+                'section'     => 'general',
+                'after_field' => 'studyFields',
+                'type'        => 'checkbox',
+                'options'     => [
+                    [
+                        'value' => 'health_and_well_being',
+                        'label' => ['fr' => 'Santé et Bien-être', 'en' => 'Health and Well-being'],
+                        'description' => [
+                            'fr' => 'Comprendre et favoriser la vie en bonne santé et le bien-être',
+                            'en' => 'Understanding and promoting healthy living and well-being',
+                        ]
+                    ],
+                    [
+                        'value' => 'societal_change_and_impacts',
+                        'label' => ['fr' => 'Changements et Impacts Sociétaux', 'en' => 'Societal change and impacts'],
+                        'description' => [
+                            'fr' => 'Appréhender les changements globaux et leurs impacts sur les sociétés',
+                            'en' => 'Understanding global changes and their impacts on society',
+                        ]
+                    ],
+                    [
+                        'value' => 'sustainable_transitions',
+                        'label' => ['fr' => 'Transitions Durables', 'en' => 'Sustainable Transitions'],
+                        'description' => [
+                            'fr' => 'Accélérer les transitions durables : mobilité, énergie, ressources et mutations industrielles',
+                            'en' => 'Accelerating sustainable transitions: mobility, energy, resources and industrial change',
+                        ]
+                    ]
+                ]
+            ],
         ]
     ]
 ];

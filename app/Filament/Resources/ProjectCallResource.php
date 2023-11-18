@@ -24,6 +24,7 @@ class ProjectCallResource extends Resource
     protected static ?string $model = ProjectCall::class;
 
     protected static ?string $navigationIcon = 'fas-bullhorn';
+    protected static ?int $navigationSort    = 10;
 
     public static function form(Form $form): Form
     {

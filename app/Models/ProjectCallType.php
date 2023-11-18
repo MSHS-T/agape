@@ -57,7 +57,8 @@ class ProjectCallType extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'                 => 'integer',
+        'dynamic_attributes' => 'json',
     ];
 
     public $translatable = ['label_long', 'label_short'];

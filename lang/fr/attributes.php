@@ -50,7 +50,22 @@ return [
     // Project Call Type
     'label_long'         => 'Label long',
     'label_short'        => 'Label court',
-    'dynamic_attributes' => 'Propriétés dynamiques',
+    'dynamic_attributes' => [
+        'title'       => 'Propriétés dynamiques',
+        'label'       => 'Intitulé du champ (traduit)',
+        'location'    => 'Emplacement',
+        'section'     => 'Section',
+        'after_field' => 'Après le champ',
+        'type'        => 'Type de champ',
+        'types'       => [
+            'text'     => 'Texte court',
+            'date'     => 'Date',
+            'richtext' => 'Zone de texte avec mise en forme',
+            'textarea' => 'Zone de texte',
+            'checkbox' => 'Cases à cocher',
+            'select'   => 'Liste déroulante',
+        ]
+    ],
 
     // Laboratory
     'unit_code'      => 'Code Unité',

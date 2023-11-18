@@ -14,6 +14,7 @@ class ProjectCallTypeSeeder extends Seeder
      */
     public function run(): void
     {
+        $config = config('agape.dynamic_fields');
         ProjectCallType::create([
             'reference' => 'RG',
             'label_short' => [
@@ -24,7 +25,7 @@ class ProjectCallTypeSeeder extends Seeder
                 'fr' => 'Appel Coordonné MSHST-Région Occitanie',
                 'en' => 'Coordinated Call MSHST-Occitanie Region',
             ],
-            'dynamic_attributes' => 'generic',
+            'dynamic_attributes' => $config['generic'],
         ])->managers()->attach(User::role('manager')->first());
         ProjectCallType::create([
             'reference' => 'EX',
@@ -36,7 +37,7 @@ class ProjectCallTypeSeeder extends Seeder
                 'fr' => 'Appel à Projets Exploratoire',
                 'en' => 'Exploratory Project Call',
             ],
-            'dynamic_attributes' => 'generic',
+            'dynamic_attributes' => $config['generic'],
         ])->managers()->attach(User::role('manager')->first());
         ProjectCallType::create([
             'reference' => 'WS',
@@ -48,7 +49,19 @@ class ProjectCallTypeSeeder extends Seeder
                 'fr' => 'Appel à Projets Workshop/Réseau de Recherche',
                 'en' => 'Workshop/Research Network Project Call',
             ],
-            'dynamic_attributes' => 'workshop',
+            'dynamic_attributes' => $config['workshop'],
+        ]);
+        ProjectCallType::create([
+            'reference' => 'UT',
+            'label_short' => [
+                'fr' => 'TIRIS',
+                'en' => 'TIRIS',
+            ],
+            'label_long' => [
+                'fr' => 'Appel à Projets TIRIS',
+                'en' => 'TIRIS Project Call',
+            ],
+            'dynamic_attributes' => $config['ut'],
         ]);
     }
 }

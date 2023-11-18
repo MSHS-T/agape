@@ -13,6 +13,6 @@ class ProjectCallSeeder extends Seeder
      */
     public function run(): void
     {
-        ProjectCall::factory()->count(5)->create();
+        ProjectCall::factory()->application()->count(5)->create();
     }
 }

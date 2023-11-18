@@ -25,7 +25,7 @@ class ProjectCallTypeFactory extends Factory
             'reference'          => $this->faker->word,
             'label_long'         => ['fr' => fake()->words(3, true), 'en' => fake('en_GB')->words(3, true)],
             'label_short'        => ['fr' => $acronym, 'en' => $acronym],
-            'dynamic_attributes' => '',
+            'dynamic_attributes' => [],
         ];
     }
 
