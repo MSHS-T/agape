@@ -64,7 +64,20 @@ return [
             'textarea' => 'Zone de texte',
             'checkbox' => 'Cases à cocher',
             'select'   => 'Liste déroulante',
-        ]
+        ],
+        'options'            => 'Options',
+        'option_label'       => 'Option (traduite)',
+        'choices'            => 'Choix',
+        'choice_label'       => 'Choix (traduit)',
+        'choice_description' => 'Description (traduite)',
+        'rules'              => 'Règles de validation',
+        'required'           => 'Champ obligatoire ?',
+        'min_value'          => 'Valeur minimale',
+        'max_value'          => 'Valeur maximale',
+        'repeatable_field'   => 'Champ répétable',
+        'repeatable'         => 'Valeurs multiples ?',
+        'min_items'          => 'Nombre minimal d\'éléments',
+        'max_items'          => 'Nombre maximal d\'éléments',
     ],
 
     // Laboratory

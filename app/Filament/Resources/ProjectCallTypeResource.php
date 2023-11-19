@@ -61,7 +61,7 @@ class ProjectCallTypeResource extends Resource
                                         fn (string $lang) => Forms\Components\TextInput::make('label.' . $lang)
                                             ->label(Str::upper($lang))
                                             ->live()
-                                            ->afterStateUpdated(fn (Forms\Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                            ->afterStateUpdated(fn (Forms\Set $set, Forms\Get $get) => $set('slug', Str::slug($get('label.en'))))
                                             ->validationAttribute(Str::upper($lang))
                                             ->required()
                                     )
@@ -80,7 +80,7 @@ class ProjectCallTypeResource extends Resource
                                 Forms\Components\Select::make('after_field')
                                     ->label(__('attributes.dynamic_attributes.after_field'))
                                     ->helperText(__('admin.dynamic_attributes.after_field_help'))
-                                    ->options(fn (Get $get) => AgapeApplicationForm::fieldsPerSection()[$get('section')])
+                                    ->options(fn (Get $get) => AgapeApplicationForm::fieldsPerSection()[$get('section')] ?? [])
                                     ->default('')
                                     ->live()
                                     ->required(false)
@@ -91,9 +91,124 @@ class ProjectCallTypeResource extends Resource
                             ->inline()
                             ->columnSpanFull()
                             ->live(),
-                        // TODO : Options for select and checkboxes
-                        // TODO : Rules
-                        // TODO : Repeatable
+                        //  Options for select
+                        Forms\Components\Repeater::make('options')
+                            ->label(__('attributes.dynamic_attributes.options'))
+                            ->addActionLabel(__('admin.dynamic_attributes.add_option'))
+                            ->hidden(fn (Get $get) => $get('type') !== 'select')
+                            ->itemLabel(fn (array $state) => $state['label']['fr'] ?? $state['label']['en'] ?? '?')
+                            ->columns(['default' => 1, 'sm' => 1, 'lg' => 3])
+                            ->columnSpanFull()
+                            ->collapsible()
+                            ->collapsed(fn (ProjectCallType $record) => $record->exists)
+                            ->reorderableWithButtons()
+                            ->reorderableWithDragAndDrop(false)
+                            ->schema([
+                                Forms\Components\Hidden::make('value'),
+                                Forms\Components\Fieldset::make('label')
+                                    ->label(__('attributes.dynamic_attributes.option_label'))
+                                    ->columnSpan(['sm' => 'full', 'md' => 2])
+                                    ->columns(min(3, count(config('agape.languages'))))
+                                    ->schema(
+                                        collect(config('agape.languages'))
+                                            ->map(
+                                                fn (string $lang) => Forms\Components\TextInput::make('label.' . $lang)
+                                                    ->label(Str::upper($lang))
+                                                    ->live()
+                                                    ->afterStateUpdated(fn (Forms\Set $set, Forms\Get $get) => $set('value', Str::slug($get('label.en'))))
+                                                    ->validationAttribute(Str::upper($lang))
+                                                    ->required()
+                                            )
+                                            ->all()
+                                    ),
+                            ]),
+                        // Choices for checkbox
+                        Forms\Components\Repeater::make('choices')
+                            ->label(__('attributes.dynamic_attributes.choices'))
+                            ->addActionLabel(__('admin.dynamic_attributes.add_choice'))
+                            ->hidden(fn (Get $get) => $get('type') !== 'checkbox')
+                            ->itemLabel(fn (array $state) => $state['label']['fr'] ?? $state['label']['en'] ?? '?')
+                            ->columns(['default' => 1, 'sm' => 1, 'lg' => 3])
+                            ->columnSpanFull()
+                            ->collapsible()
+                            ->collapsed(fn (ProjectCallType $record) => $record->exists)
+                            ->reorderableWithButtons()
+                            ->reorderableWithDragAndDrop(false)
+                            ->schema([
+                                Forms\Components\Hidden::make('value'),
+                                Forms\Components\Fieldset::make('label')
+                                    ->label(__('attributes.dynamic_attributes.choice_label'))
+                                    ->columnSpan(['sm' => 'full', 'md' => 2])
+                                    ->columns(min(3, count(config('agape.languages'))))
+                                    ->schema(
+                                        collect(config('agape.languages'))
+                                            ->map(
+                                                fn (string $lang) => Forms\Components\TextInput::make('label.' . $lang)
+                                                    ->label(Str::upper($lang))
+                                                    ->live()
+                                                    ->afterStateUpdated(fn (Forms\Set $set, Forms\Get $get) => $set('value', Str::slug($get('label.en'))))
+                                                    ->validationAttribute(Str::upper($lang))
+                                                    ->required()
+                                            )
+                                            ->all()
+                                    ),
+                                Forms\Components\Fieldset::make('description')
+                                    ->label(__('attributes.dynamic_attributes.choice_description'))
+                                    ->columnSpan(['sm' => 'full', 'md' => 2])
+                                    ->columns(min(3, count(config('agape.languages'))))
+                                    ->schema(
+                                        collect(config('agape.languages'))
+                                            ->map(
+                                                fn (string $lang) => Forms\Components\TextInput::make('description.' . $lang)
+                                                    ->label(Str::upper($lang))
+                                                    ->validationAttribute(Str::upper($lang))
+                                                    ->required()
+                                            )
+                                            ->all()
+                                    ),
+                            ]),
+
+                        // Rules
+                        Forms\Components\Fieldset::make('rules')
+                            ->label(__('attributes.dynamic_attributes.rules'))
+                            ->columnSpanFull()
+                            ->columns(['default' => 1, 'sm' => 1, 'lg' => 3])
+                            ->schema([
+                                Forms\Components\Toggle::make('required')
+                                    ->label(__('attributes.dynamic_attributes.required'))
+                                    ->inline(true),
+                                Forms\Components\TextInput::make('minValue')
+                                    ->label(__('attributes.dynamic_attributes.min_value'))
+                                    ->inlineLabel(true)
+                                    ->hidden(fn (Forms\Get $get) => $get('type') !== 'date'),
+                                Forms\Components\TextInput::make('maxValue')
+                                    ->label(__('attributes.dynamic_attributes.max_value'))
+                                    ->inlineLabel(true)
+                                    ->hidden(fn (Forms\Get $get) => $get('type') !== 'date'),
+                            ]),
+                        // Repeatable
+                        Forms\Components\Fieldset::make('repeatable')
+                            ->label(__('attributes.dynamic_attributes.repeatable_field'))
+                            ->columnSpanFull()
+                            ->columns(['default' => 1, 'sm' => 1, 'lg' => 3])
+                            ->schema([
+                                Forms\Components\Toggle::make('repeatable')
+                                    ->label(__('attributes.dynamic_attributes.repeatable'))
+                                    ->live()
+                                    ->inline(true),
+                                Forms\Components\TextInput::make('minItems')
+                                    ->label(__('attributes.dynamic_attributes.min_items'))
+                                    ->integer()
+                                    ->minValue(0)
+                                    ->inlineLabel(true)
+                                    ->hidden(fn (Forms\Get $get) => !$get('repeatable')),
+                                Forms\Components\TextInput::make('maxItems')
+                                    ->label(__('attributes.dynamic_attributes.max_items'))
+                                    ->integer()
+                                    ->minValue(0)
+                                    ->inlineLabel(true)
+                                    ->hidden(fn (Forms\Get $get) => !$get('repeatable')),
+                            ])
                     ])
                     ->columns([
                         'default' => 1,

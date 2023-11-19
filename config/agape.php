@@ -97,7 +97,7 @@ return [
                 'section'     => 'general',
                 'after_field' => 'studyFields',
                 'type'        => 'checkbox',
-                'options'     => [
+                'choices'     => [
                     [
                         'value' => 'health_and_well_being',
                         'label' => ['fr' => 'Santé et Bien-être', 'en' => 'Health and Well-being'],

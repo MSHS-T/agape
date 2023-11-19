@@ -43,6 +43,8 @@ return [
     'dynamic_attributes' => [
         'create'           => 'Ajouter un Champ Dynamique',
         'after_field_help' => 'Laisser vide pour ajouter le champ à la fin de la section',
+        'add_option'       => 'Ajouter une option',
+        'add_choice'       => 'Ajouter un choix',
     ],
 
     'dates'                => 'Calendrier',
