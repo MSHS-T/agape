@@ -91,7 +91,8 @@ class ManageGeneralSettings extends SettingsPage
                                     ->label(__('admin.settings.fields.extensions'))
                                     ->hidden(fn (Get $get) => !$get('enable' . ucfirst($fileName)))
                                     ->inlineLabel()
-                                    ->required(fn (Get $get) => $get('enable' . ucfirst($fileName))),
+                                    ->required(fn (Get $get) => $get('enable' . ucfirst($fileName)))
+                                    ->regex('/^(?:\s*\.\w+\s*(?:,\s*|$))+$/'),
                             ]))
                     ]),
                 Section::make('grades')

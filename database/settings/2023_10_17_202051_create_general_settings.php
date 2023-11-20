@@ -15,7 +15,7 @@ return new class extends SettingsMigration
         $this->migrator->add('general.enableAdditionalInformation', false);
         $this->migrator->add('general.enableOtherAttachments', true);
         $this->migrator->add('general.extensionsApplicationForm', '.doc,.docx,.odt,.pdf');
-        $this->migrator->add('general.extensionsFinancialForm', '.xls,.xlsx,.ods,.doc,.docx,.odt.pdf');
+        $this->migrator->add('general.extensionsFinancialForm', '.xls,.xlsx,.ods,.doc,.docx,.odt,.pdf');
         $this->migrator->add('general.extensionsAdditionalInformation', '.doc,.docx,.odt,.pdf');
         $this->migrator->add('general.extensionsOtherAttachments', '.pdf,.doc,.docx,.odt,.xls,.xlsx,.ods,.jpg,.jpeg,.png,.gif,.zip,.rar,.tar');
     }
