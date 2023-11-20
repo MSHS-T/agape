@@ -274,7 +274,9 @@ class AgapeApplicationForm
             case 'financialForm':
             case 'additionalInformation':
             case 'otherAttachments':
+                $generalSettings = app(GeneralSettings::class);
                 $field = AgapeForm::fileField($name)
+                    ->acceptedFileTypes(MimeType::getByExtensionList($generalSettings->{'extensions' . ucfirst($name)} ?? ''))
                     ->columnSpanFull();
                 if ($name === 'otherAttachments') {
                     $maxFiles = $this->projectCall->extra_attributes->number_of_documents;
