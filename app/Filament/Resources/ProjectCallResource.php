@@ -191,10 +191,16 @@ class ProjectCallResource extends Resource
                     ->numeric()
                     ->sortable()
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('projectCallType.label_short')
+                    ->label(__('attributes.project_call_type'))
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('reference')
+                    ->label(__('attributes.reference'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('year')
+                    ->label(__('attributes.year'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
