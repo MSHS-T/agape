@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,10 @@ trait HasCreator
      */
     public function scopeMine($query)
     {
-        return $query->where('creator_id', Auth::id());
+        return $query->where(
+            fn (Builder $query) => $query->whereNull('creator_id')
+                ->orWhere('creator_id', Auth::id())
+        );
     }
 
     public function makePublic(): static

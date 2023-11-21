@@ -9,13 +9,22 @@ class ApplicationLaboratory extends Pivot
 {
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'order',
-    ];
+    // protected $fillable = [
+    //     'application_id',
+    //     'laboratory_id',
+    //     'order',
+    // ];
 
     public function application(): BelongsTo
     {

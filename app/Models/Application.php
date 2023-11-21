@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasCreator;
 use App\Models\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
@@ -79,6 +81,7 @@ use Spatie\Translatable\HasTranslations;
  */
 class Application extends Model implements HasMedia
 {
+    use HasCreator;
     use HasFactory;
     use InteractsWithMedia;
     use HasSchemalessAttributes;
@@ -93,7 +96,7 @@ class Application extends Model implements HasMedia
         'project_call_id',
         'title',
         'acronym',
-        'theme',
+        'carrier',
         'short_description',
         'summary',
         'keywords',
@@ -106,6 +109,7 @@ class Application extends Model implements HasMedia
         'devalidation_message',
         'applicant_id',
         'submitted_at',
+        'extra_attributes',
     ];
 
     /**
@@ -115,6 +119,7 @@ class Application extends Model implements HasMedia
      */
     protected $casts = [
         'id'                     => 'integer',
+        'carrier'                => 'array',
         'keywords'               => 'array',
         'amount_requested'       => 'float',
         'other_fundings'         => 'float',
@@ -124,31 +129,61 @@ class Application extends Model implements HasMedia
         'submitted_at'           => 'datetime',
     ];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['studyFields', 'laboratories'];
+
     public $translatable = ['summary'];
 
-    // TODO : When creating, generate reference
-    // TODO : When creating, add user as applicant
 
+    public static function booted()
+    {
+        static::saving(function ($application) {
+            // Clean data before saving
+            $application->keywords = array_filter($application->keywords, fn ($k) => filled($k));
+        });
+
+        // When creating, generate reference
+        static::creating(function ($application) {
+            $result = DB::table('applications')->select('reference')
+                ->where('project_call_id', $application->projectCall->id)
+                ->get();
+
+            $last_reference = $result->pluck('reference')->map(function ($r) {
+                list(,,, $ref) = explode('-', $r);
+                return intval($ref);
+            })->max();
+
+            $application->reference = sprintf(
+                "%s-%s",
+                $application->projectCall->reference,
+                str_pad(strval($last_reference + 1), 3, "0", STR_PAD_LEFT)
+            );
+        });
+    }
 
     public function projectCall(): BelongsTo
     {
         return $this->belongsTo(ProjectCall::class);
     }
 
-    public function carrier(): BelongsTo
-    {
-        return $this->belongsTo(Carrier::class);
-    }
+    // public function carrier(): BelongsTo
+    // {
+    //     return $this->belongsTo(Carrier::class);
+    // }
 
-    public function applicant(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'applicant_id');
-    }
+    // public function applicant(): BelongsTo
+    // {
+    //     return $this->belongsTo(User::class, 'applicant_id');
+    // }
 
-    public function applicationStudyFields(): HasMany
-    {
-        return $this->hasMany(ApplicationStudyField::class);
-    }
+    // public function applicationStudyFields(): HasMany
+    // {
+    //     return $this->hasMany(ApplicationStudyField::class);
+    // }
 
     public function studyFields(): BelongsToMany
     {
@@ -162,7 +197,7 @@ class Application extends Model implements HasMedia
 
     public function laboratories(): BelongsToMany
     {
-        return $this->belongsToMany(Laboratory::class)->withPivot(['order']);
+        return $this->belongsToMany(Laboratory::class)->withPivot(['order', 'contact_name']);
     }
 
     public function evaluationOffers(): HasMany

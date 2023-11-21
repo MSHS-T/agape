@@ -167,7 +167,10 @@ class ProjectCallTypeResource extends Resource
                                             ->all()
                                     ),
                             ]),
-
+                        Forms\Components\Toggle::make('multiple')
+                            ->label(__('attributes.dynamic_attributes.option_multiple'))
+                            ->inline(true)
+                            ->hidden(fn (Forms\Get $get) => $get('type') !== 'select'),
                         // Rules
                         Forms\Components\Fieldset::make('rules')
                             ->label(__('attributes.dynamic_attributes.rules'))
@@ -191,6 +194,7 @@ class ProjectCallTypeResource extends Resource
                             ->label(__('attributes.dynamic_attributes.repeatable_field'))
                             ->columnSpanFull()
                             ->columns(['default' => 1, 'sm' => 1, 'lg' => 3])
+                            ->hidden(fn (Forms\Get $get) => !in_array($get('type'), ['text', 'date', 'richtext', 'textarea']))
                             ->schema([
                                 Forms\Components\Toggle::make('repeatable')
                                     ->label(__('attributes.dynamic_attributes.repeatable'))
@@ -208,7 +212,7 @@ class ProjectCallTypeResource extends Resource
                                     ->minValue(0)
                                     ->inlineLabel(true)
                                     ->hidden(fn (Forms\Get $get) => !$get('repeatable')),
-                            ])
+                            ]),
                     ])
                     ->columns([
                         'default' => 1,

@@ -198,7 +198,7 @@ class ProjectCall extends Model implements HasMedia, WithCreator
      */
     public function getApplication(): ?Application
     {
-        return $this->applications->firstWhere('applicant_id', Auth::id());
+        return $this->applications->firstWhere('creator_id', Auth::id());
     }
 
     public function canApply(): bool

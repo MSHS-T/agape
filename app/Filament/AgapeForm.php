@@ -40,6 +40,9 @@ class AgapeForm
             ->label(__('attributes.files.' . $fileName))
             ->helperText(__('attributes.accepted_extensions', ['extensions' => $generalSettings->{'extensions' . ucfirst($fileName)}]))
             ->preserveFilenames()
+            ->downloadable()
+            ->disk('public')
+            ->previewable(false)
             ->collection($fileName)
             ->maxSize(10240);
     }

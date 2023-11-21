@@ -97,6 +97,7 @@ return [
                 'section'     => 'general',
                 'after_field' => 'studyFields',
                 'type'        => 'checkbox',
+                'required'    => true,
                 'choices'     => [
                     [
                         'value' => 'health_and_well_being',

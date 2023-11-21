@@ -3,20 +3,21 @@
 namespace App\Filament\Applicant\Pages;
 
 use App\Filament\AgapeApplicationForm;
-use App\Filament\AgapeForm;
 use App\Models\Application;
 use App\Models\ProjectCall;
-use App\Models\StudyField;
-use App\Settings\GeneralSettings;
-use Filament\Forms;
-use Filament\Forms\Components\Hidden;
+use App\Rulesets\Application as ApplicationRuleset;
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class Apply extends Page implements HasForms
 {
@@ -30,17 +31,25 @@ class Apply extends Page implements HasForms
 
     public ?array $data = [];
 
+    public array $initialState;
+
     public function mount(): void
     {
         $projectCallId = request()->query('projectCall');
+        $this->loadProjectCall(intval($projectCallId));
+    }
+
+    public function loadProjectCall(int $projectCallId)
+    {
         $projectCall = ProjectCall::with([
             'projectCallType',
             'applications' => function ($query) {
-                $query->where('applicant_id', Auth::id());
+                $query->where('creator_id', Auth::id());
             }
         ])->find($projectCallId);
 
         $application = $projectCall->getApplication();
+
         if (blank($application)) {
             $this->application = new Application([
                 'project_call_id' => $projectCall->id
@@ -56,29 +65,147 @@ class Apply extends Page implements HasForms
         }
 
         $this->projectCall = $projectCall;
-        $this->form->fill();
+        $this->form->fill($this->application->toArray());
+        $this->initialState = $this->form->getRawState();
     }
 
     public function form(Form $form): Form
     {
-        return (new AgapeApplicationForm($this->projectCall, $form))
-            ->buildForm()
+        return $form->schema([
+            ...(new AgapeApplicationForm($this->projectCall, $form))
+                ->buildForm(),
+            $this->buildActions()
+        ])
             ->model($this->application)
             ->statePath('data');
     }
 
+    protected function buildActions(): Actions
+    {
+        return Actions::make([
+            Action::make(__('pages.apply.back'))
+                ->icon('fas-arrow-left')
+                ->color('secondary')
+                ->requiresConfirmation(fn (Component $livewire) => !$livewire->isDirty())
+                ->action(function () {
+                    return redirect()->route('filament.applicant.pages.dashboard');
+                }),
+            Action::make(__('pages.apply.save'))
+                ->icon('fas-save')
+                ->color('primary')
+                ->action(function (Component $livewire) {
+                    $livewire->resetErrorBag();
+                    $this->saveDraft();
+                }),
+            Action::make(__('pages.apply.submit'))
+                ->icon('fas-paper-plane')
+                ->color('success')
+                // ->disabled(fn (Component $livewire) => $livewire->isDirty())
+                // ->tooltip(__('pages.apply.submit_disabled'))
+                ->requiresConfirmation(fn (Component $livewire) => !$livewire->isDirty())
+                ->modalIcon(fn (Component $livewire) => !$livewire->isDirty() ? 'fas-paper-plane' : null)
+                ->modalIconColor(fn (Component $livewire) => !$livewire->isDirty() ? 'success' : null)
+                ->modalHeading(fn (Component $livewire) => !$livewire->isDirty() ? __('pages.apply.submit_confirmation_title') : null)
+                ->modalDescription(fn (Component $livewire) => !$livewire->isDirty() ? __('pages.apply.submit_confirmation_text') : null)
+                ->modalSubmitActionLabel(fn (Component $livewire) => !$livewire->isDirty() ? __('pages.apply.submit_confirmation_button') : null)
+                ->action(function () {
+                    $this->submitApplication();
+                })
+        ])
+            ->columnSpanFull()
+            ->alignCenter()
+            ->view('components.filament.actions-container');
+    }
+
     public function saveDraft()
     {
-        ray(__FUNCTION__, $this->application, $this->form->getState());
-        // $this->application->save();
-        // $this->loadProjectCall($this->projectCall->fresh());
+        $fileFields = [
+            'applicationForm',
+            'financialForm',
+            'additionalInformation',
+            'otherAttachments',
+        ];
+        $formData = $this->form->getRawState();
+
+        $this->application->projectCall()->associate($this->projectCall);
+        $this->application->fill($formData);
+        $this->application->extra_attributes = Arr::get($formData, 'extra_attributes', []);
+
+        $this->application->save();
+
+        $this->application->laboratories()->sync(
+            collect($formData['applicationLaboratories'])
+                ->values()
+                ->mapWithKeys(fn ($lab, $i) => [intval($lab['laboratory_id']) => [
+                    'contact_name' => $lab['contact_name'],
+                    'order' => $i + 1
+                ]])->all()
+        );
+        $this->application->studyFields()->sync(array_map("intval", $formData["studyFields"]));
+
+        // save files
+        foreach ($fileFields as $fileFieldName) {
+            $files = Arr::get($formData, $fileFieldName, []);
+            // Already uploaded file is a string with the Media uuid
+            $existingMedia = $this->application->getMedia($fileFieldName);
+            foreach ($existingMedia as $media) {
+                // Delete media if not in files array
+                if (!array_key_exists($media->uuid, $files)) {
+                    $media->delete();
+                }
+            }
+            foreach ($files as $file) {
+                if ($file instanceof TemporaryUploadedFile) {
+                    /** @var TemporaryUploadedFile $file */
+                    $this->application->addMedia($file)
+                        ->usingName($file->getClientOriginalName())
+                        ->toMediaCollection($fileFieldName);
+                }
+            }
+        }
+
+        // Reload form
+        $this->loadProjectCall($this->projectCall->id);
+
+        Notification::make()
+            ->title(__('pages.apply.save_success'))
+            ->success()
+            ->send();
     }
 
     public function submitApplication()
     {
-        ray(__FUNCTION__, $this->application);
+        if ($this->isDirty()) {
+            Notification::make()
+                ->title(__('pages.apply.save_before_submitting'))
+                ->danger()
+                ->send();
+            throw \Illuminate\Validation\ValidationException::withMessages([]);
+        }
+        $formData = $this->form->getRawState();
+        $validator = Validator::make(
+            $formData,
+            ApplicationRuleset::rules($this->projectCall),
+            ApplicationRuleset::messages($this->projectCall),
+            ApplicationRuleset::attributes($this->projectCall),
+        );
+        if ($validator->fails()) {
+            $errors = collect($validator->errors()->messages())
+                ->mapWithKeys(fn ($messages, $key) => ['data.' . $key => $messages])->all();
+            $this->dispatch('close-modal', id: "{$this->getId()}-form-component-action");
+            Notification::make()
+                ->title(__('pages.apply.submit_error'))
+                ->danger()
+                ->send();
+            throw \Illuminate\Validation\ValidationException::withMessages($errors);
+        }
         // $this->application->save();
         // $this->loadProjectCall($this->projectCall->fresh());
+    }
+
+    public function isDirty(): bool
+    {
+        return $this->form->getRawState() !== $this->initialState;
     }
 
     public static function shouldRegisterNavigation(): bool

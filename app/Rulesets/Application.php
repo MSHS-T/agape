@@ -2,18 +2,158 @@
 
 namespace App\Rulesets;
 
-class Application extends AbstractRuleset
+use App\Models\ProjectCall;
+use App\Settings\GeneralSettings;
+use Illuminate\Validation\Rule;
+
+class Application
 {
-    public static function rules(): array
+    public static function rules(ProjectCall $projectCall): array
     {
-        return [];
+        $generalSettings = app(GeneralSettings::class);
+        $maxNumberOfKeywords = $projectCall->extra_attributes->get("number_of_keywords", null);
+        $maxNumberOfLaboratories = $projectCall->extra_attributes->get("number_of_laboratories", null);
+        $maxNumberOfStudyFields = $projectCall->extra_attributes->get("number_of_study_fields", null);
+        $maxNumberOfDocuments = $projectCall->extra_attributes->get("number_of_documents", null);
+        $rules = [
+            'title'                                               => 'required|string|max:255',
+            'acronym'                                             => 'required|string|max:255',
+            'carrier.first_name'                                  => 'required|string|max:255',
+            'carrier.last_name'                                   => 'required|string|max:255',
+            'carrier.email'                                       => 'required|string|max:255|email',
+            'carrier.phone'                                       => 'required|string|max:255',
+            'carrier.status'                                      => 'required|string|max:255',
+            'applicationLaboratories'                             => ['required', 'array', 'min:1', filled($maxNumberOfLaboratories) ? 'max:' . $maxNumberOfLaboratories : null],
+            'applicationLaboratories.*.laboratory.id'             => 'required|exists:laboratories,id',
+            'applicationLaboratories.*.laboratory.name'           => 'required|max:255',
+            'applicationLaboratories.*.laboratory.unit_code'      => 'required|max:255',
+            'applicationLaboratories.*.laboratory.director_email' => 'required|max:255|email',
+            'applicationLaboratories.*.laboratory.regency'        => 'required|max:255',
+            'applicationLaboratories.*.contact_name'              => 'required|max:255',
+            'studyFields'                                        => ['required', 'array', 'min:1', filled($maxNumberOfStudyFields) ? 'max:' . $maxNumberOfStudyFields : null],
+            'studyFields.*.id'                                   => 'required|exists:study_fields,id',
+            'summary.fr'                                          => 'required',
+            'summary.en'                                          => 'required',
+            'keywords'                                            => array_filter(['required', 'array', 'min:1', filled($maxNumberOfKeywords) ? 'max:' . $maxNumberOfKeywords : null]),
+            'keywords.*'                                          => 'max:100',
+            'short_description'                                   => 'required',
+            'amount_requested'                                    => 'required|numeric|min:0',
+            'other_fundings'                                      => 'required|numeric|min:0',
+            // TODO : use settings to determine if these fields are required
+            'total_expected_income'                               => 'required|numeric|min:0',
+            'total_expected_outcome'                              => 'required|numeric|min:0',
+            'applicationForm'                                     => $generalSettings->enableApplicationForm
+                ? 'required|array|min:1'
+                : 'prohibited',
+            'financialForm'                                       => $generalSettings->enableFinancialForm
+                ? 'required|array|min:1'
+                : 'prohibited',
+            'additionalInformation'                               => $generalSettings->enableAdditionalInformation
+                ? 'required|array|min:1'
+                : 'prohibited',
+            'otherAttachments'                                    => $generalSettings->enableOtherAttachments
+                ? ['array', 'min:0', filled($maxNumberOfDocuments) ? 'max:' . $maxNumberOfDocuments : null]
+                : 'prohibited',
+        ];
+        // Add rules for dynamic attributes
+        $dynamicAttributes = $projectCall->projectCallType->dynamic_attributes;
+        foreach ($dynamicAttributes as $attribute) {
+            $attributeRules = [];
+
+            $slug = 'extra_attributes.' . $attribute['slug'];
+            if ($attribute['repeatable'] ?? false) {
+                $attributeRules[$slug] = [
+                    $attribute['required'] ? 'required' : 'sometimes',
+                    ($attribute['minItems'] ?? null) ? 'min:' . $attribute['minItems'] : null,
+                    ($attribute['maxItems'] ?? null) ? 'max:' . $attribute['maxItems'] : null,
+                ];
+                $slug = $attribute['slug'] . '.*';
+            }
+            switch ($attribute['type']) {
+                case 'text':
+                case 'richtext':
+                case 'textarea':
+                    $attributeRules[$slug] = [
+                        $attribute['required'] ? 'required' : 'sometimes',
+                        'string',
+                        ($attribute['minValue'] ?? null) ? 'min:' . $attribute['minValue'] : null,
+                        ($attribute['maxValue'] ?? null) ? 'max:' . $attribute['maxValue'] : null,
+                    ];
+                    break;
+                case 'date':
+                    $attributeRules[$slug] = [
+                        $attribute['required'] ? 'required' : 'sometimes',
+                        'date',
+                        ($attribute['minValue'] ?? null) ? 'min:' . $attribute['minValue'] : null,
+                        ($attribute['maxValue'] ?? null) ? 'max:' . $attribute['maxValue'] : null,
+                    ];
+                    break;
+                case 'checkbox':
+                    $attributeRules[$slug] = [
+                        $attribute['required'] ? 'required' : 'sometimes',
+                        'array'
+                    ];
+                    $attributeRules[$slug . '.*'] = [Rule::in(array_column($attribute['choices'], 'value'))];
+                    break;
+                case 'select':
+                    $attributeRules[$slug] = [
+                        $attribute['required'] ? 'required' : 'sometimes',
+                        'array'
+                    ];
+                    $attributeRules[$slug . '.*'] = [Rule::in(array_column($attribute['options'], 'value'))];
+                    break;
+            }
+
+            foreach ($attributeRules as $name => $r) {
+                $rules[$name] = array_filter($r);
+            }
+        }
+
+        return $rules;
     }
-    public static function messages(): array
+    public static function messages(ProjectCall $projectCall): array
     {
-        return [];
+        $messages = [
+            'applicationLaboratories.required' => __('validation.custom.laboratories.min'),
+            'applicationLaboratories.min'      => __('validation.custom.laboratories.min'),
+            'applicationLaboratories.max'      => __('validation.custom.laboratories.max'),
+        ];
+        // Add messages for dynamic attributes
+        // $dynamicAttributes = $projectCall->projectCallType->dynamic_attributes;
+        return $messages;
     }
-    public static function attributes(): array
+    public static function attributes(ProjectCall $projectCall): array
     {
-        return [];
+        $attributes = [
+            'title'                                  => __('attributes.title'),
+            'acronym'                                => __('attributes.acronym'),
+            'carrier.first_name'                     => __('attributes.first_name'),
+            'carrier.last_name'                      => __('attributes.last_name'),
+            'carrier.email'                          => __('attributes.email'),
+            'carrier.phone'                          => __('attributes.phone'),
+            'carrier.status'                         => __('attributes.carrier_status'),
+            'applicationLaboratories'                => __('resources.laboratory_plural'),
+            'applicationLaboratories.*.contact_name' => __('attributes.contact_name'),
+            'studyFields'                            => __('resources.study_field_plural'),
+            'summary.fr'                             => __('attributes.summary_fr'),
+            'summary.en'                             => __('attributes.summary_en'),
+            'keywords'                               => __('attributes.keywords'),
+            'keywords.*'                             => __('attributes.keywords'),
+            'short_description'                      => __('attributes.short_description'),
+            'amount_requested'                       => __('attributes.amount_requested'),
+            'other_fundings'                         => __('attributes.other_fundings'),
+            'total_expected_income'                  => __('attributes.total_expected_income'),
+            'total_expected_outcome'                 => __('attributes.total_expected_outcome'),
+            'applicationForm'                        => __('attributes.files.applicationForm'),
+            'financialForm'                          => __('attributes.files.financialForm'),
+            'additionalInformation'                  => __('attributes.files.additionalInformation'),
+            'otherAttachments'                       => __('attributes.files.otherAttachments'),
+        ];
+        // Add dynamic attributes
+        $dynamicAttributes = $projectCall->projectCallType->dynamic_attributes;
+        foreach ($dynamicAttributes as $attribute) {
+            $attributes['extra_attributes.' . $attribute['slug']] = $attribute['label'][app()->getLocale()];
+        }
+        return $attributes;
     }
 }

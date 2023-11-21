@@ -5,8 +5,10 @@ namespace App\Filament;
 use App\Models\ProjectCall;
 use App\Models\StudyField;
 use App\Settings\GeneralSettings;
+use App\Utils\MimeType;
 use Filament\Forms;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -16,16 +18,15 @@ class AgapeApplicationForm
     {
     }
 
-    public function buildForm(): Forms\Form
+    public function buildForm(): array
     {
-        return $this->form
-            ->schema([
-                Forms\Components\Hidden::make('project_call_id')->default($this->projectCall->id),
-                self::buildSection('general'),
-                self::buildSection('scientific'),
-                self::buildSection('budget'),
-                self::buildSection('files'),
-            ]);
+        return [
+            Forms\Components\Hidden::make('project_call_id')->default($this->projectCall->id),
+            self::buildSection('general'),
+            self::buildSection('scientific'),
+            self::buildSection('budget'),
+            self::buildSection('files'),
+        ];
     }
 
     public static function fieldsPerSection(): array
@@ -35,7 +36,7 @@ class AgapeApplicationForm
                 'acronym'      => __('attributes.acronym'),
                 'title'        => __('attributes.title'),
                 'carrier'      => __('attributes.carrier'),
-                'laboratories' => __('resources.laboratory_plural'),
+                'laboratories' => __('pages.apply.laboratories_partners'),
                 'studyFields'  => __('resources.study_field_plural'),
                 'keywords'     => __('attributes.keywords'),
             ],
@@ -77,7 +78,8 @@ class AgapeApplicationForm
 
         foreach ($fieldsWithLabels as $fieldName => $label) {
             $sectionFields->push(
-                $this->getField($fieldName)->label($label),
+                $this->getField($fieldName)
+                    ->label($label),
                 ...$dynamicFields
                     ->filter(fn ($field) => $field['after_field'] === $fieldName)
                     ->map(fn ($field) => $this->getDynamicField($field))
@@ -110,25 +112,32 @@ class AgapeApplicationForm
              */
             case 'acronym':
                 return Forms\Components\TextInput::make('acronym')
-                    ->columnSpan(['default' => 1, 'sm' => 2, 'lg' => 1]);
+                    ->columnSpan(['default' => 1, 'sm' => 2, 'lg' => 1])
+                    ->required();
             case 'title':
                 return Forms\Components\TextInput::make('title')
-                    ->columnSpan(['default' => 1, 'sm' => 2, 'lg' => 3]);
+                    ->columnSpan(['default' => 1, 'sm' => 2, 'lg' => 3])
+                    ->required();
             case 'carrier':
                 return Forms\Components\Fieldset::make('carrier')
                     ->columns(['default' => 1, 'sm' => 2, 'lg' => 3])
                     ->schema([
                         Forms\Components\TextInput::make('carrier.last_name')
-                            ->label(__('attributes.first_name')),
+                            ->label(__('attributes.first_name'))
+                            ->required(),
                         Forms\Components\TextInput::make('carrier.first_name')
-                            ->label(__('attributes.last_name')),
+                            ->label(__('attributes.last_name'))
+                            ->required(),
                         Forms\Components\TextInput::make('carrier.email')
                             ->label(__('attributes.email'))
+                            ->required()
                             ->email(),
                         Forms\Components\TextInput::make('carrier.phone')
-                            ->label(__('attributes.phone')),
+                            ->label(__('attributes.phone'))
+                            ->required(),
                         Forms\Components\TextInput::make('carrier.status')
-                            ->label(__('attributes.status')),
+                            ->label(__('attributes.carrier_status'))
+                            ->required(),
                     ]);
             case 'laboratories':
                 return Forms\Components\Fieldset::make('laboratories')
@@ -136,21 +145,32 @@ class AgapeApplicationForm
                     ->columnSpanFull()
                     ->schema([
                         Forms\Components\Repeater::make('applicationLaboratories')
-                            ->label(false)
-                            ->helperText(__('pages.apply.laboratories_help'))
-                            ->relationship()
+                            ->label(__('resources.laboratory_plural'))
+                            // ->helperText(__('pages.apply.laboratories_help'))
+                            ->relationship('applicationLaboratories')
+                            ->orderColumn('order')
+                            ->defaultItems(1)
+                            ->helperText(
+                                Str::of(__('pages.apply.laboratories_help', [
+                                    'count' => $this->projectCall->extra_attributes->number_of_laboratories
+                                ]))->toHtmlString()
+                            )
+                            ->mutateRelationshipDataBeforeSaveUsing(fn (array $data) => filled($data['laboratory_id'] ?? null) ? $data : null)
+                            ->mutateRelationshipDataBeforeCreateUsing(fn (array $data) => filled($data['laboratory_id'] ?? null) ? $data : null)
                             ->schema([
                                 Forms\Components\Select::make('laboratory_id')
-                                    ->label(false)
+                                    ->label(__('resources.laboratory'))
                                     ->relationship(
                                         name: 'laboratory',
                                         titleAttribute: 'name',
                                         modifyQueryUsing: fn (Builder $query) => $query->where(
-                                            fn (Builder $query) => $query->whereNull('creator_id')->orWhere('creator_id', Auth::id())
+                                            fn (Builder $query) => $query->mine()
                                         )
                                     )
                                     ->searchable()
                                     ->preload()
+                                    ->createOptionModalHeading(__('pages.apply.create_laboratory'))
+                                    ->editOptionModalHeading(__('pages.apply.edit_laboratory'))
                                     ->createOptionForm([
                                         Forms\Components\TextInput::make('name')
                                             ->label(__('attributes.name')),
@@ -162,8 +182,6 @@ class AgapeApplicationForm
                                         Forms\Components\TextInput::make('regency')
                                             ->label(__('attributes.regency')),
                                     ])
-                                    ->createOptionModalHeading(__('pages.apply.create_laboratory'))
-                                    ->editOptionModalHeading(__('pages.apply.edit_laboratory'))
                                     ->editOptionForm([
                                         Forms\Components\TextInput::make('name')
                                             ->label(__('attributes.name'))
@@ -178,15 +196,18 @@ class AgapeApplicationForm
                                             ->label(__('attributes.regency'))
                                             ->disabled(),
                                     ]),
+                                Forms\Components\TextInput::make('contact_name')
+                                    ->label(__('attributes.contact_name')),
                             ])
                             ->columnSpanFull()
+                            ->columns(['default' => 1, 'sm' => 2, 'lg' => 2])
                             ->reorderable()
-                            ->orderColumn('order')
                             ->reorderableWithButtons()
                             ->reorderableWithDragAndDrop(false)
                             ->addActionLabel(__('pages.apply.add_laboratory'))
-                            ->maxItems($this->projectCall->extra_attributes->number_of_laboratories)
-                            ->grid(['default' => 1, 'sm' => 2, 'lg' => 2]),
+                            ->required()
+                            ->minItems(1)
+                            ->maxItems($this->projectCall->extra_attributes->number_of_laboratories),
                         AgapeForm::richTextEditor('other_laboratories')
                             ->label(__('attributes.other_laboratories'))
                             ->columnSpanFull(),
@@ -200,15 +221,20 @@ class AgapeApplicationForm
                     ->default([''])
                     ->grid(3)
                     ->reorderable(false)
-                    ->columnSpanFull();
+                    ->columnSpanFull()
+                    ->required()
+                    ->minItems(1)
+                    ->maxItems($this->projectCall->extra_attributes->number_of_keywords);
                 /**
                  * SCIENTIFIC SECTION
                  */
             case 'short_description':
                 return AgapeForm::richTextEditor('short_description')
+                    ->required()
                     ->columnSpanFull();
             case 'summary.fr':
                 return AgapeForm::richTextEditor('summary.fr')
+                    ->required()
                     ->columnSpan([
                         'default' => 1,
                         'sm'      => 1,
@@ -216,6 +242,7 @@ class AgapeApplicationForm
                     ]);
             case 'summary.en':
                 return AgapeForm::richTextEditor('summary.en')
+                    ->required()
                     ->columnSpan([
                         'default' => 1,
                         'sm'      => 1,
@@ -223,18 +250,18 @@ class AgapeApplicationForm
                     ]);
             case 'studyFields':
                 return Forms\Components\Select::make('studyFields')
-                    ->helperText(__('pages.apply.study_fields_help'))
+                    ->helperText(__('pages.apply.study_fields_help', ['count' => $this->projectCall->extra_attributes->number_of_study_fields]))
                     ->multiple()
                     ->relationship(
                         name: 'studyFields',
-                        modifyQueryUsing: fn (Builder $query) => $query->where(
-                            fn (Builder $query) => $query->whereNull('creator_id')->orWhere('creator_id', Auth::id())
-                        )
+                        modifyQueryUsing: fn (Builder $query) => $query->mine()
                     )
                     ->getOptionLabelFromRecordUsing(fn (StudyField $record) => $record->name)
                     ->columnSpanFull()
                     ->searchable()
                     ->preload()
+                    ->required()
+                    ->minItems(1)
                     ->maxItems($this->projectCall->extra_attributes->number_of_study_fields)
                     ->createOptionForm([
                         AgapeForm::translatableFields($this->form, fn ($lang) => [
@@ -258,6 +285,7 @@ class AgapeApplicationForm
                     ->label(__('attributes.' . $name))
                     ->helperText($helperText)
                     ->numeric()
+                    ->required()
                     ->default(0)
                     ->minValue(0)
                     ->step(0.01)
@@ -276,6 +304,7 @@ class AgapeApplicationForm
             case 'otherAttachments':
                 $generalSettings = app(GeneralSettings::class);
                 $field = AgapeForm::fileField($name)
+                    ->required($name !== 'otherAttachments')
                     ->acceptedFileTypes(MimeType::getByExtensionList($generalSettings->{'extensions' . ucfirst($name)} ?? ''))
                     ->columnSpanFull();
                 if ($name === 'otherAttachments') {
@@ -296,8 +325,11 @@ class AgapeApplicationForm
         }
     }
 
-    public function getDynamicField(array $settings): ?Forms\Components\Field
+    public function getDynamicField(array $settings, string $prefix = 'extra_attributes.'): ?Forms\Components\Field
     {
+        if ($settings['repeatable'] ?? false) {
+            return $this->getRepeatableField($settings);
+        }
         $fieldClass = match ($settings['type']) {
             'text'     => Forms\Components\TextInput::class,
             'date'     => Forms\Components\DatePicker::class,
@@ -311,9 +343,11 @@ class AgapeApplicationForm
             return null;
         }
 
-        $field = $fieldClass::make($settings['slug'])
+        $field = $fieldClass::make($prefix . $settings['slug'])
             ->label($settings['label'][app()->getLocale()])
-            ->required($settings['required'] ?? false);
+            ->required($settings['required'] ?? false)
+            ->live()
+            /* ->helperText($settings['helper_text'][app()->getLocale()]) */;
 
         if (in_array($settings['type'], ['text'])) {
             $field = $field->minValue($settings['minValue'] ?? null)
@@ -322,22 +356,46 @@ class AgapeApplicationForm
 
         if (in_array($settings['type'], ['date'])) {
             $field = $field->minDate($settings['minValue'] ?? null)
-                ->maxDate($settings['maxValue'] ?? null);
+                ->maxDate($settings['maxValue'] ?? null)
+                ->format('Y-m-d');
         }
 
-        // TODO : handle select and checkbox
-
-        if ($settings['repeatable'] ?? false) {
-            $field = Forms\Components\Repeater::make($settings['slug'])
-                ->label($settings['label'][app()->getLocale()])
-                ->addActionLabel('+')
-                ->reorderable(false)
-                ->simple($field)
-                ->minItems($settings['minItems'] ?? null)
-                ->maxItems($settings['maxItems'] ?? null);
+        if ($settings['type'] === 'select') {
+            $field = $field
+                ->multiple($settings['multiple'] ?? false)
+                ->options(
+                    collect($settings['options'] ?? [])
+                        ->mapWithKeys(fn ($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray()
+                );
+        }
+        if ($settings['type'] === 'checkbox') {
+            $field = $field->options(
+                collect($settings['choices'] ?? [])
+                    ->mapWithKeys(fn ($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray()
+            )->descriptions(
+                collect($settings['choices'] ?? [])
+                    ->mapWithKeys(fn ($o) => [$o['value'] => $o['description'][app()->getLocale()]])->toArray()
+            );
         }
 
         return $field
+            ->columnSpanFull();
+    }
+
+    public function getRepeatableField(array $settings): ?Forms\Components\Repeater
+    {
+        $fieldSettings = Arr::except($settings, ['repeatable']);
+        $fieldSettings['slug'] = 'value';
+        $field = $this->getDynamicField($fieldSettings, '');
+        return Forms\Components\Repeater::make('extra_attributes.' . $settings['slug'])
+            ->label($settings['label'][app()->getLocale()])
+            ->addActionLabel('+')
+            ->reorderable(false)
+            ->defaultItems(1)
+            ->simple($field)
+            ->minItems($settings['minItems'] ?? null)
+            ->maxItems($settings['maxItems'] ?? null)
+            ->live()
             ->columnSpanFull();
     }
 }

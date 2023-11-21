@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('reference')->unique();
             $table->string('title')->nullable();
             $table->string('acronym')->nullable();
-            $table->text('theme')->nullable();
+            $table->json('carrier')->nullable();
             $table->text('short_description')->nullable();
             $table->json('summary')->nullable();
             $table->json('keywords')->nullable();
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->text('selection_comity_opinion')->nullable();
             $table->string('devalidation_message')->nullable();
             $table->schemalessAttributes('extra_attributes');
-            $table->foreignId('applicant_id')->nullable()->constrained('users')->onDelete('SET NULL');
+            $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
             $table->dateTime('submitted_at')->nullable();
             $table->timestamps();
         });
