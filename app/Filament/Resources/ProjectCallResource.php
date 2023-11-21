@@ -217,6 +217,7 @@ class ProjectCallResource extends Resource
                 Tables\Columns\TextColumn::make('applications_count')
                     ->counts('applications')
                     ->label(__('resources.application_plural'))
+                    ->url(fn (ProjectCall $record): string => route('filament.admin.resources.applications.index') . '?tableFilters[project_call_id][value]=' . $record->id)
                     ->sortable(),
                 AgapeTable::creatorColumn()
                     ->toggleable(isToggledHiddenByDefault: true),
