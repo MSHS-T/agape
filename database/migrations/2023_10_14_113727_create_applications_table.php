@@ -29,7 +29,7 @@ return new class extends Migration
             $table->float('total_expected_income')->nullable();
             $table->float('total_expected_outcome')->nullable();
             $table->text('selection_comity_opinion')->nullable();
-            $table->string('devalidation_message')->nullable();
+            $table->text('devalidation_message')->nullable();
             $table->schemalessAttributes('extra_attributes');
             $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
             $table->dateTime('submitted_at')->nullable();

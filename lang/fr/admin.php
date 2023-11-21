@@ -51,6 +51,17 @@ return [
     'notation_description' => 'Les critères seront présentés aux experts dans l\'ordre indiqué.',
     'files'                => 'Modèles de fichiers',
     'files_description'    => 'Ces modèles seront proposés au téléchargement aux candidats.',
+    'never'                => 'Jamais',
+
+    'application' => [
+        'status' => [
+            'draft'       => 'Brouillon',
+            'submitted'   => 'Soumise',
+            'devalidated' => 'Dévalidée',
+        ],
+        'unsubmit'     => 'Dévalider',
+        'force_submit' => 'Soumettre manuellement',
+    ],
 
     'settings' => [
         'title'    => 'Paramètres',

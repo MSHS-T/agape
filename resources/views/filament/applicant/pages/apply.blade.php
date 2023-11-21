@@ -5,7 +5,7 @@
                 {{ $projectCall->projectCallType->label_long }} - {{ $projectCall->year }}
             </h3>
             @if (filled($projectCall->title))
-                <p class="text-base leading-7 text-xl font-semibold text-gray-600 dark:text-gray-400 text-center">
+                <p class="leading-7 text-xl font-semibold text-gray-600 dark:text-gray-400 text-center">
                     {{ $projectCall->title }}
                 </p>
             @endif
@@ -53,6 +53,29 @@
             <div class="border-t border-gray-200 dark:border-gray-700"></div>
         </div>
     </div>
+
+    @if (blank($application->submitted_at) && filled($application->devalidation_message))
+        <div class="px-4 py-5 bg-red-300 dark:bg-red-900/50 sm:p-6 shadow sm:rounded-md">
+            <div class="grid grid-cols-1 gap-6">
+                <h4 class="leading-7 text-xl font-semibold text-gray-600 dark:text-gray-400">
+                    {{ __('pages.apply.devalidated_title') }} :
+                </h4>
+                <div
+                    class="mx-16 px-8 py-4 border-l-4 border-red-400 leading-7 text-lg !text-gray-600 !dark:text-gray-400">
+                    {!! $application->devalidation_message !!}
+                </div>
+                <p class="leading-5 text-base font-semibold italic text-gray-600 dark:text-gray-400">
+                    {{ __('pages.apply.devalidated_help') }}
+                </p>
+            </div>
+        </div>
+
+        <div class="hidden sm:block">
+            <div class="pt-2">
+                <div class="border-t border-gray-200 dark:border-gray-700"></div>
+            </div>
+        </div>
+    @endif
 
     <div class="mt-4 pb-12">
         {{ $this->form }}

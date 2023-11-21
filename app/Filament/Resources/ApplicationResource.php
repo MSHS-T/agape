@@ -2,15 +2,23 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\AgapeApplicationForm;
 use App\Filament\AgapeForm;
+use App\Filament\AgapeTable;
 use App\Filament\Resources\ApplicationResource\Pages;
 use App\Filament\Resources\ApplicationResource\RelationManagers;
 use App\Models\Application;
+use App\Models\ProjectCall;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ApplicationResource extends Resource
 {
@@ -21,116 +29,125 @@ class ApplicationResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('general')
-                    ->heading(__('pages.apply.sections.general'))
-                    ->collapsible()
-                    ->columns([
-                        'default' => 1,
-                        'sm'      => 2,
-                        'lg'      => 4,
-                    ])
-                    ->schema([
-                        Forms\Components\TextInput::make('reference')
-                            ->label(__('attributes.reference'))
-                            ->disabled()
-                            ->columnSpan([
-                                'default' => 1,
-                                'sm'      => 1,
-                                'lg'      => 2,
-                            ])
-                            ->required(),
-                        Forms\Components\TextInput::make('acronym')
-                            ->label(__('attributes.acronym'))
-                            ->columnSpan([
-                                'default' => 1,
-                                'sm'      => 1,
-                                'lg'      => 2,
-                            ])
-                            ->required(),
-                        Forms\Components\TextInput::make('title')
-                            ->label(__('attributes.title'))
-                            ->columnSpanFull()
-                            ->required(),
-                        Forms\Components\Fieldset::make(__('attributes.carrier'))
-                            ->schema([
-                                Forms\Components\TextInput::make('carrier.last_name')
-                                    ->label(__('attributes.first_name'))
-                                    ->default('')
-                                    ->required(),
-                                Forms\Components\TextInput::make('carrier.first_name')
-                                    ->label(__('attributes.last_name'))
-                                    ->default('')
-                                    ->required(),
-                                Forms\Components\TextInput::make('carrier.email')
-                                    ->label(__('attributes.email'))
-                                    ->default('')
-                                    ->email()
-                                    ->required(),
-                                Forms\Components\TextInput::make('carrier.phone')
-                                    ->label(__('attributes.phone'))
-                                    ->default('')
-                                    ->required(),
-                                Forms\Components\TextInput::make('carrier.status')
-                                    ->label(__('attributes.status'))
-                                    ->default('')
-                                    ->required(),
-                            ]),
-                        AgapeForm::richTextEditor('short_description')
-                            ->label(__('attributes.short_description'))
-                            ->columnSpanFull()
-                            ->required(),
-                        AgapeForm::richTextEditor('summary.fr')
-                            ->label(__('attributes.summary_fr'))
-                            ->columnSpan([
-                                'default' => 1,
-                                'sm'      => 1,
-                                'lg'      => 2,
-                            ])
-                            ->required(),
-                        AgapeForm::richTextEditor('summary.en')
-                            ->label(__('attributes.summary_en'))
-                            ->columnSpanFull()
-                            ->columnSpan([
-                                'default' => 1,
-                                'sm'      => 1,
-                                'lg'      => 2,
-                            ])
-                            ->required(),
-                        Forms\Components\Repeater::make('applicationLaboratories')
-                            ->label(__('resources.laboratory_plural'))
-                            ->helperText(__('pages.apply.laboratories_help'))
-                            ->relationship()
-                            ->schema([
-                                Forms\Components\Select::make('laboratory_id')
-                                    ->label(false)
-                                    ->relationship(name: 'laboratory', titleAttribute: 'name')
-                                    ->searchable()
-                                    ->preload()
-                            ])
-                            ->columnSpanFull()
-                            ->grid([
-                                'default' => 1,
-                                'sm'      => 2,
-                                'lg'      => 4,
-                            ])
-                    ])
-            ]);
+        return $form->schema([
+            ...(new AgapeApplicationForm($form->getRecord()->projectCall, $form))
+                ->buildForm()
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('projectCall.reference')
+                    ->label(__('resources.project_call'))
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('reference')
+                    ->label(__('attributes.reference'))
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('creator.last_name')
+                    ->label(__('admin.roles.applicant'))
+                    ->formatStateUsing(fn (Application $application) => $application->creator->name),
+                Tables\Columns\TextColumn::make('acronym')
+                    ->label(__('attributes.acronym'))
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('laboratories.0.name')
+                    ->label(__('attributes.main_laboratory'))
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('id')
+                    ->label(__('attributes.status'))
+                    ->icon(fn (Application $record): string => match (true) {
+                        filled($record->submitted_at)         => 'fas-check-circle',
+                        filled($record->devalidation_message) => 'fas-times-circle',
+                        default                               => 'fas-pen'
+                    })
+                    ->color(fn (Application $record): array => match (true) {
+                        filled($record->submitted_at)         => Color::Green,
+                        filled($record->devalidation_message) => Color::Red,
+                        default                               => Color::Gray
+                    })
+                    ->tooltip(fn (Application $record): string => match (true) {
+                        filled($record->submitted_at)         => __('admin.application.status.submitted'),
+                        filled($record->devalidation_message) => __('admin.application.status.devalidated'),
+                        default                               => __('admin.application.status.draft')
+                    }),
+                ...AgapeTable::timestampColumns(showModification: true),
+                Tables\Columns\TextColumn::make('submitted_at')
+                    ->label(__('attributes.submitted_at'))
+                    ->dateTime(__('misc.datetime_format'))
+                    ->placeholder(__('admin.never'))
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
             ])
             ->filters([
-                //
-            ])
+                Tables\Filters\SelectFilter::make('project_call_id')
+                    ->label(__('resources.project_call'))
+                    ->options(
+                        ProjectCall::all()->pluck('reference', 'id')->unique()->all()
+                    ),
+                Tables\Filters\SelectFilter::make('creator_id')
+                    ->label(__('admin.roles.applicant'))
+                    ->options(
+                        User::all()->pluck('name', 'id')->unique()->all()
+                    )->searchable(),
+                Tables\Filters\Filter::make('status')
+                    ->form([
+                        Forms\Components\Select::make('status')
+                            ->label(__('attributes.status'))
+                            ->options([
+                                'draft'       => __('admin.application.status.draft'),
+                                'submitted'   => __('admin.application.status.submitted'),
+                                'devalidated' => __('admin.application.status.devalidated'),
+                            ])->searchable()
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['status'] === 'draft',
+                                fn (Builder $query): Builder => $query->whereNull('submitted_at')->whereNull('devalidation_message'),
+                            )
+                            ->when(
+                                $data['status'] === 'submitted',
+                                fn (Builder $query): Builder => $query->whereNotNull('submitted_at'),
+                            )
+                            ->when(
+                                $data['status'] === 'devalidated',
+                                fn (Builder $query): Builder => $query->whereNull('submitted_at')->whereNotNull('devalidation_message'),
+                            );
+                    }),
+            ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('unsubmit')
+                    ->label(__('admin.application.unsubmit'))
+                    ->icon('fas-delete-left')
+                    ->color(Color::Red)
+                    ->hidden(fn (Application $record) => blank($record->submitted_at))
+                    ->disabled(fn (Application $record) => blank($record->submitted_at))
+                    ->form([
+                        AgapeForm::richTextEditor('devalidation_message')
+                            ->label(__('attributes.devalidation_message'))
+                            ->required(),
+                    ])
+                    ->modalSubmitActionLabel(__('admin.application.unsubmit'))
+                    ->modalFooterActionsAlignment(Alignment::Right)
+                    ->action(fn (array $data, Application $record) => $record->update([
+                        'devalidation_message' => $data['devalidation_message'],
+                        'submitted_at'         => null,
+                    ])),
+                Tables\Actions\Action::make('force_submit')
+                    ->label(__('admin.application.force_submit'))
+                    ->icon('fas-check-double')
+                    ->requiresConfirmation()
+                    ->color(Color::Lime)
+                    ->hidden(fn (Application $record) => filled($record->submitted_at))
+                    ->disabled(fn (Application $record) => filled($record->submitted_at))
+                    ->action(fn (Application $record) => $record->touch('submitted_at')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -150,7 +167,6 @@ class ApplicationResource extends Resource
     {
         return [
             'index' => Pages\ListApplications::route('/'),
-            'create' => Pages\CreateApplication::route('/create'),
             'view' => Pages\ViewApplication::route('/{record}'),
             'edit' => Pages\EditApplication::route('/{record}/edit'),
         ];

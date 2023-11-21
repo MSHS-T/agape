@@ -42,12 +42,15 @@ return [
     'carrier'                => 'Porteur/Coordinateur du projet',
     'carrier_status'         => 'Statut',
     'contact_name'           => 'Nom du contact',
+    'main_laboratory'        => 'Laboratoire porteur',
     'other_laboratories'     => 'Autres Laboratoires et Partenaires',
     'keywords'               => 'Mots-clés',
     'amount_requested'       => 'Montant demandé à la MSHS-T',
     'other_fundings'         => 'Total des co-financements',
     'total_expected_income'  => 'Budget prévisionnel total (recettes)',
     'total_expected_outcome' => 'Budget prévisionnel total (dépenses)',
+    'submitted_at'           => 'Date de soumission',
+    'devalidation_message'   => 'Raison de la dévalidation',
 
     // Project Call Type
     'label_long'         => 'Label long',

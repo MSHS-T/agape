@@ -20,7 +20,7 @@ class ProjectCallTypeResource extends Resource
     protected static ?string $model = ProjectCallType::class;
 
     protected static ?string $navigationIcon = 'fas-tags';
-    protected static ?int $navigationSort    = 50;
+    protected static ?int $navigationSort    = 30;
 
     public static function form(Form $form): Form
     {
@@ -29,7 +29,8 @@ class ProjectCallTypeResource extends Resource
                 Forms\Components\TextInput::make('reference')
                     ->label(__('attributes.reference'))
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->unique(table: ProjectCallType::class, ignoreRecord: true),
                 AgapeForm::translatableFields($form, fn ($lang) => [
                     Forms\Components\TextInput::make('label_long.' . $lang)
                         ->label(__('attributes.label_long'))
@@ -284,6 +285,6 @@ class ProjectCallTypeResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('admin.sections.projectcalls');
+        return __('admin.sections.data');
     }
 }
