@@ -7,7 +7,7 @@
 
 <div class="projectcall-card-candidate max-w-2xl rounded-3xl ring-1 ring-gray-200 flex flex-col items-stretch p-2"
     id="{{ $id }}">
-    <div class="flex-1 p-8 flex flex-col items-stretch">
+    <div class="flex-1 px-8 py-4 flex flex-col items-stretch">
         <div class="flex-1 flex flex-col justify-center">
             <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
                 {{ $projectCall->projectCallType->label_long }} - {{ $projectCall->year }}
@@ -18,16 +18,16 @@
                 </p>
             @endif
         </div>
-        <div class="mt-6 flex items-center gap-x-4">
+        <div class="flex items-center gap-x-4">
             <div class="h-px flex-auto bg-gray-100 dark:bg-gray-700"></div>
             <h4 class="flex-none text-sm font-semibold leading-6 text-indigo-600">
                 {{ __('pages.dashboard.planning') }}
             </h4>
             <div class="h-px flex-auto bg-gray-100 dark:bg-gray-700"></div>
         </div>
-        <div class="flex justify-center py-4">
+        <div class="flex justify-center py-2">
             <ul role="list"
-                class="grid grid-cols-3 auto-cols-min gap-4 text-sm leading-6 text-gray-600 dark:text-gray-300 sm:gap-x-6 sm:gap-y-4 items-center">
+                class="grid grid-cols-3 auto-cols-min gap-2 text-sm leading-6 text-gray-600 dark:text-gray-300 sm:gap-x-6 sm:gap-y-2 items-center">
                 <span class="text-center text-indigo-600">
                     {{ __('resources.application') }}
                 </span>
@@ -56,7 +56,7 @@
         </div>
     </div>
     <div
-        class="h-24 w-full rounded-2xl bg-gray-50 dark:bg-gray-700 text-center ring-1 ring-inset ring-gray-900/5 flex justify-center items-center space-x-4">
+        class="py-4 w-full rounded-2xl bg-gray-50 dark:bg-gray-700 text-center ring-1 ring-inset ring-gray-900/5 flex justify-center items-center space-x-4">
         @if ($projectCall->canApply())
             <x-filament.project-call-display-modal :projectCall="$projectCall" />
             @if (blank($application))
@@ -82,7 +82,7 @@
             @endif
         @endif
         @if (filled($application))
-            <a href="#"
+            <a href="{{ route('filament.applicant.pages.apply', ['projectCall' => $projectCall]) }}"
                 class="block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
                 {{ __('pages.dashboard.candidate.view_application') }}
             </a>

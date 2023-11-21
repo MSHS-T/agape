@@ -33,7 +33,8 @@ return [
         'planning'          => 'Calendrier',
         'view_project_call' => 'Voir l\'Appel à Projets',
         'candidate'         => [
-            'subtitle'            => 'Appels à projets en cours',
+            'open_calls'          => 'Appels à projets en cours',
+            'past_calls'          => 'Appels à projets passés',
             'no_open_calls'       => 'Aucun appel en cours',
             'create_application'  => 'Candidater',
             'edit_application'    => 'Modifier ma candidature',

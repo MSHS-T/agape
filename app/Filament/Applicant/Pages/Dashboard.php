@@ -14,6 +14,7 @@ class Dashboard extends Page
     protected static ?int $navigationSort    = 10;
 
     public array $openCalls = [];
+    public array $pastCalls = [];
 
     public function mount(): void
     {
@@ -25,7 +26,15 @@ class Dashboard extends Page
         $this->openCalls = ProjectCall::with(['projectCallType', 'applications' => function ($query) {
             $query->mine();
         }])
-            ->open()
+            ->applicationsOpen()
+            ->get()
+            ->filter(fn (ProjectCall $projectCall) => $projectCall->showForApplicant())
+            ->all();
+        $this->pastCalls = ProjectCall::with(['projectCallType', 'applications' => function ($query) {
+            $query->mine();
+        }])
+            ->applicationsPast()
+            ->userHasApplied()
             ->get()
             ->filter(fn (ProjectCall $projectCall) => $projectCall->showForApplicant())
             ->all();

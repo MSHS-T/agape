@@ -222,20 +222,21 @@ class ProjectCall extends Model implements HasMedia, WithCreator
     /**
      * SCOPES
      */
-    public function scopeOpen(Builder $query)
+    public function scopeApplicationsOpen(Builder $query)
     {
-        return $query->where('application_start_date', '<=', now());
+        return $query->where('application_start_date', '<=', now())
+            ->where('application_end_date', '>=', now());
     }
 
-    public function scopeOld(Builder $query)
+    public function scopeApplicationsPast(Builder $query)
     {
-        return $query->where('evaluation_end_date', '<', \Carbon\Carbon::parse('today')->format('Y-m-d'));
+        return $query->where('application_end_date', '<=', now());
     }
 
-    public function scopeUserApplied(Builder $query)
+    public function scopeUserHasApplied(Builder $query)
     {
         return $query->whereHas('applications', function (Builder $query) {
-            $query->where('applicant_id', '=', Auth::id());
+            $query->where('creator_id', '=', Auth::id());
         });
     }
 }

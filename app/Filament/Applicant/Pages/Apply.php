@@ -86,7 +86,7 @@ class Apply extends Page implements HasForms
             Action::make(__('pages.apply.back'))
                 ->icon('fas-arrow-left')
                 ->color('secondary')
-                ->requiresConfirmation(fn (Component $livewire) => !$livewire->isDirty())
+                ->requiresConfirmation(fn (Component $livewire) => $livewire->isDirty())
                 ->action(function () {
                     return redirect()->route('filament.applicant.pages.dashboard');
                 }),
