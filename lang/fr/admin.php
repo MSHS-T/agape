@@ -79,6 +79,7 @@ return [
             'defaultNumberOfLaboratories'  => 'Laboratoires',
             'defaultNumberOfStudyFields'   => 'Champs disciplinaires',
             'defaultNumberOfKeywords'      => 'Mots-clés',
+            'enableBudgetIncomeOutcome'    => 'Champs de budget prévisionnel total (recettes & dépenses)',
             'applicationForm'              => 'Formulaire de Candidature',
             'financialForm'                => 'Formulaire Financier',
             'additionalInformation'        => 'Informations complémentaires',

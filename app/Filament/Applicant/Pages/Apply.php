@@ -93,6 +93,7 @@ class Apply extends Page implements HasForms
             Action::make(__('pages.apply.save'))
                 ->icon('fas-save')
                 ->color('primary')
+                ->hidden(filled($this->application->submitted_at))
                 ->action(function (Component $livewire) {
                     $livewire->resetErrorBag();
                     $this->saveDraft();
@@ -100,6 +101,7 @@ class Apply extends Page implements HasForms
             Action::make(__('pages.apply.submit'))
                 ->icon('fas-paper-plane')
                 ->color('success')
+                ->hidden(filled($this->application->submitted_at))
                 // ->disabled(fn (Component $livewire) => $livewire->isDirty())
                 // ->tooltip(__('pages.apply.submit_disabled'))
                 ->requiresConfirmation(fn (Component $livewire) => !$livewire->isDirty())
@@ -183,6 +185,7 @@ class Apply extends Page implements HasForms
             throw \Illuminate\Validation\ValidationException::withMessages([]);
         }
         $formData = $this->form->getRawState();
+
         $validator = Validator::make(
             $formData,
             ApplicationRuleset::rules($this->projectCall),
@@ -193,14 +196,24 @@ class Apply extends Page implements HasForms
             $errors = collect($validator->errors()->messages())
                 ->mapWithKeys(fn ($messages, $key) => ['data.' . $key => $messages])->all();
             $this->dispatch('close-modal', id: "{$this->getId()}-form-component-action");
+
             Notification::make()
                 ->title(__('pages.apply.submit_error'))
                 ->danger()
                 ->send();
             throw \Illuminate\Validation\ValidationException::withMessages($errors);
         }
-        // $this->application->save();
-        // $this->loadProjectCall($this->projectCall->fresh());
+        $this->application->touch('submitted_at');
+        $this->application->update([
+            'devalidation_message' => null,
+        ]);
+
+        Notification::make()
+            ->title(__('pages.apply.submit_success'))
+            ->success()
+            ->send();
+
+        $this->loadProjectCall($this->projectCall->id);
     }
 
     public function isDirty(): bool

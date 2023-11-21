@@ -11,6 +11,8 @@ class GeneralSettings extends Settings
     public int $defaultNumberOfStudyFields;
     public int $defaultNumberOfKeywords;
 
+    public bool $enableBudgetIncomeOutcome;
+
     public bool $enableApplicationForm;
     public bool $enableFinancialForm;
     public bool $enableAdditionalInformation;

@@ -31,6 +31,21 @@ class AgapeApplicationForm
 
     public static function fieldsPerSection(): array
     {
+        $generalSettings = app(GeneralSettings::class);
+        $budgetFields = [
+            'amount_requested'       => __('attributes.amount_requested'),
+            'other_fundings'         => __('attributes.other_fundings'),
+        ];
+        if ($generalSettings->enableBudgetIncomeOutcome) {
+            $budgetFields = array_merge(
+                $budgetFields,
+                [
+                    'total_expected_income'  => __('attributes.total_expected_income'),
+                    'total_expected_outcome' => __('attributes.total_expected_outcome'),
+                ]
+            );
+        }
+
         return [
             'general'    => [
                 'acronym'      => __('attributes.acronym'),
@@ -45,12 +60,7 @@ class AgapeApplicationForm
                 'summary.fr'        => __('attributes.summary_fr'),
                 'summary.en'        => __('attributes.summary_en'),
             ],
-            'budget'     => [
-                'amount_requested'       => __('attributes.amount_requested'),
-                'other_fundings'         => __('attributes.other_fundings'),
-                'total_expected_income'  => __('attributes.total_expected_income'),
-                'total_expected_outcome' => __('attributes.total_expected_outcome'),
-            ],
+            'budget'     => $budgetFields,
             'files'      => [
                 'applicationForm'       => __('attributes.files.applicationForm'),
                 'financialForm'         => __('attributes.files.financialForm'),

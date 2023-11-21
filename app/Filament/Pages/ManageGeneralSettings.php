@@ -80,6 +80,9 @@ class ManageGeneralSettings extends SettingsPage
                                     ->integer()
                                     ->minValue(1),
                             ]),
+                        Toggle::make('enableBudgetIncomeOutcome')
+                            ->label(__('admin.settings.fields.enableBudgetIncomeOutcome'))
+                            ->live(),
                         ...$files->map(fn ($fileName) => Fieldset::make($fileName)
                             ->label(__('admin.settings.fields.' . $fileName))
                             ->columns(['sm' => 1, 'md' => 2])

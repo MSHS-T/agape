@@ -16,45 +16,47 @@ class Application
         $maxNumberOfStudyFields = $projectCall->extra_attributes->get("number_of_study_fields", null);
         $maxNumberOfDocuments = $projectCall->extra_attributes->get("number_of_documents", null);
         $rules = [
-            'title'                                               => 'required|string|max:255',
-            'acronym'                                             => 'required|string|max:255',
-            'carrier.first_name'                                  => 'required|string|max:255',
-            'carrier.last_name'                                   => 'required|string|max:255',
-            'carrier.email'                                       => 'required|string|max:255|email',
-            'carrier.phone'                                       => 'required|string|max:255',
-            'carrier.status'                                      => 'required|string|max:255',
-            'applicationLaboratories'                             => ['required', 'array', 'min:1', filled($maxNumberOfLaboratories) ? 'max:' . $maxNumberOfLaboratories : null],
-            'applicationLaboratories.*.laboratory.id'             => 'required|exists:laboratories,id',
-            'applicationLaboratories.*.laboratory.name'           => 'required|max:255',
-            'applicationLaboratories.*.laboratory.unit_code'      => 'required|max:255',
-            'applicationLaboratories.*.laboratory.director_email' => 'required|max:255|email',
-            'applicationLaboratories.*.laboratory.regency'        => 'required|max:255',
-            'applicationLaboratories.*.contact_name'              => 'required|max:255',
-            'studyFields'                                        => ['required', 'array', 'min:1', filled($maxNumberOfStudyFields) ? 'max:' . $maxNumberOfStudyFields : null],
-            'studyFields.*.id'                                   => 'required|exists:study_fields,id',
-            'summary.fr'                                          => 'required',
-            'summary.en'                                          => 'required',
-            'keywords'                                            => array_filter(['required', 'array', 'min:1', filled($maxNumberOfKeywords) ? 'max:' . $maxNumberOfKeywords : null]),
-            'keywords.*'                                          => 'max:100',
-            'short_description'                                   => 'required',
-            'amount_requested'                                    => 'required|numeric|min:0',
-            'other_fundings'                                      => 'required|numeric|min:0',
-            // TODO : use settings to determine if these fields are required
-            'total_expected_income'                               => 'required|numeric|min:0',
-            'total_expected_outcome'                              => 'required|numeric|min:0',
-            'applicationForm'                                     => $generalSettings->enableApplicationForm
+            'title'                                    => 'required|string|max:255',
+            'acronym'                                  => 'required|string|max:255',
+            'carrier.first_name'                       => 'required|string|max:255',
+            'carrier.last_name'                        => 'required|string|max:255',
+            'carrier.email'                            => 'required|string|max:255|email',
+            'carrier.phone'                            => 'required|string|max:255',
+            'carrier.status'                           => 'required|string|max:255',
+            'applicationLaboratories'                  => ['required', 'array', 'min:1', filled($maxNumberOfLaboratories) ? 'max:' . $maxNumberOfLaboratories : null],
+            // 'laboratories.*.laboratory.id'             => 'required|exists:laboratories,id',
+            // 'laboratories.*.laboratory.name'           => 'required|max:255',
+            // 'laboratories.*.laboratory.unit_code'      => 'required|max:255',
+            // 'laboratories.*.laboratory.director_email' => 'required|max:255|email',
+            // 'laboratories.*.laboratory.regency'        => 'required|max:255',
+            // 'laboratories.*.contact_name'              => 'required|max:255',
+            'studyFields'                             => ['required', 'array', 'min:1', filled($maxNumberOfStudyFields) ? 'max:' . $maxNumberOfStudyFields : null],
+            // 'study_fields.*.id'                        => 'required|exists:study_fields,id',
+            'summary.fr'                               => 'required',
+            'summary.en'                               => 'required',
+            'keywords'                                 => array_filter(['required', 'array', 'min:1', filled($maxNumberOfKeywords) ? 'max:' . $maxNumberOfKeywords : null]),
+            'keywords.*'                               => 'max:100',
+            'short_description'                        => 'required',
+            'amount_requested'                         => 'required|numeric|min:0',
+            'other_fundings'                           => 'required|numeric|min:0',
+            'applicationForm'                          => $generalSettings->enableApplicationForm
                 ? 'required|array|min:1'
                 : 'prohibited',
-            'financialForm'                                       => $generalSettings->enableFinancialForm
+            'financialForm'                            => $generalSettings->enableFinancialForm
                 ? 'required|array|min:1'
                 : 'prohibited',
-            'additionalInformation'                               => $generalSettings->enableAdditionalInformation
+            'additionalInformation'                    => $generalSettings->enableAdditionalInformation
                 ? 'required|array|min:1'
                 : 'prohibited',
-            'otherAttachments'                                    => $generalSettings->enableOtherAttachments
+            'otherAttachments'                         => $generalSettings->enableOtherAttachments
                 ? ['array', 'min:0', filled($maxNumberOfDocuments) ? 'max:' . $maxNumberOfDocuments : null]
                 : 'prohibited',
         ];
+        // Use settings to determine if these fields are required
+        if ($generalSettings->enableBudgetIncomeOutcome) {
+            $rules['total_expected_income']  = 'required|numeric|min:0';
+            $rules['total_expected_outcome'] = 'required|numeric|min:0';
+        }
         // Add rules for dynamic attributes
         $dynamicAttributes = $projectCall->projectCallType->dynamic_attributes;
         foreach ($dynamicAttributes as $attribute) {

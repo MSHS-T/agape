@@ -71,8 +71,9 @@ return [
         'amount_requested_help'   => 'Vous devrez joindre un budget précis et détaillé dans le formulaire financier à attacher dans la section 4',
         'other_fundings_help'     => '(ou autres soutiens financiers)',
         'other_attachments_help'  => ':count fichiers maximum',
-        'devalidated_title'             => 'Votre candidature a été dévalidée par le gestionnaire de la plateforme pour la raison suivante',
-        'devalidated_help'             => 'Veuillez rectifier les points mentionnés ci-dessus avant de la soumettre à nouveau.',
+        'devalidated_title'       => 'Votre candidature a été dévalidée par le gestionnaire de la plateforme pour la raison suivante',
+        'devalidated_help'        => 'Veuillez rectifier les points mentionnés ci-dessus avant de la soumettre à nouveau.',
+        'submitted'               => 'Votre candidature a été soumise pour évaluation et ne peut plus être modifiée.',
 
         'back'                       => 'Retour',
         'save'                       => 'Enregistrer le brouillon',

@@ -77,6 +77,22 @@
         </div>
     @endif
 
+    @if (filled($application->submitted_at))
+        <div class="px-4 py-5 bg-green-300 dark:bg-green-900/50 sm:p-6 shadow sm:rounded-md">
+            <div class="grid grid-cols-1 gap-6">
+                <h4 class="leading-7 text-xl font-semibold text-gray-600 dark:text-gray-400">
+                    {{ __('pages.apply.submitted') }}
+                </h4>
+            </div>
+        </div>
+
+        <div class="hidden sm:block">
+            <div class="pt-2">
+                <div class="border-t border-gray-200 dark:border-gray-700"></div>
+            </div>
+        </div>
+    @endif
+
     <div class="mt-4 pb-12">
         {{ $this->form }}
     </div>

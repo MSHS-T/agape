@@ -143,7 +143,7 @@ class Application extends Model implements HasMedia
     {
         static::saving(function ($application) {
             // Clean data before saving
-            $application->keywords = array_filter($application->keywords, fn ($k) => filled($k));
+            $application->keywords = collect($application->keywords)->filter()->flatten()->values()->all();
         });
 
         // When creating, generate reference
