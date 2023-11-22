@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocaleChangeController;
 use App\Livewire\ProjectCallApplication;
@@ -21,6 +22,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/locale/{locale}', LocaleChangeController::class)->name('locale-change');
+Route::view('/contact', 'contact')->name('contact');
+Route::post('/send-contact', ContactController::class)->name('send-contact');
+Route::view('/legal', 'legal')->name('legal');
 
 Route::middleware([
     'auth:sanctum',

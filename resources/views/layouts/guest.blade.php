@@ -41,6 +41,15 @@
             <x-dark-mode-switcher />
             <x-language-switcher />
         </div>
+        <div class="absolute inset-x-0 bottom-0 flex flex-col items-center text-sm py-4">
+            <div class="flex items-center justify-center space-x-4">
+                <span>
+                    &copy; {{ config('app.name') }} 2018-{{ date('Y') }}
+                </span>
+                <a href="{{ route('contact') }}">{{ __('pages.contact.title') }}</a>
+                <a href="{{ route('legal') }}">{{ __('pages.legal') }}</a>
+            </div>
+        </div>
     </div>
 
     @livewireScripts

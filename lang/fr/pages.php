@@ -5,6 +5,15 @@ return [
         'back' => 'Retour',
     ],
 
+    'legal'   => 'Mentions Légales',
+    'contact' => [
+        'title'                 => 'Contact',
+        'oversight_affiliation' => 'Tutelle de Rattachement',
+        'message'               => 'Message',
+        'send'                  => 'Envoyer le message',
+        'contact_sent'          => 'Message envoyé avec succès !',
+    ],
+
     'login' => [
         'title'       => 'Bienvenue sur AGAPE<br/>Veuillez vous connecter',
         'remember_me' => 'Se souvenir de moi',

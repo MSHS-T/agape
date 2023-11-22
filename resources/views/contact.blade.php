@@ -1,0 +1,57 @@
+<x-guest-layout>
+    <x-authentication-card>
+        <x-slot name="logo">
+            <x-authentication-card-logo />
+        </x-slot>
+
+        <x-slot name="title">
+            {!! __('pages.contact.title') !!}
+        </x-slot>
+
+        <x-validation-errors class="mb-4" />
+
+        @if (session('success'))
+            <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('send-contact') }}">
+            @csrf
+
+            <div>
+                <x-label for="name" value="{{ __('attributes.name') }}" />
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
+                    autofocus autocomplete="name" />
+            </div>
+
+            <div class="mt-6">
+                <x-label for="email" value="{{ __('attributes.email') }}" />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                    required autocomplete="email" />
+            </div>
+
+            <div class="mt-6">
+                <x-label for="oversight_affiliation" value="{{ __('pages.contact.oversight_affiliation') }}" />
+                <x-input id="oversight_affiliation" class="block mt-1 w-full" type="text"
+                    name="oversight_affiliation" :value="old('oversight_affiliation')" />
+            </div>
+
+            <div class="mt-6">
+                <x-label for="message" value="{{ __('pages.contact.message') }}" />
+                <textarea rows="4" id="message" name="message" required
+                    class="block mt-1 w-full py-1.5 border-0 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 dark:focus:ring-indigo-600 rounded-md shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+            </div>
+
+            <div class="mt-6 flex flex-col justify-center items-center space-y-2">
+                <x-button type="submit" color="primary" class="w-full">
+                    {{ __('pages.contact.send') }}
+                </x-button>
+                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                    href="{{ route('home') }}">
+                    {{ __('pages.generic.back') }}
+                </a>
+            </div>
+        </form>
+    </x-authentication-card>
+</x-guest-layout>
