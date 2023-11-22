@@ -26,7 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         if (App::isLocal() && !App::runningInConsole()) {
             // $this->app['auth']->setUser(User::role('administrator')->first());
-            $this->app['auth']->setUser(User::role('applicant')->first());
+            // $this->app['auth']->setUser(User::role('applicant')->first());
+            $this->app['auth']->setUser(User::role('expert')->first());
         }
     }
 }

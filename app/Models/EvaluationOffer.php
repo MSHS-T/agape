@@ -5,10 +5,12 @@ namespace App\Models;
 use App\Models\Contracts\WithCreator;
 use App\Models\Traits\HasCreator;
 use App\Models\Traits\HasSchemalessAttributes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * App\Models\EvaluationOffer
@@ -92,5 +94,33 @@ class EvaluationOffer extends Model implements WithCreator
     public function evaluation(): HasOne
     {
         return $this->hasOne(Evaluation::class);
+    }
+
+    /**
+     * SCOPES
+     */
+    public function scopeAffectedToMe(Builder $query)
+    {
+        return $query->where('expert_id', Auth::id());
+    }
+
+    public function scopePendingReply(Builder $query)
+    {
+        return $query->whereNull('accepted');
+    }
+
+    public function scopeAccepted(Builder $query)
+    {
+        return $query->where('accepted', true);
+    }
+
+    public function scopeEvaluationPending(Builder $query)
+    {
+        return $query->whereHas('evaluation', fn (Builder $query) => $query->whereNull('submitted_at'));
+    }
+
+    public function scopeEvaluationDone(Builder $query)
+    {
+        return $query->whereHas('evaluation', fn (Builder $query) => $query->whereNotNull('submitted_at'));
     }
 }

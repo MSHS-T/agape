@@ -15,6 +15,7 @@ return new class extends Migration
 
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('evaluation_offer_id')->constrained('evaluation_offers')->cascadeOnDelete();
             $table->unsignedTinyInteger('grade1');
             $table->unsignedTinyInteger('grade2');
             $table->unsignedTinyInteger('grade3');
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->text('comment2');
             $table->text('comment3');
             $table->text('global_comment');
+            $table->dateTime('submitted_at')->nullable();
             $table->timestamps();
         });
 

@@ -16,34 +16,7 @@ class HomeController extends Controller
             return redirect()->route('filament.admin.pages.dashboard');
         }
         if (Auth::user()->hasRole('expert')) {
-            // $offers = EvaluationOffer::where('accepted', null)
-            //     ->where('expert_id', Auth::id())
-            //     ->openCalls()
-            //     ->get();
-            // $accepted = EvaluationOffer::where('accepted', true)
-            //     ->openCalls()
-            //     ->where('expert_id', Auth::id())
-            //     ->whereDoesntHave('evaluation', function (Builder $query) {
-            //         $query->whereNotNull('submitted_at')
-            //             ->orWhereNotNull('devalidation_message');
-            //     })
-            //     ->get();
-            // $done = EvaluationOffer::with('evaluation')
-            //     ->where('accepted', true)
-            //     ->where('expert_id', Auth::id())
-            //     ->whereHas('evaluation', function (Builder $query) {
-            //         $query->whereNotNull('submitted_at');
-            //     })
-            //     ->get();
-            // $unsubmitted = EvaluationOffer::with('evaluation')
-            //     ->where('accepted', true)
-            //     ->where('expert_id', Auth::id())
-            //     ->whereHas('evaluation', function (Builder $query) {
-            //         $query->whereNull('submitted_at')->whereNotNull('devalidation_message');
-            //     })
-            //     ->get();
-            // $data = compact('offers', 'accepted', 'done', 'unsubmitted');
-            $data = [];
+            return redirect()->route('filament.expert.pages.dashboard');
         } else {
             return redirect()->route('filament.applicant.pages.dashboard');
         }

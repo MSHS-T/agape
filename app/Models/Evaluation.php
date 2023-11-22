@@ -64,7 +64,8 @@ class Evaluation extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id'           => 'integer',
+        'submitted_at' => 'datetime',
     ];
 
     public function evaluationOffer(): BelongsTo
