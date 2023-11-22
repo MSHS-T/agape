@@ -28,4 +28,8 @@ return [
     // Users
     'user'        => 'Utilisateur',
     'user_plural' => 'Utilisateurs',
+
+    // Invitations
+    'invitation'        => 'Invitation',
+    'invitation_plural' => 'Invitations',
 ];

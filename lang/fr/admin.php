@@ -31,6 +31,14 @@ return [
         'invitation_success'         => 'L\'invitation a été envoyée avec succès.',
     ],
 
+    'invitations' => [
+        'invitations_title' => 'Invitations en attente',
+        'last_mail'         => 'Date de dernier envoi',
+        'retry_count'       => 'Nombre de relances',
+        'retry'             => 'Renvoyer',
+        'cancel'            => 'Annuler',
+    ],
+
     'translatable_fields' => [
         'title'       => 'Champs multilingues',
         'description' => 'Les valeurs affichées pour ces champs seront celles dans la langue choisie par l\'utilisateur.<br/>Attention de bien saisir les valeurs pour toutes les langues configurées dans l\'application !',

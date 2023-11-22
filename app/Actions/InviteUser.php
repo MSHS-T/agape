@@ -10,8 +10,6 @@ class InviteUser
 {
     public static function handle(string $email, string $role, array $projectCallTypes = [], string $lang = null): ?Invitation
     {
-        ray($email, $role, $projectCallTypes, $lang);
-
         if (Role::where('name', $role)->first() === null) {
             throw new \InvalidArgumentException("Role '$role' does not exist");
         }

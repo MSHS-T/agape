@@ -7,6 +7,7 @@ use App\Models\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * App\Models\Invitation
@@ -55,4 +56,14 @@ class Invitation extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public function retry()
+    {
+        $this->extra_attributes->retry_count = ($this->extra_attributes->retry_count ?? 0) + 1;
+        $this->extra_attributes->retries = array_merge(
+            $this->extra_attributes->retries ?? [],
+            ['at' => now()->toDateTimeString(), 'by' => Auth::id()]
+        );
+        $this->save();
+    }
 }

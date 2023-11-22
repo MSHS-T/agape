@@ -16,16 +16,16 @@ class AgapeTable
             ->sortable();
     }
 
-    public static function timestampColumns(bool $showCreation = false, bool $showModification = false)
+    public static function timestampColumns(bool $showCreation = false, bool $showModification = false, string $creationLabel = 'attributes.created_at', string $modificationLabel = 'attributes.updated_at')
     {
         return [
             TextColumn::make('created_at')
-                ->label(__('attributes.created_at'))
+                ->label(__($creationLabel))
                 ->dateTime(__('misc.datetime_format'))
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: !$showCreation),
             TextColumn::make('updated_at')
-                ->label(__('attributes.updated_at'))
+                ->label(__($modificationLabel))
                 ->dateTime(__('misc.datetime_format'))
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: !$showModification),

@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Invitation;
 use App\Notifications\UserInvitation;
+use App\Notifications\UserInvitationRetry;
 use Illuminate\Support\Facades\Auth;
 
 class InvitationObserver
@@ -23,12 +24,6 @@ class InvitationObserver
     public function updated(Invitation $invitation): void
     {
         // Send UserInvitationRetry notification
-        $invitation->extra_attributes->retries = array_merge(
-            $invitation->extra_attributes->retries ?? [],
-            ['at' => now()->toDateTimeString(), 'by' => Auth::id()]
-        );
-        $invitation->saveQuietly();
-
-        $invitation->notify(new UserInvitation($invitation));
+        $invitation->notify((new UserInvitationRetry($invitation))->locale($invitation->extra_attributes->lang));
     }
 }
