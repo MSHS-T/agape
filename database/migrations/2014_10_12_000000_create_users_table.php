@@ -22,6 +22,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamp('last_active_at')->nullable();
             $table->timestamps();
+            $table->schemalessAttributes('extra_attributes');
             $table->softDeletes();
         });
     }

@@ -14,6 +14,10 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
+            @if (request()->has('invitation'))
+                <x-input id="invitation" class="block mt-1 w-full" type="hidden" name="invitation" :value="request()->get('invitation')" />
+            @endif
+
             <div>
                 <x-label for="first_name" value="{{ __('fields.user.first_name') }}" />
                 <x-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')"
@@ -83,7 +87,7 @@
                     {{ __('pages.register.login') }}
                 </a>
 
-                <x-button class="ml-4">
+                <x-button type="submit" class="ml-4">
                     {{ __('pages.register.register') }}
                 </x-button>
             </div>

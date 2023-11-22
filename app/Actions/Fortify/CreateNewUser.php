@@ -2,7 +2,9 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Invitation;
 use App\Models\User;
+use App\Notifications\UserInvitationSignup;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -23,15 +25,38 @@ class CreateNewUser implements CreatesNewUsers
             'first_name' => ['required', 'string', 'max:255'],
             'last_name'  => ['required', 'string', 'max:255'],
             'email'      => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'invitation' => ['sometimes', 'string', 'exists:invitations,invitation'],
             'password'   => $this->passwordRules(),
-            'terms'      => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'first_name' => $input['first_name'],
             'last_name'  => $input['last_name'],
             'email'      => $input['email'],
             'password'   => Hash::make($input['password']),
         ]);
+
+        /** @var User $user */
+
+        $invitationCode = $input['invitation'] ?? null;
+        if (filled($invitationCode)) {
+            $invitation = Invitation::where('invitation', $invitationCode)->firstOrFail();
+
+            $user->assignRole($invitation->extra_attributes->role);
+            $user->projectCallTypes()->sync($invitation->extra_attributes->project_call_types ?? []);
+
+            $creator = User::find($invitation->creator_id ?? null);
+            if (filled($creator)) {
+                /** @var User $creator */
+                $user->extra_attributes->invited_by = [
+                    'id'   => $invitation->creator_id,
+                    'name' => $invitation->creator->name,
+                ];
+                $user->save();
+                $creator->notify(new UserInvitationSignup($invitation, $user));
+            }
+        }
+
+        return $user;
     }
 }

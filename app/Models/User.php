@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasSchemalessAttributes;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
@@ -74,6 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 {
     use HasRoles;
     use HasFactory;
+    use HasSchemalessAttributes;
     // use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
