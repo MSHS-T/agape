@@ -4,12 +4,17 @@ namespace App\Models;
 
 use App\Models\Traits\HasCreator;
 use App\Models\Traits\HasSchemalessAttributes;
+use App\Notifications\ApplicationForceSubmitted;
+use App\Notifications\ApplicationSubmittedAdmins;
+use App\Notifications\ApplicationSubmittedApplicant;
+use App\Notifications\ApplicationUnsubmitted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
@@ -201,6 +206,18 @@ class Application extends Model implements HasMedia
         $this->submitted_at = now();
         $this->devalidation_message = null;
         $this->save();
+
+        if ($force) {
+            $this->creator->notify(new ApplicationForceSubmitted($this));
+        } else {
+            $this->creator->notify(new ApplicationSubmittedApplicant($this));
+            $users = $this->projectCall->projectCallType->managers
+                ->concat(User::role('administrator')->get());
+            Notification::send(
+                $users,
+                new ApplicationSubmittedAdmins($this)
+            );
+        }
     }
 
     public function unsubmit(string $message)
@@ -208,5 +225,6 @@ class Application extends Model implements HasMedia
         $this->submitted_at = null;
         $this->devalidation_message = $message;
         $this->save();
+        $this->creator->notify(new ApplicationUnsubmitted($this));
     }
 }

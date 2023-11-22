@@ -239,4 +239,10 @@ class ProjectCall extends Model implements HasMedia, WithCreator
             $query->where('creator_id', '=', Auth::id());
         });
     }
+
+    public function toString()
+    {
+        return (sprintf("%s %d", $this->projectCallType->label_short, $this->year)
+            . (!empty($this->title) ? " (" . $this->title . ")" : ""));
+    }
 }
