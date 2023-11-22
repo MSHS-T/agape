@@ -136,10 +136,7 @@ class ApplicationResource extends Resource
                     ])
                     ->modalSubmitActionLabel(__('admin.application.unsubmit'))
                     ->modalFooterActionsAlignment(Alignment::Right)
-                    ->action(fn (array $data, Application $record) => $record->update([
-                        'devalidation_message' => $data['devalidation_message'],
-                        'submitted_at'         => null,
-                    ])),
+                    ->action(fn (array $data, Application $record) => $record->unsubmit($data['devalidation_message'])),
                 Tables\Actions\Action::make('force_submit')
                     ->label(__('admin.application.force_submit'))
                     ->icon('fas-check-double')
@@ -147,7 +144,7 @@ class ApplicationResource extends Resource
                     ->color(Color::Lime)
                     ->hidden(fn (Application $record) => filled($record->submitted_at))
                     ->disabled(fn (Application $record) => filled($record->submitted_at))
-                    ->action(fn (Application $record) => $record->touch('submitted_at')),
+                    ->action(fn (Application $record) => $record->submit(force: true)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

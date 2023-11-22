@@ -165,25 +165,13 @@ class Application extends Model implements HasMedia
         });
     }
 
+    /**
+     * RELATIONSHIPS
+     */
     public function projectCall(): BelongsTo
     {
         return $this->belongsTo(ProjectCall::class);
     }
-
-    // public function carrier(): BelongsTo
-    // {
-    //     return $this->belongsTo(Carrier::class);
-    // }
-
-    // public function applicant(): BelongsTo
-    // {
-    //     return $this->belongsTo(User::class, 'applicant_id');
-    // }
-
-    // public function applicationStudyFields(): HasMany
-    // {
-    //     return $this->hasMany(ApplicationStudyField::class);
-    // }
 
     public function studyFields(): BelongsToMany
     {
@@ -203,5 +191,22 @@ class Application extends Model implements HasMedia
     public function evaluationOffers(): HasMany
     {
         return $this->hasMany(EvaluationOffer::class);
+    }
+
+    /**
+     * HELPERS
+     */
+    public function submit(bool $force = false)
+    {
+        $this->submitted_at = now();
+        $this->devalidation_message = null;
+        $this->save();
+    }
+
+    public function unsubmit(string $message)
+    {
+        $this->submitted_at = null;
+        $this->devalidation_message = $message;
+        $this->save();
     }
 }

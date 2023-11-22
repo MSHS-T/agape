@@ -203,10 +203,7 @@ class Apply extends Page implements HasForms
                 ->send();
             throw \Illuminate\Validation\ValidationException::withMessages($errors);
         }
-        $this->application->touch('submitted_at');
-        $this->application->update([
-            'devalidation_message' => null,
-        ]);
+        $this->application->submit();
 
         Notification::make()
             ->title(__('pages.apply.submit_success'))
