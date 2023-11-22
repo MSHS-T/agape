@@ -19,10 +19,16 @@ return [
     ],
 
     'users' => [
-        'blocked_filter' => 'Etat de blocage',
-        'all'            => 'Tous',
-        'unblocked'      => 'Non Bloqués',
-        'blocked'        => 'Bloqués',
+        'blocked_filter'             => 'Etat de blocage',
+        'all'                        => 'Tous',
+        'unblocked'                  => 'Non Bloqués',
+        'blocked'                    => 'Bloqués',
+        'invite_user'                => 'Inviter un utilisateur',
+        'invitation_language'        => 'Langue de l\'invitation',
+        'invitation_language_all'    => 'Toutes',
+        'invitation_duplicate_email' => 'L\'email saisi est déjà présent dans la base de données des utilisateurs ou des invitations.',
+        'invitation_error'           => 'Une erreur est survenue lors de l\'envoi de l\'invitation :',
+        'invitation_success'         => 'L\'invitation a été envoyée avec succès.',
     ],
 
     'translatable_fields' => [

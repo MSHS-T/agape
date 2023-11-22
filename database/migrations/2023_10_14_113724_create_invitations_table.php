@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('invitation')->unique();
             $table->string('email');
+            $table->foreignId('creator_id')->nullable()->constrained('users');
             $table->schemalessAttributes('extra_attributes');
             $table->timestamps();
         });

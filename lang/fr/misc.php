@@ -20,5 +20,10 @@ return [
     'clipboard' => [
         'link'    => 'Copier dans le presse-papiers',
         'tooltip' => 'Copié !',
+    ],
+
+    'locales' => [
+        'fr' => 'Français',
+        'en' => 'Anglais',
     ]
 ];

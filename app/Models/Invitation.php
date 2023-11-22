@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasCreator;
 use App\Models\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * App\Models\Invitation
@@ -30,6 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Invitation extends Model
 {
+    use Notifiable;
+    use HasCreator;
     use HasFactory;
     use HasSchemalessAttributes;
 

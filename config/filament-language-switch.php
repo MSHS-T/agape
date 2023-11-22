@@ -37,8 +37,8 @@ return [
     */
 
     'locales' => [
-        'en' => ['name' => 'English', 'script' => 'Latn', 'native' => 'English', 'flag_code' => 'gb'],
-        'fr' => ['name' => 'French', 'script' => 'Latn', 'native' => 'Français', 'flag_code' => 'fr'],
+        'en' => ['name' => 'Anglais', 'script' => 'Latn', 'native' => 'English', 'flag_code' => 'gb'],
+        'fr' => ['name' => 'Français', 'script' => 'Latn', 'native' => 'Français', 'flag_code' => 'fr'],
 
         //'ace'         => ['name' => 'Achinese',               'script' => 'Latn', 'native' => 'Aceh', 'flag_code' => ''],
         // 'af'          => ['name' => 'Afrikaans',              'script' => 'Latn', 'native' => 'Afrikaans', 'flag_code' => ''],
