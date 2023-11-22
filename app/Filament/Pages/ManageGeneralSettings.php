@@ -83,6 +83,12 @@ class ManageGeneralSettings extends SettingsPage
                         Toggle::make('enableBudgetIncomeOutcome')
                             ->label(__('admin.settings.fields.enableBudgetIncomeOutcome'))
                             ->live(),
+                        TextInput::make('forbiddenDomains')
+                            ->label(__('admin.settings.fields.forbiddenDomains'))
+                            ->inlineLabel()
+                            ->columnSpanFull()
+                            ->required()
+                            ->regex('/^(?:\s*[\w.-]+\.[a-zA-Z]{2,}\s*(?:,\s*|$))+$/'),
                         ...$files->map(fn ($fileName) => Fieldset::make($fileName)
                             ->label(__('admin.settings.fields.' . $fileName))
                             ->columns(['sm' => 1, 'md' => 2])

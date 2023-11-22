@@ -94,6 +94,7 @@ return [
             'defaultNumberOfStudyFields'   => 'Champs disciplinaires',
             'defaultNumberOfKeywords'      => 'Mots-clés',
             'enableBudgetIncomeOutcome'    => 'Champs de budget prévisionnel total (recettes & dépenses)',
+            'forbiddenDomains'             => 'Domaines d\'email interdits pour les inscriptions',
             'applicationForm'              => 'Formulaire de Candidature',
             'financialForm'                => 'Formulaire Financier',
             'additionalInformation'        => 'Informations complémentaires',

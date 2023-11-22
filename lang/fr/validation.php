@@ -216,6 +216,9 @@ return [
     ],
 
     'custom' => [
+        'email' => [
+            'forbidden_domain' => 'Votre addresse e-mail doit être une adresse professionnelle.'
+        ],
         'laboratories' => [
             'min' => 'Vous devez choisir au minimum 1 laboratoire',
             'max' => 'Vous ne pouvez pas choisir plus de 5 laboratoires',

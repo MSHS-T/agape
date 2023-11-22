@@ -5,6 +5,7 @@ namespace App\Actions\Fortify;
 use App\Models\Invitation;
 use App\Models\User;
 use App\Notifications\UserInvitationSignup;
+use App\Rules\EmailNotInForbiddenDomains;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -24,7 +25,7 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name'  => ['required', 'string', 'max:255'],
-            'email'      => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email'      => ['required', 'string', 'email', 'max:255', 'unique:users', new EmailNotInForbiddenDomains],
             'invitation' => ['sometimes', 'string', 'exists:invitations,invitation'],
             'password'   => $this->passwordRules(),
         ])->validate();
