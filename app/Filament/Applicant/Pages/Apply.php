@@ -93,7 +93,7 @@ class Apply extends Page implements HasForms
             Action::make(__('pages.apply.save'))
                 ->icon('fas-save')
                 ->color('primary')
-                ->hidden(filled($this->application->submitted_at))
+                ->hidden(!$this->projectCall->canApply() || filled($this->application->submitted_at))
                 ->action(function (Component $livewire) {
                     $livewire->resetErrorBag();
                     $this->saveDraft();
@@ -101,7 +101,7 @@ class Apply extends Page implements HasForms
             Action::make(__('pages.apply.submit'))
                 ->icon('fas-paper-plane')
                 ->color('success')
-                ->hidden(filled($this->application->submitted_at))
+                ->hidden(!$this->projectCall->canApply() || filled($this->application->submitted_at))
                 // ->disabled(fn (Component $livewire) => $livewire->isDirty())
                 // ->tooltip(__('pages.apply.submit_disabled'))
                 ->requiresConfirmation(fn (Component $livewire) => !$livewire->isDirty())

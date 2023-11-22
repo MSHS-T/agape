@@ -54,7 +54,10 @@
         </div>
     </div>
 
-    @if (blank($application->submitted_at) && filled($application->devalidation_message))
+    @if (
+        $application->projectCall->canApply() &&
+            blank($application->submitted_at) &&
+            filled($application->devalidation_message))
         <div class="px-4 py-5 bg-red-300 dark:bg-red-900/50 sm:p-6 shadow sm:rounded-md">
             <div class="grid grid-cols-1 gap-6">
                 <h4 class="leading-7 text-xl font-semibold text-gray-600 dark:text-gray-400">
@@ -77,7 +80,7 @@
         </div>
     @endif
 
-    @if (filled($application->submitted_at))
+    @if ($application->projectCall->canApply() && filled($application->submitted_at))
         <div class="px-4 py-5 bg-green-300 dark:bg-green-900/50 sm:p-6 shadow sm:rounded-md">
             <div class="grid grid-cols-1 gap-6">
                 <h4 class="leading-7 text-xl font-semibold text-gray-600 dark:text-gray-400">

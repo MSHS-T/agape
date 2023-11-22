@@ -24,19 +24,19 @@ class Dashboard extends Page
     public function loadData()
     {
         $this->openCalls = ProjectCall::with(['projectCallType', 'applications' => function ($query) {
-            $query->mine();
+            $query->mine()->submitted();
         }])
             ->applicationsOpen()
             ->get()
             ->filter(fn (ProjectCall $projectCall) => $projectCall->showForApplicant())
             ->all();
         $this->pastCalls = ProjectCall::with(['projectCallType', 'applications' => function ($query) {
-            $query->mine();
+            $query->mine()->submitted();
         }])
             ->applicationsPast()
             ->userHasApplied()
             ->get()
-            ->filter(fn (ProjectCall $projectCall) => $projectCall->showForApplicant())
+            ->filter(fn (ProjectCall $projectCall) => $projectCall->applications->isNotEmpty())
             ->all();
     }
 

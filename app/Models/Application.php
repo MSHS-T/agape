@@ -8,6 +8,7 @@ use App\Notifications\ApplicationForceSubmitted;
 use App\Notifications\ApplicationSubmittedAdmins;
 use App\Notifications\ApplicationSubmittedApplicant;
 use App\Notifications\ApplicationUnsubmitted;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -226,5 +227,13 @@ class Application extends Model implements HasMedia
         $this->devalidation_message = $message;
         $this->save();
         $this->creator->notify(new ApplicationUnsubmitted($this));
+    }
+
+    /**
+     * SCOPES
+     */
+    public function scopeSubmitted(Builder $query)
+    {
+        return $query->whereNotNull('submitted_at');
     }
 }
