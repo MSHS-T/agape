@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -169,5 +170,30 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     public function projectCallTypes(): BelongsToMany
     {
         return $this->belongsToMany(ProjectCallType::class);
+    }
+
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class, 'creator_id');
+    }
+
+    public function evaluationOffers(): HasMany
+    {
+        return $this->hasMany(EvaluationOffer::class, 'creator_id');
+    }
+
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(Invitation::class, 'creator_id');
+    }
+
+    public function laboratories(): HasMany
+    {
+        return $this->hasMany(Laboratory::class, 'creator_id');
+    }
+
+    public function studyFields(): HasMany
+    {
+        return $this->hasMany(StudyField::class, 'creator_id');
     }
 }
