@@ -76,6 +76,9 @@ class EvaluationOffer extends Model implements WithCreator
         'invitation_id' => 'integer',
     ];
 
+    /**
+     * RELATIONS
+     */
     public function application(): BelongsTo
     {
         return $this->belongsTo(Application::class);
@@ -122,5 +125,20 @@ class EvaluationOffer extends Model implements WithCreator
     public function scopeEvaluationDone(Builder $query)
     {
         return $query->whereHas('evaluation', fn (Builder $query) => $query->whereNotNull('submitted_at'));
+    }
+
+    /**
+     * HELPER METHODS
+     */
+    public function retry()
+    {
+        $this->extra_attributes->retry_count = ($this->extra_attributes->retry_count ?? 0) + 1;
+        $this->extra_attributes->retries = array_merge(
+            $this->extra_attributes->retries ?? [],
+            [['at' => now()->toDateTimeString(), 'by' => Auth::id()]]
+        );
+        $this->save();
+        // Send EvaluationOfferRetry notification
+        // $invitation->notify((new UserInvitationRetry($invitation))->locale($invitation->extra_attributes->lang));
     }
 }

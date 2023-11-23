@@ -66,15 +66,45 @@ return [
     'files'                => 'Modèles de fichiers',
     'files_description'    => 'Ces modèles seront proposés au téléchargement aux candidats.',
     'never'                => 'Jamais',
+    'unsubmit'             => 'Dévalider',
+    'force_submit'         => 'Soumettre manuellement',
+    'submission_status'    => [
+        'draft'       => 'Brouillon',
+        'submitted'   => 'Soumise',
+        'devalidated' => 'Dévalidée',
+    ],
 
     'application' => [
-        'status' => [
-            'draft'       => 'Brouillon',
-            'submitted'   => 'Soumise',
-            'devalidated' => 'Dévalidée',
+        'offers'       => 'Experts (:count)',
+        'evaluations'  => 'Évaluations (:count)',
+    ],
+
+    'evaluation_offer' => [
+        'list_title'        => 'Offres d\'évaluation pour la candidature :application',
+        'rejection_title'   => 'Offre d\'évaluation refusée pour la raison suivante :',
+        'status'            => [
+            'accepted' => 'Acceptée',
+            'rejected' => 'Refusée',
+            'pending'  => 'En attente',
         ],
-        'unsubmit'     => 'Dévalider',
-        'force_submit' => 'Soumettre manuellement',
+        'retries'     => 'Relances',
+        'retry'       => 'Envoyer un rappel',
+        'cancel'      => 'Annuler',
+        'show_reason' => 'Raison du refus',
+    ],
+
+    'evaluation' => [
+        'list_title' => 'Évaluations pour la candidature :application',
+        'show_title' => 'Évaluation de la candidature :application par :expert',
+        'status'     => [
+            'accepted' => 'Acceptée',
+            'rejected' => 'Refusée',
+            'pending'  => 'En attente',
+        ],
+        'retries'     => 'Relances',
+        'retry'       => 'Envoyer un rappel',
+        'cancel'      => 'Annuler',
+        'show_reason' => 'Raison du refus',
     ],
 
     'settings' => [

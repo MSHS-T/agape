@@ -15,12 +15,13 @@ return new class extends Migration
 
         Schema::create('evaluation_offers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('application_id')->constrained('applications')->cascadeOnDelete();
+            $table->foreignId('expert_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('invitation_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('accepted')->nullable();
-            $table->text('justification');
+            $table->text('justification')->nullable();
             $table->schemalessAttributes('extra_attributes');
-            $table->foreignId('creator_id')->nullable()->constrained('users');
-            $table->foreignId('expert_id')->nullable()->constrained('users');
-            $table->foreignId('invitation_id')->nullable()->constrained();
+            $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
 

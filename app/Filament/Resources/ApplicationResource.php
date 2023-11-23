@@ -8,6 +8,7 @@ use App\Filament\AgapeTable;
 use App\Filament\Resources\ApplicationResource\Pages;
 use App\Filament\Resources\ApplicationResource\RelationManagers;
 use App\Models\Application;
+use App\Models\EvaluationOffer;
 use App\Models\ProjectCall;
 use App\Models\User;
 use Filament\Forms;
@@ -58,30 +59,9 @@ class ApplicationResource extends Resource
                     ->label(__('attributes.main_laboratory'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('id')
-                    ->label(__('attributes.status'))
-                    ->icon(fn (Application $record): string => match (true) {
-                        filled($record->submitted_at)         => 'fas-check-circle',
-                        filled($record->devalidation_message) => 'fas-times-circle',
-                        default                               => 'fas-pen'
-                    })
-                    ->color(fn (Application $record): array => match (true) {
-                        filled($record->submitted_at)         => Color::Green,
-                        filled($record->devalidation_message) => Color::Red,
-                        default                               => Color::Gray
-                    })
-                    ->tooltip(fn (Application $record): string => match (true) {
-                        filled($record->submitted_at)         => __('admin.application.status.submitted'),
-                        filled($record->devalidation_message) => __('admin.application.status.devalidated'),
-                        default                               => __('admin.application.status.draft')
-                    }),
+                AgapeTable::submissionStatusColumn(),
                 ...AgapeTable::timestampColumns(showModification: true),
-                Tables\Columns\TextColumn::make('submitted_at')
-                    ->label(__('attributes.submitted_at'))
-                    ->dateTime(__('misc.datetime_format'))
-                    ->placeholder(__('admin.never'))
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                AgapeTable::submittedAtColumn()
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('project_call_id')
@@ -123,34 +103,21 @@ class ApplicationResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('unsubmit')
-                    ->label(__('admin.application.unsubmit'))
-                    ->icon('fas-delete-left')
-                    ->color(Color::Red)
-                    ->hidden(fn (Application $record) => blank($record->submitted_at))
-                    ->disabled(fn (Application $record) => blank($record->submitted_at))
-                    ->form([
-                        AgapeForm::richTextEditor('devalidation_message')
-                            ->label(__('attributes.devalidation_message'))
-                            ->required(),
-                    ])
-                    ->modalSubmitActionLabel(__('admin.application.unsubmit'))
-                    ->modalFooterActionsAlignment(Alignment::Right)
-                    ->action(fn (array $data, Application $record) => $record->unsubmit($data['devalidation_message'])),
-                Tables\Actions\Action::make('force_submit')
-                    ->label(__('admin.application.force_submit'))
-                    ->icon('fas-check-double')
-                    ->requiresConfirmation()
+                Tables\Actions\Action::make('offers')
+                    ->label(fn (Application $record) => __('admin.application.offers', ['count' => $record->evaluationOffers->count()]))
+                    ->url(fn (Application $record) => route('filament.admin.resources.applications.offers', ['record' => $record]))
                     ->color(Color::Lime)
-                    ->hidden(fn (Application $record) => filled($record->submitted_at))
-                    ->disabled(fn (Application $record) => filled($record->submitted_at))
-                    ->action(fn (Application $record) => $record->submit(force: true)),
+                    ->icon('fas-user-tie')
+                    ->hidden(fn (Application $record) => blank($record->submitted_at)),
+                Tables\Actions\Action::make('evaluations')
+                    ->label(fn (Application $record) => __('admin.application.evaluations', ['count' => $record->evaluations->count()]))
+                    ->url(fn (Application $record) => route('filament.admin.resources.applications.evaluations', ['record' => $record]))
+                    ->color(Color::Green)
+                    ->icon('fas-file-signature')
+                    ->hidden(fn (Application $record) => blank($record->submitted_at)),
+                ...AgapeTable::submissionActions()
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array
@@ -163,9 +130,11 @@ class ApplicationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListApplications::route('/'),
-            'view' => Pages\ViewApplication::route('/{record}'),
-            'edit' => Pages\EditApplication::route('/{record}/edit'),
+            'index'       => Pages\ListApplications::route('/'),
+            'view'        => Pages\ViewApplication::route('/{record}'),
+            'edit'        => Pages\EditApplication::route('/{record}/edit'),
+            'offers'      => Pages\ListEvaluationOffers::route('/{record}/offers'),
+            'evaluations' => Pages\ListEvaluations::route('/{record}/evaluations'),
         ];
     }
 

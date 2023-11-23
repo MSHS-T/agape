@@ -67,7 +67,9 @@ class InvitationResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    // TODO : bulk retry
+                    // TODO : bulk cancel
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

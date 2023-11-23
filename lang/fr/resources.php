@@ -14,8 +14,8 @@ return [
     'application_plural' => 'Candidatures',
 
     // Evaluation
-    'evaluation'        => 'Expertise',
-    'evaluation_plural' => 'Expertises',
+    'evaluation'        => 'Évaluation',
+    'evaluation_plural' => 'Évaluations',
 
     // Laboratory
     'laboratory'        => 'Laboratoire',

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Contracts\WithSubmission;
 use App\Models\Traits\HasCreator;
 use App\Models\Traits\HasSchemalessAttributes;
+use App\Models\Traits\HasSubmission;
 use App\Notifications\ApplicationForceSubmitted;
 use App\Notifications\ApplicationSubmittedAdmins;
 use App\Notifications\ApplicationSubmittedApplicant;
@@ -14,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Spatie\MediaLibrary\HasMedia;
@@ -85,13 +89,14 @@ use Spatie\Translatable\HasTranslations;
  * @method static \Illuminate\Database\Eloquent\Builder|Application withExtraAttributes()
  * @mixin \Eloquent
  */
-class Application extends Model implements HasMedia
+class Application extends Model implements HasMedia, WithSubmission
 {
     use HasCreator;
     use HasFactory;
     use InteractsWithMedia;
     use HasSchemalessAttributes;
     use HasTranslations;
+    use HasSubmission;
 
     /**
      * The attributes that are mass assignable.
@@ -114,7 +119,6 @@ class Application extends Model implements HasMedia
         'selection_comity_opinion',
         'devalidation_message',
         'applicant_id',
-        'submitted_at',
         'extra_attributes',
     ];
 
@@ -132,7 +136,6 @@ class Application extends Model implements HasMedia
         'total_expected_income'  => 'float',
         'total_expected_outcome' => 'float',
         'applicant_id'           => 'integer',
-        'submitted_at'           => 'datetime',
     ];
 
     /**
@@ -199,41 +202,24 @@ class Application extends Model implements HasMedia
         return $this->hasMany(EvaluationOffer::class);
     }
 
-    /**
-     * HELPERS
-     */
-    public function submit(bool $force = false)
+    public function evaluations(): HasManyThrough
     {
-        $this->submitted_at = now();
-        $this->devalidation_message = null;
-        $this->save();
-
-        if ($force) {
-            $this->creator->notify(new ApplicationForceSubmitted($this));
-        } else {
-            $this->creator->notify(new ApplicationSubmittedApplicant($this));
-            $users = $this->projectCall->projectCallType->managers
-                ->concat(User::role('administrator')->get());
-            Notification::send(
-                $users,
-                new ApplicationSubmittedAdmins($this)
-            );
-        }
+        return $this->hasManyThrough(Evaluation::class, EvaluationOffer::class);
     }
 
-    public function unsubmit(string $message)
+    public function getSubmissionNotification(string $name): ?string
     {
-        $this->submitted_at = null;
-        $this->devalidation_message = $message;
-        $this->save();
-        $this->creator->notify(new ApplicationUnsubmitted($this));
+        return [
+            'submittedUser'   => ApplicationSubmittedApplicant::class,
+            'submittedAdmins' => ApplicationSubmittedAdmins::class,
+            'unsubmitted'     => ApplicationUnsubmitted::class,
+            'forceSubmitted'  => ApplicationForceSubmitted::class,
+        ][$name] ?? null;
     }
 
-    /**
-     * SCOPES
-     */
-    public function scopeSubmitted(Builder $query)
+    public function resolveAdmins(): Collection|array
     {
-        return $query->whereNotNull('submitted_at');
+        return $this->projectCall->projectCallType->managers
+            ->concat(User::role('administrator')->get());
     }
 }

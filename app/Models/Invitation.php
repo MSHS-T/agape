@@ -62,7 +62,7 @@ class Invitation extends Model
         $this->extra_attributes->retry_count = ($this->extra_attributes->retry_count ?? 0) + 1;
         $this->extra_attributes->retries = array_merge(
             $this->extra_attributes->retries ?? [],
-            ['at' => now()->toDateTimeString(), 'by' => Auth::id()]
+            [['at' => now()->toDateTimeString(), 'by' => Auth::id()]]
         );
         $this->save();
     }

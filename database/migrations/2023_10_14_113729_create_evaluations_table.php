@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('comment2');
             $table->text('comment3');
             $table->text('global_comment');
+            $table->text('devalidation_message')->nullable();
             $table->dateTime('submitted_at')->nullable();
             $table->timestamps();
         });

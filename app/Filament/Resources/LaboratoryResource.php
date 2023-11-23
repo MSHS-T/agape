@@ -70,13 +70,10 @@ class LaboratoryResource extends Resource
                 //
             ])
             ->actions([
+                // TODO : Make public action
                 Tables\Actions\EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array

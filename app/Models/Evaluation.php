@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Contracts\WithSubmission;
+use App\Models\Traits\HasSubmission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\Evaluation
@@ -38,9 +41,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Evaluation whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Evaluation extends Model
+class Evaluation extends Model implements WithSubmission
 {
     use HasFactory;
+    use HasSubmission;
 
     /**
      * The attributes that are mass assignable.
@@ -65,11 +69,28 @@ class Evaluation extends Model
      */
     protected $casts = [
         'id'           => 'integer',
-        'submitted_at' => 'datetime',
     ];
 
     public function evaluationOffer(): BelongsTo
     {
         return $this->belongsTo(EvaluationOffer::class);
+    }
+
+
+    public function getSubmissionNotification(string $name): ?string
+    {
+        return [
+            // TODO : fix notifications
+            // 'submittedUser'   => ApplicationSubmittedApplicant::class,
+            // 'submittedAdmins' => ApplicationSubmittedAdmins::class,
+            // 'unsubmitted'     => ApplicationUnsubmitted::class,
+            // 'forceSubmitted'  => ApplicationForceSubmitted::class,
+        ][$name] ?? null;
+    }
+
+    public function resolveAdmins(): Collection|array
+    {
+        return $this->evaluationOffer->application->projectCall->projectCallType->managers
+            ->concat(User::role('administrator')->get());
     }
 }
