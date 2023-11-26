@@ -128,6 +128,7 @@ class ProjectCall extends Model implements HasMedia, WithCreator
         'application_end_date'   => 'date',
         'evaluation_start_date'  => 'date',
         'evaluation_end_date'    => 'date',
+        'notation'               => 'array',
     ];
 
     public $translatable = [
@@ -137,7 +138,6 @@ class ProjectCall extends Model implements HasMedia, WithCreator
         'invite_email',
         'help_experts',
         'help_candidates',
-        'notation',
     ];
 
     public static function booted()

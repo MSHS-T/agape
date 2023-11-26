@@ -52,14 +52,12 @@ class Evaluation extends Model implements WithSubmission
      * @var array
      */
     protected $fillable = [
-        'grade1',
-        'grade2',
-        'grade3',
+        'notation',
+        'grades',
         'global_grade',
-        'comment1',
-        'comment2',
-        'comment3',
+        'comments',
         'global_comment',
+        'devalidation_message',
     ];
 
     /**
@@ -68,7 +66,9 @@ class Evaluation extends Model implements WithSubmission
      * @var array
      */
     protected $casts = [
-        'id'           => 'integer',
+        'notation' => 'array',
+        'grades'   => 'array',
+        'comments' => 'array',
     ];
 
     public function evaluationOffer(): BelongsTo

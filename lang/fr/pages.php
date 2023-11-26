@@ -49,6 +49,23 @@ return [
             'edit_application'    => 'Modifier ma candidature',
             'view_application'    => 'Visualiser ma candidature',
             'correct_application' => 'Corriger ma candidature',
+        ],
+        'expert'         => [
+            'open_offers'           => 'Propositions d\'évaluations',
+            'pending_evaluations'   => 'Évaluations en cours',
+            'past_evaluations'      => 'Évaluations passées',
+            'accept'                => 'Accepter',
+            'reject'                => 'Refuser',
+            'reason'                => 'Raison du refus',
+            'create_evaluation'     => 'Évaluer',
+            'edit_evaluation'       => 'Modifier l\'évaluation',
+            'view_evaluation'       => 'Visualiser l\'évaluation',
+            'correct_evaluation'    => 'Corriger l\'évaluation',
+            'evaluation_period'     => 'Période d\'évaluation',
+            'application_by'        => ':title, par :applicant',
+            'no_open_offer'         => 'Aucune proposition d\'évaluation',
+            'no_pending_evaluation' => 'Aucune évaluation en cours',
+            'no_past_evaluation'    => 'Aucune évaluation passée',
         ]
     ],
 
@@ -95,5 +112,32 @@ return [
         'submit_confirmation_button' => 'Valider',
         'submit_error'               => 'Votre candidature n\'a pas été pu être soumise pour évaluation, car certains champs présentent des erreurs. Veuillez corriger ces erreurs avant de recommencer.',
         'submit_success'             => 'Votre candidature a bien été soumise pour évaluation.',
+    ],
+
+    'evaluate' => [
+        'title_create'  => 'Évaluer la candidature',
+        'title_edit'    => 'Modifier l\'évaluation',
+        'title_correct' => 'Corriger l\'évaluation',
+
+        'criteria_description' => '<strong>Description du critère</strong>',
+        'grade'                => 'Note',
+        'global_grade'         => 'Note globale',
+        'comment'              => 'Commentaire',
+        'global_comment'       => 'Commentaire global',
+
+        'devalidated_title'       => 'Votre évaluation a été dévalidée par le gestionnaire de la plateforme pour la raison suivante',
+        'devalidated_help'        => 'Veuillez rectifier les points mentionnés ci-dessus avant de la soumettre à nouveau.',
+        'submitted'               => 'Votre évaluation a été soumise et ne peut plus être modifiée.',
+
+        'back'                       => 'Retour',
+        'save'                       => 'Enregistrer le brouillon',
+        'submit'                     => 'Soumettre l\'évaluation',
+        'save_success'               => 'Votre brouillon d\'évaluation a bien été enregistré.',
+        'save_before_submitting'     => 'Vous devez sauvegarder vos modifications avant de pouvoir soumettre votre évaluation.',
+        'submit_confirmation_title'  => 'Valider la soumission de l\'évaluation',
+        'submit_confirmation_text'   => 'Veuillez vous assurer que votre évaluation est complète avant de la soumettre. Cette action ne pourra pas être annulée.',
+        'submit_confirmation_button' => 'Valider',
+        'submit_error'               => 'Votre évaluation n\'a pas été pu être soumise pour évaluation, car certains champs présentent des erreurs. Veuillez corriger ces erreurs avant de recommencer.',
+        'submit_success'             => 'Votre évaluation a bien été soumise pour évaluation.',
     ]
 ];

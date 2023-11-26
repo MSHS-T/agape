@@ -16,14 +16,11 @@ return new class extends Migration
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('evaluation_offer_id')->constrained('evaluation_offers')->cascadeOnDelete();
-            $table->unsignedTinyInteger('grade1');
-            $table->unsignedTinyInteger('grade2');
-            $table->unsignedTinyInteger('grade3');
-            $table->unsignedTinyInteger('global_grade');
-            $table->text('comment1');
-            $table->text('comment2');
-            $table->text('comment3');
-            $table->text('global_comment');
+            $table->json('notation')->nullable();
+            $table->json('grades')->nullable();
+            $table->string('global_grade')->nullable();
+            $table->json('comments')->nullable();
+            $table->text('global_comment')->nullable();
             $table->text('devalidation_message')->nullable();
             $table->dateTime('submitted_at')->nullable();
             $table->timestamps();

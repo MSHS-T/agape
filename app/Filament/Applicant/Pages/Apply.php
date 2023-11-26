@@ -83,14 +83,16 @@ class Apply extends Page implements HasForms
     protected function buildActions(): Actions
     {
         return Actions::make([
-            Action::make(__('pages.apply.back'))
+            Action::make('back')
+                ->label(__('pages.apply.back'))
                 ->icon('fas-arrow-left')
                 ->color('secondary')
                 ->requiresConfirmation(fn (Component $livewire) => $livewire->isDirty())
                 ->action(function () {
                     return redirect()->route('filament.applicant.pages.dashboard');
                 }),
-            Action::make(__('pages.apply.save'))
+            Action::make('save')
+                ->label(__('pages.apply.save'))
                 ->icon('fas-save')
                 ->color('primary')
                 ->hidden(!$this->projectCall->canApply() || filled($this->application->submitted_at))
@@ -98,7 +100,8 @@ class Apply extends Page implements HasForms
                     $livewire->resetErrorBag();
                     $this->saveDraft();
                 }),
-            Action::make(__('pages.apply.submit'))
+            Action::make('submit')
+                ->label(__('pages.apply.submit'))
                 ->icon('fas-paper-plane')
                 ->color('success')
                 ->hidden(!$this->projectCall->canApply() || filled($this->application->submitted_at))

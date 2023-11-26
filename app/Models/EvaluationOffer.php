@@ -119,7 +119,10 @@ class EvaluationOffer extends Model implements WithCreator
 
     public function scopeEvaluationPending(Builder $query)
     {
-        return $query->whereHas('evaluation', fn (Builder $query) => $query->whereNull('submitted_at'));
+        return $query->where(function (Builder $query) {
+            $query->whereHas('evaluation', fn (Builder $query) => $query->whereNull('submitted_at'))
+                ->orWhereDoesntHave('evaluation');
+        });
     }
 
     public function scopeEvaluationDone(Builder $query)
@@ -138,7 +141,25 @@ class EvaluationOffer extends Model implements WithCreator
             [['at' => now()->toDateTimeString(), 'by' => Auth::id()]]
         );
         $this->save();
-        // Send EvaluationOfferRetry notification
+        // Send OfferRetry notification
+        // $invitation->notify((new UserInvitationRetry($invitation))->locale($invitation->extra_attributes->lang));
+    }
+
+    public function accept()
+    {
+        $this->accepted = true;
+        $this->justification = null;
+        $this->save();
+        // Send OfferAccepted notification
+        // $invitation->notify((new UserInvitationRetry($invitation))->locale($invitation->extra_attributes->lang));
+    }
+
+    public function reject(string $message)
+    {
+        $this->accepted = false;
+        $this->justification = $message;
+        $this->save();
+        // Send OfferRejected notification
         // $invitation->notify((new UserInvitationRetry($invitation))->locale($invitation->extra_attributes->lang));
     }
 }

@@ -6,6 +6,7 @@ use App\Models\ProjectCall;
 use App\Models\StudyField;
 use App\Settings\GeneralSettings;
 use App\Utils\MimeType;
+use Awcodes\FilamentTableRepeater\Components\TableRepeater;
 use Filament\Forms;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -14,7 +15,7 @@ use Illuminate\Support\Str;
 
 class AgapeApplicationForm
 {
-    public function __construct(protected ProjectCall $projectCall, protected Forms\Form $form)
+    public function __construct(protected ProjectCall $projectCall, protected Forms\Form $form, protected $forEvaluation = false)
     {
     }
 
@@ -154,7 +155,8 @@ class AgapeApplicationForm
                     ->columns(1)
                     ->columnSpanFull()
                     ->schema([
-                        Forms\Components\Repeater::make('applicationLaboratories')
+                        !$this->forEvaluation ?
+                            Forms\Components\Repeater::make('applicationLaboratories')
                             ->label(__('resources.laboratory_plural'))
                             // ->helperText(__('pages.apply.laboratories_help'))
                             ->relationship('applicationLaboratories')
@@ -217,7 +219,23 @@ class AgapeApplicationForm
                             ->addActionLabel(__('pages.apply.add_laboratory'))
                             ->required()
                             ->minItems(1)
-                            ->maxItems($this->projectCall->extra_attributes->number_of_laboratories),
+                            ->maxItems($this->projectCall->extra_attributes->number_of_laboratories)
+                            :
+                            TableRepeater::make('laboratories')
+                            ->label(__('resources.laboratory_plural'))
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label(__('attributes.name')),
+                                Forms\Components\TextInput::make('unit_code')
+                                    ->label(__('attributes.unit_code')),
+                                Forms\Components\TextInput::make('director_email')
+                                    ->label(__('attributes.director_email')),
+                                Forms\Components\TextInput::make('regency')
+                                    ->label(__('attributes.regency')),
+                                Forms\Components\TextInput::make('pivot.contact_name')
+                                    ->label(__('attributes.contact_name')),
+                            ])
+                            ->hideLabels(),
                         AgapeForm::richTextEditor('other_laboratories')
                             ->label(__('attributes.other_laboratories'))
                             ->columnSpanFull(),
@@ -260,7 +278,11 @@ class AgapeApplicationForm
                     ]);
             case 'studyFields':
                 return Forms\Components\Select::make('studyFields')
-                    ->helperText(__('pages.apply.study_fields_help', ['count' => $this->projectCall->extra_attributes->number_of_study_fields]))
+                    ->helperText(
+                        $this->forEvaluation
+                            ? false
+                            : __('pages.apply.study_fields_help', ['count' => $this->projectCall->extra_attributes->number_of_study_fields])
+                    )
                     ->multiple()
                     ->relationship(
                         name: 'studyFields',
@@ -289,7 +311,7 @@ class AgapeApplicationForm
             case 'total_expected_income':
             case 'total_expected_outcome':
                 // If we have a helper text in translation, we use it
-                $helperText = (__('pages.apply.' . $name . '_help') !== 'pages.apply.' . $name . '_help') ? __('pages.apply.' . $name . '_help') : null;
+                $helperText = (!$this->forEvaluation && __('pages.apply.' . $name . '_help') !== 'pages.apply.' . $name . '_help') ? __('pages.apply.' . $name . '_help') : null;
 
                 return Forms\Components\TextInput::make($name)
                     ->label(__('attributes.' . $name))
@@ -327,6 +349,11 @@ class AgapeApplicationForm
                         ->reorderable()
                         ->maxFiles($maxFiles)
                         ->helperText($helperText);
+                }
+                if ($this->forEvaluation) {
+                    $field->helperText(null)
+                        ->reorderable(false)
+                        ->deletable(false);
                 }
 
                 return $field;
