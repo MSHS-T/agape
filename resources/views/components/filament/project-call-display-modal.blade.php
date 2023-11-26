@@ -12,7 +12,7 @@
     ][$maxWidth ?? '2xl'];
 @endphp
 
-<div x-data="{ show: false }">
+<div x-data="{ show: false }" class="">
     <div x-on:close.stop="show = false" x-on:keydown.escape.window="show = false" x-show="show" id="{{ $id }}"
         class="jetstream-modal fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50 flex justify-center items-center"
         style="display: none;">
@@ -52,7 +52,7 @@ xl:max-w-2xl sm:mx-auto p-2 sm:p-8 lg:p-16"
 
     </div>
     <button type="button" x-on:click="show = true"
-        class="rounded-md bg-zinc-600 px-3 py-2 flex items-center justify-center space-x-2 text-sm font-semibold text-white shadow-sm hover:bg-zinc-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600">
+        class="w-full rounded-md bg-zinc-600 px-3 py-2 flex items-center justify-center space-x-2 text-sm font-semibold text-white shadow-sm hover:bg-zinc-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600">
         <x-fas-magnifying-glass class="w-5 h-5" />
         <span>
             {{ __('pages.dashboard.view_project_call') }}

@@ -7,7 +7,7 @@
 
 <div class="projectcall-card-candidate max-w-2xl rounded-3xl ring-1 ring-gray-200 flex flex-col items-stretch p-2"
     id="{{ $id }}">
-    <div class="flex-1 px-8 py-4 flex flex-col items-stretch">
+    <div class="flex-1 lg:px-8 py-4 flex flex-col items-stretch">
         <div class="flex-1 flex flex-col justify-center">
             <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
                 {{ $projectCall->projectCallType->label_long }} - {{ $projectCall->year }}
@@ -27,7 +27,7 @@
         </div>
         <div class="flex justify-center py-2">
             <ul role="list"
-                class="grid grid-cols-3 auto-cols-min gap-2 text-sm leading-6 text-gray-600 dark:text-gray-300 sm:gap-x-6 sm:gap-y-2 items-center">
+                class="grid grid-cols-3 auto-cols-min gap-2 text-xs sm:text-sm leading-6 text-gray-600 dark:text-gray-300 sm:gap-x-6 sm:gap-y-2 items-center">
                 <span class="text-center text-indigo-600">
                     {{ __('resources.application') }}
                 </span>
@@ -56,36 +56,44 @@
         </div>
     </div>
     <div
-        class="py-4 w-full rounded-2xl bg-gray-50 dark:bg-gray-700 text-center ring-1 ring-inset ring-gray-900/5 flex justify-center items-center space-x-4">
-        @if ($projectCall->canApply())
-            <x-filament.project-call-display-modal :projectCall="$projectCall" />
-            @if (blank($application))
-                <a href="{{ route('filament.applicant.pages.apply', ['projectCall' => $projectCall]) }}"
-                    class="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                    {{ __('pages.dashboard.candidate.create_application') }}
-                </a>
-            @elseif(blank($application->submitted_at))
-                @if (filled($application->devalidation_message))
-                    <p class="mt-6 text-xs leading-5 text-gray-600">
-                        {{ $application->devalidation_message }}
-                    </p>
+        class="px-4 py-4 w-full rounded-2xl bg-gray-50 dark:bg-gray-700 text-center ring-1 ring-inset ring-gray-900/5 flex flex-col justify-center items-stretch">
+        {{-- @if (filled($application) && filled($application->devalidation_message))
+            <div class="px-6 py-2 text-sm leading-5 text-red-600 flex flex-col items-stretch">
+                <strong>{{ __('pages.apply.devalidated_title') }} :</strong>
+                <span>
+                    {!! $application->devalidation_message !!}
+                </span>
+            </div>
+        @endif --}}
+        <div
+            class="flex flex-col md:flex-row items-stretch md:items-center justify-center space-y-2 md:space-y-0 md:space-x-4">
+            @if ($projectCall->canApply())
+                <x-filament.project-call-display-modal :projectCall="$projectCall" />
+                @if (blank($application))
                     <a href="{{ route('filament.applicant.pages.apply', ['projectCall' => $projectCall]) }}"
-                        class="mt-10 block rounded-md bg-orange-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                        {{ __('pages.dashboard.candidate.correct_application') }}
+                        class="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                        {{ __('pages.dashboard.candidate.create_application') }}
                     </a>
-                @else
-                    <a href="{{ route('filament.applicant.pages.apply', ['projectCall' => $projectCall]) }}"
-                        class="mt-10 block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                        {{ __('pages.dashboard.candidate.edit_application') }}
-                    </a>
+                @elseif(blank($application->submitted_at))
+                    @if (filled($application->devalidation_message))
+                        <a href="{{ route('filament.applicant.pages.apply', ['projectCall' => $projectCall]) }}"
+                            class="block rounded-md bg-orange-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                            {{ __('pages.dashboard.candidate.correct_application') }}
+                        </a>
+                    @else
+                        <a href="{{ route('filament.applicant.pages.apply', ['projectCall' => $projectCall]) }}"
+                            class="mt-10 block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                            {{ __('pages.dashboard.candidate.edit_application') }}
+                        </a>
+                    @endif
                 @endif
             @endif
-        @endif
-        @if (filled($application))
-            <a href="{{ route('filament.applicant.pages.apply', ['projectCall' => $projectCall]) }}"
-                class="block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
-                {{ __('pages.dashboard.candidate.view_application') }}
-            </a>
-        @endif
+            @if (filled($application))
+                <a href="{{ route('filament.applicant.pages.apply', ['projectCall' => $projectCall]) }}"
+                    class="block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                    {{ __('pages.dashboard.candidate.view_application') }}
+                </a>
+            @endif
+        </div>
     </div>
 </div>

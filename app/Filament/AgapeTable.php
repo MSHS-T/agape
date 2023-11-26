@@ -101,8 +101,8 @@ class AgapeTable
                 ->label(__('admin.unsubmit'))
                 ->icon('fas-delete-left')
                 ->color(Color::Red)
-                ->hidden(fn (WithSubmission $record) => blank($record->submitted_at) || !$record->projectCall->canApply())
-                ->disabled(fn (WithSubmission $record) => blank($record->submitted_at) || !$record->projectCall->canApply())
+                ->hidden(fn (WithSubmission $record) => blank($record->submitted_at) || $record->projectCall->evaluation_start_date->isPast())
+                ->disabled(fn (WithSubmission $record) => blank($record->submitted_at) || $record->projectCall->evaluation_start_date->isPast())
                 ->form([
                     AgapeForm::richTextEditor('devalidation_message')
                         ->label(__('attributes.devalidation_message'))

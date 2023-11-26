@@ -198,25 +198,25 @@ class ProjectCall extends Model implements HasMedia, WithCreator
      */
     public function getApplication(): ?Application
     {
-        return $this->applications->firstWhere('creator_id', Auth::id());
+        return $this->applications->first();
     }
 
     public function canApply(): bool
     {
         return $this->application_start_date->isPast()
-            && $this->application_end_date->isFuture();
+            && $this->application_end_date->endOfDay()->isFuture();
     }
 
     public function canEvaluate(): bool
     {
         return $this->evaluation_start_date->isPast()
-            && $this->evaluation_end_date->isFuture();
+            && $this->evaluation_end_date->endOfDay()->isFuture();
     }
 
     public function showForApplicant(): bool
     {
         return $this->application_start_date->isPast()
-            && $this->evaluation_end_date->isFuture();
+            && $this->evaluation_end_date->endOfDay()->isFuture();
     }
 
     /**
@@ -224,13 +224,13 @@ class ProjectCall extends Model implements HasMedia, WithCreator
      */
     public function scopeApplicationsOpen(Builder $query)
     {
-        return $query->where('application_start_date', '<=', now())
-            ->where('application_end_date', '>=', now());
+        return $query->where('application_start_date', '<=', now()->startOfDay())
+            ->where('application_end_date', '>=', now()->startOfDay());
     }
 
     public function scopeApplicationsPast(Builder $query)
     {
-        return $query->where('application_end_date', '<=', now());
+        return $query->where('application_end_date', '<=', now()->startOfDay());
     }
 
     public function scopeUserHasApplied(Builder $query)

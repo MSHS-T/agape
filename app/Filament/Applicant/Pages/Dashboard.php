@@ -24,7 +24,7 @@ class Dashboard extends Page
     public function loadData()
     {
         $this->openCalls = ProjectCall::with(['projectCallType', 'applications' => function ($query) {
-            $query->mine()->submitted();
+            $query->mine();
         }])
             ->applicationsOpen()
             ->get()
