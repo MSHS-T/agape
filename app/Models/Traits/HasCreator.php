@@ -56,4 +56,9 @@ trait HasCreator
         $this->save();
         return $this;
     }
+
+    public function resolveCreator(): ?\App\Models\User
+    {
+        return $this->creator;
+    }
 }

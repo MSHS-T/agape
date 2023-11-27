@@ -40,7 +40,6 @@ class Dashboard extends Page implements HasForms, HasActions
             ->all();
         $this->pendingEvaluation = EvaluationOffer::affectedToMe()
             ->accepted()
-            ->evaluationPending()
             ->get()
             // Keep only offers for call in the evaluation phase
             ->filter(fn (EvaluationOffer $offer) => $offer->application->projectCall->canEvaluate())

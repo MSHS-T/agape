@@ -2,20 +2,20 @@
 
 namespace App\Notifications;
 
-use App\Models\Application;
+use App\Models\Evaluation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ApplicationSubmittedAdmins extends Notification
+class EvaluationSubmittedAdmins extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(protected Application $application)
+    public function __construct(protected Evaluation $evaluation)
     {
         //
     }
@@ -35,24 +35,23 @@ class ApplicationSubmittedAdmins extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $call = $this->application->projectCall;
         $message = (new MailMessage)
-            ->subject(__('email.new_application_submitted.title'))
-            ->line(__('email.new_application_submitted.intro', [
-                'name' => $this->application->creator->name,
-                'call' => $call->toString()
+            ->subject(__('email.new_evaluation_submitted.title'))
+            ->line(__('email.new_evaluation_submitted.intro', [
+                'name' => $this->evaluation->evaluationOffer->expert->name,
+                'call' => $this->evaluation->evaluationOffer->application->projectCall->toString()
             ]));
-        if ($this->application->devalidation_message !== null) {
-            $message->line(__('email.new_application_submitted.devalidation_line', [
-                'justification' => $this->application->devalidation_message
+        if ($this->evaluation->devalidation_message !== null) {
+            $message->line(__('email.new_evaluation_submitted.devalidation_line', [
+                'justification' => $this->evaluation->devalidation_message
             ]));
         }
 
         return $message->action(
             __('email.new_evaluation_submitted.action'),
             route(
-                'filament.admin.resources.applications.view',
-                ['record' => $this->application->id],
+                'filament.admin.resources.applications.evaluations',
+                ['record' => $this->evaluation->evaluationOffer->application->id],
                 true
             )
         );

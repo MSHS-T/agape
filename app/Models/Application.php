@@ -222,4 +222,9 @@ class Application extends Model implements HasMedia, WithSubmission
         return $this->projectCall->projectCallType->managers
             ->concat(User::role('administrator')->get());
     }
+
+    public function canBeUnsubmitted(): bool
+    {
+        return filled($this->submitted_at) && $this->projectCall->evaluation_start_date->isFuture();
+    }
 }

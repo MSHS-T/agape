@@ -164,12 +164,13 @@ class Evaluate extends Page implements HasForms
             throw \Illuminate\Validation\ValidationException::withMessages([]);
         }
         $formData = $this->form->getRawState();
+        $projectCall = $this->evaluationOffer->application->projectCall;
 
         $validator = Validator::make(
             $formData,
-            EvaluationRuleset::rules($this->projectCall),
-            EvaluationRuleset::messages($this->projectCall),
-            EvaluationRuleset::attributes($this->projectCall),
+            EvaluationRuleset::rules($projectCall),
+            EvaluationRuleset::messages($projectCall),
+            EvaluationRuleset::attributes($projectCall),
         );
         if ($validator->fails()) {
             $errors = collect($validator->errors()->messages())
@@ -182,7 +183,7 @@ class Evaluate extends Page implements HasForms
                 ->send();
             throw \Illuminate\Validation\ValidationException::withMessages($errors);
         }
-        $this->application->submit();
+        $this->evaluation->submit();
 
         Notification::make()
             ->title(__('pages.evaluate.submit_success'))

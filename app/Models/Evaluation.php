@@ -4,6 +4,10 @@ namespace App\Models;
 
 use App\Models\Contracts\WithSubmission;
 use App\Models\Traits\HasSubmission;
+use App\Notifications\EvaluationForceSubmitted;
+use App\Notifications\EvaluationSubmittedAdmins;
+use App\Notifications\EvaluationSubmittedExpert;
+use App\Notifications\EvaluationUnsubmitted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -80,11 +84,10 @@ class Evaluation extends Model implements WithSubmission
     public function getSubmissionNotification(string $name): ?string
     {
         return [
-            // TODO : fix notifications
-            // 'submittedUser'   => ApplicationSubmittedApplicant::class,
-            // 'submittedAdmins' => ApplicationSubmittedAdmins::class,
-            // 'unsubmitted'     => ApplicationUnsubmitted::class,
-            // 'forceSubmitted'  => ApplicationForceSubmitted::class,
+            'submittedUser'   => EvaluationSubmittedExpert::class,
+            'submittedAdmins' => EvaluationSubmittedAdmins::class,
+            'unsubmitted'     => EvaluationUnsubmitted::class,
+            'forceSubmitted'  => EvaluationForceSubmitted::class,
         ][$name] ?? null;
     }
 
@@ -92,5 +95,15 @@ class Evaluation extends Model implements WithSubmission
     {
         return $this->evaluationOffer->application->projectCall->projectCallType->managers
             ->concat(User::role('administrator')->get());
+    }
+
+    public function resolveCreator(): ?\App\Models\User
+    {
+        return $this->evaluationOffer->expert;
+    }
+
+    public function canBeUnsubmitted(): bool
+    {
+        return filled($this->submitted_at) && $this->evaluationOffer->application->projectCall->evaluation_end_date->isFuture();
     }
 }

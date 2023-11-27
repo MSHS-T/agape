@@ -28,17 +28,23 @@ trait HasSubmission
 
         if ($force) {
             $notification = $this->getSubmissionNotification('forceSubmitted');
-            $this->creator->notify(new ($notification)($this));
+            if (filled($notification)) {
+                $this->resolveCreator()?->notify(new ($notification)($this));
+            }
         } else {
             $notification = $this->getSubmissionNotification('submittedUser');
-            $this->creator->notify(new ($notification)($this));
+            if (filled($notification)) {
+                $this->resolveCreator()?->notify(new ($notification)($this));
+            }
 
             $users = $this->resolveAdmins();
             $notification = $this->getSubmissionNotification('submittedAdmins');
-            Notification::send(
-                $users,
-                new ($notification)($this)
-            );
+            if (filled($notification)) {
+                Notification::send(
+                    $users,
+                    new ($notification)($this)
+                );
+            }
         }
 
         return $this;
@@ -51,7 +57,9 @@ trait HasSubmission
         $this->save();
 
         $notification = $this->getSubmissionNotification('unsubmitted');
-        $this->creator->notify(new ($notification)($this));
+        if (filled($notification)) {
+            $this->resolveCreator()?->notify(new ($notification)($this));
+        }
 
         return $this;
     }

@@ -137,7 +137,7 @@ return [
         'submit_confirmation_title'  => 'Valider la soumission de l\'évaluation',
         'submit_confirmation_text'   => 'Veuillez vous assurer que votre évaluation est complète avant de la soumettre. Cette action ne pourra pas être annulée.',
         'submit_confirmation_button' => 'Valider',
-        'submit_error'               => 'Votre évaluation n\'a pas été pu être soumise pour évaluation, car certains champs présentent des erreurs. Veuillez corriger ces erreurs avant de recommencer.',
+        'submit_error'               => 'Votre évaluation n\'a pas été pu être soumise, car certains champs présentent des erreurs. Veuillez corriger ces erreurs avant de recommencer.',
         'submit_success'             => 'Votre évaluation a bien été soumise pour évaluation.',
     ]
 ];

@@ -71,10 +71,16 @@ return [
         "action" => "Voir la proposition"
     ],
 
+    "new_evaluation_submitted" => [
+        "title"             => "Envoi d'une nouvelle évaluation",
+        "intro"             => "L'expert :name vient de soumettre son évaluation pour l'appel à projets :call.",
+        "devalidation_line" => "Cette evaluation avait été dévalidée pour le motif suivant : :justification",
+        "action"            => "Visualiser l'évaluation",
+    ],
+
     "evaluation_submitted" => [
-        "title"             => "Évaluation envoyée",
-        "intro"             => "L'expert :expert vient de finaliser l'évaluation de la candidature de :candidat pour l'appel à projets :call",
-        "devalidation_line" => "Cette évaluation avait été dévalidée pour le motif suivant : :justification",
+        "title"             => "Confirmation d'évaluation",
+        "intro"             => "Votre évaluation de la candidature de :candidat pour l'appel à projets :call a bien été envoyée. Merci pour votre contribution",
     ],
 
     "evaluation_force_submitted" => [
