@@ -268,8 +268,8 @@ class ProjectCallResource extends Resource
     {
         return [
             'index'  => Pages\ListProjectCalls::route('/'),
-            'view'   => Pages\ViewProjectCall::route('/{record}'),
             'create' => Pages\CreateProjectCall::route('/create'),
+            'view'   => Pages\ViewProjectCall::route('/{record}'),
             'edit'   => Pages\EditProjectCall::route('/{record}/edit'),
         ];
     }
