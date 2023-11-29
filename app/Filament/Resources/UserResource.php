@@ -31,7 +31,7 @@ class UserResource extends Resource
         $projectCallTypes = ProjectCallType::all()
             ->mapWithKeys(fn (ProjectCallType $projectCallType) => [$projectCallType->id => $projectCallType->label_short]);
 
-        $isManager = fn ($roleValues) => ($roles[$roleValues[0] ?? ''] ?? '') === 'manager';
+        $isManager = fn ($roleValue) => $roleValue === 'manager';
 
         return $form
             ->schema([
@@ -52,18 +52,18 @@ class UserResource extends Resource
                     ->label(__('attributes.phone'))
                     ->email()
                     ->maxLength(255),
-                Forms\Components\Select::make('roles')
-                    ->relationship('roles', 'name')
+                Forms\Components\Select::make('role')
+                    // ->relationship('roles', 'name')
                     ->label(__('attributes.role'))
-                    ->options($roles->map(fn ($r) => __('admin.roles.' . $r)))
+                    ->options($roles->mapWithKeys(fn ($r) => [$r => __('admin.roles.' . $r)]))
                     ->reactive(),
                 Forms\Components\Select::make('projectCallTypes')
                     ->relationship('projectCallTypes', 'label_short')
                     ->label(__('attributes.managed_types'))
                     ->options($projectCallTypes)
                     ->multiple()
-                    ->required(fn (Get $get) => $isManager($get('roles')))
-                    ->hidden(fn (Get $get) => !$isManager($get('roles')))
+                    ->required(fn (Get $get) => $isManager($get('role')))
+                    ->hidden(fn (Get $get) => !$isManager($get('role')))
                     // ->disabled(fn (Get $get) => !$isManager($get('roles')))
                     ->key('projectCallTypes'),
             ]);

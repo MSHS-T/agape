@@ -4,6 +4,7 @@ namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
 use App\Models\User;
+use App\Notifications\UserRoleChange;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
@@ -23,12 +24,26 @@ class EditUser extends EditRecord
         ];
     }
 
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $data['role'] = User::find($data['id'])->roleName;
+
+        return $data;
+    }
+
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        $record->update($data);
+        /** @var User $record */
+        $oldRole = $record->roleName;
 
-        if ($record->roleName !== 'manager') {
+        $record->update(Arr::except($data, ['role']));
+
+        if ($data['role'] !== 'manager') {
             $record->projectCallTypes()->detach();
+        }
+        $record->syncRoles($data['role']);
+        if ($data['role'] !== $oldRole) {
+            $record->notify(new UserRoleChange($record));
         }
 
         return $record;
