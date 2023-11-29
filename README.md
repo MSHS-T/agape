@@ -29,11 +29,16 @@ If you wish to add test data, you can run the `php artisan db:seed --class="Test
  * 5 fake Project Calls
 > If running this command throws a `Class "Faker\Factory" not found` error, you forgot to remove the `--no-dev` flag from the `composer install` command above. Running it without this flag will add the developement dependencies required
 
-### HTTP Server Configuration
+### HTTP Server & PHP-FPM Configuration
 
 The recommanded HTTP server is NGINX, using the site configuration described in [documentation](https://laravel.com/docs/10.x/deployment#nginx). If you wish to use another HTTP Server, you will have to translate this configuration into the required format.
 
 The (recommanded) setup of an SSL certificate for HTTPS will depend on your environment. It will also require that you update the `APP_URL` environment variable in your `.env` file.
+
+You also need to adjust the settings of your HTTP server and PHP-FPM to allow for larger file uploads :
+* NGINX : set `client_max_body_size 10M;` in your site configuration
+* PHP-FPM : set `upload_max_filesize = 10M`and `post_max_size = 10M` in the `php.ini` file
+* Restart services
 
 ### File permissions
 
