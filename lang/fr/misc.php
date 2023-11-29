@@ -25,5 +25,11 @@ return [
     'locales' => [
         'fr' => 'Français',
         'en' => 'Anglais',
+    ],
+
+    'errors' => [
+        '403'  => 'Vous n\'avez pas la permission d\'accéder à la page demandée.',
+        '404'  => 'La page demandée n\'a pas été trouvée.',
+        'back' => 'Retour à l\'accueil',
     ]
 ];
