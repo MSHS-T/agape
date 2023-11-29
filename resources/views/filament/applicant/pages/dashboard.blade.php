@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="w-full max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
             <div class="mx-auto max-w-7xl px-2 lg:px-8">
                 <div class="mx-auto max-w-4xl sm:text-center">
