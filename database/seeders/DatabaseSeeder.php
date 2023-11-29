@@ -28,55 +28,19 @@ class DatabaseSeeder extends Seeder
             }
         );
 
-        /**
-         * Instructions below are not to be executed in production
-         */
-        if (App::isProduction()) {
-            return;
-        }
         $this->write(
             Task::class,
-            'Creating users',
+            'Creating admin user',
             function () {
                 User::create([
                     'first_name'            => 'Administrateur',
                     'last_name'             => 'AGAPE',
-                    'email'                 => 'admin@univ-tlse2.fr',
+                    'email'                 => env('ADMIN_USER_EMAIL', 'admin@agape.fr'),
                     'email_verified_at'     => Carbon::now(),
                     'password'              => Hash::make('password'),
                 ])->assignRole('administrator');
-
-                User::create([
-                    'first_name'            => 'Gestionnaire',
-                    'last_name'             => 'AGAPE',
-                    'email'                 => 'gestionnaire@univ-tlse2.fr',
-                    'email_verified_at'     => Carbon::now(),
-                    'password'              => Hash::make('password'),
-                ])->assignRole('manager');
-
-                User::create([
-                    'first_name'            => 'Expert',
-                    'last_name'             => 'AGAPE',
-                    'email'                 => 'expert@univ-tlse2.fr',
-                    'email_verified_at'     => Carbon::now(),
-                    'password'              => Hash::make('password'),
-                ])->assignRole('expert');
-
-                User::create([
-                    'first_name'            => 'Candidat',
-                    'last_name'             => 'AGAPE',
-                    'email'                 => 'candidat@univ-tlse2.fr',
-                    'email_verified_at'     => Carbon::now(),
-                    'password'              => Hash::make('password'),
-                ])->assignRole('applicant');
             }
         );
-        $this->call([
-            ProjectCallTypeSeeder::class,
-            StudyFieldSeeder::class,
-            LaboratorySeeder::class,
-            ProjectCallSeeder::class,
-        ]);
     }
 
     /**

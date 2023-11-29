@@ -1,66 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AGAPE
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Presentation
 
-## About Laravel
+This application has been developed at the request of the [MSHS-T](https://mshs.univ-toulouse.fr/) with the contribution of the [Toulouse University](https://www.univ-toulouse.fr/) to improve the management of research project calls.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Installation
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### App Setup
+ * Clone code from Github
+ * Copy `.env.example` to `.env` and set your configuration (see the comments for help).
+ * `composer install --no-dev --optimize-autoloader` to install PHP dependencies *(remove the `--no-dev` flag if you wish to generate test data now or in the future)*
+ * `npm install` to install CSS & JS dependencies
+ * `npm run build` to build front-end assets
+ * `php artisan key:generate` to generate the application secret key
+ * `php artisan config:cache` to cache the configuration (repeat if you change a setting in .env)
+ * `php artisan storage:link` to create the symbolic link to access files in public storage
+ * `php artisan migrate` to apply the database migrations
+ * `php artisan db:seed` to seed the database with the settings and an admin user (with the email set in `.env` and the password `password`)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+If you wish to add test data, you can run the `php artisan db:seed --class="TestDataSeeder"`. The following data will be created :
+ * One user for each role other than administrator (all will have the password `password`) :
+   * gestionnaire@agape.fr
+   * candidat@agape.fr
+   * expert@agape.fr
+ * 4 Project Call Types with dynamic fields (see `database/seeders/ProjectCallTypeSeeder.php`)
+ * 10 fake Study Fields
+ * 10 fake Laboratories
+ * 5 fake Project Calls
+> If running this command throws a `Class "Faker\Factory" not found` error, you forgot to remove the `--no-dev` flag from the `composer install` command above. Running it without this flag will add the developement dependencies required
 
-## Learning Laravel
+### HTTP Server Configuration
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The recommanded HTTP server is NGINX, using the site configuration described in [documentation](https://laravel.com/docs/10.x/deployment#nginx). If you wish to use another HTTP Server, you will have to translate this configuration into the required format.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+The (recommanded) setup of an SSL certificate for HTTPS will depend on your environment. It will also require that you update the `APP_URL` environment variable in your `.env` file.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### File permissions
 
-## Laravel Sponsors
+The following permissions are required for the HTTP Server user :
+* All files : readable
+* All folders : traversable
+* `storage`and `bootstrap/cache` folders : writable and executable
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Supposing the HTTP server user is `www-data`, the following commands set up the proper permissions on the source code while retaining ownership by the current user, making the update process easier  :
+```bash
+cd /path/to/project
+sudo chown -R $USER:www-data .
+sudo find . -type d -exec chmod 755 {} \;
+sudo find . -type f -exec chmod 644 {} \;
+sudo chgrp -R www-data storage bootstrap/cache
+sudo chmod -R ug+rwx storage bootstrap/cache
+```
 
-### Premium Partners
+## Update process
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+*The following script is meant to be customized to your specific requirements.*
 
-## Contributing
+```bash
+cd /path/to/project
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Enable maintenance mode
+php artisan down
 
-## Code of Conduct
+# Reset local changes (build files)
+git checkout -- .
+# Remove the above command if you have custom changes you wish to keep.
+# It may cause errors in the git pull command if conflict appears
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Fetch code
+git pull
 
-## Security Vulnerabilities
+# Install dependencies (remove '--no-dev' flag if needed)
+composer install --optimize-autoloader --no-dev
+npm ci
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Build front-end assets
+npm run build
 
-## License
+# Migrate database
+php artisan migrate --force
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Cache warmup
+php artisan optimize:clear
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Reset permissions
+sudo chown -R $USER:www-data .
+sudo find . -type d -exec chmod 755 {} \;
+sudo find . -type f -exec chmod 644 {} \;
+sudo chgrp -R www-data storage bootstrap/cache
+sudo chmod -R ug+rwx storage bootstrap/cache
+
+# Disable maintenance mode
+php artisan up
+```
