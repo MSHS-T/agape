@@ -115,6 +115,7 @@ class ProjectCall extends Model implements HasMedia, WithCreator
         'help_experts',
         'help_candidates',
         'notation',
+        'extra_attributes',
     ];
 
     /**
