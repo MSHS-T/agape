@@ -138,6 +138,9 @@ class UserResource extends Resource
                     ->redirectTo(route('home'))
                     ->backTo(route('filament.admin.resources.users.index')), // <---
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -16,6 +16,7 @@ use Filament\Forms\Get;
 use Filament\Infolists\Components\Split;
 use Filament\Pages\SettingsPage;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ManageGeneralSettings extends SettingsPage
@@ -38,6 +39,11 @@ class ManageGeneralSettings extends SettingsPage
     public function getTitle(): string | Htmlable
     {
         return __('admin.settings.title');
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Auth::user()->hasRole('administrator');
     }
 
     public function form(Form $form): Form

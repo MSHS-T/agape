@@ -2,6 +2,7 @@
 
 namespace App\Models\Traits;
 
+use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,7 +29,7 @@ trait HasCreator
                 $user = Auth::user();
                 // Adds logged in user as creator
                 $model->creator()->associate(
-                    (App::runningInConsole() || $user->hasAnyRole(['administrator', 'manager']))
+                    (App::runningInConsole() || ($user->hasAnyRole(['administrator', 'manager']) && !($model instanceof Invitation)))
                         ? null
                         : Auth::user()
                 );
