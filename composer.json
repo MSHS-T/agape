@@ -30,6 +30,7 @@
         "spatie/laravel-schemaless-attributes": "^2.4",
         "spatie/laravel-settings": "^3.2",
         "spatie/laravel-translatable": "^6.5",
+        "stechstudio/filament-impersonate": "^3.5",
         "stijnvanouplines/blade-country-flags": "^1.0"
     },
     "require-dev": {

@@ -11,12 +11,14 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
+use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
 class UserResource extends Resource
 {
@@ -128,6 +130,13 @@ class UserResource extends Resource
                     ->falseLabel(__('admin.users.blocked')),
             ])
             ->actions([
+                Impersonate::make()
+                    ->link()
+                    ->label(__('admin.users.impersonate'))
+                    ->hiddenLabel(false)
+                    ->color(Color::Lime)
+                    ->redirectTo(route('home'))
+                    ->backTo(route('filament.admin.resources.users.index')), // <---
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

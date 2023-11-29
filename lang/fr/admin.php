@@ -19,6 +19,7 @@ return [
     ],
 
     'users' => [
+        'impersonate'                => 'Usurper',
         'blocked_filter'             => 'Etat de blocage',
         'all'                        => 'Tous',
         'unblocked'                  => 'Non Bloqués',
