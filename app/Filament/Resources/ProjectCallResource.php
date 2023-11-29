@@ -156,28 +156,32 @@ class ProjectCallResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('extra_attributes.number_of_documents')
                             ->label(__('attributes.number_of_documents'))
+                            ->helperText(__('admin.default_number_help'))
                             ->default($generalSettings->defaultNumberOfDocuments)
                             ->required()
                             ->integer()
-                            ->minValue(1),
+                            ->minValue(0),
                         Forms\Components\TextInput::make('extra_attributes.number_of_laboratories')
                             ->label(__('attributes.number_of_laboratories'))
+                            ->helperText(__('admin.default_number_help'))
                             ->default($generalSettings->defaultNumberOfLaboratories)
                             ->required()
                             ->integer()
-                            ->minValue(1),
+                            ->minValue(0),
                         Forms\Components\TextInput::make('extra_attributes.number_of_study_fields')
                             ->label(__('attributes.number_of_study_fields'))
+                            ->helperText(__('admin.default_number_help'))
                             ->default($generalSettings->defaultNumberOfStudyFields)
                             ->required()
                             ->integer()
-                            ->minValue(1),
+                            ->minValue(0),
                         Forms\Components\TextInput::make('extra_attributes.number_of_keywords')
                             ->label(__('attributes.number_of_keywords'))
+                            ->helperText(__('admin.default_number_help'))
                             ->default($generalSettings->defaultNumberOfKeywords)
                             ->required()
                             ->integer()
-                            ->minValue(1),
+                            ->minValue(0),
                     ]),
             ]);
     }

@@ -65,6 +65,7 @@ return [
     'notation_description' => 'Les critères seront présentés aux experts dans l\'ordre indiqué.',
     'files'                => 'Modèles de fichiers',
     'files_description'    => 'Ces modèles seront proposés au téléchargement aux candidats.',
+    'default_number_help'  => 'Si cette valeur est mise à zéro, le champ correspondant du formulaire de candidature sera caché.',
     'never'                => 'Jamais',
     'unsubmit'             => 'Dévalider',
     'force_submit'         => 'Soumettre manuellement',

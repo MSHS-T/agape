@@ -13,7 +13,7 @@ return [
     'help_experts'           => 'Aide en ligne Experts',
     'help_candidates'        => 'Aide en ligne Candidats',
     'notation'               => 'Guide d\'évaluation',
-    'number_of_documents'    => 'Nombre maximum de documents',
+    'number_of_documents'    => 'Nombre maximum de fichiers dans le champ "Autres Fichiers"',
     'number_of_laboratories' => 'Nombre maximum de laboratoires',
     'number_of_study_fields' => 'Nombre maximum de champs disciplinaires',
     'number_of_keywords'     => 'Nombre maximum de mots clés',

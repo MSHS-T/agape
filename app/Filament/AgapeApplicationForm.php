@@ -90,7 +90,7 @@ class AgapeApplicationForm
         foreach ($fieldsWithLabels as $fieldName => $label) {
             $sectionFields->push(
                 $this->getField($fieldName)
-                    ->label($label),
+                    ?->label($label),
                 ...$dynamicFields
                     ->filter(fn ($field) => $field['after_field'] === $fieldName)
                     ->map(fn ($field) => $this->getDynamicField($field))
@@ -154,72 +154,74 @@ class AgapeApplicationForm
                 return Forms\Components\Fieldset::make('laboratories')
                     ->columns(1)
                     ->columnSpanFull()
-                    ->schema([
+                    ->schema(array_filter([
                         !$this->forEvaluation ?
-                            Forms\Components\Repeater::make('applicationLaboratories')
-                            ->label(__('resources.laboratory_plural'))
-                            // ->helperText(__('pages.apply.laboratories_help'))
-                            ->relationship('applicationLaboratories')
-                            ->orderColumn('order')
-                            ->defaultItems(1)
-                            ->helperText(
-                                Str::of(__('pages.apply.laboratories_help', [
-                                    'count' => $this->projectCall->extra_attributes->number_of_laboratories
-                                ]))->toHtmlString()
-                            )
-                            ->mutateRelationshipDataBeforeSaveUsing(fn (array $data) => filled($data['laboratory_id'] ?? null) ? $data : null)
-                            ->mutateRelationshipDataBeforeCreateUsing(fn (array $data) => filled($data['laboratory_id'] ?? null) ? $data : null)
-                            ->schema([
-                                Forms\Components\Select::make('laboratory_id')
-                                    ->label(__('resources.laboratory'))
-                                    ->relationship(
-                                        name: 'laboratory',
-                                        titleAttribute: 'name',
-                                        modifyQueryUsing: fn (Builder $query) => $query->where(
-                                            fn (Builder $query) => $query->mine()
+                            ($this->projectCall->extra_attributes->number_of_laboratories > 0 ?
+                                Forms\Components\Repeater::make('applicationLaboratories')
+                                ->label(__('resources.laboratory_plural'))
+                                // ->helperText(__('pages.apply.laboratories_help'))
+                                ->relationship('applicationLaboratories')
+                                ->orderColumn('order')
+                                ->defaultItems(1)
+                                ->helperText(
+                                    Str::of(__('pages.apply.laboratories_help', [
+                                        'count' => $this->projectCall->extra_attributes->number_of_laboratories
+                                    ]))->toHtmlString()
+                                )
+                                ->mutateRelationshipDataBeforeSaveUsing(fn (array $data) => filled($data['laboratory_id'] ?? null) ? $data : null)
+                                ->mutateRelationshipDataBeforeCreateUsing(fn (array $data) => filled($data['laboratory_id'] ?? null) ? $data : null)
+                                ->schema([
+                                    Forms\Components\Select::make('laboratory_id')
+                                        ->label(__('resources.laboratory'))
+                                        ->relationship(
+                                            name: 'laboratory',
+                                            titleAttribute: 'name',
+                                            modifyQueryUsing: fn (Builder $query) => $query->where(
+                                                fn (Builder $query) => $query->mine()
+                                            )
                                         )
-                                    )
-                                    ->searchable()
-                                    ->preload()
-                                    ->createOptionModalHeading(__('pages.apply.create_laboratory'))
-                                    ->editOptionModalHeading(__('pages.apply.edit_laboratory'))
-                                    ->createOptionForm([
-                                        Forms\Components\TextInput::make('name')
-                                            ->label(__('attributes.name')),
-                                        Forms\Components\TextInput::make('unit_code')
-                                            ->label(__('attributes.unit_code')),
-                                        Forms\Components\TextInput::make('director_email')
-                                            ->label(__('attributes.director_email'))
-                                            ->email(),
-                                        Forms\Components\TextInput::make('regency')
-                                            ->label(__('attributes.regency')),
-                                    ])
-                                    ->editOptionForm([
-                                        Forms\Components\TextInput::make('name')
-                                            ->label(__('attributes.name'))
-                                            ->disabled(),
-                                        Forms\Components\TextInput::make('unit_code')
-                                            ->label(__('attributes.unit_code'))
-                                            ->disabled(),
-                                        Forms\Components\TextInput::make('director_email')
-                                            ->label(__('attributes.director_email'))
-                                            ->email(),
-                                        Forms\Components\TextInput::make('regency')
-                                            ->label(__('attributes.regency'))
-                                            ->disabled(),
-                                    ]),
-                                Forms\Components\TextInput::make('contact_name')
-                                    ->label(__('attributes.contact_name')),
-                            ])
-                            ->columnSpanFull()
-                            ->columns(['default' => 1, 'sm' => 2, 'lg' => 2])
-                            ->reorderable()
-                            ->reorderableWithButtons()
-                            ->reorderableWithDragAndDrop(false)
-                            ->addActionLabel(__('pages.apply.add_laboratory'))
-                            ->required()
-                            ->minItems(1)
-                            ->maxItems($this->projectCall->extra_attributes->number_of_laboratories)
+                                        ->searchable()
+                                        ->preload()
+                                        ->createOptionModalHeading(__('pages.apply.create_laboratory'))
+                                        ->editOptionModalHeading(__('pages.apply.edit_laboratory'))
+                                        ->createOptionForm([
+                                            Forms\Components\TextInput::make('name')
+                                                ->label(__('attributes.name')),
+                                            Forms\Components\TextInput::make('unit_code')
+                                                ->label(__('attributes.unit_code')),
+                                            Forms\Components\TextInput::make('director_email')
+                                                ->label(__('attributes.director_email'))
+                                                ->email(),
+                                            Forms\Components\TextInput::make('regency')
+                                                ->label(__('attributes.regency')),
+                                        ])
+                                        ->editOptionForm([
+                                            Forms\Components\TextInput::make('name')
+                                                ->label(__('attributes.name'))
+                                                ->disabled(),
+                                            Forms\Components\TextInput::make('unit_code')
+                                                ->label(__('attributes.unit_code'))
+                                                ->disabled(),
+                                            Forms\Components\TextInput::make('director_email')
+                                                ->label(__('attributes.director_email'))
+                                                ->email(),
+                                            Forms\Components\TextInput::make('regency')
+                                                ->label(__('attributes.regency'))
+                                                ->disabled(),
+                                        ]),
+                                    Forms\Components\TextInput::make('contact_name')
+                                        ->label(__('attributes.contact_name')),
+                                ])
+                                ->columnSpanFull()
+                                ->columns(['default' => 1, 'sm' => 2, 'lg' => 2])
+                                ->reorderable()
+                                ->reorderableWithButtons()
+                                ->reorderableWithDragAndDrop(false)
+                                ->addActionLabel(__('pages.apply.add_laboratory'))
+                                ->required()
+                                ->minItems(1)
+                                ->maxItems($this->projectCall->extra_attributes->number_of_laboratories)
+                                : null)
                             :
                             TableRepeater::make('laboratories')
                             ->label(__('resources.laboratory_plural'))
@@ -239,9 +241,10 @@ class AgapeApplicationForm
                         AgapeForm::richTextEditor('other_laboratories')
                             ->label(__('attributes.other_laboratories'))
                             ->columnSpanFull(),
-                    ]);
+                    ]));
             case 'keywords':
-                return Forms\Components\Repeater::make('keywords')
+                return $this->projectCall->extra_attributes->number_of_keywords > 0
+                    ? Forms\Components\Repeater::make('keywords')
                     ->addActionLabel(__('pages.apply.add_keyword'))
                     ->simple(
                         Forms\Components\TextInput::make('value'),
@@ -252,7 +255,8 @@ class AgapeApplicationForm
                     ->columnSpanFull()
                     ->required()
                     ->minItems(1)
-                    ->maxItems($this->projectCall->extra_attributes->number_of_keywords);
+                    ->maxItems($this->projectCall->extra_attributes->number_of_keywords)
+                    : null;
                 /**
                  * SCIENTIFIC SECTION
                  */
@@ -277,7 +281,8 @@ class AgapeApplicationForm
                         'lg'      => 2,
                     ]);
             case 'studyFields':
-                return Forms\Components\Select::make('studyFields')
+                return $this->projectCall->extra_attributes->number_of_study_fields > 0
+                    ? Forms\Components\Select::make('studyFields')
                     ->helperText(
                         $this->forEvaluation
                             ? false
@@ -302,7 +307,8 @@ class AgapeApplicationForm
                                 ->required(),
                         ], 'pages.apply.create_study_field_help'),
                     ])
-                    ->createOptionModalHeading(__('pages.apply.create_study_field'));
+                    ->createOptionModalHeading(__('pages.apply.create_study_field'))
+                    : null;
                 /**
                  * BUDGET SECTION
                  */
@@ -334,6 +340,9 @@ class AgapeApplicationForm
             case 'financialForm':
             case 'additionalInformation':
             case 'otherAttachments':
+                if ($name === 'otherAttachments' && $this->projectCall->extra_attributes->number_of_documents == 0) {
+                    return null;
+                }
                 $generalSettings = app(GeneralSettings::class);
                 $field = AgapeForm::fileField($name)
                     ->required($name !== 'otherAttachments')
