@@ -54,6 +54,13 @@ return [
         "outro"  => "Merci de nous faire connaître votre choix dans les plus brefs délais.",
     ],
 
+    "offer_created_invite" => [
+        "title"  => "Invitation à rejoindre la plateforme AGAPE",
+        "intro"  => "L'administrateur de la plateforme AGAPE vous invite à rejoindre l'application en tant que :role, afin de participer à l'évaluation d'une candidature sur l'appel à projets :projectcall",
+        "action" => "Inscription",
+        "outro"  => "Merci de nous faire connaître votre choix dans les plus brefs délais."
+    ],
+
     "offer_accepted" => [
         "title" => "Proposition d'évaluation acceptée",
         "intro" => "L'expert :expert vient d'accepter la proposition d'évaluation de la candidature de :candidat pour l'appel à projets :call"
@@ -69,6 +76,12 @@ return [
         "title"  => "Rappel : Proposition d'évaluation à traiter",
         "intro"  => "Nous vous rappelons que la proposition d'évaluation de la candidature de :candidat pour l'appel à projets :call est en attente de traitement.",
         "action" => "Voir la proposition"
+    ],
+
+    "offer_retry_invite" => [
+        "title"  => "Rappel : Invitation à rejoindre la plateforme AGAPE",
+        "intro"  => "Nous vous rappelons que l'administrateur de la plateforme AGAPE vous a invité à rejoindre l'application en tant que :role, afin de participer à l'évaluation d'une candidature sur l'appel à projets :projectcall",
+        "action" => "Inscription",
     ],
 
     "new_evaluation_submitted" => [
@@ -111,13 +124,6 @@ return [
         "title"  => "Rappel : Invitation à rejoindre la plateforme AGAPE",
         "intro"  => "L'administrateur de la plateforme AGAPE vous invite à rejoindre l'application en tant que :role",
         "action" => "Inscription"
-    ],
-
-    "invitation_offer" => [
-        "title"  => "Invitation à rejoindre la plateforme AGAPE",
-        "intro"  => "L'administrateur de la plateforme AGAPE vous invite à rejoindre l'application en tant que :role, afin de participer à l'évaluation d'une candidature sur l'appel à projets :projectcall",
-        "action" => "Inscription",
-        "outro"  => "Merci de nous faire connaître votre choix dans les plus brefs délais."
     ],
 
     "role_change" => [

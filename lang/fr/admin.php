@@ -75,8 +75,11 @@ return [
     ],
 
     'application' => [
-        'offers'       => 'Experts (:count)',
-        'evaluations'  => 'Évaluations (:count)',
+        'offers'          => 'Experts (:count)',
+        'evaluations'     => 'Évaluations (:count)',
+        'add_expert'      => 'Ajouter un expert',
+        'existing_expert' => 'Expert déjà enregistré',
+        'new_expert'      => 'Email de l\'expert à inviter',
     ],
 
     'evaluation_offer' => [
@@ -91,6 +94,11 @@ return [
         'retry'       => 'Envoyer un rappel',
         'cancel'      => 'Annuler',
         'show_reason' => 'Raison du refus',
+
+        'success_sent'             => 'Une proposition d\'évaluation vient d\'être envoyée à l\'expert choisi.',
+        'success_invited'          => 'Une invitation à rejoindre la plateforme vient d\'être envoyée à l\'expert choisi.',
+        'success_linked'           => 'L\'expert choisi a déjà été invité mais n\'a pas encore rejoint la plateforme. La proposition d\'évaluation a été liée à son invitation et une notification lui a été envoyée.',
+        'error_no_expert_or_email' => 'Vous devez choisir un expert ou saisir une adresse e-mail pour envoyer une invitation.',
     ],
 
     'evaluation' => [

@@ -2,13 +2,21 @@
 
 namespace App\Filament\Resources\ApplicationResource\Pages;
 
+use App\Actions\InviteUser;
 use App\Filament\AgapeTable;
 use App\Filament\Resources\ApplicationResource;
 use App\Models\Application;
 use App\Models\EvaluationOffer;
+use App\Models\Invitation;
+use App\Models\User;
+use App\Tables\Columns\NullableIconColumn;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Pages\Page;
 use Filament\Support\Colors\Color;
@@ -51,26 +59,30 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
         return $table
             ->query(fn (): Builder => EvaluationOffer::whereApplicationId($this->application->id))
             ->columns([
-                Tables\Columns\TextColumn::make('expert.last_name')
+                Tables\Columns\TextColumn::make('id')
                     ->label(__('admin.roles.expert'))
-                    ->formatStateUsing(fn (EvaluationOffer $evaluationOffer) => $evaluationOffer->expert->name),
+                    ->formatStateUsing(
+                        fn (EvaluationOffer $record) => filled($record->expert) ? $record->expert->name : $record->invitation->email
+                    ),
                 Tables\Columns\IconColumn::make('accepted')
                     ->label(__('attributes.status'))
-                    ->icon(fn (EvaluationOffer $record): string => match (true) {
-                        $record->accepted === true  => 'fas-check-circle',
-                        $record->accepted === false => 'fas-times-circle',
-                        default                     => 'fas-hourglass'
+                    ->getStateUsing(fn ($record) => $record->accepted === null ? 'null' : $record->accepted)
+                    ->icon(fn ($state): string => match (true) {
+                        $state === true  => 'fas-check-circle',
+                        $state === false => 'fas-times-circle',
+                        default          => 'fas-hourglass'
                     })
-                    ->color(fn (EvaluationOffer $record): array => match (true) {
-                        $record->accepted === true  => Color::Green,
-                        $record->accepted === false => Color::Red,
-                        default                     => Color::Orange
+                    ->color(fn ($state): array => match (true) {
+                        $state === true  => Color::Green,
+                        $state === false => Color::Red,
+                        default          => Color::Orange
                     })
-                    ->tooltip(fn (EvaluationOffer $record): string => match (true) {
-                        $record->accepted === true  => __('admin.evaluation_offer.status.accepted'),
-                        $record->accepted === false => __('admin.evaluation_offer.status.rejected'),
-                        default                     => __('admin.evaluation_offer.status.pending')
-                    }),
+                    ->tooltip(fn ($state): string => match (true) {
+                        $state === true  => __('admin.evaluation_offer.status.accepted'),
+                        $state === false => __('admin.evaluation_offer.status.rejected'),
+                        default          => __('admin.evaluation_offer.status.pending')
+                    })
+                    ->alignCenter(),
                 AgapeTable::creatorColumn(),
                 ...AgapeTable::timestampColumns(withModification: false, showCreation: true),
                 Tables\Columns\TextColumn::make('extra_attributes.retry_count')
@@ -145,6 +157,54 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('invite')
+                ->label(__('admin.application.add_expert'))
+                ->color(Color::Blue)
+                ->icon('fas-user-plus')
+                ->form([
+                    Select::make('expert_id')
+                        ->label(__('admin.application.existing_expert'))
+                        ->options(User::role('expert')->get()->pluck('name', 'id')),
+                    Placeholder::make('separator')
+                        ->hiddenLabel()
+                        ->content(Str::of(view('components.separator', ['slot' => __('or')])->render())->toHtmlString()),
+                    TextInput::make('invitation_email')
+                        ->label(__('admin.application.new_expert'))
+                        ->email()
+                ])
+                ->action(function (array $data) {
+                    if (filled($data['expert_id'])) {
+                        EvaluationOffer::create([
+                            'application_id' => $this->application->id,
+                            'expert_id'      => $data['expert_id'],
+                        ]);
+                        Notification::make()
+                            ->title(__('admin.evaluation_offer.success_sent'))
+                            ->success()
+                            ->send();
+                    } else if (filled($data['invitation_email'])) {
+                        $invitation = Invitation::where('email', $data['invitation_email'])->first();
+                        if ($invitation) {
+                            $message = __('admin.evaluation_offer.success_linked');
+                        } else {
+                            $invitation = InviteUser::handle($data['invitation_email'], 'expert', quietly: true);
+                            $message = __('admin.evaluation_offer.success_invited');
+                        }
+                        EvaluationOffer::create([
+                            'application_id' => $this->application->id,
+                            'invitation_id'  => $invitation->id,
+                        ]);
+                        Notification::make()
+                            ->title($message)
+                            ->success()
+                            ->send();
+                    } else {
+                        Notification::make()
+                            ->title(__('admin.evaluation_offer.error_no_expert_or_email'))
+                            ->success()
+                            ->send();
+                    }
+                }),
             Action::make('evaluations')
                 ->label(fn () => __('admin.application.evaluations', [
                     'count' => $this->application->evaluations->count()

@@ -60,6 +60,7 @@ class EvaluationOffer extends Model implements WithCreator
     protected $fillable = [
         'accepted',
         'justification',
+        'application_id',
         'expert_id',
         'invitation_id',
     ];
@@ -141,8 +142,6 @@ class EvaluationOffer extends Model implements WithCreator
             [['at' => now()->toDateTimeString(), 'by' => Auth::id()]]
         );
         $this->save();
-        // Send OfferRetry notification
-        // $invitation->notify((new UserInvitationRetry($invitation))->locale($invitation->extra_attributes->lang));
     }
 
     public function accept()

@@ -26,7 +26,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $observers = [
-        \App\Models\Invitation::class => [\App\Observers\InvitationObserver::class],
+        \App\Models\EvaluationOffer::class => [\App\Observers\EvaluationOfferObserver::class],
+        \App\Models\Invitation::class      => [\App\Observers\InvitationObserver::class],
     ];
 
     /**

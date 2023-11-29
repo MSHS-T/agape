@@ -6,8 +6,6 @@ use App\Filament\AgapeTable;
 use App\Filament\Resources\ApplicationResource;
 use App\Models\Application;
 use App\Models\Evaluation;
-use App\Models\EvaluationOffer;
-use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Resources\Pages\ListRecords;

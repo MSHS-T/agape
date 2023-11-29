@@ -8,7 +8,7 @@ use Spatie\Permission\Models\Role;
 
 class InviteUser
 {
-    public static function handle(string $email, string $role, array $projectCallTypes = [], string $lang = null): ?Invitation
+    public static function handle(string $email, string $role, array $projectCallTypes = [], string $lang = null, bool $quietly = false): ?Invitation
     {
         if (Role::where('name', $role)->first() === null) {
             throw new \InvalidArgumentException("Role '$role' does not exist");
@@ -28,7 +28,8 @@ class InviteUser
         $invitation->extra_attributes['role'] = $role;
         $invitation->extra_attributes['project_call_types'] = $role === 'manager' ? $projectCallTypes : [];
 
-        $invitation->save();
+        $saveMethod = $quietly ? 'saveQuietly' : 'save';
+        $invitation->$saveMethod();
 
         return $invitation;
     }
