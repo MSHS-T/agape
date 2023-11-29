@@ -119,6 +119,11 @@ class Apply extends Page implements HasForms
         ])
             ->columnSpanFull()
             ->alignCenter()
+            // ->columns([
+            //     'default' => 1,
+            //     'sm'      => 2,
+            //     'lg'      => 4,
+            // ])
             ->view('components.filament.actions-container');
     }
 

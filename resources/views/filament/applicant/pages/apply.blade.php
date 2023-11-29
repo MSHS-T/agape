@@ -96,7 +96,7 @@
         </div>
     @endif
 
-    <div class="mt-4 pb-12">
+    <div class="mt-4 pb-24 sm:pb-12">
         {{ $this->form }}
     </div>
 </x-filament-panels::page>

@@ -1,24 +1,27 @@
 <x-filament-panels::page>
     <div class="px-4 py-5 bg-white dark:bg-gray-800 sm:p-6 shadow sm:rounded-md flex flex-col items-stretch">
-        <div class="flex-1 px-8 pt-4 flex justify-between items-center">
+        <div class="flex-1 px-8 pt-4 flex flex-col xl:flex-row justify-between items-center">
             <div class="flex-1 flex flex-col justify-center items-start">
                 <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {{ $evaluationOffer->application->projectCall->projectCallType->label_long }} -
                     {{ $evaluationOffer->application->projectCall->year }}
                 </h3>
             </div>
-            <h4 class="text-base leading-6 text-indigo-600 flex items-center gap-x-4">
+            <h4
+                class="text-base leading-6 text-indigo-600 flex flex-col md:flex-row justify-center items-stretch md:items-center gap-x-4">
                 <span class="text-center text-indigo-600 font-semibold">
                     {{ __('pages.dashboard.expert.evaluation_period') }}
                 </span>
-                <span class="text-center flex items-center">
-                    {{ $evaluationOffer->application->projectCall->evaluation_start_date->format(__('misc.date_format')) }}
-                </span>
-                <span>
-                    <x-fas-arrow-right class="w-3 h-3 text-indigo-600" />
-                </span>
-                <span class="">
-                    {{ $evaluationOffer->application->projectCall->evaluation_end_date->format(__('misc.date_format')) }}
+                <span class="text-center flex items-center justify-center gap-x-4">
+                    <span>
+                        {{ $evaluationOffer->application->projectCall->evaluation_start_date->format(__('misc.date_format')) }}
+                    </span>
+                    <span>
+                        <x-fas-arrow-right class="w-3 h-3 text-indigo-600" />
+                    </span>
+                    <span class="">
+                        {{ $evaluationOffer->application->projectCall->evaluation_end_date->format(__('misc.date_format')) }}
+                    </span>
                 </span>
             </h4>
         </div>
@@ -84,7 +87,7 @@
         </div>
     @endif
 
-    <div class="mt-4 pb-12 space-y-4" x-data="{ activeTab: 'evaluation' }">
+    <div class="mt-4 pb-24 sm:pb-12 space-y-4" x-data="{ activeTab: 'evaluation' }">
         <x-filament::tabs label="Content tabs">
             <x-filament::tabs.item alpine-active="activeTab === 'projectcall'" x-on:click="activeTab = 'projectcall'">
                 {{ __('resources.project_call') }}

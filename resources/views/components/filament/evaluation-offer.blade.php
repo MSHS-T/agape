@@ -9,29 +9,33 @@
 
 <div class="offer-card-expert w-full rounded-3xl ring-1 ring-gray-200 flex flex-col items-stretch p-2"
     id="{{ $id }}">
-    <div class="flex-1 px-8 pt-4 flex justify-between items-center">
-        <div class="flex-1 flex flex-col justify-center items-start">
-            <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+    <div
+        class="flex-1 px-0 sm:px-8 pt-4 flex flex-col xl:flex-row space-y-2 xl:space-y-0 justify-between items-stretch xl:items-center">
+        <div class="flex-1 flex flex-col justify-center items-stretch xl:items-start">
+            <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center xl:text-start">
                 {{ $projectCall->projectCallType->label_long }} - {{ $projectCall->year }}
             </h3>
         </div>
-        <h4 class="text-base leading-6 text-indigo-600 flex items-center gap-x-4">
+        <h4
+            class="text-base leading-6 text-indigo-600 flex flex-col md:flex-row justify-center items-stretch md:items-center gap-x-4">
             <span class="text-center text-indigo-600 font-semibold">
                 {{ __('pages.dashboard.expert.evaluation_period') }}
             </span>
-            <span class="text-center flex items-center">
-                {{ $projectCall->evaluation_start_date->format(__('misc.date_format')) }}
-            </span>
-            <span>
-                <x-fas-arrow-right class="w-3 h-3 text-indigo-600" />
-            </span>
-            <span class="">
-                {{ $projectCall->evaluation_end_date->format(__('misc.date_format')) }}
+            <span class="text-center flex items-center justify-center gap-x-4">
+                <span>
+                    {{ $projectCall->evaluation_start_date->format(__('misc.date_format')) }}
+                </span>
+                <span>
+                    <x-fas-arrow-right class="w-3 h-3 text-indigo-600" />
+                </span>
+                <span class="">
+                    {{ $projectCall->evaluation_end_date->format(__('misc.date_format')) }}
+                </span>
             </span>
         </h4>
     </div>
     @if (filled($projectCall->title))
-        <p class="mt-1 text-base leading-7 text-gray-600 dark:text-gray-400 px-8">
+        <p class="mt-1 text-base leading-7 text-gray-600 dark:text-gray-400 px-8 text-center xl:text-start">
             {{ $projectCall->title }}
         </p>
     @endif

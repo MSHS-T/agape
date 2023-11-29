@@ -2,9 +2,10 @@
     <div class="">
         <div class="w-full max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                     <div class="mx-auto max-w-4xl sm:text-center">
-                        <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl pt-8">
+                        <h2
+                            class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl pt-8 px-2">
                             {{ __('pages.dashboard.expert.open_offers') }}
                         </h2>
                     </div>
@@ -21,9 +22,10 @@
                 </div>
             </div>
             <div class="mt-4 bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                     <div class="mx-auto max-w-4xl sm:text-center">
-                        <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl pt-8">
+                        <h2
+                            class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl pt-8 px-2">
                             {{ __('pages.dashboard.expert.pending_evaluations') }}
                         </h2>
                     </div>
@@ -41,9 +43,10 @@
                 </div>
             </div>
             <div class="mt-4 bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                     <div class="mx-auto max-w-4xl sm:text-center">
-                        <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl pt-8">
+                        <h2
+                            class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl pt-8 px-2">
                             {{ __('pages.dashboard.expert.past_evaluations') }}
                         </h2>
                     </div>
