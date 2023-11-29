@@ -2,3 +2,7 @@
 @import '../../../../vendor/awcodes/filament-table-repeater/resources/css/plugin.css';
 
 @config './tailwind.config.js';
+
+div.fi-layout>aside.fi-sidebar {
+    padding-top: 0 !important;
+}
