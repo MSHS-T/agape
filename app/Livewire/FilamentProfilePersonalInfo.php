@@ -12,10 +12,10 @@ class FilamentProfilePersonalInfo extends PersonalInfo
     {
         $first_name = Forms\Components\TextInput::make('first_name')
             ->required()
-            ->label(__('fields.user.first_name'));
+            ->label(__('attributes.first_name'));
         $last_name = Forms\Components\TextInput::make('last_name')
             ->required()
-            ->label(__('fields.user.last_name'));
+            ->label(__('attributes.last_name'));
         $email = Forms\Components\TextInput::make('email')
             ->required()
             ->email()

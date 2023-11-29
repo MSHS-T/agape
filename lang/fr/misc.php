@@ -5,15 +5,15 @@ return [
     'datetime_format' => 'd/m/Y H:i',
 
     'theme' => [
-        'title' => 'Thème',
-        'light' => 'Clair',
-        'dark' => 'Sombre',
+        'title'  => 'Thème',
+        'light'  => 'Clair',
+        'dark'   => 'Sombre',
         'system' => 'Automatique',
     ],
 
     'password_confirm' => [
-        'heading' => 'Confirmer le mot de passe',
-        'description' => 'Veuillez confirmer votre mot de passe avant de continuer.',
+        'heading'          => 'Confirmer le mot de passe',
+        'description'      => 'Veuillez confirmer votre mot de passe avant de continuer.',
         'current_password' => 'Mot de passe actuel'
     ],
 

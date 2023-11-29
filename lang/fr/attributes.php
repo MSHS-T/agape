@@ -92,14 +92,16 @@ return [
     'regency'        => 'Tutelle du laboratoire (CNRS, Université ou Autre)',
 
     // User
-    'first_name'     => 'Prénom',
-    'last_name'      => 'Nom',
-    'email'          => 'Adresse e-mail',
-    'phone'          => 'Téléphone',
-    'role'           => 'Rôle',
-    'email_verified' => 'Email vérifié ?',
-    'last_active_at' => 'Dernière connexion',
-    'managed_types'  => 'Types d\'AAP gérés',
+    'first_name'            => 'Prénom',
+    'last_name'             => 'Nom',
+    'email'                 => 'Adresse e-mail',
+    'phone'                 => 'Téléphone',
+    'role'                  => 'Rôle',
+    'email_verified'        => 'Email vérifié ?',
+    'last_active_at'        => 'Dernière connexion',
+    'managed_types'         => 'Types d\'AAP gérés',
+    'password'              => 'Mot de passe',
+    'password_confirmation' => 'Confirmer le mot de passe',
 
     // Generic
     'name'        => 'Nom',

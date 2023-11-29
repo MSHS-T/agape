@@ -20,13 +20,13 @@
             @csrf
 
             <div>
-                <x-label for="email" value="{{ __('fields.user.email') }}" />
+                <x-label for="email" value="{{ __('attributes.email') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
                     autofocus autocomplete="username" />
             </div>
 
             <div class="mt-6">
-                <x-label for="password" value="{{ __('fields.user.password') }}" />
+                <x-label for="password" value="{{ __('attributes.password') }}" />
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
                     autocomplete="current-password" />
             </div>

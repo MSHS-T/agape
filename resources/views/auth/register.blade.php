@@ -19,19 +19,19 @@
             @endif
 
             <div>
-                <x-label for="first_name" value="{{ __('fields.user.first_name') }}" />
+                <x-label for="first_name" value="{{ __('attributes.first_name') }}" />
                 <x-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')"
                     required autofocus autocomplete="first_name" />
             </div>
 
             <div class="mt-4">
-                <x-label for="last_name" value="{{ __('fields.user.last_name') }}" />
+                <x-label for="last_name" value="{{ __('attributes.last_name') }}" />
                 <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')"
                     required autofocus autocomplete="last_name" />
             </div>
 
             <div class="mt-4">
-                <x-label for="email" value="{{ __('fields.user.email') }}" />
+                <x-label for="email" value="{{ __('attributes.email') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
                     required autocomplete="username" aria-describedby="email-description" />
                 <p class="mt-2 text-xs italic text-gray-500" id="email-description">
@@ -40,7 +40,7 @@
             </div>
 
             <div class="mt-4">
-                <x-label for="password" value="{{ __('fields.user.password') }}" />
+                <x-label for="password" value="{{ __('attributes.password') }}" />
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
                     autocomplete="new-password" aria-describedby="password-description" />
                 <p class="mt-2 text-xs italic text-gray-500" id="password-description">
@@ -49,7 +49,7 @@
             </div>
 
             <div class="mt-4">
-                <x-label for="password_confirmation" value="{{ __('fields.user.password_confirmation') }}" />
+                <x-label for="password_confirmation" value="{{ __('attributes.password_confirmation') }}" />
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password"
                     name="password_confirmation" required autocomplete="new-password" />
             </div>
