@@ -27,7 +27,7 @@
                             {{ __('pages.dashboard.expert.pending_evaluations') }}
                         </h2>
                     </div>
-                    <div class="my-8 gap-4 flex justify-center" id="pending-evaluation">
+                    <div class="my-8 gap-4 flex flex-col justify-center" id="pending-evaluation">
                         @forelse ($pendingEvaluation as $offer)
                             <x-filament.evaluation-offer :offer="$offer"
                                 wire:key="pending-evaluation-{{ $offer->id }}" />
@@ -47,7 +47,7 @@
                             {{ __('pages.dashboard.expert.past_evaluations') }}
                         </h2>
                     </div>
-                    <div class="my-8 gap-4 flex justify-center" id="past-evaluation">
+                    <div class="my-8 gap-4 flex flex-col justify-center" id="past-evaluation">
                         @forelse ($doneEvaluation as $offer)
                             <x-filament.evaluation-offer :offer="$offer"
                                 wire:key="past-evaluation-{{ $offer->id }}" />

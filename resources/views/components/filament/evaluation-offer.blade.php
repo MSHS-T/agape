@@ -47,35 +47,36 @@
         @if ($offer->accepted === null)
             {{ ($this->acceptOfferAction)(['offer' => $offer->id]) }}
             {{ ($this->rejectOfferAction)(['offer' => $offer->id]) }}
-        @endif
-        <div
-            class="flex flex-col md:flex-row items-stretch md:items-center justify-center space-y-2 md:space-y-0 md:space-x-4">
-            @if ($projectCall->canEvaluate())
-                @if (blank($evaluation))
-                    <a href="{{ route('filament.expert.pages.evaluate', ['offer' => $offer]) }}"
-                        class="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                        {{ __('pages.dashboard.expert.create_evaluation') }}
-                    </a>
-                @elseif(blank($evaluation->submitted_at))
-                    @if (filled($evaluation->devalidation_message))
-                        <a href="{{ route('filament.expert.pages.evaluate', ['offer' => $offer]) }}"
-                            class="block rounded-md bg-orange-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                            {{ __('pages.dashboard.expert.correct_evaluation') }}
-                        </a>
-                    @else
+        @else
+            <div
+                class="flex flex-col md:flex-row items-stretch md:items-center justify-center space-y-2 md:space-y-0 md:space-x-4">
+                @if ($projectCall->canEvaluate())
+                    @if (blank($evaluation))
                         <a href="{{ route('filament.expert.pages.evaluate', ['offer' => $offer]) }}"
                             class="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                            {{ __('pages.dashboard.expert.edit_evaluation') }}
+                            {{ __('pages.dashboard.expert.create_evaluation') }}
                         </a>
+                    @elseif(blank($evaluation->submitted_at))
+                        @if (filled($evaluation->devalidation_message))
+                            <a href="{{ route('filament.expert.pages.evaluate', ['offer' => $offer]) }}"
+                                class="block rounded-md bg-orange-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                                {{ __('pages.dashboard.expert.correct_evaluation') }}
+                            </a>
+                        @else
+                            <a href="{{ route('filament.expert.pages.evaluate', ['offer' => $offer]) }}"
+                                class="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                                {{ __('pages.dashboard.expert.edit_evaluation') }}
+                            </a>
+                        @endif
                     @endif
                 @endif
-            @endif
-            @if (filled($evaluation))
-                <a href="{{ route('filament.expert.pages.evaluate', ['offer' => $offer]) }}"
-                    class="block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
-                    {{ __('pages.dashboard.expert.view_evaluation') }}
-                </a>
-            @endif
-        </div>
+                @if (filled($evaluation))
+                    <a href="{{ route('filament.expert.pages.evaluate', ['offer' => $offer]) }}"
+                        class="block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                        {{ __('pages.dashboard.expert.view_evaluation') }}
+                    </a>
+                @endif
+            </div>
+        @endif
     </div>
 </div>

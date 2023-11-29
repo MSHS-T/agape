@@ -5,12 +5,16 @@ namespace App\Models;
 use App\Models\Contracts\WithCreator;
 use App\Models\Traits\HasCreator;
 use App\Models\Traits\HasSchemalessAttributes;
+use App\Notifications\EvaluationOfferAccepted;
+use App\Notifications\EvaluationOfferRejected;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 /**
  * App\Models\EvaluationOffer
@@ -150,7 +154,10 @@ class EvaluationOffer extends Model implements WithCreator
         $this->justification = null;
         $this->save();
         // Send OfferAccepted notification
-        // $invitation->notify((new UserInvitationRetry($invitation))->locale($invitation->extra_attributes->lang));
+        Notification::send(
+            $this->resolveAdmins(),
+            new EvaluationOfferAccepted($this)
+        );
     }
 
     public function reject(string $message)
@@ -159,6 +166,15 @@ class EvaluationOffer extends Model implements WithCreator
         $this->justification = $message;
         $this->save();
         // Send OfferRejected notification
-        // $invitation->notify((new UserInvitationRetry($invitation))->locale($invitation->extra_attributes->lang));
+        Notification::send(
+            $this->resolveAdmins(),
+            new EvaluationOfferRejected($this)
+        );
+    }
+
+    public function resolveAdmins(): Collection|array
+    {
+        return $this->application->projectCall->projectCallType->managers
+            ->concat(User::role('administrator')->get());
     }
 }
