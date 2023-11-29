@@ -35,9 +35,9 @@
 </head>
 
 <body>
-    <div class="font-sans text-gray-900 dark:text-gray-100 antialiased relative">
+    <div class="font-sans text-gray-900 dark:text-gray-100 antialiased relative bg-gray-100 dark:bg-gray-900 py-8">
         {{ $slot }}
-        <div class="absolute top-2 right-2 w-fit flex flex-col items-end">
+        <div class="absolute top-2 right-2 w-fit flex flex-row sm:flex-col items-end">
             <x-dark-mode-switcher />
             <x-language-switcher />
         </div>
@@ -51,6 +51,8 @@
             </div>
         </div>
     </div>
+
+    @include('cookie-consent::index')
 
     @livewireScripts
     @stack('scripts')

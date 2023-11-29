@@ -1,0 +1,19 @@
+<div class="js-cookie-consent cookie-consent fixed bottom-0 inset-x-0 pb-2">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="p-2 rounded-lg bg-yellow-100">
+            <div class="mt-2 sm:mt-0 flex flex-col sm:flex-row items-stretch sm:items-center justify-between flex-wrap">
+                <div class="w-full sm:w-0 flex-1 items-center inline">
+                    <p class="px-3 sm:pl-3 sm:pr-0 text-black text-sm text-justify cookie-consent__message">
+                        {!! trans('cookie-consent::texts.message') !!}
+                    </p>
+                </div>
+                <div class="flex-shrink-0 w-full sm:w-auto flex items-center justify-center">
+                    <button
+                        class="js-cookie-consent-agree cookie-consent__agree cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-yellow-800 bg-yellow-400 hover:bg-yellow-300">
+                        {{ trans('cookie-consent::texts.agree') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
