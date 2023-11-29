@@ -109,6 +109,7 @@ return [
             'rejected' => 'Refusée',
             'pending'  => 'En attente',
         ],
+        'grades'      => 'Notes',
         'retries'     => 'Relances',
         'retry'       => 'Envoyer un rappel',
         'cancel'      => 'Annuler',

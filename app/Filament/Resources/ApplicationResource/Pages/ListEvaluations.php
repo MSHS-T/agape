@@ -54,6 +54,11 @@ class ListEvaluations extends Page implements Tables\Contracts\HasTable
                     ->label(__('admin.roles.expert'))
                     ->formatStateUsing(fn (Evaluation $evaluation) => $evaluation->evaluationOffer->expert->name),
                 AgapeTable::submissionStatusColumn(),
+                Tables\Columns\TextColumn::make('grades')
+                    ->label(__('admin.evaluation.grades')),
+                Tables\Columns\TextColumn::make('global_grade')
+                    ->label(__('pages.evaluate.global_grade'))
+                    ->sortable(),
                 ...AgapeTable::timestampColumns(showModification: true),
                 AgapeTable::submittedAtColumn(),
             ])
