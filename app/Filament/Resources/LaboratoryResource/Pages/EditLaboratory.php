@@ -25,7 +25,7 @@ class EditLaboratory extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if ($data['public'] === true) {
+        if (($data['public'] ?? false) === true) {
             $data['creator_id'] = null;
         }
         return $data;

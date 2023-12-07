@@ -12,7 +12,7 @@ class CreateStudyField extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        if ($data['public'] === true) {
+        if (($data['public'] ?? false) === true) {
             $data['creator_id'] = null;
         }
         return $data;
