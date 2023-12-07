@@ -3,7 +3,9 @@
 namespace Tests\Feature\Auth;
 
 use App\Providers\RouteServiceProvider;
+use Database\Seeders\RolesPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Features;
 use Laravel\Jetstream\Jetstream;
 use Tests\TestCase;
@@ -65,6 +67,7 @@ class RegistrationTest extends TestCase
 
             return;
         }
+        $this->seed(RolesPermissionsSeeder::class);
 
         $response = $this->post('/register', [
             'first_name' => 'Test',
@@ -76,6 +79,7 @@ class RegistrationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
+        $this->assertEquals(Auth::user()->roleName, 'applicant');
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 }

@@ -30,8 +30,9 @@ class ApplicantHomeControllerTest extends TestCase
         $pc6 = ProjectCall::factory()->archived()->create();
 
         $response = $this->get('/');
-        $response->assertOk();
+        $response->assertRedirect(route('filament.applicant.pages.dashboard'));
 
+        $response = $this->followRedirects($response);
         $this->assertEquals(1, substr_count($response->content(), 'projectcall-card-candidate'));
 
         $this->assertStringContainsString('projectcall-' . md5($pc2->id), $response->content());
