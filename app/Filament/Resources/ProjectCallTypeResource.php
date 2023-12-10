@@ -61,7 +61,7 @@ class ProjectCallTypeResource extends Resource
                                     ->map(
                                         fn (string $lang) => Forms\Components\TextInput::make('label.' . $lang)
                                             ->label(Str::upper($lang))
-                                            ->live()
+                                            ->live(onBlur: true)
                                             ->afterStateUpdated(fn (Forms\Set $set, Forms\Get $get) => $set('slug', Str::slug($get('label.en'))))
                                             ->validationAttribute(Str::upper($lang))
                                             ->required()
@@ -76,14 +76,14 @@ class ProjectCallTypeResource extends Resource
                                 Forms\Components\Select::make('section')
                                     ->label(__('attributes.dynamic_attributes.section'))
                                     ->options(__('pages.apply.sections'))
-                                    ->live()
+                                    ->live(onBlur: true)
                                     ->required(),
                                 Forms\Components\Select::make('after_field')
                                     ->label(__('attributes.dynamic_attributes.after_field'))
                                     ->helperText(__('admin.dynamic_attributes.after_field_help'))
                                     ->options(fn (Get $get) => AgapeApplicationForm::fieldsPerSection()[$get('section')] ?? [])
                                     ->default('')
-                                    ->live()
+                                    ->live(onBlur: true)
                                     ->required(false)
                             ]),
                         Forms\Components\Radio::make('type')
@@ -101,7 +101,7 @@ class ProjectCallTypeResource extends Resource
                             ->columns(['default' => 1, 'sm' => 1, 'lg' => 3])
                             ->columnSpanFull()
                             ->collapsible()
-                            ->collapsed(fn (ProjectCallType $record) => $record->exists)
+                            ->collapsed(fn ($record) => $record?->exists)
                             ->reorderableWithButtons()
                             ->reorderableWithDragAndDrop(false)
                             ->schema([
@@ -115,7 +115,7 @@ class ProjectCallTypeResource extends Resource
                                             ->map(
                                                 fn (string $lang) => Forms\Components\TextInput::make('label.' . $lang)
                                                     ->label(Str::upper($lang))
-                                                    ->live()
+                                                    ->live(onBlur: true)
                                                     ->afterStateUpdated(fn (Forms\Set $set, Forms\Get $get) => $set('value', Str::slug($get('label.en'))))
                                                     ->validationAttribute(Str::upper($lang))
                                                     ->required()
@@ -132,7 +132,7 @@ class ProjectCallTypeResource extends Resource
                             ->columns(['default' => 1, 'sm' => 1, 'lg' => 3])
                             ->columnSpanFull()
                             ->collapsible()
-                            ->collapsed(fn (ProjectCallType $record) => $record->exists)
+                            ->collapsed(fn ($record) => $record?->exists)
                             ->reorderableWithButtons()
                             ->reorderableWithDragAndDrop(false)
                             ->schema([
@@ -146,7 +146,7 @@ class ProjectCallTypeResource extends Resource
                                             ->map(
                                                 fn (string $lang) => Forms\Components\TextInput::make('label.' . $lang)
                                                     ->label(Str::upper($lang))
-                                                    ->live()
+                                                    ->live(onBlur: true)
                                                     ->afterStateUpdated(fn (Forms\Set $set, Forms\Get $get) => $set('value', Str::slug($get('label.en'))))
                                                     ->validationAttribute(Str::upper($lang))
                                                     ->required()
@@ -199,7 +199,7 @@ class ProjectCallTypeResource extends Resource
                             ->schema([
                                 Forms\Components\Toggle::make('repeatable')
                                     ->label(__('attributes.dynamic_attributes.repeatable'))
-                                    ->live()
+                                    ->live(onBlur: true)
                                     ->inline(true),
                                 Forms\Components\TextInput::make('minItems')
                                     ->label(__('attributes.dynamic_attributes.min_items'))

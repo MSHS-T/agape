@@ -241,7 +241,6 @@ class ProjectCallResource extends Resource
                             ->options(ProjectCallStatus::class)
                     ])
                     ->query(function (Builder $query, array $data): Builder {
-                        ray($data);
                         return $query
                             ->when(
                                 $data['status'] === ProjectCallStatus::PLANNED->value,
