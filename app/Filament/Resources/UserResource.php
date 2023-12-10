@@ -128,6 +128,18 @@ class UserResource extends Resource
                     ->placeholder(__('admin.users.all'))
                     ->trueLabel(__('admin.users.unblocked'))
                     ->falseLabel(__('admin.users.blocked')),
+                Tables\Filters\Filter::make('role_filter')
+                    ->form([
+                        Forms\Components\Select::make('role')
+                            ->label(__('attributes.role'))
+                            ->options(__('admin.roles'))
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            filled($data['role']),
+                            fn (Builder $query): Builder => $query->role($data['role']),
+                        );
+                    })
             ], FiltersLayout::AboveContent)
             ->actions([
                 Impersonate::make()
