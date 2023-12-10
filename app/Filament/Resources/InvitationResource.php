@@ -49,7 +49,10 @@ class InvitationResource extends Resource
                 ...AgapeTable::timestampColumns(showCreation: true, showModification: true, modificationLabel: 'admin.invitations.last_mail'),
                 Tables\Columns\TextColumn::make('extra_attributes.retry_count')
                     ->label(__('admin.invitations.retry_count'))
-                    ->searchable(),
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query
+                            ->orderBy('extra_attributes->retry_count', $direction);
+                    }),
             ])
             ->filters([
                 //
