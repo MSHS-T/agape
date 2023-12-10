@@ -17,6 +17,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
@@ -150,9 +151,23 @@ class UserResource extends Resource
                     ->redirectTo(route('home'))
                     ->backTo(route('filament.admin.resources.users.index')), // <---
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->label(__('admin.users.block'))
+                    ->icon('fas-times')
+                    ->modalHeading(fn ($record) => __('admin.users.block') . ' ' . $table->getRecordTitle($record))
+                    ->hidden(function (User $record) {
+                        if ($record->id === Auth::id()) {
+                            return true;
+                        }
+                        if ($record->hasRole('administrator') && Auth::user()->hasRole('manager')) {
+                            return true;
+                        }
+                        return $record->trashed();
+                    }),
                 Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\RestoreAction::make()
+                    ->label(__('admin.users.unblock'))
+                    ->modalHeading(fn ($record) => __('admin.users.unblock') . ' ' . $table->getRecordTitle($record)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

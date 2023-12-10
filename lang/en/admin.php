@@ -24,6 +24,8 @@ return [
         'all'                        => 'All',
         'unblocked'                  => 'Unblocked',
         'blocked'                    => 'Blocked',
+        'block'                      => 'Block',
+        'unblock'                    => 'Unblock',
         'invite_user'                => 'Invite User',
         'invitation_language'        => 'Invitation Language',
         'invitation_language_all'    => 'All',

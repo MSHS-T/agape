@@ -24,6 +24,8 @@ return [
         'all'                        => 'Tous',
         'unblocked'                  => 'Non Bloqués',
         'blocked'                    => 'Bloqués',
+        'block'                      => 'Bloquer',
+        'unblock'                    => 'Débloquer',
         'invite_user'                => 'Inviter un utilisateur',
         'invitation_language'        => 'Langue de l\'invitation',
         'invitation_language_all'    => 'Toutes',
