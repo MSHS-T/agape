@@ -55,6 +55,7 @@ class CreateNewUser implements CreatesNewUsers
                 ];
                 $user->save();
                 $creator->notify(new UserInvitationSignup($invitation, $user));
+                $invitation->delete();
             }
         } else {
             $user->assignRole('applicant');
