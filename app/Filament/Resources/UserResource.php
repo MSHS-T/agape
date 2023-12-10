@@ -13,6 +13,7 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -100,8 +101,7 @@ class UserResource extends Resource
                         'applicant'     => 'success',
                         'expert'        => 'info',
                         default         => 'gray',
-                    })
-                    ->searchable(),
+                    }),
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('attributes.email'))
                     ->searchable(),
@@ -128,7 +128,7 @@ class UserResource extends Resource
                     ->placeholder(__('admin.users.all'))
                     ->trueLabel(__('admin.users.unblocked'))
                     ->falseLabel(__('admin.users.blocked')),
-            ])
+            ], FiltersLayout::AboveContent)
             ->actions([
                 Impersonate::make()
                     ->link()
