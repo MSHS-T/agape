@@ -14,10 +14,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class AgapeForm
@@ -28,9 +27,10 @@ class AgapeForm
             ->label(__('attributes.creator'))
             ->relationship('creator', 'id')
             ->options(User::all()->pluck('name', 'id'))
+            ->default(Auth::id())
             ->hidden(fn (Get $get) => $get('public'))
             ->required(fn (Get $get) => !$get('public'))
-            ->disabled(fn (?Model $record) => $record !== null);
+            ->disabled(true);
     }
 
     public static function fileField(string $fileName): SpatieMediaLibraryFileUpload
