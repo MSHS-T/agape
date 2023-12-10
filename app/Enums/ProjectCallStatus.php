@@ -7,41 +7,32 @@ use App\Enums\MetaProperties\Label;
 use ArchTech\Enums\Meta\Meta;
 use ArchTech\Enums\Metadata;
 use Filament\Support\Colors\Color as FilamentColor;
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
 
-/**
- * @method string label()
- * @method FilamentColor color()
- */
-#[Meta(Label::class, Color::class)]
-enum ProjectCallStatus: int
+enum ProjectCallStatus: string implements HasLabel, HasColor
 {
-    use Metadata;
+    case PLANNED = 'planned';
+    case APPLICATION = 'application';
+    case WAITING_FOR_EVALUATION = 'waiting_for_evaluation';
+    case EVALUATION = 'evaluation';
+    case FINISHED = 'finished';
+    case ARCHIVED = 'archived';
 
-    #[Label('attributes.project_call_status.planned')]
-    #[Color(FilamentColor::Cyan)]
-    case PLANNED = 0;
+    public function getLabel(): ?string
+    {
+        return __('attributes.project_call_status.' . $this->value);
+    }
 
-    #[Label('attributes.project_call_status.application')]
-    #[Color(FilamentColor::Blue)]
-    case APPLICATION = 1;
-
-    #[Label('attributes.project_call_status.waiting_for_evaluation')]
-    #[Color(FilamentColor::Yellow)]
-    case WAITING_FOR_EVALUATION = 2;
-
-    #[Label('attributes.project_call_status.evaluation')]
-    #[Color(FilamentColor::Orange)]
-    case EVALUATION = 3;
-
-    #[Label('attributes.project_call_status.waiting_for_decision')]
-    #[Color(FilamentColor::Red)]
-    case WAITING_FOR_DECISION = 4;
-
-    #[Label('attributes.project_call_status.finished')]
-    #[Color(FilamentColor::Green)]
-    case FINISHED = 5;
-
-    #[Label('attributes.project_call_status.archived')]
-    #[Color(FilamentColor::Gray)]
-    case ARCHIVED = 6;
+    public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::PLANNED                => FilamentColor::Cyan,
+            self::APPLICATION            => FilamentColor::Blue,
+            self::WAITING_FOR_EVALUATION => FilamentColor::Yellow,
+            self::EVALUATION             => FilamentColor::Orange,
+            self::FINISHED               => FilamentColor::Green,
+            self::ARCHIVED               => FilamentColor::Gray,
+        };
+    }
 }

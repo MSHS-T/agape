@@ -211,8 +211,8 @@ class ProjectCallResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label(__('attributes.status'))
                     ->badge()
-                    ->color(fn (ProjectCallStatus $state) => $state->color())
-                    ->formatStateUsing(fn (ProjectCallStatus $state): string => __($state->label()))
+                    // ->color(fn (ProjectCallStatus $state) => $state->color())
+                    // ->formatStateUsing(fn (ProjectCallStatus $state): string => __($state->label()))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ViewColumn::make('application_start_date')
@@ -234,13 +234,39 @@ class ProjectCallResource extends Resource
                     ->options(
                         ProjectCall::all()->pluck('year', 'year')->unique()->all()
                     ),
-                Tables\Filters\SelectFilter::make('status')
-                    ->label(__('attributes.status'))
-                    ->options(
-                        collect(ProjectCallStatus::cases())
-                            ->mapWithKeys(fn (ProjectCallStatus $status) => [$status->value => __($status->label())])
-                            ->all()
-                    ),
+                Tables\Filters\Filter::make('status_filter')
+                    ->form([
+                        Forms\Components\Select::make('status')
+                            ->label(__('attributes.status'))
+                            ->options(ProjectCallStatus::class)
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        ray($data);
+                        return $query
+                            ->when(
+                                $data['status'] === ProjectCallStatus::PLANNED->value,
+                                fn (Builder $query): Builder => $query->whereDate('application_start_date', '>=', now()),
+                            )
+                            ->when(
+                                $data['status'] === ProjectCallStatus::APPLICATION->value,
+                                fn (Builder $query): Builder => $query->whereDate('application_start_date', '<=', now())
+                                    ->whereDate('application_end_date', '>=', now()),
+                            )
+                            ->when(
+                                $data['status'] === ProjectCallStatus::WAITING_FOR_EVALUATION->value,
+                                fn (Builder $query): Builder => $query->whereDate('application_end_date', '<=', now())
+                                    ->whereDate('evaluation_start_date', '>=', now()),
+                            )
+                            ->when(
+                                $data['status'] === ProjectCallStatus::EVALUATION->value,
+                                fn (Builder $query): Builder => $query->whereDate('evaluation_start_date', '<=', now())
+                                    ->whereDate('evaluation_end_date', '>=', now()),
+                            )
+                            ->when(
+                                $data['status'] === ProjectCallStatus::FINISHED->value,
+                                fn (Builder $query): Builder => $query->whereDate('evaluation_end_date', '<=', now()),
+                            );
+                    }),
                 Tables\Filters\TrashedFilter::make()
                     ->label(__('admin.archived_records.label'))
                     ->trueLabel(__('admin.archived_records.with'))

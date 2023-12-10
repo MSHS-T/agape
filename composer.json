@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "archtechx/enums": "^0.3.2",
         "awcodes/filament-table-repeater": "^2.0",
         "barryvdh/laravel-dompdf": "^2.0",
         "bezhansalleh/filament-language-switch": "^2.0",
