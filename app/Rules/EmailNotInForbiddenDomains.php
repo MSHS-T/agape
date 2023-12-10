@@ -16,10 +16,12 @@ class EmailNotInForbiddenDomains implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $generalSettings = app(GeneralSettings::class);
-        $forbiddenDomains = array_map("trim", explode(',', $generalSettings->forbiddenDomains));
-        [, $domain] = explode('@', $value);
-        if (in_array($domain, $forbiddenDomains)) {
-            $fail(__('validation.custom.email.forbidden_domain'));
+        if (filled($generalSettings->forbiddenDomains)) {
+            $forbiddenDomains = array_map("trim", explode(',', $generalSettings->forbiddenDomains));
+            [, $domain] = explode('@', $value);
+            if (in_array($domain, $forbiddenDomains)) {
+                $fail(__('validation.custom.email.forbidden_domain'));
+            }
         }
     }
 }

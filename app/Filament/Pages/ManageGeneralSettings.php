@@ -93,7 +93,7 @@ class ManageGeneralSettings extends SettingsPage
                             ->label(__('admin.settings.fields.forbiddenDomains'))
                             ->inlineLabel()
                             ->columnSpanFull()
-                            ->required()
+                            ->nullable()
                             ->regex('/^(?:\s*[\w.-]+\.[a-zA-Z]{2,}\s*(?:,\s*|$))+$/'),
                         ...$files->map(fn ($fileName) => Fieldset::make($fileName)
                             ->label(__('admin.settings.fields.' . $fileName))

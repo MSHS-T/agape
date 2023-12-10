@@ -26,7 +26,7 @@ class GeneralSettings extends Settings
     public array $grades;
     public array $notation;
 
-    public string $forbiddenDomains;
+    public ?string $forbiddenDomains;
 
     public static function group(): string
     {
