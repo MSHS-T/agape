@@ -62,6 +62,7 @@ return [
     'evaluation_pdf_export'           => 'Evaluations PDF Export',
     'evaluation_pdf_export_anonymous' => 'Anonymous Evaluations PDF Export',
     'close'                           => 'Close',
+    'archive'                         => 'Archive',
 
     'dynamic_attributes' => [
         'create'           => 'Add Dynamic Field',

@@ -126,8 +126,8 @@ class UserResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make()
                     ->label(__('admin.users.blocked_filter'))
-                    ->placeholder(__('admin.users.all'))
-                    ->trueLabel(__('admin.users.unblocked'))
+                    ->placeholder(__('admin.users.unblocked'))
+                    ->trueLabel(__('admin.users.all'))
                     ->falseLabel(__('admin.users.blocked')),
                 Tables\Filters\Filter::make('role_filter')
                     ->form([

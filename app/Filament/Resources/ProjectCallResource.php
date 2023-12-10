@@ -19,6 +19,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ProjectCallResource extends Resource
@@ -269,10 +270,9 @@ class ProjectCallResource extends Resource
                     }),
                 Tables\Filters\TrashedFilter::make()
                     ->label(__('admin.archived_records.label'))
-                    ->trueLabel(__('admin.archived_records.with'))
+                    ->trueLabel(__('admin.archived_records.all'))
                     ->falseLabel(__('admin.archived_records.only'))
-                    ->placeholder(__('admin.archived_records.all'))
-                    ->default(null)
+                    ->placeholder(__('admin.archived_records.with'))
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -288,6 +288,20 @@ class ProjectCallResource extends Resource
                     ->modalSubmitAction(false)
                     ->modalCancelActionLabel(__('admin.close'))
                     ->color(Color::Cyan),
+                Tables\Actions\DeleteAction::make()
+                    ->label(__('admin.archive'))
+                    ->icon('fas-box-archive')
+                    ->modalHeading(fn ($record) => __('admin.archive') . ' ' . $table->getRecordTitle($record))
+                    ->hidden(function (ProjectCall $record) {
+                        if ($record->evaluation_end_date >= now()) {
+                            return true;
+                        }
+                        if (!Auth::user()->hasRole('administrator')) {
+                            return true;
+                        }
+                        return $record->trashed();
+                    }),
+                Tables\Actions\RestoreAction::make(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('export_evaluations')
                         ->label(__('admin.evaluation_pdf_export'))
