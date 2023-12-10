@@ -43,8 +43,9 @@ return [
         'view_project_call' => 'Voir l\'Appel à Projets',
         'candidate'         => [
             'open_calls'          => 'Appels à projets en cours',
-            'past_calls'          => 'Appels à projets passés',
             'no_open_calls'       => 'Aucun appel en cours',
+            'past_calls'          => 'Appels à projets passés',
+            'no_past_calls'       => 'Aucun appel passé',
             'create_application'  => 'Candidater',
             'edit_application'    => 'Modifier ma candidature',
             'view_application'    => 'Visualiser ma candidature',

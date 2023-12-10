@@ -20,7 +20,7 @@
                     @empty
                         <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center pt-8"
                             id="no-open-calls">
-                            {{ __('pages.dashboard.candidate.no_openCalls') }}
+                            {{ __('pages.dashboard.candidate.no_open_calls') }}
                         </h3>
                     @endforelse
                 </div>
@@ -47,7 +47,7 @@
                         @empty
                             <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center pt-8"
                                 id="no-open-calls">
-                                {{ __('pages.dashboard.candidate.no_openCalls') }}
+                                {{ __('pages.dashboard.candidate.no_past_calls') }}
                             </h3>
                         @endforelse
                     </div>

@@ -21,13 +21,13 @@
 
             <div>
                 <x-label for="name" value="{{ __('attributes.name') }}" />
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name', auth()->user()?->name)" required
                     autofocus autocomplete="name" />
             </div>
 
             <div class="mt-6">
                 <x-label for="email" value="{{ __('attributes.email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', auth()->user()?->email)"
                     required autocomplete="email" />
             </div>
 

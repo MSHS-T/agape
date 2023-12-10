@@ -43,8 +43,9 @@ return [
         'view_project_call' => 'View Project Call',
         'candidate'         => [
             'open_calls'          => 'Open Calls',
-            'past_calls'          => 'Past Calls',
             'no_open_calls'       => 'No open calls',
+            'past_calls'          => 'Past Calls',
+            'no_past_calls'       => 'No past calls',
             'create_application'  => 'Apply',
             'edit_application'    => 'Edit Application',
             'view_application'    => 'View Application',
