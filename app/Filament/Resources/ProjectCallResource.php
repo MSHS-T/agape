@@ -9,9 +9,10 @@ use App\Filament\Resources\ProjectCallResource\Pages;
 use App\Models\ProjectCall;
 use App\Settings\GeneralSettings;
 use Filament\Forms;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
@@ -250,6 +251,22 @@ class ProjectCallResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('export_evaluations')
+                        ->label(__('admin.evaluation_pdf_export'))
+                        ->color(Color::Indigo)
+                        ->icon('fas-file-pdf')
+                        ->url(fn (ProjectCall $record) => route('export_evaluation.project_call', ['projectCall' => $record]))
+                        ->openUrlInNewTab(),
+                    Tables\Actions\Action::make('export_evaluations_anonymous')
+                        ->label(__('admin.evaluation_pdf_export_anonymous'))
+                        ->color(Color::Indigo)
+                        ->icon('fas-file-pdf')
+                        ->url(fn (ProjectCall $record) => route('export_evaluation.project_call', ['projectCall' => $record, 'anonymized' => true]))
+                        ->openUrlInNewTab(),
+                ])
+                    ->dropdownWidth(MaxWidth::Small)
+                    ->hidden(fn (ProjectCall $record) => $record->evaluation_start_date > now()),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

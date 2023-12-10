@@ -159,6 +159,16 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     }
 
     /**
+     * Get the user's initials.
+     */
+    protected function initials(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => collect(explode(' ', $this->name))->map(fn ($word) => substr($word, 0, 1))->implode(' ')
+        );
+    }
+
+    /**
      * Get the user's role.
      */
     protected function roleName(): Attribute

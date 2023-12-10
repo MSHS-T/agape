@@ -54,6 +54,10 @@ return [
 
     'public'      => 'Public',
     'make_public' => 'Make Public',
+    'pdf_export'                      => 'PDF Export',
+    'pdf_export_anonymous'            => 'Anonymous PDF Export',
+    'evaluation_pdf_export'           => 'Evaluations PDF Export',
+    'evaluation_pdf_export_anonymous' => 'Anonymous Evaluations PDF Export',
 
     'dynamic_attributes' => [
         'create'           => 'Add Dynamic Field',
@@ -77,11 +81,12 @@ return [
     ],
 
     'application' => [
-        'offers'          => 'Experts (:count)',
-        'evaluations'     => 'Evaluations (:count)',
-        'add_expert'      => 'Add Expert',
-        'existing_expert' => 'Existing Expert',
-        'new_expert'      => 'Email of Expert to Invite',
+        'offers'                       => 'Experts (:count)',
+        'evaluations'                  => 'Evaluations (:count)',
+        'add_expert'                   => 'Add Expert',
+        'existing_expert'              => 'Existing Expert',
+        'new_expert'                   => 'Email of Expert to Invite',
+        'add_selection_comity_opinion' => 'Selection Comity',
     ],
 
     'evaluation_offer' => [

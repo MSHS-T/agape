@@ -100,7 +100,22 @@ class ListEvaluations extends Page implements Tables\Contracts\HasTable
                         ['record' => $record]
                     ))
                     ->modalFooterActionsAlignment(Alignment::Right),
-                ...AgapeTable::submissionActions()
+                ...AgapeTable::submissionActions(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('export_evaluation')
+                        ->label(__('admin.pdf_export'))
+                        ->color(Color::Indigo)
+                        ->icon('fas-file-pdf')
+                        ->url(fn (Evaluation $record) => route('export_evaluation.evaluation', ['evaluation' => $record]))
+                        ->openUrlInNewTab(),
+                    Tables\Actions\Action::make('export_evaluation_anonymous')
+                        ->label(__('admin.pdf_export_anonymous'))
+                        ->color(Color::Indigo)
+                        ->icon('fas-file-pdf')
+                        ->url(fn (Evaluation $record) => route('export_evaluation.evaluation', ['evaluation' => $record, 'anonymized' => true]))
+                        ->openUrlInNewTab(),
+                ])
+                    ->hidden(fn (Evaluation $record) => blank($record->submitted_at)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

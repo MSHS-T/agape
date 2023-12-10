@@ -52,8 +52,12 @@ return [
         'all'   => 'Tous',
     ],
 
-    'public'      => 'Public',
-    'make_public' => 'Rendre public',
+    'public'                          => 'Public',
+    'make_public'                     => 'Rendre public',
+    'pdf_export'                      => 'Export PDF',
+    'pdf_export_anonymous'            => 'Export PDF Anonyme',
+    'evaluation_pdf_export'           => 'Export PDF des Évaluations',
+    'evaluation_pdf_export_anonymous' => 'Export PDF Anonyme des Évaluations',
 
     'dynamic_attributes' => [
         'create'           => 'Ajouter un Champ Dynamique',
@@ -77,11 +81,12 @@ return [
     ],
 
     'application' => [
-        'offers'          => 'Experts (:count)',
-        'evaluations'     => 'Évaluations (:count)',
-        'add_expert'      => 'Ajouter un expert',
-        'existing_expert' => 'Expert déjà enregistré',
-        'new_expert'      => 'Email de l\'expert à inviter',
+        'offers'                       => 'Experts (:count)',
+        'evaluations'                  => 'Évaluations (:count)',
+        'add_expert'                   => 'Ajouter un expert',
+        'existing_expert'              => 'Expert déjà enregistré',
+        'new_expert'                   => 'Email de l\'expert à inviter',
+        'add_selection_comity_opinion' => 'Comité de Sélection',
     ],
 
     'evaluation_offer' => [
@@ -116,6 +121,7 @@ return [
         'retry'       => 'Envoyer un rappel',
         'cancel'      => 'Annuler',
         'show_reason' => 'Raison du refus',
+        'export_name' => 'Grille d\'Évaluation',
     ],
 
     'settings' => [

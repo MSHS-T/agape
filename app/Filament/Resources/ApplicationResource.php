@@ -11,6 +11,7 @@ use App\Models\Application;
 use App\Models\EvaluationOffer;
 use App\Models\ProjectCall;
 use App\Models\User;
+use App\Utils\EvaluationExport;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -102,7 +103,23 @@ class ApplicationResource extends Resource
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->hidden(fn (Application $record) => filled($record->submitted_at)),
+                Tables\Actions\Action::make('selection_comity')
+                    ->label(__('admin.application.add_selection_comity_opinion'))
+                    ->icon('fas-users-viewfinder')
+                    ->color(Color::Cyan)
+                    ->form(fn (Application $record) => [
+                        AgapeForm::richTextEditor('selection_comity_opinion')
+                            ->label(__('attributes.selection_comity_opinion'))
+                            ->required()
+                            ->default($record->selection_comity_opinion),
+                    ])
+                    ->modalSubmitActionLabel(__('Save'))
+                    ->action(function (Application $record, array $data) {
+                        $record->selection_comity_opinion = $data['selection_comity_opinion'];
+                        $record->save();
+                    }),
                 Tables\Actions\Action::make('offers')
                     ->label(fn (Application $record) => __('admin.application.offers', ['count' => $record->evaluationOffers->count()]))
                     ->url(fn (Application $record) => route('filament.admin.resources.applications.offers', ['record' => $record]))
@@ -115,6 +132,21 @@ class ApplicationResource extends Resource
                     ->color(Color::Green)
                     ->icon('fas-file-signature')
                     ->hidden(fn (Application $record) => !$record->projectCall->canEvaluate() || blank($record->submitted_at)),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('export_evaluations')
+                        ->label(__('admin.evaluation_pdf_export'))
+                        ->color(Color::Indigo)
+                        ->icon('fas-file-pdf')
+                        ->url(fn (Application $record) => route('export_evaluation.application', ['application' => $record]))
+                        ->openUrlInNewTab(),
+                    Tables\Actions\Action::make('export_evaluations_anonymous')
+                        ->label(__('admin.evaluation_pdf_export_anonymous'))
+                        ->color(Color::Indigo)
+                        ->icon('fas-file-pdf')
+                        ->url(fn (Application $record) => route('export_evaluation.application', ['application' => $record, 'anonymized' => true]))
+                        ->openUrlInNewTab(),
+                ])
+                    ->hidden(fn (Application $record) => blank($record->submitted_at)),
                 ...AgapeTable::submissionActions()
             ])
             ->bulkActions([]);

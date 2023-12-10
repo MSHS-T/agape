@@ -1,0 +1,78 @@
+@extends('layouts.export')
+@section('head_content')
+    @include('export._style')
+@endsection
+@section('body')
+    <div id="agape-logo-wrapper">
+        <img src="{{ base_path() }}/public/logo_ligne.png" alt="{{ config('app.name') }}" id="agape-logo">
+    </div>
+    <h3 class="text-center">
+        {!! __('admin.evaluation.export_name') !!}
+    </h3>
+    <h3 class="text-center">
+        {{ $projectCall->projectCallType->label_short }} - {{ $projectCall->year }}
+    </h3>
+
+    @php($application = $evaluation->evaluationOffer->application)
+
+    <section>
+        {{-- Display application data in a table --}}
+        <table class="reference-table">
+            <tr>
+                <th>{{ __('attributes.reference') }}</th>
+                <td>
+                    <a name="application-{{ $application->reference }}">
+                        {{ $application->reference }}
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th>{{ __('admin.roles.applicant') }}</th>
+                <td>{{ $application->creator->name }}</td>
+            </tr>
+            <tr>
+                <th>{{ __('attributes.title') }}</th>
+                <td>
+                    {{ $application->title }}
+                    @if (!empty($application->acronym))
+                        ({{ $application->acronym }})
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <th>{{ __('attributes.main_laboratory') }}</th>
+                <td>{{ $application->laboratories->first()->name }}</td>
+            </tr>
+        </table>
+
+        <h4 class="text-center title-bordered">
+            <a name="evaluation-{{ $evaluation->id }}">
+                {{ __('resources.evaluation') }}
+            </a>
+            @if (!$anonymized)
+                : {{ $evaluation->evaluationOffer->expert->name }}
+            @endif
+
+        </h4>
+
+        <div class="evaluation">
+            @include('export._display', [
+                'evaluation' => $evaluation,
+                'anonymized' => $anonymized,
+            ])
+        </div>
+
+    </section>
+
+    <script type="text/php">
+    if (isset($pdf)) {
+        $text = "{PAGE_NUM} / {PAGE_COUNT}";
+        $size = 10;
+        $font = $fontMetrics->getFont("Arial");
+        $width = $fontMetrics->get_text_width($text, $font, $size) / 2;
+        $x = ($pdf->get_width() - $width);
+        $y = $pdf->get_height() - 35;
+        $pdf->page_text($x, $y, $text, $font, $size);
+    }
+</script>
+@endsection

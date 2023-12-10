@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocaleChangeController;
 use App\Livewire\ProjectCallApplication;
@@ -30,7 +31,15 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    'redirect_admins'
 ])->group(function () {
     Route::get('/', HomeController::class)->name('home');
+
+    Route::middleware(['role:administrator|manager'])
+        ->name('export_evaluation.')
+        ->prefix('export_evaluation')
+        ->group(function () {
+            Route::get('projectcall/{projectCall}', [ExportController::class, 'evaluationExportForProjectCall'])->name('project_call');
+            Route::get('application/{application}', [ExportController::class, 'evaluationExportForApplication'])->name('application');
+            Route::get('evaluation/{evaluation}', [ExportController::class, 'evaluationExport'])->name('evaluation');
+        });
 });
