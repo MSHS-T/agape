@@ -4,7 +4,7 @@
 @endsection
 @section('body')
     <div id="agape-logo-wrapper">
-        <img src="{{ base_path() }}/public/logo_ligne.png" alt="{{ config('app.name') }}" id="agape-logo">
+        <img src="{{ base_path() }}/public/{{ env('APP_LOGO') }}" alt="{{ config('app.name') }}" id="agape-logo">
     </div>
     <h3 class="text-center">
         {!! __('admin.evaluation.export_name') !!}

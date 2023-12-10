@@ -38,7 +38,7 @@ class ExpertPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: app_path('Filament/Expert/Resources'), for: 'App\\Filament\\Expert\\Resources')
             ->discoverPages(in: app_path('Filament/Expert/Pages'), for: 'App\\Filament\\Expert\\Pages')
-            ->brandLogo(fn () => asset('bandeau.png'))
+            ->brandLogo(fn () => asset(env('APP_BANNER')))
             ->brandLogoHeight('2.5rem')
             ->discoverWidgets(in: app_path('Filament/Expert/Widgets'), for: 'App\\Filament\\Expert\\Widgets')
             ->widgets([

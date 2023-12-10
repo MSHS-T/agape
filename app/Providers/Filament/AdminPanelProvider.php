@@ -55,7 +55,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->sidebarCollapsibleOnDesktop()
             // ->sidebarFullyCollapsibleOnDesktop()
-            ->brandLogo(fn () => asset('bandeau.png'))
+            ->brandLogo(fn () => asset(env('APP_BANNER')))
             ->brandLogoHeight('2.5rem')
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

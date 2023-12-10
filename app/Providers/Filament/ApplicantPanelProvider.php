@@ -37,7 +37,7 @@ class ApplicantPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: app_path('Filament/Applicant/Resources'), for: 'App\\Filament\\Applicant\\Resources')
             ->discoverPages(in: app_path('Filament/Applicant/Pages'), for: 'App\\Filament\\Applicant\\Pages')
-            ->brandLogo(fn () => asset('bandeau.png'))
+            ->brandLogo(fn () => asset(env('APP_BANNER')))
             ->brandLogoHeight('2.5rem')
             ->discoverWidgets(in: app_path('Filament/Applicant/Widgets'), for: 'App\\Filament\\Applicant\\Widgets')
             ->widgets([
