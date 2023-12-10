@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ProjectCallStatus;
+use App\Filament\AgapeApplicationForm;
 use App\Filament\AgapeForm;
 use App\Filament\AgapeTable;
 use App\Filament\Resources\ProjectCallResource\Pages;
@@ -276,6 +277,17 @@ class ProjectCallResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('preview_application_form')
+                    ->label(__('admin.preview_application_form'))
+                    ->form(function (ProjectCall $record, Form $form) {
+                        return (new AgapeApplicationForm($record, $form))->buildForm();
+                    })
+                    ->slideOver()
+                    ->stickyModalHeader()
+                    ->stickyModalFooter()
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel(__('admin.close'))
+                    ->color(Color::Cyan),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('export_evaluations')
                         ->label(__('admin.evaluation_pdf_export'))

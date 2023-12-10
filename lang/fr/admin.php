@@ -54,10 +54,12 @@ return [
 
     'public'                          => 'Public',
     'make_public'                     => 'Rendre public',
+    'preview_application_form'        => 'Prévisualiser la candidature',
     'pdf_export'                      => 'Export PDF',
     'pdf_export_anonymous'            => 'Export PDF Anonyme',
     'evaluation_pdf_export'           => 'Export PDF des Évaluations',
     'evaluation_pdf_export_anonymous' => 'Export PDF Anonyme des Évaluations',
+    'close'                           => 'Fermer',
 
     'dynamic_attributes' => [
         'create'           => 'Ajouter un Champ Dynamique',

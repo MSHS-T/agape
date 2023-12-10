@@ -52,12 +52,14 @@ return [
         'all'   => 'All',
     ],
 
-    'public'      => 'Public',
-    'make_public' => 'Make Public',
+    'public'                          => 'Public',
+    'make_public'                     => 'Make Public',
+    'preview_application_form'        => 'Preview application',
     'pdf_export'                      => 'PDF Export',
     'pdf_export_anonymous'            => 'Anonymous PDF Export',
     'evaluation_pdf_export'           => 'Evaluations PDF Export',
     'evaluation_pdf_export_anonymous' => 'Anonymous Evaluations PDF Export',
+    'close'                           => 'Close',
 
     'dynamic_attributes' => [
         'create'           => 'Add Dynamic Field',
