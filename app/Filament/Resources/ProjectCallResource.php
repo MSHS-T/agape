@@ -9,6 +9,7 @@ use App\Filament\AgapeTable;
 use App\Filament\Resources\ProjectCallResource\Pages;
 use App\Models\ProjectCall;
 use App\Settings\GeneralSettings;
+use App\Utils\MimeType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -144,7 +145,10 @@ class ProjectCallResource extends Resource
                     ])
                     ->schema(
                         $files
-                            ->map(fn ($fileName) => AgapeForm::fileField($fileName))
+                            ->map(
+                                fn ($fileName) => AgapeForm::fileField($fileName)
+                                    ->acceptedFileTypes(MimeType::getByExtensionList($generalSettings->{'extensions' . ucfirst($fileName)} ?? ''))
+                            )
                             ->all()
                     ),
                 Forms\Components\Section::make('settings')
