@@ -44,6 +44,7 @@ class LaboratoryResource extends Resource
                     ->required()
                     ->maxLength(255),
                 AgapeForm::creatorField()
+                    ->label(__('attributes.owner'))
             ]);
     }
 

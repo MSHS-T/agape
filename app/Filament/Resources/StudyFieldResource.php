@@ -34,6 +34,7 @@ class StudyFieldResource extends Resource
                         ->required(),
                 ]),
                 AgapeForm::creatorField()
+                    ->label(__('attributes.owner'))
             ]);
     }
 
