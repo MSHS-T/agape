@@ -41,8 +41,11 @@ class CreateNewUser implements CreatesNewUsers
 
         $invitationCode = $input['invitation'] ?? null;
         if (filled($invitationCode)) {
-            $invitation = Invitation::where('invitation', $invitationCode)->firstOrFail();
-
+            $invitation = Invitation::where('invitation', $invitationCode)->first();
+        } else {
+            $invitation = Invitation::where('email', $input['email'])->first();
+        }
+        if (filled($invitation)) {
             $user->assignRole($invitation->extra_attributes->role);
             $user->projectCallTypes()->sync($invitation->extra_attributes->project_call_types ?? []);
 
