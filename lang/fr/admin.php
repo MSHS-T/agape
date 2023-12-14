@@ -56,6 +56,8 @@ return [
 
     'public'                          => 'Public',
     'make_public'                     => 'Rendre public',
+    'private'                         => 'Privé',
+    'make_private'                    => 'Rendre privé',
     'preview_application_form'        => 'Prévisualiser la candidature',
     'pdf_export'                      => 'Export PDF',
     'pdf_export_anonymous'            => 'Export PDF Anonyme',

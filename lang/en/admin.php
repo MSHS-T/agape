@@ -56,6 +56,8 @@ return [
 
     'public'                          => 'Public',
     'make_public'                     => 'Make Public',
+    'private'                         => 'Private',
+    'make_private'                    => 'Make Private',
     'preview_application_form'        => 'Preview application',
     'pdf_export'                      => 'PDF Export',
     'pdf_export_anonymous'            => 'Anonymous PDF Export',

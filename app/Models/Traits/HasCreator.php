@@ -58,6 +58,13 @@ trait HasCreator
         return $this;
     }
 
+    public function makePrivate(): static
+    {
+        $this->creator()->associate(Auth::user());
+        $this->save();
+        return $this;
+    }
+
     public function resolveCreator(): ?\App\Models\User
     {
         return $this->creator;

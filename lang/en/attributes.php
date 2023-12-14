@@ -110,6 +110,7 @@ return [
     'description' => 'Description',
     'status'      => 'Status',
     'reference'   => 'Reference',
+    'owner'       => 'Owner',
     'creator'     => 'Creator',
     'created_at'  => 'Created At',
     'updated_at'  => 'Updated At',

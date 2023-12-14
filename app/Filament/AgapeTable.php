@@ -20,7 +20,8 @@ class AgapeTable
         return TextColumn::make('creator_id')
             ->label(__('attributes.creator'))
             ->formatStateUsing(fn ($record) => filled($record->creator_id) ? $record->creator->name : __('admin.public'))
-            ->sortable();
+            ->sortable()
+            ->placeholder(__('admin.public'));
     }
 
     public static function submittedAtColumn()
@@ -84,15 +85,24 @@ class AgapeTable
      * ACTIONS
      */
 
-    public static function makePublicAction()
+    public static function makePublicAction(): array
     {
-        return Action::make('make_public')
-            ->label(__('admin.make_public'))
-            ->icon('fas-lock-open')
-            ->color('warning')
-            ->hidden(fn (WithCreator $record) => $record->creator_id === null)
-            ->requiresConfirmation()
-            ->action(fn (WithCreator $record) => $record->makePublic());
+        return [
+            Action::make('make_public')
+                ->label(__('admin.make_public'))
+                ->icon('fas-lock-open')
+                ->color('warning')
+                ->hidden(fn (WithCreator $record) => $record->creator_id === null)
+                ->requiresConfirmation()
+                ->action(fn (WithCreator $record) => $record->makePublic()),
+            Action::make('make_private')
+                ->label(__('admin.make_private'))
+                ->icon('fas-lock')
+                ->color('danger')
+                ->hidden(fn (WithCreator $record) => $record->creator_id !== null)
+                ->requiresConfirmation()
+                ->action(fn (WithCreator $record) => $record->makePrivate())
+        ];
     }
     public static function submissionActions()
     {

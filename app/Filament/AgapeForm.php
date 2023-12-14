@@ -28,9 +28,7 @@ class AgapeForm
             ->relationship('creator', 'id')
             ->options(User::all()->pluck('name', 'id'))
             ->default(Auth::id())
-            ->hidden(fn (Get $get) => $get('public'))
-            ->required(fn (Get $get) => !$get('public'))
-            ->disabled(true);
+            ->hidden(fn (string $operation) => $operation === 'create');
     }
 
     public static function fileField(string $fileName): SpatieMediaLibraryFileUpload

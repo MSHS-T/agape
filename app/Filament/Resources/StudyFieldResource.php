@@ -44,14 +44,15 @@ class StudyFieldResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('attributes.name'))
                     ->sortable(),
-                AgapeTable::creatorColumn(),
+                AgapeTable::creatorColumn()
+                    ->label(__('attributes.owner')),
                 ...AgapeTable::timestampColumns()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                AgapeTable::makePublicAction(),
+                ...AgapeTable::makePublicAction(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

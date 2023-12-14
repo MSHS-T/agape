@@ -110,6 +110,7 @@ return [
     'description' => 'Description',
     'status'      => 'Statut',
     'reference'   => 'Référence',
+    'owner'       => 'Propriétaire',
     'creator'     => 'Créateur',
     'created_at'  => 'Date de création',
     'updated_at'  => 'Date de mise à jour',

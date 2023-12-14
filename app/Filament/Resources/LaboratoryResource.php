@@ -63,14 +63,15 @@ class LaboratoryResource extends Resource
                 Tables\Columns\TextColumn::make('regency')
                     ->label(__('attributes.regency'))
                     ->searchable(),
-                AgapeTable::creatorColumn(),
+                AgapeTable::creatorColumn()
+                    ->label(__('attributes.owner')),
                 ...AgapeTable::timestampColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                // TODO : Make public action
+                ...AgapeTable::makePublicAction(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([]);
