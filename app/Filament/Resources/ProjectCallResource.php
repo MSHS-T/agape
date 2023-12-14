@@ -214,6 +214,11 @@ class ProjectCallResource extends Resource
                     ->label(__('attributes.year'))
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('title')
+                    ->label(__('attributes.title'))
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('status')
                     ->label(__('attributes.status'))
                     ->badge()
