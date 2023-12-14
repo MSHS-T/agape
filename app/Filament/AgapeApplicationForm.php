@@ -388,8 +388,9 @@ class AgapeApplicationForm
         if ($fieldClass === null) {
             return null;
         }
+        $slug = $settings['slug'] ?? Str::slug($settings['label']['en']);
 
-        $field = $fieldClass::make($prefix . $settings['slug'])
+        $field = $fieldClass::make($prefix . $slug)
             ->label($settings['label'][app()->getLocale()])
             ->required($settings['required'] ?? false)
             ->live()

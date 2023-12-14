@@ -50,7 +50,6 @@ class ProjectCallTypeResource extends Resource
                     ->collapsible()
                     ->schema([
                         Forms\Components\Hidden::make('slug')
-                            ->disabled()
                             ->required(),
                         Forms\Components\Fieldset::make('label')
                             ->label(__('attributes.dynamic_attributes.label'))
