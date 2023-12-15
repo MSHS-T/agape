@@ -7,6 +7,7 @@ use App\Filament\AgapeApplicationForm;
 use App\Filament\AgapeForm;
 use App\Filament\AgapeTable;
 use App\Filament\Resources\ProjectCallResource\Pages;
+use App\Models\Application;
 use App\Models\ProjectCall;
 use App\Settings\GeneralSettings;
 use App\Utils\MimeType;
@@ -289,6 +290,7 @@ class ProjectCallResource extends Resource
                 Tables\Actions\Action::make('preview_application_form')
                     ->label(__('admin.preview_application_form'))
                     ->form(function (ProjectCall $record, Form $form) {
+                        $form->model(new Application(['project_call_id' => $record->id]));
                         return (new AgapeApplicationForm($record, $form))->buildForm();
                     })
                     ->slideOver()
