@@ -115,11 +115,11 @@ class UserResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('last_active_at')
                     ->label(__('attributes.last_active_at'))
-                    ->dateTime()
+                    ->dateTime(__('misc.datetime_format'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('attributes.created_at'))
-                    ->dateTime()
+                    ->dateTime(__('misc.datetime_format'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
