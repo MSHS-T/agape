@@ -2,6 +2,7 @@
 
 namespace App\Models\Traits;
 
+use App\Models\EvaluationOffer;
 use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,7 +30,11 @@ trait HasCreator
                 $user = Auth::user();
                 // Adds logged in user as creator
                 $model->creator()->associate(
-                    (App::runningInConsole() || ($user->hasAnyRole(['administrator', 'manager']) && !($model instanceof Invitation)))
+                    (App::runningInConsole() || (
+                        $user->hasAnyRole(['administrator', 'manager'])
+                        && !($model instanceof Invitation)
+                        && !($model instanceof EvaluationOffer))
+                    )
                         ? null
                         : Auth::user()
                 );
