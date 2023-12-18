@@ -100,9 +100,11 @@ class Application
                 case 'select':
                     $attributeRules[$slug] = [
                         $attribute['required'] ? 'required' : 'sometimes',
-                        'array'
+                        $attribute['multiple'] ? 'array' : 'string'
                     ];
-                    $attributeRules[$slug . '.*'] = [Rule::in(array_column($attribute['options'], 'value'))];
+                    if ($attribute['multiple']) {
+                        $attributeRules[$slug . '.*'] = [Rule::in(array_column($attribute['options'], 'value'))];
+                    }
                     break;
             }
 
