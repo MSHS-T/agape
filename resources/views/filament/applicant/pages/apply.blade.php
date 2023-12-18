@@ -54,10 +54,7 @@
         </div>
     </div>
 
-    @if (
-        $application->projectCall->canApply() &&
-            blank($application->submitted_at) &&
-            filled($application->devalidation_message))
+    @if ($projectCall->canApply() && blank($application?->submitted_at) && filled($application?->devalidation_message))
         <div class="px-4 py-5 bg-red-300 dark:bg-red-900/50 sm:p-6 shadow sm:rounded-md">
             <div class="grid grid-cols-1 gap-6">
                 <h4 class="leading-7 text-xl font-semibold text-gray-600 dark:text-gray-400">
@@ -65,7 +62,7 @@
                 </h4>
                 <div
                     class="mx-16 px-8 py-4 border-l-4 border-red-400 leading-7 text-lg !text-gray-600 !dark:text-gray-400">
-                    {!! $application->devalidation_message !!}
+                    {!! $application?->devalidation_message !!}
                 </div>
                 <p class="leading-5 text-base font-semibold italic text-gray-600 dark:text-gray-400">
                     {{ __('pages.apply.devalidated_help') }}
@@ -80,7 +77,7 @@
         </div>
     @endif
 
-    @if ($application->projectCall->canApply() && filled($application->submitted_at))
+    @if ($projectCall->canApply() && filled($application?->submitted_at))
         <div class="px-4 py-5 bg-green-300 dark:bg-green-900/50 sm:p-6 shadow sm:rounded-md">
             <div class="grid grid-cols-1 gap-6">
                 <h4 class="leading-7 text-xl font-semibold text-gray-600 dark:text-gray-400">
