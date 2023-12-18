@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Models\Invitation;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
@@ -21,7 +22,8 @@ class InviteUser
 
         $invitation = new Invitation([
             'invitation' => $invitationCode,
-            'email'      => $email
+            'email'      => $email,
+            'creator_id' => Auth::id()
         ]);
 
         $invitation->extra_attributes['lang'] = $lang;
