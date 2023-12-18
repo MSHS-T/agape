@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('application_id')->constrained('applications')->cascadeOnDelete();
             $table->foreignId('expert_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('invitation_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('invitation_id')->nullable()->constrained('invitations')->nullOnDelete();
             $table->boolean('accepted')->nullable();
             $table->text('justification')->nullable();
             $table->schemalessAttributes('extra_attributes');

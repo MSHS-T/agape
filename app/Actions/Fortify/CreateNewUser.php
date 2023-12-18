@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\EvaluationOffer;
 use App\Models\Invitation;
 use App\Models\User;
 use App\Notifications\UserInvitationSignup;
@@ -45,6 +46,7 @@ class CreateNewUser implements CreatesNewUsers
         } else {
             $invitation = Invitation::where('email', $input['email'])->first();
         }
+
         if (filled($invitation)) {
             $user->assignRole($invitation->extra_attributes->role);
             $user->projectCallTypes()->sync($invitation->extra_attributes->project_call_types ?? []);
@@ -56,10 +58,19 @@ class CreateNewUser implements CreatesNewUsers
                     'id'   => $invitation->creator_id,
                     'name' => $invitation->creator->name,
                 ];
-                $user->save();
-                $creator->notify(new UserInvitationSignup($invitation, $user));
-                $invitation->delete();
             }
+            $user->save();
+            $creator?->notify(new UserInvitationSignup($invitation, $user));
+
+            // Before deleting the invitation, we check if we have evaluationoffers linked to it and transfer the link to the new user instead
+            $offers = EvaluationOffer::where('invitation_id', $invitation->id)->get();
+            foreach ($offers as $offer) {
+                $offer->invitation_id = null;
+                $offer->expert_id = $user->id;
+                $offer->save();
+            }
+
+            $invitation->delete();
         } else {
             $user->assignRole('applicant');
         }
