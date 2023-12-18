@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -66,5 +67,18 @@ class ProjectCallType extends Model
     public function managers(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function projectCalls(): HasMany
+    {
+        return $this->hasMany(ProjectCall::class);
+    }
+
+    public function canBeEdited(): bool
+    {
+        return $this->projectCalls()
+            ->where('application_start_date', '<=', now())
+            ->where('evaluation_end_date', '>=', now())
+            ->count() === 0;
     }
 }
