@@ -187,28 +187,36 @@ class AgapeApplicationForm
                                         ->editOptionModalHeading(__('pages.apply.edit_laboratory'))
                                         ->createOptionForm([
                                             Forms\Components\TextInput::make('name')
-                                                ->label(__('attributes.name')),
+                                                ->label(__('attributes.name'))
+                                                ->required(),
                                             Forms\Components\TextInput::make('unit_code')
-                                                ->label(__('attributes.unit_code')),
+                                                ->label(__('attributes.unit_code'))
+                                                ->required(),
                                             Forms\Components\TextInput::make('director_email')
                                                 ->label(__('attributes.director_email'))
+                                                ->required()
                                                 ->email(),
                                             Forms\Components\TextInput::make('regency')
-                                                ->label(__('attributes.regency')),
+                                                ->label(__('attributes.regency'))
+                                                ->required(),
                                         ])
                                         ->editOptionForm([
                                             Forms\Components\TextInput::make('name')
                                                 ->label(__('attributes.name'))
-                                                ->disabled(),
+                                                ->disabled()
+                                                ->required(),
                                             Forms\Components\TextInput::make('unit_code')
                                                 ->label(__('attributes.unit_code'))
-                                                ->disabled(),
+                                                ->disabled()
+                                                ->required(),
                                             Forms\Components\TextInput::make('director_email')
                                                 ->label(__('attributes.director_email'))
-                                                ->email(),
+                                                ->email()
+                                                ->required(),
                                             Forms\Components\TextInput::make('regency')
                                                 ->label(__('attributes.regency'))
-                                                ->disabled(),
+                                                ->disabled()
+                                                ->required(),
                                         ]),
                                     Forms\Components\TextInput::make('contact_name')
                                         ->label(__('attributes.contact_name')),
