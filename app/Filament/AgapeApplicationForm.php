@@ -8,6 +8,7 @@ use App\Settings\GeneralSettings;
 use App\Utils\MimeType;
 use Awcodes\FilamentTableRepeater\Components\TableRepeater;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -358,9 +359,18 @@ class AgapeApplicationForm
                         ->reorderable()
                         ->maxFiles($maxFiles)
                         ->helperText($helperText);
+                } else {
+                    $field = $field->hintAction(
+                        Action::make('downloadTemplate')
+                            ->label(__('pages.apply.download_template'))
+                            ->icon('fas-file-download')
+                            ->hidden(!$this->projectCall->hasMedia($name))
+                            ->action(fn () => $this->projectCall->getFirstMedia($name)->toResponse(request()))
+                    );
                 }
                 if ($this->forEvaluation) {
                     $field->helperText(null)
+                        ->hintActions([])
                         ->reorderable(false)
                         ->deletable(false);
                 }

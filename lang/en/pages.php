@@ -99,6 +99,7 @@ return [
         'amount_requested_help'   => 'You will need to attach a detailed budget in the financial form and attach it to section 4',
         'other_fundings_help'     => '(or other financial support)',
         'other_attachments_help'  => ':count maximum files',
+        'download_template'       => 'Download Template',
         'devalidated_title'       => 'Your application was devalidated by the platform manager for the following reason',
         'devalidated_help'        => 'Please correct the points mentioned above before resubmitting.',
         'submitted'               => 'Your application has been submitted for evaluation and cannot be modified.',
