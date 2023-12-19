@@ -19,7 +19,7 @@ class AgapeTable
     {
         return TextColumn::make('creator_id')
             ->label(__('attributes.creator'))
-            ->formatStateUsing(fn ($record) => filled($record->creator_id) ? $record->creator->name : __('admin.public'))
+            ->formatStateUsing(fn ($record) => filled($record->creator_id) ? $record->creator?->name : __('admin.public'))
             ->sortable()
             ->placeholder(__('admin.public'));
     }
