@@ -33,8 +33,8 @@ class StudyFieldResource extends Resource
                         ->label(__('attributes.name'))
                         ->required(),
                 ]),
-                AgapeForm::creatorField()
-                    ->label(__('attributes.owner'))
+                // AgapeForm::creatorField()
+                //     ->label(__('attributes.owner'))
             ]);
     }
 
