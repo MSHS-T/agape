@@ -58,7 +58,10 @@ class AgapeForm
                 collect(config('agape.languages'))->map(
                     fn ($lang) =>
                     Tabs\Tab::make(Str::upper($lang))
-                        ->icon('flag-4x3-' . config('filament-language-switch.locales')[$lang]['flag_code'])
+                        ->icon('flag-4x3-' . match ($lang) {
+                            'en'    => 'gb',
+                            default => $lang
+                        })
                         ->schema($fields($lang))
                 )->all()
             );

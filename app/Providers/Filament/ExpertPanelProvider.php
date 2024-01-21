@@ -4,11 +4,9 @@ namespace App\Providers\Filament;
 
 use App\Livewire\FilamentProfilePersonalInfo;
 use App\Livewire\FilamentProfileTwoFactor;
-use BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -61,8 +59,6 @@ class ExpertPanelProvider extends PanelProvider
             ])
             ->topNavigation()
             ->plugins([
-                FilamentLanguageSwitchPlugin::make()
-                    ->renderHookName('panels::user-menu.before'),
                 BreezyCore::make()
                     ->myProfile(
                         shouldRegisterUserMenu: true, // Sets the 'account' link in the panel User Menu (default = true)

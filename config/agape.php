@@ -36,4 +36,11 @@ return [
      * List of enabled languages
      */
     'languages' => ['fr', 'en'],
+
+    /**
+     * List of flags overrides (if flag code matches the language code, do not set here)
+     */
+    'flags' => [
+        'en' => 'gb',
+    ]
 ];
