@@ -242,6 +242,7 @@ class ProjectCallTypeResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -263,6 +264,7 @@ class ProjectCallTypeResource extends Resource
         return [
             'index'  => Pages\ListProjectCallTypes::route('/'),
             'create' => Pages\CreateProjectCallType::route('/create'),
+            'view'   => Pages\ViewProjectCallType::route('/{record}'),
             'edit'   => Pages\EditProjectCallType::route('/{record}/edit'),
         ];
     }
@@ -278,6 +280,10 @@ class ProjectCallTypeResource extends Resource
     }
 
     public static function getPluralModelLabel(): string
+    {
+        return __('resources.project_call_type_plural');
+    }
+    public static function getBreadcrumb(): string
     {
         return __('resources.project_call_type_plural');
     }

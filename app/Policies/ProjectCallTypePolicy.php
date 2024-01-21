@@ -37,7 +37,7 @@ class ProjectCallTypePolicy
      */
     public function update(User $user, ProjectCallType $projectCallType): bool
     {
-        return $user->hasRole('administrator') /* && $projectCallType->canBeEdited() */;
+        return $user->hasRole('administrator') && $projectCallType->canBeEdited();
     }
 
     /**
