@@ -125,7 +125,7 @@ return [
         ],
         'grades'      => 'Notes',
         'retries'     => 'Relances',
-        'retry'       => 'Envoyer un rappel',
+        'retry'       => 'Envoyer une relance',
         'cancel'      => 'Annuler',
         'show_reason' => 'Raison du refus',
         'export_name' => 'Grille d\'Évaluation',

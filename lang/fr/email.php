@@ -91,6 +91,12 @@ return [
         "action"            => "Visualiser l'évaluation",
     ],
 
+    "evaluation_retry" => [
+        "title"             => "Rappel : Évaluation en attente",
+        "intro"             => "Nous vous rappelons que votre évaluation de la candidature de :candidat pour l'appel à projets :call est toujours en attente de réalisation. La date limite de soumission est le :deadline. Merci pour votre diligence",
+        "action"            => "Accéder à l'évaluation",
+    ],
+
     "evaluation_submitted" => [
         "title"             => "Confirmation d'évaluation",
         "intro"             => "Votre évaluation de la candidature de :candidat pour l'appel à projets :call a bien été envoyée. Merci pour votre contribution",

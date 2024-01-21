@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Contracts\WithSubmission;
 use App\Models\Traits\HasSubmission;
 use App\Notifications\EvaluationForceSubmitted;
+use App\Notifications\EvaluationRetry;
 use App\Notifications\EvaluationSubmittedAdmins;
 use App\Notifications\EvaluationSubmittedExpert;
 use App\Notifications\EvaluationUnsubmitted;
@@ -105,5 +106,10 @@ class Evaluation extends Model implements WithSubmission
     public function canBeUnsubmitted(): bool
     {
         return filled($this->submitted_at) && $this->evaluationOffer->application->projectCall->evaluation_end_date->isFuture();
+    }
+
+    public function retry()
+    {
+        $this->evaluationOffer->expert->notify((new EvaluationRetry($this)));
     }
 }

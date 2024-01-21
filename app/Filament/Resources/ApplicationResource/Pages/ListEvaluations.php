@@ -100,6 +100,13 @@ class ListEvaluations extends Page implements Tables\Contracts\HasTable
                         ['record' => $record]
                     ))
                     ->modalFooterActionsAlignment(Alignment::Right),
+                Tables\Actions\Action::make('retry')
+                    ->label(__('admin.evaluation.retry'))
+                    ->color(Color::Indigo)
+                    ->icon('fas-rotate-right')
+                    ->requiresConfirmation()
+                    ->action(fn (Evaluation $record) => $record->retry())
+                    ->hidden(fn (Evaluation $record): bool => $record->submitted_at !== null),
                 ...AgapeTable::submissionActions(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('export_evaluation')
