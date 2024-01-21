@@ -4,6 +4,7 @@ namespace App\Rulesets;
 
 use App\Models\ProjectCall;
 use App\Settings\GeneralSettings;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 
 class Application
@@ -86,8 +87,8 @@ class Application
                     $attributeRules[$slug] = [
                         $attribute['required'] ? 'required' : 'sometimes',
                         'date',
-                        ($attribute['minValue'] ?? null) ? 'min:' . $attribute['minValue'] : null,
-                        ($attribute['maxValue'] ?? null) ? 'max:' . $attribute['maxValue'] : null,
+                        ($attribute['minValue'] ?? null) ? 'after:' . self::formatDateForRule($attribute['minValue']) : null,
+                        ($attribute['maxValue'] ?? null) ? 'before:' . self::formatDateForRule($attribute['maxValue']) : null,
                     ];
                     break;
                 case 'checkbox':
@@ -123,7 +124,28 @@ class Application
             'applicationLaboratories.max'      => __('validation.custom.laboratories.max'),
         ];
         // Add messages for dynamic attributes
-        // $dynamicAttributes = $projectCall->projectCallType->dynamic_attributes;
+        $dynamicAttributes = $projectCall->projectCallType->dynamic_attributes;
+        foreach ($dynamicAttributes as $attribute) {
+            $slug = 'extra_attributes.' . $attribute['slug'];
+            if ($attribute['repeatable'] ?? false) {
+                $slug = $attribute['slug'] . '.*';
+            }
+
+            if ($attribute['type'] === 'date') {
+                if (filled($attribute['minValue'] ?? null)) {
+                    $messages[$slug . '.after'] = __('validation.after', [
+                        'attribute' => $attribute['label'][app()->getLocale()],
+                        'date' => self::formatDateForMessage($attribute['minValue'])
+                    ]);
+                }
+                if (filled($attribute['maxValue'] ?? null)) {
+                    $messages[$slug . '.before'] = __('validation.before', [
+                        'attribute' => $attribute['label'][app()->getLocale()],
+                        'date' => self::formatDateForMessage($attribute['maxValue'])
+                    ]);
+                }
+            }
+        }
         return $messages;
     }
     public static function attributes(ProjectCall $projectCall): array
@@ -159,5 +181,27 @@ class Application
             $attributes['extra_attributes.' . $attribute['slug']] = $attribute['label'][app()->getLocale()];
         }
         return $attributes;
+    }
+
+    public static function formatDateForRule(string $date): string
+    {
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            return $date;
+        } else if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
+            return Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+        } else {
+            throw new \InvalidArgumentException('Invalid date format');
+        }
+    }
+
+    public static function formatDateForMessage(string $date): string
+    {
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            return Carbon::createFromFormat('Y-m-d', $date)->format(__('misc.date_format'));
+        } else if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
+            return Carbon::createFromFormat('d/m/Y', $date)->format(__('misc.date_format'));
+        } else {
+            throw new \InvalidArgumentException('Invalid date format');
+        }
     }
 }
