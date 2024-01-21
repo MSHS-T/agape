@@ -65,6 +65,7 @@ return [
     'evaluation_pdf_export_anonymous' => 'Export PDF Anonyme des Évaluations',
     'close'                           => 'Fermer',
     'archive'                         => 'Archiver',
+    'archived'                        => 'Archivé',
 
     'dynamic_attributes' => [
         'create'           => 'Ajouter un Champ Dynamique',

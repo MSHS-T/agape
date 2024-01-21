@@ -68,7 +68,13 @@ class ApplicationResource extends Resource
                 Tables\Filters\SelectFilter::make('project_call_id')
                     ->label(__('resources.project_call'))
                     ->options(
-                        ProjectCall::all()->pluck('reference', 'id')->unique()->all()
+                        ProjectCall::withTrashed()
+                            ->orderBy('reference', 'desc')
+                            ->get()
+                            ->mapWithKeys(fn (ProjectCall $projectCall) => [
+                                $projectCall->id => $projectCall->reference . ($projectCall->trashed() ? ' (' . __('admin.archived') . ')' : '')
+                            ])
+                            ->all()
                     ),
                 Tables\Filters\SelectFilter::make('creator_id')
                     ->label(__('admin.roles.applicant'))

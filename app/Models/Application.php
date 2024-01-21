@@ -179,7 +179,7 @@ class Application extends Model implements HasMedia, WithSubmission
      */
     public function projectCall(): BelongsTo
     {
-        return $this->belongsTo(ProjectCall::class);
+        return $this->belongsTo(ProjectCall::class)->withTrashed();
     }
 
     public function studyFields(): BelongsToMany
