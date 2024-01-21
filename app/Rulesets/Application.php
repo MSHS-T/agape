@@ -40,10 +40,10 @@ class Application
             'short_description'                        => 'required',
             'amount_requested'                         => 'required|numeric|min:0',
             'other_fundings'                           => 'required|numeric|min:0',
-            'applicationForm'                          => $generalSettings->enableApplicationForm
+            'applicationForm'                          => ($generalSettings->enableApplicationForm && $projectCall->hasMedia('applicationForm'))
                 ? 'required|array|min:1'
                 : 'prohibited',
-            'financialForm'                            => $generalSettings->enableFinancialForm
+            'financialForm'                            => ($generalSettings->enableFinancialForm && $projectCall->hasMedia('financialForm'))
                 ? 'required|array|min:1'
                 : 'prohibited',
             'additionalInformation'                    => $generalSettings->enableAdditionalInformation
