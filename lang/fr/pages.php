@@ -67,6 +67,8 @@ return [
             'no_open_offer'         => 'Aucune proposition d\'évaluation',
             'no_pending_evaluation' => 'Aucune évaluation en cours',
             'no_past_evaluation'    => 'Aucune évaluation passée',
+            'accept_modal_title'    => 'Accepter la proposition d\'évaluation ?',
+            'accept_modal_text'     => 'En cliquant sur "Accepter", vous vous engagez à respecter la politique de confidentialité ci-dessous :',
         ]
     ],
 

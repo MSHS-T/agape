@@ -11,6 +11,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Str;
 
 class Dashboard extends Page implements HasForms, HasActions
 {
@@ -61,6 +62,16 @@ class Dashboard extends Page implements HasForms, HasActions
             ->icon('fas-check')
             ->color('success')
             ->requiresConfirmation()
+            ->modalHeading(__('pages.dashboard.expert.accept_modal_title'))
+            ->modalDescription(function (array $arguments): Htmlable {
+                return Str::of(__('pages.dashboard.expert.accept_modal_text'))
+                    ->append('<br/>')
+                    ->append(
+                        Str::of(EvaluationOffer::find($arguments['offer'])->application->projectCall->privacy_clause)
+                            ->wrap('<blockquote class="mt-2 text-sm border-l border-gray-400 pl-2">', '</blockquote>')
+                    )->toHtmlString();
+            })
+            ->modalSubmitActionLabel(__('pages.dashboard.expert.accept'))
             ->action(function (array $arguments) {
                 $offer = collect($this->openOffers)->firstWhere(fn ($o) => $o->id == $arguments['offer']);
                 if ($offer !== null) {
