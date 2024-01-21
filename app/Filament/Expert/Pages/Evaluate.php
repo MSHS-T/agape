@@ -9,14 +9,18 @@ use App\Models\EvaluationOffer;
 use App\Rulesets\Evaluation as EvaluationRuleset;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Colors\Color;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
@@ -75,6 +79,16 @@ class Evaluate extends Page implements HasForms
     public function form(Form $form): Form
     {
         return $form->schema([
+            Section::make('help')
+                ->heading(__('pages.evaluate.help'))
+                ->icon('fas-circle-info')
+                ->iconColor(Color::Blue)
+                ->collapsible()
+                ->schema([
+                    Placeholder::make('help')
+                        ->hiddenLabel()
+                        ->content(new HtmlString($this->evaluationOffer->application->projectCall->help_experts))
+                ]),
             ...(new AgapeEvaluationForm($this->evaluationOffer, $form))
                 ->buildForm(),
             $this->buildActions()

@@ -8,14 +8,18 @@ use App\Models\ProjectCall;
 use App\Rulesets\Application as ApplicationRuleset;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Colors\Color;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
@@ -72,6 +76,16 @@ class Apply extends Page implements HasForms
     public function form(Form $form): Form
     {
         return $form->schema([
+            Section::make('help')
+                ->heading(__('pages.apply.help'))
+                ->icon('fas-circle-info')
+                ->iconColor(Color::Blue)
+                ->collapsible()
+                ->schema([
+                    Placeholder::make('help')
+                        ->hiddenLabel()
+                        ->content(new HtmlString($this->projectCall->help_candidates))
+                ]),
             ...(new AgapeApplicationForm($this->projectCall, $form))
                 ->buildForm(),
             $this->buildActions()

@@ -78,6 +78,7 @@ return [
         'title_create'  => 'Candidater à l\'Appel à Projets',
         'title_edit'    => 'Modifier ma candidature',
         'title_correct' => 'Corriger ma candidature',
+        'help'          => 'Aide à la saisie',
 
         'sections'      => [
             'general'    => '1. Informations Générales',
@@ -120,6 +121,7 @@ return [
         'title_create'  => 'Évaluer la candidature',
         'title_edit'    => 'Modifier l\'évaluation',
         'title_correct' => 'Corriger l\'évaluation',
+        'help'          => 'Aide à l\'évaluation',
 
         'criteria_description' => '<strong>Description du critère</strong>',
         'grade'                => 'Note',
