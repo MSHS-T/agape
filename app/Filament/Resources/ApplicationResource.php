@@ -138,6 +138,7 @@ class ApplicationResource extends Resource
                     ->color(Color::Green)
                     ->icon('fas-file-signature')
                     ->hidden(fn (Application $record) => !$record->projectCall->canEvaluate() || blank($record->submitted_at)),
+                ...AgapeTable::submissionActions(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('export_evaluations')
                         ->label(__('admin.evaluation_pdf_export'))
@@ -153,7 +154,6 @@ class ApplicationResource extends Resource
                         ->openUrlInNewTab(),
                 ])
                     ->hidden(fn (Application $record) => blank($record->submitted_at)),
-                ...AgapeTable::submissionActions()
             ])
             ->bulkActions([]);
     }

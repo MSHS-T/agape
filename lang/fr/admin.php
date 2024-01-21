@@ -82,6 +82,7 @@ return [
     'never'                => 'Jamais',
     'unsubmit'             => 'Dévalider',
     'force_submit'         => 'Soumettre manuellement',
+    'force_submit_error'   => 'La soumission n\'a pas pu être effectuée car la validation a échoué. Veuillez d\'abord rectifier les erreurs via la page de modification.',
     'submission_status'    => [
         'draft'       => 'Brouillon',
         'submitted'   => 'Soumise',

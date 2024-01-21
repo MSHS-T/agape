@@ -10,7 +10,7 @@ use App\Notifications\ApplicationForceSubmitted;
 use App\Notifications\ApplicationSubmittedAdmins;
 use App\Notifications\ApplicationSubmittedApplicant;
 use App\Notifications\ApplicationUnsubmitted;
-use Illuminate\Database\Eloquent\Builder;
+use App\Rulesets\Application as ApplicationRuleset;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,9 +19,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -226,5 +227,32 @@ class Application extends Model implements HasMedia, WithSubmission
     public function canBeUnsubmitted(): bool
     {
         return filled($this->submitted_at) && $this->projectCall->evaluation_start_date->isFuture();
+    }
+
+    public function toArrayForValidation(): array
+    {
+        $this->load(['applicationLaboratories', 'studyFields', 'media']);
+        $data = $this->toArray();
+        $data['applicationLaboratories'] = $data['application_laboratories'];
+        $data['studyFields'] = $data['study_fields'];
+        $data = [
+            ...$data,
+            ...($this->media->map(fn (Media $m) => $m->toArray())->groupBy('collection_name')->toArray())
+        ];
+        unset($data['application_laboratories']);
+        unset($data['study_fields']);
+        unset($data['media']);
+        return $data;
+    }
+
+    public function canBeSubmitted(): bool
+    {
+        $validator = Validator::make(
+            $this->toArrayForValidation(),
+            ApplicationRuleset::rules($this->projectCall),
+            ApplicationRuleset::messages($this->projectCall),
+            ApplicationRuleset::attributes($this->projectCall),
+        );
+        return !$validator->fails();
     }
 }

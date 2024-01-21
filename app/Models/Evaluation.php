@@ -9,10 +9,12 @@ use App\Notifications\EvaluationRetry;
 use App\Notifications\EvaluationSubmittedAdmins;
 use App\Notifications\EvaluationSubmittedExpert;
 use App\Notifications\EvaluationUnsubmitted;
+use App\Rulesets\Evaluation as EvaluationRuleset;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * App\Models\Evaluation
@@ -111,5 +113,16 @@ class Evaluation extends Model implements WithSubmission
     public function retry()
     {
         $this->evaluationOffer->expert->notify((new EvaluationRetry($this)));
+    }
+
+    public function canBeSubmitted(): bool
+    {
+        $validator = Validator::make(
+            $this->toArray(),
+            EvaluationRuleset::rules($this->projectCall),
+            EvaluationRuleset::messages($this->projectCall),
+            EvaluationRuleset::attributes($this->projectCall),
+        );
+        return !$validator->fails();
     }
 }

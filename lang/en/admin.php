@@ -82,6 +82,7 @@ return [
     'never'                => 'Never',
     'unsubmit'             => 'Devalidate',
     'force_submit'         => 'Submit Manually',
+    'force_submit_error'   => 'The submission could not be performed because the validation has failed. Please fix the errors through the edition page first.',
     'submission_status'    => [
         'draft'       => 'Draft',
         'submitted'   => 'Submitted',

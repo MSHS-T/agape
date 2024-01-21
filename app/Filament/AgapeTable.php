@@ -4,6 +4,7 @@ namespace App\Filament;
 
 use App\Models\Contracts\WithCreator;
 use App\Models\Contracts\WithSubmission;
+use Filament\Notifications\Notification;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables\Actions\Action;
@@ -128,7 +129,16 @@ class AgapeTable
                 ->color(Color::Amber)
                 ->hidden(fn (WithSubmission $record) => filled($record->submitted_at))
                 ->disabled(fn (WithSubmission $record) => filled($record->submitted_at))
-                ->action(fn (WithSubmission $record) => $record->submit(force: true)),
+                ->action(function (WithSubmission $record) {
+                    if (!$record->canBeSubmitted()) {
+                        Notification::make()
+                            ->title(__('admin.force_submit_error'))
+                            ->danger()
+                            ->send();
+                        return;
+                    }
+                    $record->submit(force: true);
+                }),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models\Contracts;
 
 interface WithSubmission
 {
+    public function canBeSubmitted(): bool;
     public function submit(bool $force = false): static;
     public function unsubmit(string $message): static;
 
