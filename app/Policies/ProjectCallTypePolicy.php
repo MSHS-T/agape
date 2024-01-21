@@ -45,7 +45,7 @@ class ProjectCallTypePolicy
      */
     public function delete(User $user, ProjectCallType $projectCallType): bool
     {
-        return $user->hasRole('administrator');
+        return $user->hasRole('administrator') && $projectCallType->projectCalls->isEmpty();
     }
 
     /**
