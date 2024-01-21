@@ -105,15 +105,18 @@ class AgapeApplicationForm
                 ->all()
         );
 
+        $sectionFields = $sectionFields->filter(fn ($f) => $f !== null);
+
         return Forms\Components\Section::make($section)
             ->heading(__('pages.apply.sections.' . $section))
+            ->hidden($sectionFields->isEmpty())
             ->collapsible()
             ->columns([
                 'default' => 1,
                 'sm'      => 2,
                 'lg'      => 4,
             ])
-            ->schema($sectionFields->filter(fn ($f) => $f !== null)->all());
+            ->schema($sectionFields->all());
     }
 
     public function getField(string $name): null|Forms\Components\Field|Forms\Components\Fieldset
@@ -350,6 +353,9 @@ class AgapeApplicationForm
             case 'additionalInformation':
             case 'otherAttachments':
                 if ($name === 'otherAttachments' && $this->projectCall->extra_attributes->number_of_documents == 0) {
+                    return null;
+                }
+                if (!$this->projectCall->hasMedia($name)) {
                     return null;
                 }
                 $generalSettings = app(GeneralSettings::class);
