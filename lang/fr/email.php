@@ -84,17 +84,17 @@ return [
         "action" => "Inscription",
     ],
 
+    "evaluation_retry" => [
+        "title"             => "Rappel : Évaluation en attente",
+        "intro"             => "Nous vous rappelons que votre évaluation de la candidature de :candidat pour l'appel à projets :call est toujours en attente de réalisation. La date limite de soumission est le :deadline. Merci pour votre diligence",
+        "action"            => "Accéder à l'évaluation",
+    ],
+
     "new_evaluation_submitted" => [
         "title"             => "Envoi d'une nouvelle évaluation",
         "intro"             => "L'expert :name vient de soumettre son évaluation pour l'appel à projets :call.",
         "devalidation_line" => "Cette evaluation avait été dévalidée pour le motif suivant : :justification",
         "action"            => "Visualiser l'évaluation",
-    ],
-
-    "evaluation_retry" => [
-        "title"             => "Rappel : Évaluation en attente",
-        "intro"             => "Nous vous rappelons que votre évaluation de la candidature de :candidat pour l'appel à projets :call est toujours en attente de réalisation. La date limite de soumission est le :deadline. Merci pour votre diligence",
-        "action"            => "Accéder à l'évaluation",
     ],
 
     "evaluation_submitted" => [

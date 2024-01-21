@@ -214,4 +214,14 @@ return [
         'username'                 => 'username',
         'year'                     => 'year',
     ],
+
+    'custom' => [
+        'email' => [
+            'forbidden_domain' => 'Your email must be a professionnal address.'
+        ],
+        'laboratories' => [
+            'min' => 'You must choose at least 1 laboratory',
+            'max' => 'You cannot choose more than 5 laboratories',
+        ]
+    ]
 ];

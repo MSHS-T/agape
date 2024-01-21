@@ -84,6 +84,12 @@ return [
         "action" => "Sign up",
     ],
 
+    "evaluation_retry" => [
+        "title"             => "Reminder : Evaluation to perform",
+        "intro"             => "We remind you that your evaluation of the applicant :candidat for the project call :call is waiting to be performed. The submission deadline is :deadline. Thank you for your diligence",
+        "action"            => "View the evaluation",
+    ],
+
     "new_evaluation_submitted" => [
         "title"             => "New evaluation submitted",
         "intro"             => "The expert :name has submitted a new evaluation for the project call :call.",

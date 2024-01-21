@@ -65,6 +65,7 @@ return [
     'evaluation_pdf_export_anonymous' => 'Anonymous Evaluations PDF Export',
     'close'                           => 'Close',
     'archive'                         => 'Archive',
+    'archived'                        => 'Archived',
 
     'dynamic_attributes' => [
         'create'           => 'Add Dynamic Field',
@@ -128,6 +129,7 @@ return [
         'retry'       => 'Send Reminder',
         'cancel'      => 'Cancel',
         'show_reason' => 'Show Reason',
+        'export_name' => 'Evaluation grid',
     ],
 
     'settings' => [

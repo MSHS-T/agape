@@ -67,6 +67,8 @@ return [
             'no_open_offer'         => 'No open offers',
             'no_pending_evaluation' => 'No pending evaluations',
             'no_past_evaluation'    => 'No past evaluations',
+            'accept_modal_title'    => 'Accept the evaluation offer ?',
+            'accept_modal_text'     => 'By clicking on "Accept", you agree to comply with the following privacy policy :',
         ]
     ],
 
@@ -78,6 +80,7 @@ return [
         'title_create'  => 'Apply to Project Call',
         'title_edit'    => 'Edit Application',
         'title_correct' => 'Correct Application',
+        'help'          => 'Application help',
 
         'sections'      => [
             'general'    => '1. General Information',
@@ -120,6 +123,7 @@ return [
         'title_create'  => 'Evaluate Application',
         'title_edit'    => 'Edit Evaluation',
         'title_correct' => 'Correct Evaluation',
+        'help'          => 'Evaluation help',
 
         'criteria_description' => '<strong>Criterion Description</strong>',
         'grade'                => 'Grade',
