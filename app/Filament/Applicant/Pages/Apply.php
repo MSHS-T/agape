@@ -135,7 +135,20 @@ class Apply extends Page implements HasForms
             'additionalInformation',
             'otherAttachments',
         ];
+        $budgetFields = [
+            'total_expected_income',
+            'total_expected_outcome',
+            'amount_requested',
+            'other_fundings'
+        ];
         $formData = $this->form->getRawState();
+
+        // Special case for budget fields
+        foreach ($budgetFields as $field) {
+            if (blank($formData[$field])) {
+                $formData[$field] = null;
+            }
+        }
 
         $this->application->projectCall()->associate($this->projectCall);
         $this->application->fill($formData);
