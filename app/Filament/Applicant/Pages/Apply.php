@@ -159,7 +159,7 @@ class Apply extends Page implements HasForms
 
         // Special case for budget fields
         foreach ($budgetFields as $field) {
-            if (blank($formData[$field])) {
+            if (blank($formData[$field] ?? null)) {
                 $formData[$field] = null;
             }
         }
