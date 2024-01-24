@@ -23,6 +23,12 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
+        if (filled(env('HCAPTCHA_SITEKEY', null)) && filled(env('HCAPTCHA_SECRET', null))) {
+            Validator::make($input, [
+                'h-captcha-response' => ['hcaptcha'],
+            ])->validate();
+        }
+
         Validator::make($input, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name'  => ['required', 'string', 'max:255'],
@@ -67,7 +73,7 @@ class CreateNewUser implements CreatesNewUsers
             foreach ($offers as $offer) {
                 $offer->invitation_id = null;
                 $offer->expert_id = $user->id;
-                $offer->save();
+                $offer->saveQuietly();
             }
 
             $invitation->delete();

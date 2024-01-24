@@ -53,6 +53,7 @@
     @include('cookie-consent::index')
 
     @livewireScripts
+    {!! HCaptcha::script(app()->getLocale()) !!}
     @stack('scripts')
 </body>
 

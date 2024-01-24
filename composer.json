@@ -31,7 +31,8 @@
         "spatie/laravel-settings": "^3.2",
         "spatie/laravel-translatable": "^6.5",
         "stechstudio/filament-impersonate": "^3.5",
-        "stijnvanouplines/blade-country-flags": "^1.0"
+        "stijnvanouplines/blade-country-flags": "^1.0",
+        "teampanfu/laravel-hcaptcha": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

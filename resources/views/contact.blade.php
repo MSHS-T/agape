@@ -43,6 +43,17 @@
                     class="block mt-1 w-full py-1.5 border-0 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 dark:focus:ring-indigo-600 rounded-md shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
             </div>
 
+            @guest
+                <div class="mt-4 flex items-center justify-center">
+                    <span class="dark:hidden">
+                        {!! HCaptcha::display() !!}
+                    </span>
+                    <span class="hidden dark:block">
+                        {!! HCaptcha::display(['data-theme' => 'dark']) !!}
+                    </span>
+                </div>
+            @endguest
+
             <div class="mt-6 flex flex-col justify-center items-center space-y-2">
                 <x-button type="submit" color="primary" class="w-full">
                     {{ __('pages.contact.send') }}

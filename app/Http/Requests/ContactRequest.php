@@ -3,9 +3,17 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ContactRequest extends FormRequest
 {
+    /**
+     * Indicates whether validation should stop after the first rule failure.
+     *
+     * @var bool
+     */
+    protected $stopOnFirstFailure = true;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,11 +29,25 @@ class ContactRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name'                  => ['required', 'string', 'max:255'],
-            'email'                 => ['required', 'string', 'email', 'max:255'],
-            'oversight_affiliation' => ['sometimes', 'string', 'max:255'],
-            'message'               => ['required', 'string', 'min:10'],
-        ];
+        $rules = [];
+        if (!Auth::check() && filled(env('HCAPTCHA_SITEKEY', null)) && filled(env('HCAPTCHA_SECRET', null))) {
+            $rules = array_merge(
+                $rules,
+                [
+                    'h-captcha-response' => ['hcaptcha'],
+                ]
+            );
+        }
+
+        $rules = array_merge(
+            $rules,
+            [
+                'name'                  => ['required', 'string', 'max:255'],
+                'email'                 => ['required', 'string', 'email', 'max:255'],
+                'oversight_affiliation' => ['sometimes', 'string', 'max:255'],
+                'message'               => ['required', 'string', 'min:10'],
+            ]
+        );
+        return $rules;
     }
 }

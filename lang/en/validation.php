@@ -222,6 +222,9 @@ return [
         'laboratories' => [
             'min' => 'You must choose at least 1 laboratory',
             'max' => 'You cannot choose more than 5 laboratories',
+        ],
+        'h-captcha-response' => [
+            'hcaptcha' => 'The anti-robot system has rejected your action. Please try again.',
         ]
     ]
 ];
