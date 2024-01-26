@@ -164,6 +164,7 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
                 ->form([
                     Select::make('expert_id')
                         ->label(__('admin.application.existing_expert'))
+                        ->searchable()
                         ->options(User::role('expert')->get()->pluck('name', 'id')),
                     Placeholder::make('separator')
                         ->hiddenLabel()
