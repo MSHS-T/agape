@@ -6,6 +6,8 @@ return [
     "excel_date_format" => "yyyy-mm-dd",
     "excel_datetime_format" => "yyyy-mm-dd hh:mm",
 
+    'version' => 'Current version : ',
+
     'theme' => [
         'title'  => 'Theme',
         'light'  => 'Light',

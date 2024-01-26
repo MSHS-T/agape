@@ -3,6 +3,8 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Dashboard;
+use App\Filament\Widgets\VersionInfo;
+use App\Filament\Widgets\VersionNumber;
 use App\Http\Middleware\Authenticate;
 use App\Livewire\FilamentProfilePersonalInfo;
 use App\Livewire\FilamentProfileTwoFactor;
@@ -59,6 +61,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
+                VersionInfo::class
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
