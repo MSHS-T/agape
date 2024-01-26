@@ -86,9 +86,9 @@ class ApplicationResource extends Resource
                         Forms\Components\Select::make('status')
                             ->label(__('attributes.status'))
                             ->options([
-                                'draft'       => __('admin.application.status.draft'),
-                                'submitted'   => __('admin.application.status.submitted'),
-                                'devalidated' => __('admin.application.status.devalidated'),
+                                'draft'       => __('admin.submission_status.draft'),
+                                'submitted'   => __('admin.submission_status.submitted'),
+                                'devalidated' => __('admin.submission_status.devalidated'),
                             ])->searchable()
                     ])
                     ->query(function (Builder $query, array $data): Builder {

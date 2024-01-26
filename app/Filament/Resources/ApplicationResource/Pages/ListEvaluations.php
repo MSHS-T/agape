@@ -68,24 +68,24 @@ class ListEvaluations extends Page implements Tables\Contracts\HasTable
                         Forms\Components\Select::make('status')
                             ->label(__('attributes.status'))
                             ->options([
-                                'accepted' => __('admin.evaluation_offer.status.accepted'),
-                                'rejected' => __('admin.evaluation_offer.status.rejected'),
-                                'pending'  => __('admin.evaluation_offer.status.pending')
+                                'draft'       => __('admin.submission_status.draft'),
+                                'submitted'   => __('admin.submission_status.submitted'),
+                                'devalidated' => __('admin.submission_status.devalidated'),
                             ])->searchable()
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
-                                $data['status'] === 'accepted',
-                                fn (Builder $query): Builder => $query->where('accepted', true),
+                                $data['status'] === 'draft',
+                                fn (Builder $query): Builder => $query->whereNull('submitted_at')->whereNull('devalidation_message'),
                             )
                             ->when(
-                                $data['status'] === 'rejected',
-                                fn (Builder $query): Builder => $query->where('accepted', false),
+                                $data['status'] === 'submitted',
+                                fn (Builder $query): Builder => $query->whereNotNull('submitted_at'),
                             )
                             ->when(
-                                $data['status'] === 'pending',
-                                fn (Builder $query): Builder => $query->whereNull('accepted'),
+                                $data['status'] === 'devalidated',
+                                fn (Builder $query): Builder => $query->whereNull('submitted_at')->whereNotNull('devalidation_message'),
                             );
                     }),
             ], layout: FiltersLayout::AboveContent)
