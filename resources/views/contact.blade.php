@@ -44,9 +44,11 @@
             </div>
 
             @guest
-                <div class="mt-4 flex items-center justify-center">
-                    {!! HCaptcha::display() !!}
-                </div>
+                @if (filled(env('HCAPTCHA_SITEKEY', null)) && filled(env('HCAPTCHA_SECRET', null)))
+                    <div class="mt-4 flex items-center justify-center">
+                        {!! HCaptcha::display() !!}
+                    </div>
+                @endif
             @endguest
 
             <div class="mt-6 flex flex-col justify-center items-center space-y-2">

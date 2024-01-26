@@ -47,9 +47,11 @@
                 @endif
             </div>
 
-            <div class="mt-4 flex items-center justify-center">
-                {!! HCaptcha::display() !!}
-            </div>
+            @if (filled(env('HCAPTCHA_SITEKEY', null)) && filled(env('HCAPTCHA_SECRET', null)))
+                <div class="mt-4 flex items-center justify-center">
+                    {!! HCaptcha::display() !!}
+                </div>
+            @endif
 
             <div class="mt-6 flex justify-center items-center">
                 <x-button type="submit" color="primary" class="w-full">
