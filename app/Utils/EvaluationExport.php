@@ -6,13 +6,23 @@ use App\Models\Application;
 use App\Models\Evaluation;
 use App\Models\ProjectCall;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\PDF as DomPDF;
+use Illuminate\Contracts\View\View;
 
 class EvaluationExport
 {
+    public static function getPdf(string $viewName, array $data, bool $debug = false): DomPDF|View
+    {
+        if ($debug) {
+            return view($viewName, [...$data, 'debug' => $debug]);
+        } else {
+            return Pdf::loadView($viewName, [...$data, 'debug' => $debug]);
+        }
+    }
     /**
      * Export the evaluations for a specific projectcall.
      */
-    public static function exportForProjectCall(ProjectCall $projectCall, bool $anonymized = false)
+    public static function exportForProjectCall(ProjectCall $projectCall, bool $anonymized = false, bool $debug = false)
     {
         $projectCall->load([
             'applications' => function ($query) {
@@ -29,18 +39,19 @@ class EvaluationExport
             $projectCall->reference
         ]);
 
-        $pdf = Pdf::loadView('export.evaluations_projectcall', [
+        $data = [
             'applications' => $projectCall->applications()->get(),
             'projectCall'  => $projectCall,
             'anonymized'   => $anonymized,
-        ]);
-        return [$title, $pdf];
+        ];
+
+        return [$title, self::getPdf('export.evaluations_projectcall', $data, $debug)];
     }
 
     /**
      * Export the evaluations for a specific application.
      */
-    public static function exportForApplication(Application $application, bool $anonymized = false)
+    public static function exportForApplication(Application $application, bool $anonymized = false, bool $debug = false)
     {
         $application->load('projectCall')->load(['evaluations' => function ($query) {
             $query->whereNotNull('submitted_at');
@@ -52,18 +63,19 @@ class EvaluationExport
             $application->reference
         ]);
 
-        $pdf = PDF::loadView('export.evaluations_application', [
+        $data = [
             'application' => $application,
             'projectCall' => $application->projectCall,
             'anonymized'  => $anonymized
-        ]);
-        return [$title, $pdf];
+        ];
+
+        return [$title, self::getPdf('export.evaluations_application', $data, $debug)];
     }
 
     /**
      * Export a single evaluation
      */
-    public static function export(Evaluation $evaluation, bool $anonymized = false)
+    public static function export(Evaluation $evaluation, bool $anonymized = false, bool $debug = false)
     {
         $title = implode(' - ', [
             config('app.name'),
@@ -72,11 +84,12 @@ class EvaluationExport
             $evaluation->evaluationOffer->creator->initials
         ]);
 
-        $pdf = PDF::loadView('export.evaluation', [
+        $data = [
             'evaluation'  => $evaluation,
             'projectCall' => $evaluation->evaluationOffer->application->projectCall,
             'anonymized'  => $anonymized
-        ]);
-        return [$title, $pdf];
+        ];
+
+        return [$title, self::getPdf('export.evaluation', $data, $debug)];
     }
 }

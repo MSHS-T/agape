@@ -1,10 +1,14 @@
 @extends('layouts.export')
+
+@php($imageBasePath = $debug ? '' : public_path())
+
 @section('head_content')
     @include('export._style')
 @endsection
+
 @section('body')
     <div id="agape-logo-wrapper">
-        <img src="{{ public_path() }}/{{ env('APP_LOGO') }}" alt="{{ config('app.name') }}" id="agape-logo">
+        <img src="{{ $imageBasePath }}/{{ env('APP_LOGO') }}" alt="{{ config('app.name') }}" id="agape-logo">
     </div>
     <h3 class="text-center">
         {!! __('admin.evaluation.export_name') !!}
