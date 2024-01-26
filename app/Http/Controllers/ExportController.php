@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ApplicationsExport;
 use App\Models\Application;
 use App\Models\Evaluation;
 use App\Models\ProjectCall;
@@ -10,6 +11,11 @@ use Illuminate\Http\Request;
 
 class ExportController extends Controller
 {
+    public function applicationExportForProjectCall(ProjectCall $projectCall, Request $request)
+    {
+        return new ApplicationsExport($projectCall);
+    }
+
     public function evaluationExportForProjectCall(ProjectCall $projectCall, Request $request)
     {
         list($title, $pdf) = EvaluationExport::exportForProjectCall($projectCall, $request->has('anonymized'), $request->has('debug'));

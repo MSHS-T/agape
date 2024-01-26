@@ -35,6 +35,13 @@ Route::middleware([
     Route::get('/', HomeController::class)->name('home');
 
     Route::middleware(['role:administrator|manager'])
+        ->name('export_application.')
+        ->prefix('export_application')
+        ->group(function () {
+            Route::get('projectcall/{projectCall}', [ExportController::class, 'applicationExportForProjectCall'])->name('project_call');
+        });
+
+    Route::middleware(['role:administrator|manager'])
         ->name('export_evaluation.')
         ->prefix('export_evaluation')
         ->group(function () {

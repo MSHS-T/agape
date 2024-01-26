@@ -315,20 +315,28 @@ class ProjectCallResource extends Resource
                 Tables\Actions\RestoreAction::make(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('export_evaluations')
+                        ->label(__('admin.application_excel_export'))
+                        ->color(Color::Emerald)
+                        ->icon('fas-file-excel')
+                        ->url(fn (ProjectCall $record) => route('export_application.project_call', ['projectCall' => $record]))
+                        ->openUrlInNewTab()
+                        ->hidden(fn (ProjectCall $record) => $record->application_start_date > now()),
+                    Tables\Actions\Action::make('export_evaluations')
                         ->label(__('admin.evaluation_pdf_export'))
                         ->color(Color::Indigo)
                         ->icon('fas-file-pdf')
                         ->url(fn (ProjectCall $record) => route('export_evaluation.project_call', ['projectCall' => $record]))
-                        ->openUrlInNewTab(),
+                        ->openUrlInNewTab()
+                        ->hidden(fn (ProjectCall $record) => $record->evaluation_start_date > now()),
                     Tables\Actions\Action::make('export_evaluations_anonymous')
                         ->label(__('admin.evaluation_pdf_export_anonymous'))
                         ->color(Color::Indigo)
                         ->icon('fas-file-pdf')
                         ->url(fn (ProjectCall $record) => route('export_evaluation.project_call', ['projectCall' => $record, 'anonymized' => true]))
-                        ->openUrlInNewTab(),
+                        ->openUrlInNewTab()
+                        ->hidden(fn (ProjectCall $record) => $record->evaluation_start_date > now()),
                 ])
-                    ->dropdownWidth(MaxWidth::Small)
-                    ->hidden(fn (ProjectCall $record) => $record->evaluation_start_date > now()),
+                    ->dropdownWidth(MaxWidth::Small),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

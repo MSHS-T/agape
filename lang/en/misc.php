@@ -3,6 +3,8 @@
 return [
     'date_format'     => 'Y-m-d',
     'datetime_format' => 'Y-m-d g:i a',
+    "excel_date_format" => "yyyy-mm-dd",
+    "excel_datetime_format" => "yyyy-mm-dd hh:mm",
 
     'theme' => [
         'title'  => 'Theme',
