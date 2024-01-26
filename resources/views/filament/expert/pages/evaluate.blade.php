@@ -71,11 +71,11 @@
         </div>
     @endif
 
-    @if ($evaluationOffer->application->projectCall->canApply() && filled($evaluation->submitted_at))
+    @if ($evaluationOffer->application->projectCall->canEvaluate() && filled($evaluation->submitted_at))
         <div class="px-4 py-5 bg-green-300 dark:bg-green-900/50 sm:p-6 shadow sm:rounded-md">
             <div class="grid grid-cols-1 gap-6">
                 <h4 class="leading-7 text-xl font-semibold text-gray-600 dark:text-gray-400">
-                    {{ __('pages.apply.submitted') }}
+                    {{ __('pages.evaluate.submitted') }}
                 </h4>
             </div>
         </div>

@@ -121,6 +121,7 @@ return [
 
     'evaluate' => [
         'title_create'  => 'Évaluer la candidature',
+        'title_view'    => 'Visualiser l\'évaluation',
         'title_edit'    => 'Modifier l\'évaluation',
         'title_correct' => 'Corriger l\'évaluation',
         'help'          => 'Aide à l\'évaluation',

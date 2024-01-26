@@ -33,6 +33,7 @@ class Evaluate extends Page implements HasForms
     public EvaluationOffer $evaluationOffer;
     public ?Evaluation $evaluation = null;
 
+    public bool $editable;
     public ?array $data = [];
     public ?array $applicationData = [];
 
@@ -55,6 +56,7 @@ class Evaluate extends Page implements HasForms
 
         $evaluation = $evaluationOffer->evaluation;
 
+        $editable = true;
         if (blank($evaluation)) {
             $this->evaluation = new Evaluation([
                 'evaluation_offer_id' => $evaluationOffer->id,
@@ -63,7 +65,10 @@ class Evaluate extends Page implements HasForms
             self::$title = __('pages.evaluate.title_create');
         } else {
             $this->evaluation = $evaluation;
-            if (filled($this->evaluation->devalidation_message)) {
+            if ($evaluation->submitted_at !== null || !$evaluationOffer->application->projectCall->canEvaluate()) {
+                self::$title = __('pages.evaluate.title_view');
+                $editable = false;
+            } else if (filled($this->evaluation->devalidation_message)) {
                 self::$title = __('pages.evaluate.title_correct');
             } else {
                 self::$title = __('pages.evaluate.title_edit');
@@ -74,6 +79,7 @@ class Evaluate extends Page implements HasForms
         $this->form->fill($this->evaluation->toArray());
         $this->applicationForm->fill($this->evaluationOffer->application->toArray());
         $this->initialState = $this->form->getRawState();
+        $this->editable = $editable;
     }
 
     public function form(Form $form): Form
@@ -84,6 +90,7 @@ class Evaluate extends Page implements HasForms
                 ->icon('fas-circle-info')
                 ->iconColor(Color::Blue)
                 ->collapsible()
+                ->hidden(fn () => !$this->editable)
                 ->schema([
                     Placeholder::make('help')
                         ->hiddenLabel()
@@ -94,6 +101,7 @@ class Evaluate extends Page implements HasForms
             $this->buildActions()
         ])
             ->model($this->evaluationOffer)
+            ->disabled(fn () => !$this->editable)
             ->statePath('data');
     }
 

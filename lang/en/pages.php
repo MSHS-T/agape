@@ -121,6 +121,7 @@ return [
 
     'evaluate' => [
         'title_create'  => 'Evaluate Application',
+        'title_view'    => 'View Evaluation',
         'title_edit'    => 'Edit Evaluation',
         'title_correct' => 'Correct Evaluation',
         'help'          => 'Evaluation help',
