@@ -117,11 +117,12 @@ class Evaluation extends Model implements WithSubmission
 
     public function canBeSubmitted(): bool
     {
+        $this->load('evaluationOffer.application.projectCall');
         $validator = Validator::make(
             $this->toArray(),
-            EvaluationRuleset::rules($this->projectCall),
-            EvaluationRuleset::messages($this->projectCall),
-            EvaluationRuleset::attributes($this->projectCall),
+            EvaluationRuleset::rules($this->evaluationOffer->application->projectCall),
+            EvaluationRuleset::messages($this->evaluationOffer->application->projectCall),
+            EvaluationRuleset::attributes($this->evaluationOffer->application->projectCall),
         );
         return !$validator->fails();
     }
