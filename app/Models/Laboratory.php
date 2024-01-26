@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Contracts\WithCreator;
 use App\Models\Traits\HasCreator;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -59,4 +60,14 @@ class Laboratory extends Model implements WithCreator
     protected $casts = [
         'id' => 'integer',
     ];
+
+    /**
+     * CUSTOM ATTRIBUTES
+     */
+    public function displayName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => sprintf("%s (%s ; %s)", $this->name, $this->unit_code, $this->regency)
+        );
+    }
 }

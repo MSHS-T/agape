@@ -2,6 +2,7 @@
 
 namespace App\Filament;
 
+use App\Models\Laboratory;
 use App\Models\ProjectCall;
 use App\Models\StudyField;
 use App\Settings\GeneralSettings;
@@ -184,7 +185,8 @@ class AgapeApplicationForm
                                                 fn (Builder $query) => $query->mine()
                                             )
                                         )
-                                        ->searchable()
+                                        ->getOptionLabelFromRecordUsing(fn (Laboratory $record) => $record->displayName)
+                                        ->searchable(['name', 'regency', 'unit_code'])
                                         ->preload()
                                         ->createOptionModalHeading(__('pages.apply.create_laboratory'))
                                         ->editOptionModalHeading(__('pages.apply.edit_laboratory'))
