@@ -45,12 +45,7 @@
 
             @guest
                 <div class="mt-4 flex items-center justify-center">
-                    <span class="dark:hidden">
-                        {!! HCaptcha::display() !!}
-                    </span>
-                    <span class="hidden dark:block">
-                        {!! HCaptcha::display(['data-theme' => 'dark']) !!}
-                    </span>
+                    {!! HCaptcha::display() !!}
                 </div>
             @endguest
 

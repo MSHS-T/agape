@@ -82,12 +82,7 @@
             @endif
 
             <div class="mt-4 flex items-center justify-center">
-                <span class="dark:hidden">
-                    {!! HCaptcha::display() !!}
-                </span>
-                <span class="hidden dark:block">
-                    {!! HCaptcha::display(['data-theme' => 'dark']) !!}
-                </span>
+                {!! HCaptcha::display() !!}
             </div>
 
             <div class="flex items-center justify-end mt-4">
