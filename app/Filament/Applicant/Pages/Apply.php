@@ -173,6 +173,7 @@ class Apply extends Page implements HasForms
         $this->application->laboratories()->sync(
             collect($formData['applicationLaboratories'] ?? [])
                 ->values()
+                ->filter(fn ($lab) => filled($lab['laboratory_id']))
                 ->mapWithKeys(fn ($lab, $i) => [intval($lab['laboratory_id']) => [
                     'contact_name' => $lab['contact_name'],
                     'order' => $i + 1
