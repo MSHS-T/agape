@@ -22,7 +22,7 @@ class ProjectCallTypeFactory extends Factory
     {
         $acronym = Str::upper(fake()->lexify('???'));
         return [
-            'reference'          => $this->faker->word,
+            'reference'          => $acronym,
             'label_long'         => ['fr' => fake()->words(3, true), 'en' => fake('en_GB')->words(3, true)],
             'label_short'        => ['fr' => $acronym, 'en' => $acronym],
             'dynamic_attributes' => [],
