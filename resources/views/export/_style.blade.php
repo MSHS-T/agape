@@ -23,6 +23,10 @@
         page-break-after: always;
     }
 
+    .w-full {
+        width: 100%;
+    }
+
     .text-center {
         text-align: center;
     }
@@ -37,6 +41,17 @@
         display: block;
     }
 
+    .flex-row {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .w-20 {
+        width: 20%;
+    }
+
     .col-3 {
         width: 20%;
         display: inline;
@@ -46,6 +61,19 @@
 
     .col-9 {
         width: 80%;
+        display: inline;
+        text-align: justify;
+    }
+
+    .col-4 {
+        width: 33%;
+        display: inline;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    .col-8 {
+        width: 66%;
         display: inline;
         text-align: justify;
     }

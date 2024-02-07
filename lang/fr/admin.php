@@ -96,6 +96,7 @@ return [
         'existing_expert'              => 'Expert déjà enregistré',
         'new_expert'                   => 'Email de l\'expert à inviter',
         'add_selection_comity_opinion' => 'Comité de Sélection',
+        'export_name'                  => 'Formulaire de Candidature',
     ],
 
     'evaluation_offer' => [

@@ -17,6 +17,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
@@ -140,6 +141,12 @@ class ApplicationResource extends Resource
                     ->hidden(fn (Application $record) => !$record->projectCall->canEvaluate() || blank($record->submitted_at)),
                 ...AgapeTable::submissionActions(),
                 Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('export_application')
+                        ->label(__('admin.pdf_export'))
+                        ->color(Color::Cyan)
+                        ->icon('fas-file-pdf')
+                        ->url(fn (Application $record) => route('export_application.application', ['application' => $record]))
+                        ->openUrlInNewTab(),
                     Tables\Actions\Action::make('export_evaluations')
                         ->label(__('admin.evaluation_pdf_export'))
                         ->color(Color::Indigo)
@@ -153,6 +160,7 @@ class ApplicationResource extends Resource
                         ->url(fn (Application $record) => route('export_evaluation.application', ['application' => $record, 'anonymized' => true]))
                         ->openUrlInNewTab(),
                 ])
+                    ->dropdownWidth(MaxWidth::Small)
                     ->hidden(fn (Application $record) => blank($record->submitted_at)),
             ])
             ->bulkActions([]);

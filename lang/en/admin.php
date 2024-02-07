@@ -96,6 +96,7 @@ return [
         'existing_expert'              => 'Existing Expert',
         'new_expert'                   => 'Email of Expert to Invite',
         'add_selection_comity_opinion' => 'Selection Comity',
+        'export_name'                  => 'Application Form',
     ],
 
     'evaluation_offer' => [

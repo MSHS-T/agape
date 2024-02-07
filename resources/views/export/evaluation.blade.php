@@ -60,7 +60,7 @@
         </h4>
 
         <div class="evaluation">
-            @include('export._display', [
+            @include('export._evaluation_display', [
                 'evaluation' => $evaluation,
                 'anonymized' => $anonymized,
             ])

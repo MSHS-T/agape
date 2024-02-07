@@ -38,6 +38,7 @@ Route::middleware([
         ->name('export_application.')
         ->prefix('export_application')
         ->group(function () {
+            Route::get('application/{application}', [ExportController::class, 'applicationExport'])->name('application');
             Route::get('projectcall/{projectCall}', [ExportController::class, 'applicationExportForProjectCall'])->name('project_call');
         });
 

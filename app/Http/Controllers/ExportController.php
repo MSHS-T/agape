@@ -6,6 +6,7 @@ use App\Exports\ApplicationsExport;
 use App\Models\Application;
 use App\Models\Evaluation;
 use App\Models\ProjectCall;
+use App\Utils\ApplicationExport;
 use App\Utils\EvaluationExport;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,14 @@ class ExportController extends Controller
     public function applicationExportForProjectCall(ProjectCall $projectCall, Request $request)
     {
         return new ApplicationsExport($projectCall);
+    }
+
+    public function applicationExport(Application $application, Request $request)
+    {
+        list($title, $pdf) = ApplicationExport::export($application, $request->has('debug'));
+        return $request->has('debug')
+            ? $pdf
+            : $pdf->stream($title . '.pdf');
     }
 
     public function evaluationExportForProjectCall(ProjectCall $projectCall, Request $request)
