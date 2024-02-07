@@ -62,6 +62,7 @@ return [
     'zip_export'                      => 'Export ZIP',
     'pdf_export'                      => 'Export PDF',
     'pdf_export_anonymous'            => 'Export PDF Anonyme',
+    'application_excel_export'        => 'Export Excel des Candidatures',
     'evaluation_pdf_export'           => 'Export PDF des Évaluations',
     'evaluation_pdf_export_anonymous' => 'Export PDF Anonyme des Évaluations',
     'close'                           => 'Fermer',

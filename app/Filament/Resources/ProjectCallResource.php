@@ -314,6 +314,12 @@ class ProjectCallResource extends Resource
                     }),
                 Tables\Actions\RestoreAction::make(),
                 Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('export_zip')
+                        ->label(__('admin.zip_export'))
+                        ->color(Color::Cyan)
+                        ->icon('fas-file-zipper')
+                        ->url(fn (ProjectCall $record) => route('export_zip.project_call', ['projectCall' => $record]))
+                        ->openUrlInNewTab(),
                     Tables\Actions\Action::make('export_evaluations')
                         ->label(__('admin.application_excel_export'))
                         ->color(Color::Emerald)

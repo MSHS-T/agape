@@ -52,11 +52,11 @@ class ExportController extends Controller
 
     public function zipApplicationExport(Application $application, Request $request)
     {
-        $zipName = $title = implode('_', [
+        $zipName = Str::replace(" ", "_", implode('_', [
             config('app.name'),
             __('resources.application'),
             $application->reference,
-        ]);
+        ]));
 
         list($pdfName, $pdf) = ApplicationExport::export($application);
         $pdfPath = tempnam(sys_get_temp_dir(), Str::slug(env('APP_NAME')) . '_');
@@ -81,6 +81,49 @@ class ExportController extends Controller
             return;
         }
 
+        return $this->zipResponse($zipName, $files);
+    }
+
+    public function zipProjectCallExport(ProjectCall $projectCall, Request $request)
+    {
+        $zipName = Str::replace(" ", "_", implode('_', [
+            config('app.name'),
+            __('resources.project_call'),
+            $projectCall->reference,
+        ]));
+
+        $files = collect();
+        foreach ($projectCall->applications as $application) {
+            list($pdfName, $pdf) = ApplicationExport::export($application);
+            $pdfPath = tempnam(sys_get_temp_dir(), Str::slug(env('APP_NAME')) . '_');
+            $pdf->save($pdfPath);
+
+            $applicationFiles = $application->media->map(fn (Media $media) => [
+                'folder' => $application->reference . '/' . $media->collection_name,
+                'name'   => $media->file_name,
+                'path'   => $media->getPath(),
+            ]);
+            $applicationFiles->prepend([
+                'folder' => $application->reference,
+                'name' => $pdfName . '.pdf',
+                'path' => $pdfPath
+            ]);
+            $files = $files->concat($applicationFiles);
+        }
+
+        if ($request->has('debug')) {
+            dump([
+                'file_name' => $zipName . '.zip',
+                'files'     => $files->all()
+            ]);
+            return;
+        }
+
+        return $this->zipResponse($zipName, $files);
+    }
+
+    protected function zipResponse(string $zipName, iterable $files)
+    {
         return response()->streamDownload(function () use ($zipName, $files) {
             $zip = new ZipStream(
                 outputName: $zipName . '.zip',
@@ -88,7 +131,7 @@ class ExportController extends Controller
                 contentType: 'application/octet-stream',
             );
             foreach ($files as $file) {
-                $fileName = filled($file['folder']) ? $file['folder'] . '/' . $file['name'] : $file['name'];
+                $fileName = collect([$zipName, $file['folder'], $file['name']])->filter(fn ($v) => filled($v))->join('/');
                 $zip->addFileFromPath(
                     fileName: $fileName,
                     path: $file['path'],
@@ -96,9 +139,5 @@ class ExportController extends Controller
             }
             $zip->finish();
         }, $zipName . '.zip');
-    }
-
-    public function zipProjectCallExport(ProjectCall $projectCall, Request $request)
-    {
     }
 }

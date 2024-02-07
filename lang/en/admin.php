@@ -62,6 +62,7 @@ return [
     'zip_export'                      => 'ZIP Export',
     'pdf_export'                      => 'PDF Export',
     'pdf_export_anonymous'            => 'Anonymous PDF Export',
+    'application_excel_export'        => 'Applications Excel Export',
     'evaluation_pdf_export'           => 'Evaluations PDF Export',
     'evaluation_pdf_export_anonymous' => 'Anonymous Evaluations PDF Export',
     'close'                           => 'Close',
