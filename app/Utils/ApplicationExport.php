@@ -10,6 +10,7 @@ use App\Settings\GeneralSettings;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Barryvdh\DomPDF\PDF as DomPDF;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use NumberFormatter;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -275,9 +276,14 @@ class ApplicationExport
                     ? collect($this->application->extra_attributes->get($slug, null))
                     ->flatten()
                     ->values()
-                    ->map(fn ($value) => $value->format(__('misc.date_format')))
+                    ->filter()
+                    ->map(fn ($value) => (new Carbon($value))->format(__('misc.date_format')))
                     ->all()
-                    : $this->application->extra_attributes->get($slug, null)?->format(__('misc.date_format'));
+                    : (
+                        $this->application->extra_attributes->get($slug, null) !== null
+                        ? (new Carbon($this->application->extra_attributes->get($slug)))->format(__('misc.date_format'))
+                        : null
+                    );
             case 'select':
                 $options = collect($settings['options'] ?? [])
                     ->mapWithKeys(fn ($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray();

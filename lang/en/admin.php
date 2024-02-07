@@ -59,6 +59,7 @@ return [
     'private'                         => 'Private',
     'make_private'                    => 'Make Private',
     'preview_application_form'        => 'Preview application',
+    'zip_export'                      => 'ZIP Export',
     'pdf_export'                      => 'PDF Export',
     'pdf_export_anonymous'            => 'Anonymous PDF Export',
     'evaluation_pdf_export'           => 'Evaluations PDF Export',

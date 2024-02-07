@@ -9,6 +9,9 @@ use App\Models\ProjectCall;
 use App\Utils\ApplicationExport;
 use App\Utils\EvaluationExport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use ZipStream\ZipStream;
 
 class ExportController extends Controller
 {
@@ -45,5 +48,57 @@ class ExportController extends Controller
         return $request->has('debug')
             ? $pdf
             : $pdf->stream($title . '.pdf');
+    }
+
+    public function zipApplicationExport(Application $application, Request $request)
+    {
+        $zipName = $title = implode('_', [
+            config('app.name'),
+            __('resources.application'),
+            $application->reference,
+        ]);
+
+        list($pdfName, $pdf) = ApplicationExport::export($application);
+        $pdfPath = tempnam(sys_get_temp_dir(), Str::slug(env('APP_NAME')) . '_');
+        $pdf->save($pdfPath);
+
+        $files = $application->media->map(fn (Media $media) => [
+            'folder' => $media->collection_name,
+            'name'   => $media->file_name,
+            'path'   => $media->getPath(),
+        ]);
+        $files->prepend([
+            'folder' => null,
+            'name' => $pdfName . '.pdf',
+            'path' => $pdfPath
+        ]);
+
+        if ($request->has('debug')) {
+            dump([
+                'file_name' => $zipName . '.zip',
+                'files'     => $files->all()
+            ]);
+            return;
+        }
+
+        return response()->streamDownload(function () use ($zipName, $files) {
+            $zip = new ZipStream(
+                outputName: $zipName . '.zip',
+                defaultEnableZeroHeader: true,
+                contentType: 'application/octet-stream',
+            );
+            foreach ($files as $file) {
+                $fileName = filled($file['folder']) ? $file['folder'] . '/' . $file['name'] : $file['name'];
+                $zip->addFileFromPath(
+                    fileName: $fileName,
+                    path: $file['path'],
+                );
+            }
+            $zip->finish();
+        }, $zipName . '.zip');
+    }
+
+    public function zipProjectCallExport(ProjectCall $projectCall, Request $request)
+    {
     }
 }

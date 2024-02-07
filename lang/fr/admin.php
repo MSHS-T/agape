@@ -59,6 +59,7 @@ return [
     'private'                         => 'Privé',
     'make_private'                    => 'Rendre privé',
     'preview_application_form'        => 'Prévisualiser la candidature',
+    'zip_export'                      => 'Export ZIP',
     'pdf_export'                      => 'Export PDF',
     'pdf_export_anonymous'            => 'Export PDF Anonyme',
     'evaluation_pdf_export'           => 'Export PDF des Évaluations',

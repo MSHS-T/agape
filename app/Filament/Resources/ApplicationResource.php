@@ -147,6 +147,12 @@ class ApplicationResource extends Resource
                         ->icon('fas-file-pdf')
                         ->url(fn (Application $record) => route('export_application.application', ['application' => $record]))
                         ->openUrlInNewTab(),
+                    Tables\Actions\Action::make('export_application_zip')
+                        ->label(__('admin.zip_export'))
+                        ->color(Color::Cyan)
+                        ->icon('fas-file-zipper')
+                        ->url(fn (Application $record) => route('export_zip.application', ['application' => $record]))
+                        ->openUrlInNewTab(),
                     Tables\Actions\Action::make('export_evaluations')
                         ->label(__('admin.evaluation_pdf_export'))
                         ->color(Color::Indigo)
