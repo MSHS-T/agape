@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -163,8 +164,7 @@ class Application extends Model implements HasMedia, WithSubmission
                 ->get();
 
             $last_reference = $result->pluck('reference')->map(function ($r) {
-                list(,,, $ref) = explode('-', $r);
-                return intval($ref);
+                return intval(Str::afterLast($r, '-'));
             })->max();
 
             $application->reference = sprintf(
