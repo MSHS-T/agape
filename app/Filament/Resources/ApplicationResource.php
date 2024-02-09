@@ -127,7 +127,9 @@ class ApplicationResource extends Resource
                     ->action(function (Application $record, array $data) {
                         $record->selection_comity_opinion = $data['selection_comity_opinion'];
                         $record->save();
-                    }),
+                    })
+                    ->hidden(fn (Application $record) => $record->projectCall->status !== ProjectCallStatus::ARCHIVED && $record->projectCall->status !== ProjectCallStatus::FINISHED)
+                    ->openUrlInNewTab(),
                 Tables\Actions\Action::make('offers')
                     ->label(fn (Application $record) => __('admin.application.offers', ['count' => $record->evaluationOffers->count()]))
                     ->url(fn (Application $record) => route('filament.admin.resources.applications.offers', ['record' => $record]))
@@ -159,14 +161,14 @@ class ApplicationResource extends Resource
                         ->color(Color::Indigo)
                         ->icon('fas-file-pdf')
                         ->url(fn (Application $record) => route('export_evaluation.application', ['application' => $record]))
-                        ->hidden(fn (ProjectCall $record) => $record->projectCallType->status !== ProjectCallStatus::EVALUATION && $record->projectCallType->status !== ProjectCallStatus::ARCHIVED && $record->projectCallType->status !== ProjectCallStatus::FINISHED)
+                        ->hidden(fn (Application $record) => $record->projectCall->status !== ProjectCallStatus::EVALUATION && $record->projectCall->status !== ProjectCallStatus::ARCHIVED && $record->projectCall->status !== ProjectCallStatus::FINISHED)
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('export_evaluations_anonymous')
                         ->label(__('admin.evaluation_pdf_export_anonymous'))
                         ->color(Color::Indigo)
                         ->icon('fas-file-pdf')
                         ->url(fn (Application $record) => route('export_evaluation.application', ['application' => $record, 'anonymized' => true]))
-                        ->hidden(fn (ProjectCall $record) => $record->projectCallType->status !== ProjectCallStatus::EVALUATION && $record->projectCallType->status !== ProjectCallStatus::ARCHIVED && $record->projectCallType->status !== ProjectCallStatus::FINISHED)
+                        ->hidden(fn (Application $record) => $record->projectCall->status !== ProjectCallStatus::EVALUATION && $record->projectCall->status !== ProjectCallStatus::ARCHIVED && $record->projectCall->status !== ProjectCallStatus::FINISHED)
                         ->openUrlInNewTab(),
                 ])
                     ->dropdownWidth(MaxWidth::Small)

@@ -6,9 +6,6 @@
                     <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl pt-8">
                         {{ __('pages.dashboard.candidate.open_calls') }}
                     </h2>
-                    {{-- <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-200">
-                            {{ __('pages.dashboard.candidate.description') }}
-                        </p> --}}
                 </div>
                 <div @class([
                     'my-8 gap-4',
@@ -33,9 +30,6 @@
                         <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl pt-8">
                             {{ __('pages.dashboard.candidate.past_calls') }}
                         </h2>
-                        {{-- <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-200">
-                            {{ __('pages.dashboard.candidate.description') }}
-                        </p> --}}
                     </div>
                     <div @class([
                         'my-8 gap-4',
