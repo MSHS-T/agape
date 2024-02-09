@@ -94,6 +94,9 @@ class ExportController extends Controller
 
         $files = collect();
         foreach ($projectCall->applications as $application) {
+            if (blank($application->submitted_at)) {
+                continue;
+            }
             list($pdfName, $pdf) = ApplicationExport::export($application);
             $pdfPath = tempnam(sys_get_temp_dir(), Str::slug(env('APP_NAME')) . '_');
             $pdf->save($pdfPath);
