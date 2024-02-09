@@ -11,10 +11,19 @@
     id="{{ $id }}">
     <div
         class="flex-1 px-0 sm:px-8 pt-4 flex flex-col xl:flex-row space-y-2 xl:space-y-0 justify-between items-stretch xl:items-center">
-        <div class="flex-1 flex flex-col justify-center items-stretch xl:items-start">
+        <div class="flex-1 flex flex-row justify-center xl:justify-start items-center xl:items-start space-x-2">
             <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center xl:text-start">
                 {{ $projectCall->projectCallType->label_long }} - {{ $projectCall->year }}
             </h3>
+            <x-filament.project-call-display-modal :projectCall="$projectCall">
+                <button type="button" x-on:click="show = true"
+                    class="w-full rounded-full bg-zinc-600 p-2 flex items-center justify-center space-x-2 text-sm font-semibold text-white shadow-sm hover:bg-zinc-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600">
+                    <x-fas-info class="w-4 h-4" />
+                    <span class="sr-only">
+                        {{ __('pages.dashboard.view_project_call') }}
+                    </span>
+                </button>
+            </x-filament.project-call-display-modal>
         </div>
         <h4
             class="text-base leading-6 text-indigo-600 flex flex-col md:flex-row justify-center items-stretch md:items-center gap-x-4">
