@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ProjectCallType;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,8 +16,9 @@ class TestDataSeeder extends Seeder
      */
     public function run(): void
     {
+        $managers = [];
         foreach (range(1, 3) as $i) {
-            User::create([
+            $managers[] = User::create([
                 'first_name'            => "Gestionnaire $i",
                 'last_name'             => 'AGAPE',
                 'email'                 => "gestionnaire{$i}@agape.fr",
@@ -51,5 +53,11 @@ class TestDataSeeder extends Seeder
             LaboratorySeeder::class,
             ProjectCallSeeder::class,
         ]);
+
+        $callTypes = ProjectCallType::all()->pluck('id');
+        foreach ($managers as $manager) {
+            /** @var User $manager */
+            $manager->projectCallTypes()->sync($callTypes->random(2));
+        }
     }
 }
