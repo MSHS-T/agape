@@ -6,6 +6,8 @@ use App\Filament\AgapeTable;
 use App\Filament\Resources\InvitationResource\Pages;
 use App\Filament\Resources\InvitationResource\RelationManagers;
 use App\Models\Invitation;
+use App\Models\ProjectCallType;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class InvitationResource extends Resource
 {
@@ -45,6 +48,28 @@ class InvitationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('extra_attributes.role')
+                    ->label(__('attributes.role'))
+                    ->searchable()
+                    ->formatStateUsing(function (string $state, Invitation $record) {
+                        $suffix = '';
+                        if ($state === 'manager') {
+                            $projectCallTypes = collect($record->extra_attributes['project_call_types'])
+                                ->map(fn ($t) => ProjectCallType::find($t)->label_short)->join(' ; ');
+                            $suffix = ' (' . $projectCallTypes . ')';
+                        }
+                        return Str::of(__('admin.roles.' . $state) . $suffix)
+                            ->sanitizeHtml()
+                            ->toHtmlString();
+                    })
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'administrator' => 'danger',
+                        'manager'       => 'warning',
+                        'applicant'     => 'success',
+                        'expert'        => 'info',
+                        default         => 'gray',
+                    }),
                 AgapeTable::creatorColumn(),
                 ...AgapeTable::timestampColumns(showCreation: true, showModification: true, modificationLabel: 'admin.invitations.last_mail'),
                 Tables\Columns\TextColumn::make('extra_attributes.retry_count')
