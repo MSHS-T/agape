@@ -34,10 +34,10 @@ class Evaluation
     public static function attributes(ProjectCall $projectCall): array
     {
         $attributes = [
-            'grades.*'        => __('pages.evaluate.grade'),
-            'global_grade'    => __('pages.evaluate.global_grade'),
-            'comments.*'      => __('pages.evaluate.comment'),
-            'global_comments' => __('pages.evaluate.global_comment'),
+            'grades.*'       => __('pages.evaluate.grade'),
+            'global_grade'   => __('pages.evaluate.global_grade'),
+            'comments.*'     => __('pages.evaluate.comment'),
+            'global_comment' => __('pages.evaluate.global_comment'),
         ];
         return $attributes;
     }
