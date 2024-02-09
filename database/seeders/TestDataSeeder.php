@@ -15,29 +15,35 @@ class TestDataSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'first_name'            => 'Gestionnaire',
-            'last_name'             => 'AGAPE',
-            'email'                 => 'gestionnaire@agape.fr',
-            'email_verified_at'     => Carbon::now(),
-            'password'              => Hash::make('password'),
-        ])->assignRole('manager');
+        foreach (range(1, 3) as $i) {
+            User::create([
+                'first_name'            => "Gestionnaire $i",
+                'last_name'             => 'AGAPE',
+                'email'                 => "gestionnaire{$i}@agape.fr",
+                'email_verified_at'     => Carbon::now(),
+                'password'              => Hash::make('password'),
+            ])->assignRole('manager');
+        }
 
-        User::create([
-            'first_name'            => 'Expert',
-            'last_name'             => 'AGAPE',
-            'email'                 => 'expert@agape.fr',
-            'email_verified_at'     => Carbon::now(),
-            'password'              => Hash::make('password'),
-        ])->assignRole('expert');
+        foreach (range(1, 10) as $i) {
+            User::create([
+                'first_name'            => "Expert $i",
+                'last_name'             => 'AGAPE',
+                'email'                 => "expert{$i}@agape.fr",
+                'email_verified_at'     => Carbon::now(),
+                'password'              => Hash::make('password'),
+            ])->assignRole('expert');
+        }
 
-        User::create([
-            'first_name'            => 'Candidat',
-            'last_name'             => 'AGAPE',
-            'email'                 => 'candidat@agape.fr',
-            'email_verified_at'     => Carbon::now(),
-            'password'              => Hash::make('password'),
-        ])->assignRole('applicant');
+        foreach (range(1, 10) as $i) {
+            User::create([
+                'first_name'            => "Candidat $i",
+                'last_name'             => 'AGAPE',
+                'email'                 => "candidat{$i}@agape.fr",
+                'email_verified_at'     => Carbon::now(),
+                'password'              => Hash::make('password'),
+            ])->assignRole('applicant');
+        }
 
         $this->call([
             ProjectCallTypeSeeder::class,
