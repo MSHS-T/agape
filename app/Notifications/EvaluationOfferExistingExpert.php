@@ -49,7 +49,7 @@ class EvaluationOfferExistingExpert extends Notification
                 ->line($text);
         }
 
-        return $message->action(__('email.offer_created.action'), url('/'))
+        return $message->action(__('email.offer_created.action'), route('home'))
             ->line(__('email.offer_created.outro'));
     }
 

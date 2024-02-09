@@ -52,7 +52,6 @@ class EvaluationSubmittedAdmins extends Notification
             route(
                 'filament.admin.resources.applications.evaluations',
                 ['record' => $this->evaluation->evaluationOffer->application->id],
-                true
             )
         );
     }

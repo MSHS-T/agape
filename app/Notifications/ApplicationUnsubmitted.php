@@ -47,7 +47,7 @@ class ApplicationUnsubmitted extends Notification
             ]))
             ->action(
                 __('email.application_unsubmitted.action'),
-                url(config('app.url') . route('filament.applicant.pages.apply', $call->id, true))
+                route('filament.applicant.pages.apply', ['projectCall' => $call])
             );
     }
 

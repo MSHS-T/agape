@@ -40,9 +40,10 @@ class UserInvitation extends Notification
             ->line(__('email.invitation.intro', [
                 'role' => __('admin.roles.' . $this->invitation->extra_attributes->role)
             ]))
-            ->action(__('email.invitation.action'), url(
+            ->action(
+                __('email.invitation.action'),
                 route('register') . "?invitation=" . $this->invitation->invitation
-            ));
+            );
     }
 
     /**

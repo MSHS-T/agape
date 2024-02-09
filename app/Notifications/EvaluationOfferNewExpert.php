@@ -40,9 +40,10 @@ class EvaluationOfferNewExpert extends Notification
                 'role'        => __('admin.roles.' . $notifiable->extra_attributes->role),
                 'projectcall' => $this->evaluationOffer->application->projectCall->toString()
             ]))
-            ->action(__('email.offer_created_invite.action'), url(
+            ->action(
+                __('email.offer_created_invite.action'),
                 route('register') . "?invitation=" . $notifiable->invitation
-            ))
+            )
             ->line(__('email.offer_created_invite.outro'));
     }
 

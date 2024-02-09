@@ -42,7 +42,7 @@ class EvaluationOfferRetryExistingExpert extends Notification
                 'candidat' => $this->evaluationOffer->application->creator->name,
                 'call'     => $call->toString()
             ]))
-            ->action(__('email.offer_retry.action'), url('/'));
+            ->action(__('email.offer_retry.action'), route('home'));
     }
 
     /**

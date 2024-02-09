@@ -40,9 +40,10 @@ class UserInvitationRetry extends Notification
             ->line(__('email.invitation_retry.intro', [
                 'role' => __('admin.roles.' . $this->invitation->extra_attributes->role)
             ]))
-            ->action(__('email.invitation_retry.action'), url(
+            ->action(
+                __('email.invitation_retry.action'),
                 route('register') . "?invitation=" . $this->invitation->invitation
-            ));
+            );
     }
 
     /**

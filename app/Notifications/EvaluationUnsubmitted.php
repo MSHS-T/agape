@@ -46,7 +46,7 @@ class EvaluationUnsubmitted extends Notification
             ]))
             ->action(
                 __('email.evaluation_unsubmitted.action'),
-                route('filament.expert.pages.evaluate', ['offer' => $this->evaluation->evaluationOffer->id], true)
+                route('filament.expert.pages.evaluate', ['offer' => $this->evaluation->evaluationOffer->id])
             );
     }
 

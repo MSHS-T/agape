@@ -44,7 +44,7 @@ class ApplicationSubmittedApplicant extends Notification
             ]))
             ->action(
                 __('email.application_submitted.action'),
-                url(config('app.url') . route('filament.applicant.pages.apply', $call->id, true))
+                route('filament.applicant.pages.apply', ['projectCall' => $call])
             );
     }
 

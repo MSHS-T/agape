@@ -43,7 +43,10 @@ class EvaluationRetry extends Notification
                 'deadline' => $this->evaluation->evaluationOffer->application->projectCall->evaluation_end_date->format('d/m/Y'),
                 'call'     => $call->toString()
             ]))
-            ->action(__('email.evaluation_retry.action'), route('filament.expert.pages.evaluate', ['offer' => $this->evaluation->evaluationOffer->id], true));
+            ->action(
+                __('email.evaluation_retry.action'),
+                route('filament.expert.pages.evaluate', ['offer' => $this->evaluation->evaluationOffer->id])
+            );
     }
 
     /**

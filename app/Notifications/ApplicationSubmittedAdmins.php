@@ -52,8 +52,7 @@ class ApplicationSubmittedAdmins extends Notification
             __('email.new_evaluation_submitted.action'),
             route(
                 'filament.admin.resources.applications.view',
-                ['record' => $this->application->id],
-                true
+                ['record' => $this->application->id]
             )
         );
     }

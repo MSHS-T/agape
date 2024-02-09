@@ -44,7 +44,7 @@ class ApplicationForceSubmitted extends Notification
             ]))
             ->action(
                 __('email.application_force_submitted.action'),
-                url(config('app.url') . route('filament.applicant.pages.apply', $call->id, true))
+                route('filament.applicant.pages.apply', ['projectCall' => $call])
             );
     }
 
