@@ -73,6 +73,18 @@ class ExportController extends Controller
             'path' => $pdfPath
         ]);
 
+        // Evaluations
+        list($evaluationPdfName, $evaluationPdf) = EvaluationExport::exportForApplication($application);
+        $evaluationPdfPath = tempnam(sys_get_temp_dir(), Str::slug(env('APP_NAME')) . '_');
+        $evaluationPdf->save($evaluationPdfPath);
+        unset($evaluationPdf);
+
+        $files->push([
+            'folder' => null,
+            'name'   => $evaluationPdfName . '.pdf',
+            'path'   => $evaluationPdfPath
+        ]);
+
         if ($request->has('debug')) {
             dump([
                 'file_name' => $zipName . '.zip',
@@ -97,9 +109,11 @@ class ExportController extends Controller
             if (blank($application->submitted_at)) {
                 continue;
             }
-            list($pdfName, $pdf) = ApplicationExport::export($application);
-            $pdfPath = tempnam(sys_get_temp_dir(), Str::slug(env('APP_NAME')) . '_');
-            $pdf->save($pdfPath);
+            list($applicationPdfName, $applicationPdf) = ApplicationExport::export($application);
+            $applicationPdfPath = tempnam(sys_get_temp_dir(), Str::slug(env('APP_NAME')) . '_');
+            $applicationPdf->save($applicationPdfPath);
+            unset($applicationPdf);
+
 
             $applicationFiles = $application->media->map(fn (Media $media) => [
                 'folder' => $application->reference . '/' . $media->collection_name,
@@ -108,9 +122,22 @@ class ExportController extends Controller
             ]);
             $applicationFiles->prepend([
                 'folder' => $application->reference,
-                'name' => $pdfName . '.pdf',
-                'path' => $pdfPath
+                'name' => $applicationPdfName . '.pdf',
+                'path' => $applicationPdfPath
             ]);
+
+            // Evaluations
+            list($evaluationPdfName, $evaluationPdf) = EvaluationExport::exportForApplication($application);
+            $evaluationPdfPath = tempnam(sys_get_temp_dir(), Str::slug(env('APP_NAME')) . '_');
+            $evaluationPdf->save($evaluationPdfPath);
+            unset($evaluationPdf);
+
+            $applicationFiles->push([
+                'folder' => $application->reference,
+                'name' => $evaluationPdfName . '.pdf',
+                'path' => $evaluationPdfPath
+            ]);
+
             $files = $files->concat($applicationFiles);
         }
 
