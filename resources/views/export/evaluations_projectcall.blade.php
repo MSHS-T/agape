@@ -109,7 +109,7 @@
                     </a>
                 </h4>
                 <p class="evaluation">
-                    {{ $application->selection_comity_opinion }}
+                    {!! $application->selection_comity_opinion !!}
                 </p>
             @endif
         </section>
