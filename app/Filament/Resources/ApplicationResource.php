@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\ProjectCallStatus;
 use App\Filament\AgapeApplicationForm;
 use App\Filament\AgapeForm;
 use App\Filament\AgapeTable;
@@ -158,12 +159,14 @@ class ApplicationResource extends Resource
                         ->color(Color::Indigo)
                         ->icon('fas-file-pdf')
                         ->url(fn (Application $record) => route('export_evaluation.application', ['application' => $record]))
+                        ->hidden(fn (ProjectCall $record) => $record->projectCallType->status !== ProjectCallStatus::EVALUATION && $record->projectCallType->status !== ProjectCallStatus::ARCHIVED && $record->projectCallType->status !== ProjectCallStatus::FINISHED)
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('export_evaluations_anonymous')
                         ->label(__('admin.evaluation_pdf_export_anonymous'))
                         ->color(Color::Indigo)
                         ->icon('fas-file-pdf')
                         ->url(fn (Application $record) => route('export_evaluation.application', ['application' => $record, 'anonymized' => true]))
+                        ->hidden(fn (ProjectCall $record) => $record->projectCallType->status !== ProjectCallStatus::EVALUATION && $record->projectCallType->status !== ProjectCallStatus::ARCHIVED && $record->projectCallType->status !== ProjectCallStatus::FINISHED)
                         ->openUrlInNewTab(),
                 ])
                     ->dropdownWidth(MaxWidth::Small)

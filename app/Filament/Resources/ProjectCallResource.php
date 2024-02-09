@@ -319,6 +319,7 @@ class ProjectCallResource extends Resource
                         ->color(Color::Cyan)
                         ->icon('fas-file-zipper')
                         ->url(fn (ProjectCall $record) => route('export_zip.project_call', ['projectCall' => $record]))
+                        ->hidden(fn (ProjectCall $record) => $record->status !== ProjectCallStatus::ARCHIVED && $record->status !== ProjectCallStatus::FINISHED)
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('export_evaluations')
                         ->label(__('admin.application_excel_export'))
@@ -332,6 +333,7 @@ class ProjectCallResource extends Resource
                         ->color(Color::Indigo)
                         ->icon('fas-file-pdf')
                         ->url(fn (ProjectCall $record) => route('export_evaluation.project_call', ['projectCall' => $record]))
+                        ->hidden(fn (ProjectCall $record) => $record->status !== ProjectCallStatus::EVALUATION && $record->status !== ProjectCallStatus::ARCHIVED && $record->status !== ProjectCallStatus::FINISHED)
                         ->openUrlInNewTab()
                         ->hidden(fn (ProjectCall $record) => $record->evaluation_start_date > now()),
                     Tables\Actions\Action::make('export_evaluations_anonymous')
@@ -339,6 +341,7 @@ class ProjectCallResource extends Resource
                         ->color(Color::Indigo)
                         ->icon('fas-file-pdf')
                         ->url(fn (ProjectCall $record) => route('export_evaluation.project_call', ['projectCall' => $record, 'anonymized' => true]))
+                        ->hidden(fn (ProjectCall $record) => $record->status !== ProjectCallStatus::EVALUATION && $record->status !== ProjectCallStatus::ARCHIVED && $record->status !== ProjectCallStatus::FINISHED)
                         ->openUrlInNewTab()
                         ->hidden(fn (ProjectCall $record) => $record->evaluation_start_date > now()),
                 ])
