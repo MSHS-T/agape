@@ -54,15 +54,19 @@ class LaboratoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('attributes.name'))
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('unit_code')
                     ->label(__('attributes.unit_code'))
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('director_email')
                     ->label(__('attributes.director_email'))
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('regency')
                     ->label(__('attributes.regency'))
+                    ->sortable()
                     ->searchable(),
                 AgapeTable::creatorColumn()
                     ->label(__('attributes.owner')),
