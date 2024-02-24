@@ -357,7 +357,7 @@ class AgapeApplicationForm
                 if ($name === 'otherAttachments' && $this->projectCall->extra_attributes->number_of_documents == 0) {
                     return null;
                 }
-                if (!$this->projectCall->hasMedia($name)) {
+                if ($name !== 'otherAttachments' && !$this->projectCall->hasMedia($name)) {
                     return null;
                 }
                 $generalSettings = app(GeneralSettings::class);
