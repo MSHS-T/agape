@@ -46,7 +46,7 @@ class Application
             'financialForm'                            => ($generalSettings->enableFinancialForm && $projectCall->hasMedia('financialForm'))
                 ? 'required|array|min:1'
                 : 'prohibited',
-            'additionalInformation'                    => $generalSettings->enableAdditionalInformation
+            'additionalInformation'                    => ($generalSettings->enableAdditionalInformation && $projectCall->hasMedia('additionalInformation'))
                 ? 'required|array|min:1'
                 : 'prohibited',
             'otherAttachments'                         => $generalSettings->enableOtherAttachments
