@@ -126,4 +126,19 @@ class Evaluation extends Model implements WithSubmission
         );
         return !$validator->fails();
     }
+
+    public function getSubmissionErrors(): array
+    {
+        $this->load('evaluationOffer.application.projectCall');
+        $validator = Validator::make(
+            $this->toArray(),
+            EvaluationRuleset::rules($this->evaluationOffer->application->projectCall),
+            EvaluationRuleset::messages($this->evaluationOffer->application->projectCall),
+            EvaluationRuleset::attributes($this->evaluationOffer->application->projectCall),
+        );
+        if ($validator->fails()) {
+            return $validator->errors()->toArray();
+        }
+        return [];
+    }
 }

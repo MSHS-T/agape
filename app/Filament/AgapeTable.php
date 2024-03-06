@@ -4,6 +4,7 @@ namespace App\Filament;
 
 use App\Models\Contracts\WithCreator;
 use App\Models\Contracts\WithSubmission;
+use Filament\Actions\StaticAction;
 use Filament\Notifications\Notification;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Alignment;
@@ -125,10 +126,20 @@ class AgapeTable
             Action::make('force_submit')
                 ->label(__('admin.force_submit'))
                 ->icon('fas-check-double')
-                ->requiresConfirmation()
                 ->color(Color::Amber)
                 ->hidden(fn (WithSubmission $record) => filled($record->submitted_at))
                 ->disabled(fn (WithSubmission $record) => filled($record->submitted_at))
+                ->modalContent(function (WithSubmission $record) {
+                    if (!$record->canBeSubmitted()) {
+                        return view('components.submission-errors', ['errors' => $record->getSubmissionErrors()]);
+                    } else {
+                        return null;
+                    }
+                })
+                ->requiresConfirmation(fn (WithSubmission $record) => $record->canBeSubmitted())
+                ->modalHeading(fn ($action, WithSubmission $record) => $record->canBeSubmitted() ? $action->getLabel() : __('admin.force_submit_error_title'))
+                ->modalSubmitAction(fn (StaticAction $action, WithSubmission $record) => $record->canBeSubmitted() ? $action : false)
+                ->modalCancelActionLabel(fn (WithSubmission $record) => $record->canBeSubmitted() ? __('admin.evaluation.cancel') : __('admin.close'))
                 ->action(function (WithSubmission $record) {
                     if (!$record->canBeSubmitted()) {
                         Notification::make()

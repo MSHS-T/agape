@@ -189,6 +189,8 @@ class Application
             return $date;
         } else if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
             return Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+        } else if (strtotime($date) !== false) {
+            return $date;
         } else {
             throw new \InvalidArgumentException('Invalid date format');
         }
@@ -200,6 +202,8 @@ class Application
             return Carbon::createFromFormat('Y-m-d', $date)->format(__('misc.date_format'));
         } else if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
             return Carbon::createFromFormat('d/m/Y', $date)->format(__('misc.date_format'));
+        } else if (strtotime($date) !== false) {
+            return $date;
         } else {
             throw new \InvalidArgumentException('Invalid date format');
         }

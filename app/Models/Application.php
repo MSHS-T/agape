@@ -255,4 +255,18 @@ class Application extends Model implements HasMedia, WithSubmission
         );
         return !$validator->fails();
     }
+
+    public function getSubmissionErrors(): array
+    {
+        $validator = Validator::make(
+            $this->toArrayForValidation(),
+            ApplicationRuleset::rules($this->projectCall),
+            ApplicationRuleset::messages($this->projectCall),
+            ApplicationRuleset::attributes($this->projectCall),
+        );
+        if ($validator->fails()) {
+            return $validator->errors()->toArray();
+        }
+        return [];
+    }
 }
