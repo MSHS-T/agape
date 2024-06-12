@@ -13,6 +13,11 @@ class VersionInfo extends Widget
 
     public function mount()
     {
-        $this->version = Version::get()['string'];
+        $versionArray = Version::get();
+        if (is_null($versionArray)) {
+            return null;
+        } else {
+            $this->version = $versionArray['string'];
+        }
     }
 }
