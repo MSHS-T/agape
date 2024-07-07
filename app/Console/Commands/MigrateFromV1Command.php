@@ -412,8 +412,6 @@ class MigrateFromV1Command extends Command
         );
         $this->newLine();
         $this->info("DONE !");
-
-        dump($this->modelMatch);
     }
 
     protected function getRows(string $file): array
