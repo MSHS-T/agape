@@ -59,6 +59,7 @@ class Evaluation extends Model implements WithSubmission
      * @var array
      */
     protected $fillable = [
+        'evaluation_offer_id',
         'notation',
         'grades',
         'global_grade',

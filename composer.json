@@ -31,6 +31,7 @@
         "spatie/laravel-schemaless-attributes": "^2.4",
         "spatie/laravel-settings": "^3.2",
         "spatie/laravel-translatable": "^6.5",
+        "spatie/simple-excel": "^3.6",
         "stechstudio/filament-impersonate": "^3.5",
         "stijnvanouplines/blade-country-flags": "^1.0",
         "teampanfu/laravel-hcaptcha": "^1.1"
