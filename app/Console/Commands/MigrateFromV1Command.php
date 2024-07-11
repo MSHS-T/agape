@@ -344,7 +344,7 @@ class MigrateFromV1Command extends Command
                     default => null
                 };
                 /** @var EvaluationOffer $newEvalOffer */
-                $newEvalOffer = EvaluationOffer::create([
+                $newEvalOffer = EvaluationOffer::createQuietly([
                     'application_id' => $applicationId,
                     'expert_id'      => $expertId,
                     'accepted'       => $accepted,
