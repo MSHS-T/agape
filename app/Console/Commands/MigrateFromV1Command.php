@@ -336,38 +336,36 @@ class MigrateFromV1Command extends Command
                 if (blank($row['expert_id'])) {
                     return;
                 }
-                EvaluationOffer::withoutEvents(function () use ($row) {
-                    $applicationId = $this->modelMatch['application'][$row['application_id']];
-                    $expertId = $this->modelMatch['user'][$row['expert_id']];
-                    $accepted = match ($row['accepted']) {
-                        1 => true,
-                        0 => false,
-                        default => null
-                    };
-                    /** @var EvaluationOffer $newEvalOffer */
-                    $newEvalOffer = new EvaluationOffer([
-                        'application_id' => $applicationId,
-                        'expert_id'      => $expertId,
-                        'accepted'       => $accepted,
-                        'justification'  => $row['justification'],
-                    ]);
-                    $newEvalOffer->saveQuietly();
-                    $this->setTimestamps($newEvalOffer, $row);
+                EvaluationOffer::unsetEventDispatcher();
+                $applicationId = $this->modelMatch['application'][$row['application_id']];
+                $expertId = $this->modelMatch['user'][$row['expert_id']];
+                $accepted = match ($row['accepted']) {
+                    1 => true,
+                    0 => false,
+                    default => null
+                };
+                /** @var EvaluationOffer $newEvalOffer */
+                $newEvalOffer = EvaluationOffer::create([
+                    'application_id' => $applicationId,
+                    'expert_id'      => $expertId,
+                    'accepted'       => $accepted,
+                    'justification'  => $row['justification'],
+                ]);
+                $this->setTimestamps($newEvalOffer, $row);
 
-                    $retryHistory = json_decode($row['retry_history']);
-                    if (count($retryHistory) > 0) {
-                        $newEvalOffer->extra_attributes->set(
-                            'retries',
-                            collect($retryHistory)->map(fn ($date) => ['at' => $date, 'by' => 1])->toArray()
-                        );
-                        $newEvalOffer->extra_attributes->set(
-                            'retry_count',
-                            count($retryHistory)
-                        );
-                        $newEvalOffer->save();
-                    }
-                    $this->modelMatch['evaluation_offer'][$row['id']] = $newEvalOffer->id;
-                });
+                $retryHistory = json_decode($row['retry_history']);
+                if (count($retryHistory) > 0) {
+                    $newEvalOffer->extra_attributes->set(
+                        'retries',
+                        collect($retryHistory)->map(fn ($date) => ['at' => $date, 'by' => 1])->toArray()
+                    );
+                    $newEvalOffer->extra_attributes->set(
+                        'retry_count',
+                        count($retryHistory)
+                    );
+                    $newEvalOffer->save();
+                }
+                $this->modelMatch['evaluation_offer'][$row['id']] = $newEvalOffer->id;
             }
         );
         $this->newLine();
