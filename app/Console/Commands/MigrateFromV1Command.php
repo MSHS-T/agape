@@ -344,12 +344,13 @@ class MigrateFromV1Command extends Command
                     default => null
                 };
                 /** @var EvaluationOffer $newEvalOffer */
-                $newEvalOffer = EvaluationOffer::createQuietly([
+                $newEvalOffer = new EvaluationOffer([
                     'application_id' => $applicationId,
                     'expert_id'      => $expertId,
                     'accepted'       => $accepted,
                     'justification'  => $row['justification'],
                 ]);
+                $newEvalOffer->saveQuietly();
                 $this->setTimestamps($newEvalOffer, $row);
                 $retryHistory = json_decode($row['retry_history']);
                 if (count($retryHistory) > 0) {
