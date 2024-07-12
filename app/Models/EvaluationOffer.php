@@ -152,7 +152,7 @@ class EvaluationOffer extends Model implements WithCreator
     {
         $this->accepted = true;
         $this->justification = null;
-        $this->save();
+        $this->saveQuietly();
         // Send OfferAccepted notification
         Notification::send(
             $this->resolveAdmins(),
@@ -164,7 +164,7 @@ class EvaluationOffer extends Model implements WithCreator
     {
         $this->accepted = false;
         $this->justification = $message;
-        $this->save();
+        $this->saveQuietly();
         // Send OfferRejected notification
         Notification::send(
             $this->resolveAdmins(),
