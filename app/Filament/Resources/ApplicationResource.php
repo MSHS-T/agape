@@ -135,13 +135,13 @@ class ApplicationResource extends Resource
                     ->url(fn (Application $record) => route('filament.admin.resources.applications.offers', ['record' => $record]))
                     ->color(Color::Lime)
                     ->icon('fas-user-tie')
-                    ->hidden(fn (Application $record) => !$record->projectCall->canEvaluate() || blank($record->submitted_at)),
+                    ->hidden(fn (Application $record) => !$record->projectCall->evaluation_start_date->isPast() || blank($record->submitted_at)),
                 Tables\Actions\Action::make('evaluations')
                     ->label(fn (Application $record) => __('admin.application.evaluations', ['count' => $record->evaluations->count()]))
                     ->url(fn (Application $record) => route('filament.admin.resources.applications.evaluations', ['record' => $record]))
                     ->color(Color::Green)
                     ->icon('fas-file-signature')
-                    ->hidden(fn (Application $record) => !$record->projectCall->canEvaluate() || blank($record->submitted_at)),
+                    ->hidden(fn (Application $record) => !$record->projectCall->evaluation_start_date->isPast() || blank($record->submitted_at)),
                 ...AgapeTable::submissionActions(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('export_application')
