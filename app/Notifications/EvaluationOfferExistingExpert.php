@@ -43,7 +43,7 @@ class EvaluationOfferExistingExpert extends Notification
             $message = $message->line($text);
         } else {
             $text = [($projectCall->getTranslation('invite_email', 'fr', false) ?? null), ($projectCall->getTranslation('invite_email', 'en', false) ?? null)];
-            $text = implode("<hr/>", array_filter($text));
+            $text = implode("<hr/>", array_filter('filled', $text));
             $text = str_replace("[AAP]", $projectCall->toString(), $text);
             $message = $message->greeting(null)
                 ->line($text);
