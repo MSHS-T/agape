@@ -220,8 +220,10 @@ class MigrateFromV1Command extends Command
                         ->toMediaCollection('financialForm');
                 }
 
-                $newPc->reference = $row['reference'];
-                $newPc->save();
+                ProjectCall::withoutTimestamps(function () use (&$newPc, $row) {
+                    $newPc->reference = $row['reference'];
+                    $newPc->save();
+                });
 
                 $this->modelMatch['project_call'][$row['id']] = $newPc->id;
             }
@@ -256,15 +258,17 @@ class MigrateFromV1Command extends Command
                 ]);
                 $this->setTimestamps($newApp, $row);
 
-                $newApp->reference = $row['reference'];
+                Application::withoutTimestamps(function () use (&$newApp, $row) {
+                    $newApp->reference = $row['reference'];
+                    $dynamicFields = collect($newApp->projectCall->projectCallType->dynamic_attributes);
+                    foreach ($dynamicFields as $field) {
+                        $slug = $field['slug'];
+                        $value = $field['repeatable'] ? json_decode($row[$slug]) : $row[$slug];
+                        $newApp->extra_attributes->set($slug, $value);
+                    }
+                    $newApp->save();
+                });
 
-                $dynamicFields = collect($newApp->projectCall->projectCallType->dynamic_attributes);
-                foreach ($dynamicFields as $field) {
-                    $slug = $field['slug'];
-                    $value = $field['repeatable'] ? json_decode($row[$slug]) : $row[$slug];
-                    $newApp->extra_attributes->set($slug, $value);
-                }
-                $newApp->save();
                 $this->modelMatch['application'][$row['id']] = $newApp->id;
             }
         );
