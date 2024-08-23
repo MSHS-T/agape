@@ -38,12 +38,15 @@ class EvaluationOfferExistingExpert extends Notification
         $projectCall = $this->evaluationOffer->application->projectCall;
         $message = (new MailMessage)->subject(__('email.offer_created.title'));
 
-        if (empty($projectCall->getTranslation('invite_email', 'fr', false)) && empty($projectCall->getTranslation('invite_email', 'en', false))) {
+        if (blank($projectCall->getTranslation('invite_email', 'fr', false)) && blank($projectCall->getTranslation('invite_email', 'en', false))) {
             $text = str_replace("[AAP]", $projectCall->toString(), __('email.offer_created.intro'));
             $message = $message->line($text);
         } else {
-            $text = [($projectCall->getTranslation('invite_email', 'fr', false) ?? null), ($projectCall->getTranslation('invite_email', 'en', false) ?? null)];
-            $text = implode("<hr/>", array_filter($text, fn($t) => filled($t)));
+            $text = [
+                $projectCall->getTranslation('invite_email', 'fr', useFallbackLocale: false),
+                $projectCall->getTranslation('invite_email', 'en', useFallbackLocale: false)
+            ];
+            $text = implode("<hr/>", array_unique(array_filter($text, fn($t) => filled($t))));
             $text = str_replace("[AAP]", $projectCall->toString(), $text);
             $message = $message->greeting(null)
                 ->line($text);
