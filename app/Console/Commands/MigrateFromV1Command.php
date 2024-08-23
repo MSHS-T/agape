@@ -219,6 +219,10 @@ class MigrateFromV1Command extends Command
                         ->preservingOriginal()
                         ->toMediaCollection('financialForm');
                 }
+
+                $newPc->reference = $row['reference'];
+                $newPc->save();
+
                 $this->modelMatch['project_call'][$row['id']] = $newPc->id;
             }
         );
@@ -251,6 +255,8 @@ class MigrateFromV1Command extends Command
                     'devalidation_message'     => $row['devalidation_message'],
                 ]);
                 $this->setTimestamps($newApp, $row);
+
+                $newApp->reference = $row['reference'];
 
                 $dynamicFields = collect($newApp->projectCall->projectCallType->dynamic_attributes)->pluck('slug');
                 foreach ($dynamicFields as $field) {
@@ -310,7 +316,7 @@ class MigrateFromV1Command extends Command
                 /** @var Application $application */
                 $application = Application::find($applicationId);
 
-                $collectionName = match ($row['order']) {
+                $collectionName = match (intval($row['order'])) {
                     1 => 'applicationForm',
                     2 => 'financialForm',
                     default => 'otherAttachments'
@@ -340,8 +346,8 @@ class MigrateFromV1Command extends Command
                 $applicationId = $this->modelMatch['application'][$row['application_id']];
                 $expertId = $this->modelMatch['user'][$row['expert_id']];
                 $accepted = match ($row['accepted']) {
-                    1 => true,
-                    0 => false,
+                    "1" => true,
+                    "0" => false,
                     default => null
                 };
                 /** @var EvaluationOffer $newEvalOffer */
@@ -357,7 +363,7 @@ class MigrateFromV1Command extends Command
                 if (count($retryHistory) > 0) {
                     $newEvalOffer->extra_attributes->set(
                         'retries',
-                        collect($retryHistory)->map(fn ($date) => ['at' => $date, 'by' => 1])->toArray()
+                        collect($retryHistory)->map(fn($date) => ['at' => $date, 'by' => 1])->toArray()
                     );
                     $newEvalOffer->extra_attributes->set(
                         'retry_count',
@@ -374,7 +380,7 @@ class MigrateFromV1Command extends Command
         $this->info("Getting notation scale...");
         /** @var GeneralSettings $generalSettings */
         $generalSettings = app(GeneralSettings::class);
-        $this->notationScale = collect($generalSettings->grades)->mapWithKeys(fn ($g, $i) => [$i => $g['grade']])->toArray();
+        $this->notationScale = collect($generalSettings->grades)->mapWithKeys(fn($g, $i) => [$i => $g['grade']])->toArray();
 
         // Import evaluations
         $this->modelMatch['evaluation'] = [];
@@ -420,7 +426,7 @@ class MigrateFromV1Command extends Command
     {
         return SimpleExcelReader::create($file)
             ->getRows()
-            ->map(fn ($row) => collect($row)->map(fn ($value) => $value === "NULL" ? null : $value)->toArray())
+            ->map(fn($row) => collect($row)->map(fn($value) => $value === "NULL" ? null : $value)->toArray())
             ->all();
     }
 
@@ -473,8 +479,8 @@ class MigrateFromV1Command extends Command
             }
         }
         return [
-            'files'       => collect($expectedFiles)->map(fn ($v) => $directory . DIRECTORY_SEPARATOR . $v)->all(),
-            'directories' => collect($expectedDirectories)->mapWithKeys(fn ($v) => [$v => $directory . DIRECTORY_SEPARATOR . $v])->all()
+            'files'       => collect($expectedFiles)->map(fn($v) => $directory . DIRECTORY_SEPARATOR . $v)->all(),
+            'directories' => collect($expectedDirectories)->mapWithKeys(fn($v) => [$v => $directory . DIRECTORY_SEPARATOR . $v])->all()
         ];
     }
 }
