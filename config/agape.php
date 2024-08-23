@@ -35,7 +35,7 @@ return [
     /**
      * List of enabled languages
      */
-    'languages' => ['fr', 'en'],
+    'languages' => explode(',', env('APP_LANGUAGES', 'fr,en')),
 
     /**
      * List of flags overrides (if flag code matches the language code, do not set here)
