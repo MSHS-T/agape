@@ -42,11 +42,13 @@ class EvaluationOfferExistingExpert extends Notification
             $text = str_replace("[AAP]", $projectCall->toString(), __('email.offer_created.intro'));
             $message = $message->line($text);
         } else {
-            $text = [
-                $projectCall->getTranslation('invite_email', 'fr', useFallbackLocale: false),
-                $projectCall->getTranslation('invite_email', 'en', useFallbackLocale: false)
-            ];
-            $text = implode("<hr/>", array_unique(array_filter($text, fn($t) => filled($t))));
+            $text = [];
+            foreach (config('agape.languages') as $locale) {
+                if ($projectCall->hasTranslation('invite_email', $locale)) {
+                    $text[] = $projectCall->getTranslation('invite_email', $locale);
+                }
+            }
+            $text = implode("<hr/>", $text);
             $text = str_replace("[AAP]", $projectCall->toString(), $text);
             $message = $message->greeting(null)
                 ->line($text);
