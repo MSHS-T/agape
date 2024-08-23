@@ -25,7 +25,7 @@ class MigrateFromV1Command extends Command
      *
      * @var string
      */
-    protected $signature = 'app:migrate-from-v1-command {directory}';
+    protected $signature = 'app:migrate-from-v1 {directory}';
 
     /**
      * The console command description.
@@ -258,9 +258,11 @@ class MigrateFromV1Command extends Command
 
                 $newApp->reference = $row['reference'];
 
-                $dynamicFields = collect($newApp->projectCall->projectCallType->dynamic_attributes)->pluck('slug');
+                $dynamicFields = collect($newApp->projectCall->projectCallType->dynamic_attributes);
                 foreach ($dynamicFields as $field) {
-                    $newApp->extra_attributes->set($field, $row[$field]);
+                    $slug = $field['slug'];
+                    $value = $field['repeatable'] ? json_decode($row[$slug]) : $row[$slug];
+                    $newApp->extra_attributes->set($slug, $value);
                 }
                 $newApp->save();
                 $this->modelMatch['application'][$row['id']] = $newApp->id;
