@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable as BreezyTwoFactorAuthenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -151,12 +152,22 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     }
 
     /**
+     * Route notifications for the mail channel.
+     *
+     * @return  array<string, string>|string
+     */
+    public function routeNotificationForMail(Notification $notification): ?string
+    {
+        return (endsWith($this->email, '@3rgo.tech') || endsWith($this->email, '@agape.fr')) ? null : $this->email;
+    }
+
+    /**
      * Get the user's name.
      */
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->first_name . ' ' . Str::upper($this->last_name)
+            get: fn() => $this->first_name . ' ' . Str::upper($this->last_name)
         );
     }
 
@@ -166,7 +177,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     protected function nameWithEmail(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->name . ' (' . $this->email . ')'
+            get: fn() => $this->name . ' (' . $this->email . ')'
         );
     }
 
@@ -176,7 +187,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     protected function initials(): Attribute
     {
         return Attribute::make(
-            get: fn () => collect(explode(' ', $this->name))->map(fn ($word) => substr($word, 0, 1))->implode(' ')
+            get: fn() => collect(explode(' ', $this->name))->map(fn($word) => substr($word, 0, 1))->implode(' ')
         );
     }
 
@@ -186,7 +197,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     protected function roleName(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->getRoleNames()->first()
+            get: fn() => $this->getRoleNames()->first()
         );
     }
 
