@@ -17,9 +17,7 @@ use Illuminate\Support\Str;
 
 class AgapeApplicationForm
 {
-    public function __construct(protected ProjectCall $projectCall, protected Forms\Form $form, protected $forEvaluation = false)
-    {
-    }
+    public function __construct(protected ProjectCall $projectCall, protected Forms\Form $form, protected $forEvaluation = false) {}
 
     public function buildForm(): array
     {
@@ -76,14 +74,14 @@ class AgapeApplicationForm
     public function buildSection(string $section): Forms\Components\Section
     {
         $generalSettings = app(GeneralSettings::class);
-        $dynamicFields = collect($this->projectCall->projectCallType->dynamic_attributes ?? [])->filter(fn ($field) => $field['section'] === $section);
+        $dynamicFields = collect($this->projectCall->projectCallType->dynamic_attributes ?? [])->filter(fn($field) => $field['section'] === $section);
         $fieldsWithLabels = static::fieldsPerSection()[$section];
 
         // special case for fields of file section
         if ($section === 'files') {
             $fieldsWithLabels = array_filter(
                 $fieldsWithLabels,
-                fn ($name) => $generalSettings->{'enable' . ucfirst($name)},
+                fn($name) => $generalSettings->{'enable' . ucfirst($name)},
                 ARRAY_FILTER_USE_KEY
             );
         }
@@ -94,19 +92,19 @@ class AgapeApplicationForm
                 $this->getField($fieldName)
                     ?->label($label),
                 ...$dynamicFields
-                    ->filter(fn ($field) => $field['after_field'] === $fieldName)
-                    ->map(fn ($field) => $this->getDynamicField($field))
+                    ->filter(fn($field) => $field['after_field'] === $fieldName)
+                    ->map(fn($field) => $this->getDynamicField($field))
                     ->all()
             );
         }
         $sectionFields->push(
             ...$dynamicFields
-                ->filter(fn ($field) => !in_array($field['after_field'], array_keys($fieldsWithLabels)))
-                ->map(fn ($field) => $this->getDynamicField($field))
+                ->filter(fn($field) => !in_array($field['after_field'], array_keys($fieldsWithLabels)))
+                ->map(fn($field) => $this->getDynamicField($field))
                 ->all()
         );
 
-        $sectionFields = $sectionFields->filter(fn ($f) => $f !== null);
+        $sectionFields = $sectionFields->filter(fn($f) => $f !== null);
 
         return Forms\Components\Section::make($section)
             ->heading(__('pages.apply.sections.' . $section))
@@ -173,19 +171,19 @@ class AgapeApplicationForm
                                         'count' => $this->projectCall->extra_attributes->number_of_laboratories
                                     ]))->toHtmlString()
                                 )
-                                ->mutateRelationshipDataBeforeSaveUsing(fn (array $data) => filled($data['laboratory_id'] ?? null) ? $data : null)
-                                ->mutateRelationshipDataBeforeCreateUsing(fn (array $data) => filled($data['laboratory_id'] ?? null) ? $data : null)
+                                ->mutateRelationshipDataBeforeSaveUsing(fn(array $data) => filled($data['laboratory_id'] ?? null) ? $data : null)
+                                ->mutateRelationshipDataBeforeCreateUsing(fn(array $data) => filled($data['laboratory_id'] ?? null) ? $data : null)
                                 ->schema([
                                     Forms\Components\Select::make('laboratory_id')
                                         ->label(__('resources.laboratory'))
                                         ->relationship(
                                             name: 'laboratory',
                                             titleAttribute: 'name',
-                                            modifyQueryUsing: fn (Builder $query) => $query->where(
-                                                fn (Builder $query) => $query->mine()
+                                            modifyQueryUsing: fn(Builder $query) => $query->where(
+                                                fn(Builder $query) => $query->mine()
                                             )
                                         )
-                                        ->getOptionLabelFromRecordUsing(fn (Laboratory $record) => $record->displayName)
+                                        ->getOptionLabelFromRecordUsing(fn(Laboratory $record) => $record->displayName)
                                         ->searchable(['name', 'regency', 'unit_code'])
                                         ->preload()
                                         ->createOptionModalHeading(__('pages.apply.create_laboratory'))
@@ -305,9 +303,9 @@ class AgapeApplicationForm
                     ->multiple()
                     ->relationship(
                         name: 'studyFields',
-                        modifyQueryUsing: fn (Builder $query) => $query->mine()
+                        modifyQueryUsing: fn(Builder $query) => $query->mine()
                     )
-                    ->getOptionLabelFromRecordUsing(fn (StudyField $record) => $record->name)
+                    ->getOptionLabelFromRecordUsing(fn(StudyField $record) => $record->name)
                     ->columnSpanFull()
                     ->searchable()
                     ->preload()
@@ -315,7 +313,7 @@ class AgapeApplicationForm
                     ->minItems(1)
                     ->maxItems($this->projectCall->extra_attributes->number_of_study_fields)
                     ->createOptionForm([
-                        AgapeForm::translatableFields($this->form, fn ($lang) => [
+                        AgapeForm::translatableFields($this->form, fn($lang) => [
                             Forms\Components\TextInput::make('name.' . $lang)
                                 ->label(__('attributes.name'))
                                 ->required(),
@@ -381,7 +379,7 @@ class AgapeApplicationForm
                             ->label(__('pages.apply.download_template'))
                             ->icon('fas-file-download')
                             ->hidden(!$this->projectCall->hasMedia($name))
-                            ->action(fn () => $this->projectCall->getFirstMedia($name)->toResponse(request()))
+                            ->action(fn() => $this->projectCall->getFirstMedia($name)->toResponse(request()))
                     );
                 }
                 if ($this->forEvaluation) {
@@ -438,16 +436,16 @@ class AgapeApplicationForm
                 ->multiple($settings['multiple'] ?? false)
                 ->options(
                     collect($settings['options'] ?? [])
-                        ->mapWithKeys(fn ($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray()
+                        ->mapWithKeys(fn($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray()
                 );
         }
         if ($settings['type'] === 'checkbox') {
             $field = $field->options(
                 collect($settings['choices'] ?? [])
-                    ->mapWithKeys(fn ($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray()
+                    ->mapWithKeys(fn($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray()
             )->descriptions(
                 collect($settings['choices'] ?? [])
-                    ->mapWithKeys(fn ($o) => [$o['value'] => $o['description'][app()->getLocale()]])->toArray()
+                    ->mapWithKeys(fn($o) => [$o['value'] => $o['description'][app()->getLocale()]])->toArray()
             );
         }
 
@@ -470,5 +468,23 @@ class AgapeApplicationForm
             ->maxItems($settings['maxItems'] ?? null)
             ->live()
             ->columnSpanFull();
+    }
+
+    public static function getExtraAttributes(ProjectCall $projectCall, Forms\Form $form): array
+    {
+        $formData = $form->getRawState();
+        $dynamicFields = collect($projectCall->projectCallType->dynamic_attributes ?? []);
+        $extraAttributes = [];
+        foreach ($dynamicFields as $field) {
+            $value = Arr::get($formData, 'extra_attributes.' . $field['slug']);
+            if ($field['repeatable'] ?? false) {
+                $value = collect($value)
+                    ->map(fn($item) => Arr::get($item, 'value'))
+                    ->values()
+                    ->all();
+            }
+            $extraAttributes[$field['slug']] = $value;
+        }
+        return $extraAttributes;
     }
 }

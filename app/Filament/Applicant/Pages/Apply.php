@@ -101,7 +101,7 @@ class Apply extends Page implements HasForms
                 ->label(__('pages.apply.back'))
                 ->icon('fas-arrow-left')
                 ->color('secondary')
-                ->requiresConfirmation(fn (Component $livewire) => $livewire->isDirty())
+                ->requiresConfirmation(fn(Component $livewire) => $livewire->isDirty())
                 ->action(function () {
                     return redirect()->route('filament.applicant.pages.dashboard');
                 }),
@@ -121,12 +121,12 @@ class Apply extends Page implements HasForms
                 ->hidden(!$this->projectCall->canApply() || filled($this->application->submitted_at))
                 // ->disabled(fn (Component $livewire) => $livewire->isDirty())
                 // ->tooltip(__('pages.apply.submit_disabled'))
-                ->requiresConfirmation(fn (Component $livewire) => !$livewire->isDirty())
-                ->modalIcon(fn (Component $livewire) => !$livewire->isDirty() ? 'fas-paper-plane' : null)
-                ->modalIconColor(fn (Component $livewire) => !$livewire->isDirty() ? 'success' : null)
-                ->modalHeading(fn (Component $livewire) => !$livewire->isDirty() ? __('pages.apply.submit_confirmation_title') : null)
-                ->modalDescription(fn (Component $livewire) => !$livewire->isDirty() ? __('pages.apply.submit_confirmation_text') : null)
-                ->modalSubmitActionLabel(fn (Component $livewire) => !$livewire->isDirty() ? __('pages.apply.submit_confirmation_button') : null)
+                ->requiresConfirmation(fn(Component $livewire) => !$livewire->isDirty())
+                ->modalIcon(fn(Component $livewire) => !$livewire->isDirty() ? 'fas-paper-plane' : null)
+                ->modalIconColor(fn(Component $livewire) => !$livewire->isDirty() ? 'success' : null)
+                ->modalHeading(fn(Component $livewire) => !$livewire->isDirty() ? __('pages.apply.submit_confirmation_title') : null)
+                ->modalDescription(fn(Component $livewire) => !$livewire->isDirty() ? __('pages.apply.submit_confirmation_text') : null)
+                ->modalSubmitActionLabel(fn(Component $livewire) => !$livewire->isDirty() ? __('pages.apply.submit_confirmation_button') : null)
                 ->action(function () {
                     $this->submitApplication();
                 })
@@ -166,15 +166,15 @@ class Apply extends Page implements HasForms
 
         $this->application->projectCall()->associate($this->projectCall);
         $this->application->fill($formData);
-        $this->application->extra_attributes = Arr::get($formData, 'extra_attributes', []);
+        $this->application->extra_attributes = AgapeApplicationForm::getExtraAttributes($this->projectCall, $this->form);
 
         $this->application->save();
 
         $this->application->laboratories()->sync(
             collect($formData['applicationLaboratories'] ?? [])
                 ->values()
-                ->filter(fn ($lab) => filled($lab['laboratory_id']))
-                ->mapWithKeys(fn ($lab, $i) => [intval($lab['laboratory_id']) => [
+                ->filter(fn($lab) => filled($lab['laboratory_id']))
+                ->mapWithKeys(fn($lab, $i) => [intval($lab['laboratory_id']) => [
                     'contact_name' => $lab['contact_name'],
                     'order' => $i + 1
                 ]])->all()
@@ -230,7 +230,7 @@ class Apply extends Page implements HasForms
         );
         if ($validator->fails()) {
             $errors = collect($validator->errors()->messages())
-                ->mapWithKeys(fn ($messages, $key) => ['data.' . $key => $messages])->all();
+                ->mapWithKeys(fn($messages, $key) => ['data.' . $key => $messages])->all();
             $this->dispatch('close-modal', id: "{$this->getId()}-form-component-action");
 
             Notification::make()
