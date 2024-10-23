@@ -36,6 +36,7 @@ class ContactMessage extends Notification
     {
         return (new MailMessage)
             ->subject(__('email.contact.title'))
+            ->replyTo($this->data['email'], $this->data['name'])
             ->line(__('email.contact.intro', [
                 'type'                  => $this->data['visitor'] ? __('email.contact.type_visitor') : __('email.contact.type_user'),
                 'name'                  => $this->data['name'],
