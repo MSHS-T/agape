@@ -23,6 +23,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use Saade\FilamentLaravelLog\FilamentLaravelLogPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -48,15 +49,15 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 NavigationGroup::make()
-                    ->label(fn (): string => __('admin.sections.projectcalls')),
+                    ->label(fn(): string => __('admin.sections.projectcalls')),
                 NavigationGroup::make()
-                    ->label(fn (): string => __('admin.sections.data')),
+                    ->label(fn(): string => __('admin.sections.data')),
                 NavigationGroup::make()
-                    ->label(fn (): string => __('admin.sections.admin')),
+                    ->label(fn(): string => __('admin.sections.admin')),
             ])
             ->sidebarCollapsibleOnDesktop()
             // ->sidebarFullyCollapsibleOnDesktop()
-            ->brandLogo(fn () => asset(env('APP_BANNER')))
+            ->brandLogo(fn() => asset(env('APP_BANNER')))
             ->brandLogoHeight('2.5rem')
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
@@ -91,10 +92,14 @@ class AdminPanelProvider extends PanelProvider
                         'personal_info' => FilamentProfilePersonalInfo::class,
                         'two_factor_authentication' => FilamentProfileTwoFactor::class // optionally, use a custom 2FA page
                     ])
-                    ->enableTwoFactorAuthentication(false)
+                    ->enableTwoFactorAuthentication(false),
                 //     force: false, // force the user to enable 2FA before they can use the application (default = false)
                 //     action: FilamentProfileTwoFactor::class // optionally, use a custom 2FA page
                 // )
+                FilamentLaravelLogPlugin::make()
+                    ->navigationGroup(fn() => __('admin.sections.admin'))
+                    ->navigationSort(100)
+                    ->navigationIcon('fas-file-lines')
             ])
             ->viteTheme('resources/css/filament/admin/theme.css');
     }
