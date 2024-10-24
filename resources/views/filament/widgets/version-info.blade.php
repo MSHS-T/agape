@@ -18,7 +18,7 @@
             <a href="https://github.com/MSHS-T/agape" target="_blank" rel="noopener noreferrer"
                 class="fi-btn relative grid-flow-col items-center justify-center font-semibold outline-none transition duration-75 focus-visible:ring-2 rounded-lg fi-color-gray fi-btn-color-gray fi-size-md fi-btn-size-md gap-1.5 px-3 py-2 text-sm hidden sm:inline-grid shadow-sm bg-white text-gray-950 hover:bg-gray-50 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 ring-1 ring-gray-950/10 dark:ring-white/20"
                 title="Github">
-                <x-fab-github class="fi-btn-icon size-5" />
+                <x-fab-github class="fi-btn-icon h-5 w-5" />
                 <!--[if ENDBLOCK]><![endif]-->
                 <span class="fi-btn-label sr-only">
                     Voir sur Github
