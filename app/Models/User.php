@@ -158,7 +158,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
      */
     public function routeNotificationForMail(Notification $notification): ?string
     {
-        return (endsWith($this->email, '@3rgo.tech') || endsWith($this->email, '@agape.fr')) ? null : $this->email;
+        return (Str::endsWith($this->email, '@3rgo.tech') || Str::endsWith($this->email, '@agape.fr')) ? null : $this->email;
     }
 
     /**
