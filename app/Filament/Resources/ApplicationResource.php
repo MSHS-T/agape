@@ -53,15 +53,31 @@ class ApplicationResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('creator.last_name')
                     ->label(__('admin.roles.applicant'))
-                    ->formatStateUsing(fn (Application $application) => $application->creator->name),
+                    ->formatStateUsing(fn(Application $application) => $application->creator->name),
                 Tables\Columns\TextColumn::make('acronym')
                     ->label(__('attributes.acronym'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('laboratories.0.name')
+                Tables\Columns\TextColumn::make('mainLaboratory')
                     ->label(__('attributes.main_laboratory'))
-                    ->searchable()
-                    ->sortable(),
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query
+                            ->leftJoin('application_laboratory', 'applications.id', '=', 'application_laboratory.application_id')
+                            ->leftJoin('laboratories', 'application_laboratory.laboratory_id', '=', 'laboratories.id')
+                            ->where('application_laboratory.order', 1)
+                            ->orderBy('laboratories.name', $direction);
+                    })
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query
+                            ->whereHas(
+                                'laboratories',
+                                fn($query) => $query
+                                    ->where('application_laboratory.order', 1)
+                                    ->where('name', 'like', "%{$search}%")
+                            );
+                    })
+                /* ->searchable()
+                    ->sortable() */,
                 AgapeTable::submissionStatusColumn(),
                 ...AgapeTable::timestampColumns(showModification: true),
                 AgapeTable::submittedAtColumn()
@@ -73,7 +89,7 @@ class ApplicationResource extends Resource
                         ProjectCall::withTrashed()
                             ->orderBy('reference', 'desc')
                             ->get()
-                            ->mapWithKeys(fn (ProjectCall $projectCall) => [
+                            ->mapWithKeys(fn(ProjectCall $projectCall) => [
                                 $projectCall->id => $projectCall->reference . ($projectCall->trashed() ? ' (' . __('admin.archived') . ')' : '')
                             ])
                             ->all()
@@ -97,27 +113,27 @@ class ApplicationResource extends Resource
                         return $query
                             ->when(
                                 $data['status'] === 'draft',
-                                fn (Builder $query): Builder => $query->whereNull('submitted_at')->whereNull('devalidation_message'),
+                                fn(Builder $query): Builder => $query->whereNull('submitted_at')->whereNull('devalidation_message'),
                             )
                             ->when(
                                 $data['status'] === 'submitted',
-                                fn (Builder $query): Builder => $query->whereNotNull('submitted_at'),
+                                fn(Builder $query): Builder => $query->whereNotNull('submitted_at'),
                             )
                             ->when(
                                 $data['status'] === 'devalidated',
-                                fn (Builder $query): Builder => $query->whereNull('submitted_at')->whereNotNull('devalidation_message'),
+                                fn(Builder $query): Builder => $query->whereNull('submitted_at')->whereNotNull('devalidation_message'),
                             );
                     }),
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn (Application $record) => filled($record->submitted_at)),
+                    ->hidden(fn(Application $record) => filled($record->submitted_at)),
                 Tables\Actions\Action::make('selection_comity')
                     ->label(__('admin.application.add_selection_comity_opinion'))
                     ->icon('fas-users-viewfinder')
                     ->color(Color::Cyan)
-                    ->form(fn (Application $record) => [
+                    ->form(fn(Application $record) => [
                         AgapeForm::richTextEditor('selection_comity_opinion')
                             ->label(__('attributes.selection_comity_opinion'))
                             ->required()
@@ -128,51 +144,51 @@ class ApplicationResource extends Resource
                         $record->selection_comity_opinion = $data['selection_comity_opinion'];
                         $record->save();
                     })
-                    ->hidden(fn (Application $record) => $record->projectCall->status !== ProjectCallStatus::ARCHIVED && $record->projectCall->status !== ProjectCallStatus::FINISHED)
+                    ->hidden(fn(Application $record) => $record->projectCall->status !== ProjectCallStatus::ARCHIVED && $record->projectCall->status !== ProjectCallStatus::FINISHED)
                     ->openUrlInNewTab(),
                 Tables\Actions\Action::make('offers')
-                    ->label(fn (Application $record) => __('admin.application.offers', ['count' => $record->evaluationOffers->count()]))
-                    ->url(fn (Application $record) => route('filament.admin.resources.applications.offers', ['record' => $record]))
+                    ->label(fn(Application $record) => __('admin.application.offers', ['count' => $record->evaluationOffers->count()]))
+                    ->url(fn(Application $record) => route('filament.admin.resources.applications.offers', ['record' => $record]))
                     ->color(Color::Lime)
                     ->icon('fas-user-tie')
-                    ->hidden(fn (Application $record) => !$record->projectCall->evaluation_start_date->isPast() || blank($record->submitted_at)),
+                    ->hidden(fn(Application $record) => !$record->projectCall->evaluation_start_date->isPast() || blank($record->submitted_at)),
                 Tables\Actions\Action::make('evaluations')
-                    ->label(fn (Application $record) => __('admin.application.evaluations', ['count' => $record->evaluations->count()]))
-                    ->url(fn (Application $record) => route('filament.admin.resources.applications.evaluations', ['record' => $record]))
+                    ->label(fn(Application $record) => __('admin.application.evaluations', ['count' => $record->evaluations->count()]))
+                    ->url(fn(Application $record) => route('filament.admin.resources.applications.evaluations', ['record' => $record]))
                     ->color(Color::Green)
                     ->icon('fas-file-signature')
-                    ->hidden(fn (Application $record) => !$record->projectCall->evaluation_start_date->isPast() || blank($record->submitted_at)),
+                    ->hidden(fn(Application $record) => !$record->projectCall->evaluation_start_date->isPast() || blank($record->submitted_at)),
                 ...AgapeTable::submissionActions(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('export_application')
                         ->label(__('admin.pdf_export'))
                         ->color(Color::Cyan)
                         ->icon('fas-file-pdf')
-                        ->url(fn (Application $record) => route('export_application.application', ['application' => $record]))
+                        ->url(fn(Application $record) => route('export_application.application', ['application' => $record]))
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('export_application_zip')
                         ->label(__('admin.zip_export'))
                         ->color(Color::Cyan)
                         ->icon('fas-file-zipper')
-                        ->url(fn (Application $record) => route('export_zip.application', ['application' => $record]))
+                        ->url(fn(Application $record) => route('export_zip.application', ['application' => $record]))
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('export_evaluations')
                         ->label(__('admin.evaluation_pdf_export'))
                         ->color(Color::Indigo)
                         ->icon('fas-file-pdf')
-                        ->url(fn (Application $record) => route('export_evaluation.application', ['application' => $record]))
-                        ->hidden(fn (Application $record) => $record->projectCall->status !== ProjectCallStatus::EVALUATION && $record->projectCall->status !== ProjectCallStatus::ARCHIVED && $record->projectCall->status !== ProjectCallStatus::FINISHED)
+                        ->url(fn(Application $record) => route('export_evaluation.application', ['application' => $record]))
+                        ->hidden(fn(Application $record) => $record->projectCall->status !== ProjectCallStatus::EVALUATION && $record->projectCall->status !== ProjectCallStatus::ARCHIVED && $record->projectCall->status !== ProjectCallStatus::FINISHED)
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('export_evaluations_anonymous')
                         ->label(__('admin.evaluation_pdf_export_anonymous'))
                         ->color(Color::Indigo)
                         ->icon('fas-file-pdf')
-                        ->url(fn (Application $record) => route('export_evaluation.application', ['application' => $record, 'anonymized' => true]))
-                        ->hidden(fn (Application $record) => $record->projectCall->status !== ProjectCallStatus::EVALUATION && $record->projectCall->status !== ProjectCallStatus::ARCHIVED && $record->projectCall->status !== ProjectCallStatus::FINISHED)
+                        ->url(fn(Application $record) => route('export_evaluation.application', ['application' => $record, 'anonymized' => true]))
+                        ->hidden(fn(Application $record) => $record->projectCall->status !== ProjectCallStatus::EVALUATION && $record->projectCall->status !== ProjectCallStatus::ARCHIVED && $record->projectCall->status !== ProjectCallStatus::FINISHED)
                         ->openUrlInNewTab(),
                 ])
                     ->dropdownWidth(MaxWidth::Small)
-                    ->hidden(fn (Application $record) => blank($record->submitted_at)),
+                    ->hidden(fn(Application $record) => blank($record->submitted_at)),
             ])
             ->bulkActions([]);
     }

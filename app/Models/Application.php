@@ -11,6 +11,7 @@ use App\Notifications\ApplicationSubmittedAdmins;
 use App\Notifications\ApplicationSubmittedApplicant;
 use App\Notifications\ApplicationUnsubmitted;
 use App\Rulesets\Application as ApplicationRuleset;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -208,6 +209,16 @@ class Application extends Model implements HasMedia, WithSubmission
         return $this->hasManyThrough(Evaluation::class, EvaluationOffer::class);
     }
 
+    /**
+     * CUSTOM ATTRIBUTES
+     */
+    public function mainLaboratory(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->laboratories->sortBy('pivot.order')->first()?->name ?? ''
+        );
+    }
+
     public function getSubmissionNotification(string $name): ?string
     {
         return [
@@ -237,7 +248,7 @@ class Application extends Model implements HasMedia, WithSubmission
         $data['studyFields'] = $data['study_fields'];
         $data = [
             ...$data,
-            ...($this->media->map(fn (Media $m) => $m->toArray())->groupBy('collection_name')->toArray())
+            ...($this->media->map(fn(Media $m) => $m->toArray())->groupBy('collection_name')->toArray())
         ];
         unset($data['application_laboratories']);
         unset($data['study_fields']);
