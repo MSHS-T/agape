@@ -91,7 +91,7 @@ class EvaluationOffer extends Model implements WithCreator
 
     public function expert(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function invitation(): BelongsTo
@@ -125,14 +125,14 @@ class EvaluationOffer extends Model implements WithCreator
     public function scopeEvaluationPending(Builder $query)
     {
         return $query->where(function (Builder $query) {
-            $query->whereHas('evaluation', fn (Builder $query) => $query->whereNull('submitted_at'))
+            $query->whereHas('evaluation', fn(Builder $query) => $query->whereNull('submitted_at'))
                 ->orWhereDoesntHave('evaluation');
         });
     }
 
     public function scopeEvaluationDone(Builder $query)
     {
-        return $query->whereHas('evaluation', fn (Builder $query) => $query->whereNotNull('submitted_at'));
+        return $query->whereHas('evaluation', fn(Builder $query) => $query->whereNotNull('submitted_at'));
     }
 
     /**
