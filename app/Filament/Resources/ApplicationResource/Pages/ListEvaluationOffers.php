@@ -57,27 +57,27 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(fn (): Builder => EvaluationOffer::whereApplicationId($this->application->id))
+            ->query(fn(): Builder => EvaluationOffer::whereApplicationId($this->application->id))
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label(__('admin.roles.expert'))
                     ->formatStateUsing(
-                        fn (EvaluationOffer $record) => filled($record->expert) ? $record->expert->name : $record->invitation->email
+                        fn(EvaluationOffer $record) => (filled($record->expert) ? $record->expert?->name : $record->invitation?->email) ?? '?'
                     ),
                 Tables\Columns\IconColumn::make('accepted')
                     ->label(__('attributes.status'))
-                    ->getStateUsing(fn ($record) => $record->accepted === null ? 'null' : $record->accepted)
-                    ->icon(fn ($state): string => match (true) {
+                    ->getStateUsing(fn($record) => $record->accepted === null ? 'null' : $record->accepted)
+                    ->icon(fn($state): string => match (true) {
                         $state === true  => 'fas-check-circle',
                         $state === false => 'fas-times-circle',
                         default          => 'fas-hourglass'
                     })
-                    ->color(fn ($state): array => match (true) {
+                    ->color(fn($state): array => match (true) {
                         $state === true  => Color::Green,
                         $state === false => Color::Red,
                         default          => Color::Orange
                     })
-                    ->tooltip(fn ($state): string => match (true) {
+                    ->tooltip(fn($state): string => match (true) {
                         $state === true  => __('admin.evaluation_offer.status.accepted'),
                         $state === false => __('admin.evaluation_offer.status.rejected'),
                         default          => __('admin.evaluation_offer.status.pending')
@@ -88,10 +88,10 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
                 Tables\Columns\TextColumn::make('extra_attributes.retry_count')
                     ->label(__('admin.evaluation_offer.retries'))
                     ->formatStateUsing(
-                        fn (EvaluationOffer $record) => Str::of(
+                        fn(EvaluationOffer $record) => Str::of(
                             collect($record->extra_attributes->retries ?? [])
                                 ->pluck('at')
-                                ->map(fn ($r) => (new Carbon($r))->format(__('misc.datetime_format')))
+                                ->map(fn($r) => (new Carbon($r))->format(__('misc.datetime_format')))
                                 ->join('<br/>')
                         )->toHtmlString()
                     )
@@ -112,15 +112,15 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
                         return $query
                             ->when(
                                 $data['status'] === 'accepted',
-                                fn (Builder $query): Builder => $query->where('accepted', true),
+                                fn(Builder $query): Builder => $query->where('accepted', true),
                             )
                             ->when(
                                 $data['status'] === 'rejected',
-                                fn (Builder $query): Builder => $query->where('accepted', false),
+                                fn(Builder $query): Builder => $query->where('accepted', false),
                             )
                             ->when(
                                 $data['status'] === 'pending',
-                                fn (Builder $query): Builder => $query->whereNull('accepted'),
+                                fn(Builder $query): Builder => $query->whereNull('accepted'),
                             );
                     }),
             ], layout: FiltersLayout::AboveContent)
@@ -128,22 +128,22 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
                 Tables\Actions\ViewAction::make()
                     ->label(__('admin.evaluation_offer.show_reason'))
                     ->modalHeading(__('admin.evaluation_offer.rejection_title'))
-                    ->modalContent(fn (EvaluationOffer $record) => view(
+                    ->modalContent(fn(EvaluationOffer $record) => view(
                         'components.filament.evaluation-offer-rejection-details',
                         ['record' => $record]
                     ))
                     ->modalFooterActionsAlignment(Alignment::Right)
-                    ->hidden(fn (EvaluationOffer $record): bool => $record->accepted !== false),
+                    ->hidden(fn(EvaluationOffer $record): bool => $record->accepted !== false),
                 Tables\Actions\Action::make('retry')
                     ->label(__('admin.evaluation_offer.retry'))
                     ->color(Color::Indigo)
                     ->icon('fas-rotate-right')
                     ->requiresConfirmation()
-                    ->action(fn (EvaluationOffer $record) => $record->retry())
-                    ->hidden(fn (EvaluationOffer $record): bool => $record->accepted !== null),
+                    ->action(fn(EvaluationOffer $record) => $record->retry())
+                    ->hidden(fn(EvaluationOffer $record): bool => $record->accepted !== null),
                 Tables\Actions\DeleteAction::make()
                     ->label(__('admin.evaluation_offer.cancel'))
-                    ->hidden(fn (EvaluationOffer $record): bool => $record->accepted !== null),
+                    ->hidden(fn(EvaluationOffer $record): bool => $record->accepted !== null),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -165,13 +165,15 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
                     Select::make('expert_id')
                         ->label(__('admin.application.existing_expert'))
                         ->searchable()
-                        ->options(User::role('expert')->get()->pluck('nameWithEmail', 'id')),
+                        ->options(User::role('expert')->get()->pluck('nameWithEmail', 'id'))
+                        ->requiredWithout('invitation_email'),
                     Placeholder::make('separator')
                         ->hiddenLabel()
                         ->content(Str::of(view('components.separator', ['slot' => __('or')])->render())->toHtmlString()),
                     TextInput::make('invitation_email')
                         ->label(__('admin.application.new_expert'))
                         ->email()
+                        ->requiredWithout('expert_id')
                 ])
                 ->action(function (array $data) {
                     if (filled($data['expert_id'])) {
@@ -207,10 +209,10 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
                     }
                 }),
             Action::make('evaluations')
-                ->label(fn () => __('admin.application.evaluations', [
+                ->label(fn() => __('admin.application.evaluations', [
                     'count' => $this->application->evaluations->count()
                 ]))
-                ->url(fn () => route('filament.admin.resources.applications.evaluations', ['record' => $this->application]))
+                ->url(fn() => route('filament.admin.resources.applications.evaluations', ['record' => $this->application]))
                 ->color(Color::Green)
                 ->icon('fas-file-signature')
         ];
