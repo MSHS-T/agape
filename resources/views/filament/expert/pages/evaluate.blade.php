@@ -88,7 +88,10 @@
     @endif
 
     <div class="mt-4 pb-24 sm:pb-12 space-y-4" x-data="{ activeTab: 'evaluation' }">
-        <x-filament::tabs label="Content tabs">
+        <x-filament::tabs label="Content tabs" class="bg-red-500">
+            <div class="flex items-center justify-start mx-2 text-sm font-bold space-x-2">
+                <x-fas-section class="w-5 h-5 text-indigo-600" />
+            </div>
             <x-filament::tabs.item alpine-active="activeTab === 'projectcall'" x-on:click="activeTab = 'projectcall'">
                 {{ __('resources.project_call') }}
             </x-filament::tabs.item>
@@ -98,6 +101,12 @@
             <x-filament::tabs.item alpine-active="activeTab === 'evaluation'" x-on:click="activeTab = 'evaluation'">
                 {{ __('resources.evaluation') }}
             </x-filament::tabs.item>
+            <div class="flex-1 flex items-center justify-end mr-4 text-xs font-bold space-x-2">
+                <x-fas-info-circle class="w-5 h-5 text-indigo-600" />
+                <span>
+                    {{ __('pages.evaluate.use_tabs') }}
+                </span>
+            </div>
         </x-filament::tabs>
         <div x-cloak x-show="activeTab === 'application'">
             {{ $this->applicationForm }}
