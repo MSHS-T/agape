@@ -150,7 +150,7 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
                         $record->accepted = null;
                         $record->save();
                     })
-                    ->hidden(fn(EvaluationOffer $record): bool => $record->accepted === null),
+                    ->hidden(fn(EvaluationOffer $record): bool => $record->accepted === null && $record->evaluation === null),
                 Tables\Actions\DeleteAction::make()
                     ->label(__('admin.evaluation_offer.cancel'))
                     ->hidden(fn(EvaluationOffer $record): bool => $record->accepted !== null),
