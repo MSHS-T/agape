@@ -114,6 +114,7 @@ return [
         'retries'     => 'Relances',
         'retry'       => 'Envoyer un rappel',
         'cancel'      => 'Annuler',
+        'override'    => 'Réinitialiser le choix',
         'show_reason' => 'Raison du refus',
 
         'success_sent'             => 'Une proposition d\'évaluation vient d\'être envoyée à l\'expert choisi.',

@@ -141,6 +141,16 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
                     ->requiresConfirmation()
                     ->action(fn(EvaluationOffer $record) => $record->retry())
                     ->hidden(fn(EvaluationOffer $record): bool => $record->accepted !== null),
+                Tables\Actions\Action::make('override')
+                    ->label(__('admin.evaluation_offer.override'))
+                    ->color(Color::Orange)
+                    ->icon('fas-arrow-rotate-left')
+                    ->requiresConfirmation()
+                    ->action(function (EvaluationOffer $record) {
+                        $record->accepted = null;
+                        $record->save();
+                    })
+                    ->hidden(fn(EvaluationOffer $record): bool => $record->accepted === null),
                 Tables\Actions\DeleteAction::make()
                     ->label(__('admin.evaluation_offer.cancel'))
                     ->hidden(fn(EvaluationOffer $record): bool => $record->accepted !== null),

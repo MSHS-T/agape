@@ -114,6 +114,7 @@ return [
         'retries'     => 'Retries',
         'retry'       => 'Send Reminder',
         'cancel'      => 'Cancel',
+        'override'    => 'Reset Choice',
         'show_reason' => 'Show Reason',
 
         'success_sent'             => 'An evaluation offer has been sent to the chosen expert.',
