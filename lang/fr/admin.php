@@ -119,10 +119,13 @@ return [
         'override'    => 'Réinitialiser le choix',
         'show_reason' => 'Raison du refus',
 
+        'invitation_info' => 'Vous pouvez choisir un expert déjà enregistré ou inviter un nouvel expert en saisissant son adresse e-mail. Si l\'adresse e-mail est déjà associée à un compte expert ou à une invitation existante, la proposition d\'évaluation sera liée.',
+
         'success_sent'             => 'Une proposition d\'évaluation vient d\'être envoyée à l\'expert choisi.',
         'success_invited'          => 'Une invitation à rejoindre la plateforme vient d\'être envoyée à l\'expert choisi.',
         'success_linked'           => 'L\'expert choisi a déjà été invité mais n\'a pas encore rejoint la plateforme. La proposition d\'évaluation a été liée à son invitation et une notification lui a été envoyée.',
         'error_no_expert_or_email' => 'Vous devez choisir un expert ou saisir une adresse e-mail pour envoyer une invitation.',
+        'error_existing_invitation' => 'L\'expert choisi a déjà été invité. Veuillez utiliser l\'action d\'envoi de rappel plutôt que de le réinviter.',
     ],
 
     'evaluation' => [

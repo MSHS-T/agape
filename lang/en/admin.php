@@ -119,10 +119,13 @@ return [
         'override'    => 'Reset Choice',
         'show_reason' => 'Show Reason',
 
+        'invitation_info' => 'You can choose an existing expert or invite a new expert by entering their email address. If the email address is already linked to an expert account or an existing invitation, the evaluation offer will be associated with it.',
+
         'success_sent'             => 'An evaluation offer has been sent to the chosen expert.',
         'success_invited'          => 'An invitation to join the platform has been sent to the chosen expert.',
         'success_linked'           => 'The chosen expert has already been invited but has not yet joined the platform. The evaluation offer has been linked to their invitation and a notification has been sent to them.',
         'error_no_expert_or_email' => 'You must choose an expert or enter an email address to send an invitation.',
+        'error_existing_invitation' => 'The chosen expert has already been invited. Please use the send reminder action instead of inviting them again.',
     ],
 
     'evaluation' => [

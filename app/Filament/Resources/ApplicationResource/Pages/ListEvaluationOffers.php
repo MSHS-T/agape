@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ApplicationResource\Pages;
 
+use App\Actions\InviteExpert;
 use App\Actions\InviteUser;
 use App\Filament\AgapeTable;
 use App\Filament\Resources\ApplicationResource;
@@ -10,6 +11,7 @@ use App\Models\EvaluationOffer;
 use App\Models\Invitation;
 use App\Models\User;
 use App\Tables\Columns\NullableIconColumn;
+use Awcodes\Shout\Components\Shout;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Forms;
@@ -172,6 +174,10 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
                 ->color(Color::Blue)
                 ->icon('fas-user-plus')
                 ->form([
+                    Shout::make('invitation_info')
+                        ->content(__('admin.evaluation_offer.invitation_info'))
+                        ->icon('fas-info-circle')
+                        ->color(Color::Cyan),
                     Select::make('expert_id')
                         ->label(__('admin.application.existing_expert'))
                         ->searchable()
@@ -186,37 +192,7 @@ class ListEvaluationOffers extends Page implements Tables\Contracts\HasTable
                         ->requiredWithout('expert_id')
                 ])
                 ->action(function (array $data) {
-                    if (filled($data['expert_id'])) {
-                        EvaluationOffer::create([
-                            'application_id' => $this->application->id,
-                            'expert_id'      => $data['expert_id'],
-                        ]);
-                        Notification::make()
-                            ->title(__('admin.evaluation_offer.success_sent'))
-                            ->success()
-                            ->send();
-                    } else if (filled($data['invitation_email'])) {
-                        $invitation = Invitation::where('email', $data['invitation_email'])->first();
-                        if ($invitation) {
-                            $message = __('admin.evaluation_offer.success_linked');
-                        } else {
-                            $invitation = InviteUser::handle($data['invitation_email'], 'expert', quietly: true);
-                            $message = __('admin.evaluation_offer.success_invited');
-                        }
-                        EvaluationOffer::create([
-                            'application_id' => $this->application->id,
-                            'invitation_id'  => $invitation->id,
-                        ]);
-                        Notification::make()
-                            ->title($message)
-                            ->success()
-                            ->send();
-                    } else {
-                        Notification::make()
-                            ->title(__('admin.evaluation_offer.error_no_expert_or_email'))
-                            ->success()
-                            ->send();
-                    }
+                    InviteExpert::handle($this->application, $data['expert_id'], $data['invitation_email']);
                 }),
             Action::make('evaluations')
                 ->label(fn() => __('admin.application.evaluations', [
