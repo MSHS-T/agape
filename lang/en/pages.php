@@ -9,6 +9,7 @@ return [
     'contact' => [
         'title'                 => 'Contact',
         'oversight_affiliation' => 'Overseer Affiliation',
+        'project'               => 'Acronym or title of the related application',
         'message'               => 'Message',
         'send'                  => 'Send',
         'contact_sent'          => 'Message sent successfully!',

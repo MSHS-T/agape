@@ -38,6 +38,11 @@
             </div>
 
             <div class="mt-6">
+                <x-label for="project" value="{{ __('pages.contact.project') }}" />
+                <x-input id="project" class="block mt-1 w-full" type="text" name="project" :value="old('project')" />
+            </div>
+
+            <div class="mt-6">
                 <x-label for="message" value="{{ __('pages.contact.message') }}" />
                 <textarea rows="4" id="message" name="message" required
                     class="block mt-1 w-full py-1.5 border-0 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 dark:focus:ring-indigo-600 rounded-md shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>

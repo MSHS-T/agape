@@ -39,7 +39,6 @@ trait HasSubmission
             }
 
             $users = $this->resolveAdmins();
-            dump($users);
             $notification = $this->getSubmissionNotification('submittedAdmins');
             if (filled($notification)) {
                 Notification::send(

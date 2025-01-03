@@ -138,10 +138,8 @@ return [
     ],
 
     "contact" => [
-        "title"        => "Nouveau message via le formulaire de contact AGAPE",
-        "intro"        => ":type :name (:oversight_affiliation ; :email) vient d'envoyer le message suivant avec le formulaire de contact de la plateforme AGAPE: <br/><br/><blockquote>:message</blockquote>",
-        "type_visitor" => "Le visiteur",
-        "type_user"    => "L'utilisateur",
+        "title"        => "Nouveau message de :name via le formulaire de contact AGAPE",
+        "intro"        => ":name vient d'envoyer le message suivant avec le formulaire de contact de la plateforme AGAPE: <br/><br/><ul><li><b>Nom : </b>:name</li><li><b>Role : </b>:role</li><li><b>Affiliation : </b>:oversight_affiliation</li><li><b>Email : </b>:email</li></ul><blockquote>:message</blockquote>",
         "action"       => "Répondre"
     ]
 ];

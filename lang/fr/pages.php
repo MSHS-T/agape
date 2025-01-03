@@ -9,6 +9,7 @@ return [
     'contact' => [
         'title'                 => 'Contact',
         'oversight_affiliation' => 'Tutelle de Rattachement',
+        'project'               => 'Acronyme ou titre de la candidature associée',
         'message'               => 'Message',
         'send'                  => 'Envoyer le message',
         'contact_sent'          => 'Message envoyé avec succès !',

@@ -16,6 +16,7 @@ return [
         'manager'       => 'Gestionnaire',
         'applicant'     => 'Candidat',
         'expert'        => 'Expert',
+        'visitor'       => 'Visiteur',
     ],
 
     'users' => [

@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class ContactMessage extends Notification
 {
@@ -39,10 +40,11 @@ class ContactMessage extends Notification
             ->subject(__('email.contact.title'))
             ->replyTo($this->data['email'], $this->data['name'])
             ->line(__('email.contact.intro', [
-                'type'                  => $this->data['visitor'] ? __('email.contact.type_visitor') : __('email.contact.type_user'),
+                'role'                  => __('admin.roles.' . (Auth::user()?->role ?? 'visitor')),
                 'name'                  => $this->data['name'],
                 'email'                 => $this->data['email'],
                 'oversight_affiliation' => $this->data['oversight_affiliation'],
+                'project'               => $this->data['project'] ?? '?',
                 'message'               => $this->data['message'],
             ]))
             ->action(__('email.contact.action'), "mailto:" . $this->data['email']);
@@ -57,6 +59,8 @@ class ContactMessage extends Notification
             $bcc = array_map('trim', explode(',', $generalSettings->notificationsBcc));
             $message->bcc($bcc);
         }
+
+        $message->replyTo($this->data['email'], $this->data['name']);
 
         return $message;
     }
