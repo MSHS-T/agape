@@ -60,7 +60,8 @@ class EvaluationExport
         $title = implode(' - ', [
             config('app.name'),
             __('admin.evaluation.export_name'),
-            $application->reference
+            $application->reference,
+            $application->acronym,
         ]);
 
         $data = [

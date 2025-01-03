@@ -37,6 +37,7 @@ class ApplicationExport
             config('app.name'),
             __('admin.application.export_name'),
             $application->reference,
+            $application->acronym,
         ]);
 
         $inst = new self($application);
@@ -123,14 +124,14 @@ class ApplicationExport
     public function buildSection(string $section): array
     {
         $generalSettings = app(GeneralSettings::class);
-        $dynamicFields = collect($this->projectCall->projectCallType->dynamic_attributes ?? [])->filter(fn ($field) => $field['section'] === $section);
+        $dynamicFields = collect($this->projectCall->projectCallType->dynamic_attributes ?? [])->filter(fn($field) => $field['section'] === $section);
         $fieldsWithLabels = static::fieldsPerSection()[$section];
 
         // special case for fields of file section
         if ($section === 'files') {
             $fieldsWithLabels = array_filter(
                 $fieldsWithLabels,
-                fn ($name) => $generalSettings->{'enable' . ucfirst($name)},
+                fn($name) => $generalSettings->{'enable' . ucfirst($name)},
                 ARRAY_FILTER_USE_KEY
             );
         }
@@ -143,8 +144,8 @@ class ApplicationExport
                     'value' => $this->getFieldValue($fieldName)
                 ],
                 ...$dynamicFields
-                    ->filter(fn ($field) => $field['after_field'] === $fieldName)
-                    ->map(fn ($field) => [
+                    ->filter(fn($field) => $field['after_field'] === $fieldName)
+                    ->map(fn($field) => [
                         'label' => $field['label'][app()->getLocale()],
                         'value' => $this->getDynamicFieldValue($field)
                     ])
@@ -153,15 +154,15 @@ class ApplicationExport
         }
         $sectionFields->push(
             ...$dynamicFields
-                ->filter(fn ($field) => !in_array($field['after_field'], array_keys($fieldsWithLabels)))
-                ->map(fn ($field) => [
+                ->filter(fn($field) => !in_array($field['after_field'], array_keys($fieldsWithLabels)))
+                ->map(fn($field) => [
                     'label' => $field['label'][app()->getLocale()],
                     'value' => $this->getDynamicFieldValue($field)
                 ])
                 ->all()
         );
 
-        $sectionFields = $sectionFields->filter(fn ($f) => $f !== null);
+        $sectionFields = $sectionFields->filter(fn($f) => $f !== null);
 
         return [
             'title'  => __('pages.apply.sections.' . $section),
@@ -200,7 +201,7 @@ class ApplicationExport
                     ],
                 ];
             case 'laboratories':
-                return $this->application->laboratories->map(fn (Laboratory $laboratory, int $index) => [
+                return $this->application->laboratories->map(fn(Laboratory $laboratory, int $index) => [
                     'label' => $index === 0 ? __('attributes.main_laboratory') : (__('resources.laboratory') . ' #' . ($index + 1)),
                     'value' => [
                         [
@@ -229,7 +230,7 @@ class ApplicationExport
             case 'summary.en':
                 return $this->application->getTranslation('summary', 'en');
             case 'studyFields':
-                return $this->application->studyFields->map(fn (StudyField $studyField) => $studyField->name)->all();
+                return $this->application->studyFields->map(fn(StudyField $studyField) => $studyField->name)->all();
                 /**
                  * BUDGET SECTION
                  */
@@ -251,7 +252,7 @@ class ApplicationExport
                 if (!$this->projectCall->hasMedia($name)) {
                     return null;
                 }
-                return $this->application->getMedia($name)->map(fn (Media $media) => $media->file_name)->all();
+                return $this->application->getMedia($name)->map(fn(Media $media) => $media->file_name)->all();
             default:
                 return $this->application->{$name};
         }
@@ -277,7 +278,7 @@ class ApplicationExport
                     ->flatten()
                     ->values()
                     ->filter()
-                    ->map(fn ($value) => (new Carbon($value))->format(__('misc.date_format')))
+                    ->map(fn($value) => (new Carbon($value))->format(__('misc.date_format')))
                     ->all()
                     : (
                         $this->application->extra_attributes->get($slug, null) !== null
@@ -286,21 +287,21 @@ class ApplicationExport
                     );
             case 'select':
                 $options = collect($settings['options'] ?? [])
-                    ->mapWithKeys(fn ($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray();
+                    ->mapWithKeys(fn($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray();
                 return ($settings['multiple'] ?? false)
                     ? collect($this->application->extra_attributes->get($slug, null))
                     ->flatten()
                     ->values()
-                    ->map(fn ($value) => $options[$value])
+                    ->map(fn($value) => $options[$value])
                     ->all()
                     : $options[$this->application->extra_attributes->get($slug, null)];
             case 'checkbox':
                 $choices = collect($settings['choices'] ?? [])
-                    ->mapWithKeys(fn ($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray();
+                    ->mapWithKeys(fn($o) => [$o['value'] => $o['label'][app()->getLocale()]])->toArray();
                 return collect($this->application->extra_attributes->get($slug, null))
                     ->flatten()
                     ->values()
-                    ->map(fn ($value) => $choices[$value])
+                    ->map(fn($value) => $choices[$value])
                     ->all();
             default:
                 return null;

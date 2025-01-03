@@ -56,13 +56,14 @@ class ExportController extends Controller
             config('app.name'),
             __('resources.application'),
             $application->reference,
+            $application->acronym,
         ]));
 
         list($pdfName, $pdf) = ApplicationExport::export($application);
         $pdfPath = tempnam(sys_get_temp_dir(), Str::slug(env('APP_NAME')) . '_');
         $pdf->save($pdfPath);
 
-        $files = $application->media->map(fn (Media $media) => [
+        $files = $application->media->map(fn(Media $media) => [
             'folder' => $media->collection_name,
             'name'   => $media->file_name,
             'path'   => $media->getPath(),
@@ -114,14 +115,15 @@ class ExportController extends Controller
             $applicationPdf->save($applicationPdfPath);
             unset($applicationPdf);
 
+            $applicationFolder = $application->reference . '_' . Str::slug($application->acronym, '-');
 
-            $applicationFiles = $application->media->map(fn (Media $media) => [
-                'folder' => $application->reference . '/' . $media->collection_name,
+            $applicationFiles = $application->media->map(fn(Media $media) => [
+                'folder' => $applicationFolder . '/' . $media->collection_name,
                 'name'   => $media->file_name,
                 'path'   => $media->getPath(),
             ]);
             $applicationFiles->prepend([
-                'folder' => $application->reference,
+                'folder' => $applicationFolder,
                 'name' => $applicationPdfName . '.pdf',
                 'path' => $applicationPdfPath
             ]);
@@ -133,7 +135,7 @@ class ExportController extends Controller
             unset($evaluationPdf);
 
             $applicationFiles->push([
-                'folder' => $application->reference,
+                'folder' => $applicationFolder,
                 'name' => $evaluationPdfName . '.pdf',
                 'path' => $evaluationPdfPath
             ]);
@@ -161,7 +163,7 @@ class ExportController extends Controller
                 contentType: 'application/octet-stream',
             );
             foreach ($files as $file) {
-                $fileName = collect([$zipName, $file['folder'], $file['name']])->filter(fn ($v) => filled($v))->join('/');
+                $fileName = collect([$zipName, $file['folder'], $file['name']])->filter(fn($v) => filled($v))->join('/');
                 $zip->addFileFromPath(
                     fileName: $fileName,
                     path: $file['path'],
