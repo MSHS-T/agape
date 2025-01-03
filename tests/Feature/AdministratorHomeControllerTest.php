@@ -1,24 +1,15 @@
 <?php
 
-namespace Tests\Feature;
-
 use App\Models\User;
 use Database\Seeders\RolesPermissionsSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class AdministratorHomeControllerTest extends TestCase
-{
-    /**
-     * A basic feature test example.
-     */
-    public function test_admins_are_redirected_to_filament_from_home(): void
-    {
-        $this->seed(RolesPermissionsSeeder::class);
-        $this->actingAs($user = User::factory()->create()->assignRole('administrator'));
-        $response = $this->get('/');
+beforeEach(function () {
+    $this->seed(RolesPermissionsSeeder::class);
+});
 
-        $response->assertRedirect(route('filament.admin.pages.dashboard'));
-    }
-}
+test('admins are redirected to filament from home', function () {
+    $user = User::factory()->create()->assignRole('administrator');
+    test()->actingAs($user)
+        ->get('/')
+        ->assertRedirect(route('filament.admin.pages.dashboard'));
+});
