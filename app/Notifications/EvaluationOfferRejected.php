@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\EvaluationOffer;
+use App\Settings\GeneralSettings;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -36,7 +37,7 @@ class EvaluationOfferRejected extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $call = $this->evaluationOffer->application->projectcall;
-        return (new MailMessage)
+        $message = (new MailMessage)
             ->subject(__('email.offer_declined.title'))
             ->line(__('email.offer_declined.intro', [
                 'expert'   => $this->evaluationOffer->expert->name,
@@ -46,6 +47,19 @@ class EvaluationOfferRejected extends Notification
             ->line(__('email.offer_declined.outro', [
                 'justification' => $this->evaluationOffer->justification
             ]));
+
+        $generalSettings = app(GeneralSettings::class);
+        if ($generalSettings->notificationsCc) {
+            $cc = array_map('trim', explode(',', $generalSettings->notificationsCc));
+            $message->cc($cc);
+        }
+
+        if ($generalSettings->notificationsBcc) {
+            $bcc = array_map('trim', explode(',', $generalSettings->notificationsBcc));
+            $message->bcc($bcc);
+        }
+
+        return $message;
     }
 
     /**

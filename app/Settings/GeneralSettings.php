@@ -6,6 +6,12 @@ use Spatie\LaravelSettings\Settings;
 
 class GeneralSettings extends Settings
 {
+    public bool $notificationsToAdmins;
+    public bool $notificationsToManagers;
+    public bool $notificationsToProjectCallCreator;
+    public ?string $notificationsCc;
+    public ?string $notificationsBcc;
+
     public int $defaultNumberOfDocuments;
     public int $defaultNumberOfLaboratories;
     public int $defaultNumberOfStudyFields;

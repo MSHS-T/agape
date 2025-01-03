@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Settings\GeneralSettings;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -34,7 +35,7 @@ class ContactMessage extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
+        $message = (new MailMessage)
             ->subject(__('email.contact.title'))
             ->replyTo($this->data['email'], $this->data['name'])
             ->line(__('email.contact.intro', [
@@ -45,6 +46,19 @@ class ContactMessage extends Notification
                 'message'               => $this->data['message'],
             ]))
             ->action(__('email.contact.action'), "mailto:" . $this->data['email']);
+
+        $generalSettings = app(GeneralSettings::class);
+        if ($generalSettings->notificationsCc) {
+            $cc = array_map('trim', explode(',', $generalSettings->notificationsCc));
+            $message->cc($cc);
+        }
+
+        if ($generalSettings->notificationsBcc) {
+            $bcc = array_map('trim', explode(',', $generalSettings->notificationsBcc));
+            $message->bcc($bcc);
+        }
+
+        return $message;
     }
 
     /**

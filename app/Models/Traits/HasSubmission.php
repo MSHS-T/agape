@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\User;
+use App\Settings\GeneralSettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\App;
@@ -38,6 +39,7 @@ trait HasSubmission
             }
 
             $users = $this->resolveAdmins();
+            dump($users);
             $notification = $this->getSubmissionNotification('submittedAdmins');
             if (filled($notification)) {
                 Notification::send(

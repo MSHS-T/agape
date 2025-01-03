@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Evaluation;
+use App\Settings\GeneralSettings;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -47,13 +48,26 @@ class EvaluationSubmittedAdmins extends Notification
             ]));
         }
 
-        return $message->action(
+        $message->action(
             __('email.new_evaluation_submitted.action'),
             route(
                 'filament.admin.resources.applications.evaluations',
                 ['record' => $this->evaluation->evaluationOffer->application->id],
             )
         );
+
+        $generalSettings = app(GeneralSettings::class);
+        if ($generalSettings->notificationsCc) {
+            $cc = array_map('trim', explode(',', $generalSettings->notificationsCc));
+            $message->cc($cc);
+        }
+
+        if ($generalSettings->notificationsBcc) {
+            $bcc = array_map('trim', explode(',', $generalSettings->notificationsBcc));
+            $message->bcc($bcc);
+        }
+
+        return $message;
     }
 
     /**

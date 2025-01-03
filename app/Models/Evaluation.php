@@ -10,6 +10,7 @@ use App\Notifications\EvaluationSubmittedAdmins;
 use App\Notifications\EvaluationSubmittedExpert;
 use App\Notifications\EvaluationUnsubmitted;
 use App\Rulesets\Evaluation as EvaluationRuleset;
+use App\Settings\GeneralSettings;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -97,8 +98,23 @@ class Evaluation extends Model implements WithSubmission
 
     public function resolveAdmins(): Collection|array
     {
-        return $this->evaluationOffer->application->projectCall->projectCallType->managers
-            ->concat(User::role('administrator')->get());
+        /** @var GeneralSettings $generalSettings */
+        $generalSettings = app(GeneralSettings::class);
+        $recipients = collect();
+
+        if ($generalSettings->notificationsToAdmins) {
+            $recipients = $recipients->concat(User::role('administrator')->get());
+        }
+
+        if ($generalSettings->notificationsToManagers) {
+            $recipients = $recipients->concat($this->evaluationOffer->application->projectCall->projectCallType->managers);
+        }
+
+        if ($generalSettings->notificationsToProjectCallCreator) {
+            $recipients = $recipients->concat([$this->evaluationOffer->application->projectCall->creator]);
+        }
+
+        return $recipients->unique('id');
     }
 
     public function resolveCreator(): ?\App\Models\User

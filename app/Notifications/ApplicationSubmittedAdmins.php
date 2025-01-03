@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Application;
+use App\Settings\GeneralSettings;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -48,13 +49,26 @@ class ApplicationSubmittedAdmins extends Notification
             ]));
         }
 
-        return $message->action(
+        $message->action(
             __('email.new_application_submitted.action'),
             route(
                 'filament.admin.resources.applications.view',
                 ['record' => $this->application->id]
             )
         );
+
+        $generalSettings = app(GeneralSettings::class);
+        if ($generalSettings->notificationsCc) {
+            $cc = array_map('trim', explode(',', $generalSettings->notificationsCc));
+            $message->cc($cc);
+        }
+
+        if ($generalSettings->notificationsBcc) {
+            $bcc = array_map('trim', explode(',', $generalSettings->notificationsBcc));
+            $message->bcc($bcc);
+        }
+
+        return $message;
     }
 
     /**

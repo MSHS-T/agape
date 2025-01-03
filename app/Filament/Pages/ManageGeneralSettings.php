@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Filament\AgapeForm;
+use App\Rules\EmailList;
 use App\Settings\GeneralSettings;
 use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
@@ -52,6 +53,29 @@ class ManageGeneralSettings extends SettingsPage
         return $form
             ->columns(['sm' => 1, 'lg' => 3])
             ->schema([
+                Section::make('notifications')
+                    ->heading(__('admin.settings.sections.notifications'))
+                    ->collapsible()
+                    ->columns(6)
+                    ->schema([
+                        Toggle::make('notificationsToAdmins')
+                            ->label(__('admin.settings.fields.notificationsToAdmins'))
+                            ->columnSpan(2),
+                        Toggle::make('notificationsToManagers')
+                            ->label(__('admin.settings.fields.notificationsToManagers'))
+                            ->columnSpan(2),
+                        Toggle::make('notificationsToProjectCallCreator')
+                            ->label(__('admin.settings.fields.notificationsToProjectCallCreator'))
+                            ->columnSpan(2),
+                        TextInput::make('notificationsCc')
+                            ->label(__('admin.settings.fields.notificationsCc'))
+                            ->columnSpan(3)
+                            ->rules([new EmailList]),
+                        TextInput::make('notificationsBcc')
+                            ->label(__('admin.settings.fields.notificationsBcc'))
+                            ->columnSpan(3)
+                            ->rules([new EmailList]),
+                    ]),
                 Section::make('projectCalls')
                     ->heading(__('admin.settings.sections.projectCalls'))
                     ->collapsible()
@@ -95,7 +119,7 @@ class ManageGeneralSettings extends SettingsPage
                             ->columnSpanFull()
                             ->nullable()
                             ->regex('/^(?:\s*[\w.-]+\.[a-zA-Z]{2,}\s*(?:,\s*|$))+$/'),
-                        ...$files->map(fn ($fileName) => Fieldset::make($fileName)
+                        ...$files->map(fn($fileName) => Fieldset::make($fileName)
                             ->label(__('admin.settings.fields.' . $fileName))
                             ->columns(['sm' => 1, 'md' => 2])
                             ->schema([
@@ -104,9 +128,9 @@ class ManageGeneralSettings extends SettingsPage
                                     ->live(),
                                 TextInput::make('extensions' . ucfirst($fileName))
                                     ->label(__('admin.settings.fields.extensions'))
-                                    ->hidden(fn (Get $get) => !$get('enable' . ucfirst($fileName)))
+                                    ->hidden(fn(Get $get) => !$get('enable' . ucfirst($fileName)))
                                     ->inlineLabel()
-                                    ->required(fn (Get $get) => $get('enable' . ucfirst($fileName)))
+                                    ->required(fn(Get $get) => $get('enable' . ucfirst($fileName)))
                                     ->regex('/^(?:\s*\.\w+\s*(?:,\s*|$))+$/'),
                             ]))
                     ]),
@@ -144,7 +168,7 @@ class ManageGeneralSettings extends SettingsPage
                                     ->schema(
                                         collect(config('agape.languages'))
                                             ->map(
-                                                fn (string $lang) => TextInput::make('label.' . $lang)
+                                                fn(string $lang) => TextInput::make('label.' . $lang)
                                                     ->label(Str::upper($lang))
                                                     ->validationAttribute(Str::upper($lang))
                                                     ->required()

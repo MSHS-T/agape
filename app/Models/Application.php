@@ -11,6 +11,7 @@ use App\Notifications\ApplicationSubmittedAdmins;
 use App\Notifications\ApplicationSubmittedApplicant;
 use App\Notifications\ApplicationUnsubmitted;
 use App\Rulesets\Application as ApplicationRuleset;
+use App\Settings\GeneralSettings;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -231,8 +232,23 @@ class Application extends Model implements HasMedia, WithSubmission
 
     public function resolveAdmins(): Collection|array
     {
-        return $this->projectCall->projectCallType->managers
-            ->concat(User::role('administrator')->get());
+        /** @var GeneralSettings $generalSettings */
+        $generalSettings = app(GeneralSettings::class);
+        $recipients = collect();
+
+        if ($generalSettings->notificationsToAdmins) {
+            $recipients = $recipients->concat(User::role('administrator')->get());
+        }
+
+        if ($generalSettings->notificationsToManagers) {
+            $recipients = $recipients->concat($this->projectCall->projectCallType->managers);
+        }
+
+        if ($generalSettings->notificationsToProjectCallCreator) {
+            $recipients = $recipients->concat([$this->projectCall->creator]);
+        }
+
+        return $recipients->unique('id');
     }
 
     public function canBeUnsubmitted(): bool
