@@ -17,6 +17,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Colors\Color;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\HtmlString;
@@ -179,7 +180,7 @@ class Apply extends Page implements HasForms
                     'order' => $i + 1
                 ]])->all()
         );
-        $this->application->studyFields()->sync(array_map("intval", $formData["studyFields"]));
+        $this->application->studyFields()->sync(array_map("intval", $formData["studyFields"] ?? []));
 
         // save files
         foreach ($fileFields as $fileFieldName) {
@@ -229,6 +230,9 @@ class Apply extends Page implements HasForms
             ApplicationRuleset::attributes($this->projectCall),
         );
         if ($validator->fails()) {
+            if (App::isLocal()) {
+                dump($validator->errors()->messages());
+            }
             $errors = collect($validator->errors()->messages())
                 ->mapWithKeys(fn($messages, $key) => ['data.' . $key => $messages])->all();
             $this->dispatch('close-modal', id: "{$this->getId()}-form-component-action");
